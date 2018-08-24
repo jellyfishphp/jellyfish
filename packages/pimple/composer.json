@@ -1,0 +1,14 @@
+{
+  "name": "jellyfish/pimple",
+  "description": "Jellyfish pimple bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Rose",
+      "email": "daniel-rose@gmx.de"
+    }
+  ],
+  "require": {
+    "pimple/pimple": "~3.2.3"
+  }
+}

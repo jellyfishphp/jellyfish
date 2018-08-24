@@ -1,0 +1,14 @@
+{
+  "name": "jellyfish/pimple",
+  "description": "Jellyfish console bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Rose",
+      "email": "daniel-rose@gmx.de"
+    }
+  ],
+  "require": {
+    "symfony/console": "~4.1.3"
+  }
+}

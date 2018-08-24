@@ -1,0 +1,11 @@
+include:
+  - packages/config/
+  - packages/kernel/
+  - packages/log/
+
+settings:
+  shuffle: true
+  lint: true
+
+paths:
+  output: _output

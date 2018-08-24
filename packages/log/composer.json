@@ -1,0 +1,35 @@
+{
+  "name": "jellyfish/log",
+  "description": "Jellyfish log bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Rose",
+      "email": "daniel-rose@gmx.de"
+    }
+  ],
+  "require": {
+    "jellyfish/config": "~1.0.0",
+    "jellyfish/pimple": "~1.0.0",
+    "monolog/monolog": "~1.19.0"
+  },
+  "require-dev": {
+    "codeception/codeception": "~2.4.5",
+    "phpmd/phpmd": "~2.6.0",
+    "phpro/grumphp": "~0.14.1",
+    "phpstan/phpstan": "~0.9.2",
+    "roave/security-advisories": "dev-master",
+    "sebastian/phpcpd": "~4.0.0",
+    "squizlabs/php_codesniffer": "~3.3.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jellyfish\\Log\\": "src/Jellyfish/Log"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jellyfish\\Log\\": "tests/Jellyfish/Log"
+    }
+  }
+}
