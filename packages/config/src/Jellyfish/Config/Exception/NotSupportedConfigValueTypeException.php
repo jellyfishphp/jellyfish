@@ -4,6 +4,6 @@ namespace Jellyfish\Config\Exception;
 
 use Exception;
 
-class ConfigKeyNotFoundException extends Exception
+class NotSupportedConfigValueTypeException extends Exception
 {
 }

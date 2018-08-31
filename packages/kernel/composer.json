@@ -9,7 +9,7 @@
     }
   ],
   "require": {
-    "jellyfish/pimple": "~1.0.0"
+    "jellyfish/pimple": "dev-master"
   },
   "require-dev": {
     "codeception/codeception": "~2.4.5",

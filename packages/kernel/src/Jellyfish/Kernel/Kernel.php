@@ -72,7 +72,7 @@ class Kernel implements KernelInterface
     }
 
     /**
-     * @return Container
+     * @return \Pimple\Container
      */
     public function getContainer(): Container
     {

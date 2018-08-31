@@ -9,8 +9,8 @@
     }
   ],
   "require": {
-    "jellyfish/config": "~1.0.0",
-    "jellyfish/pimple": "~1.0.0",
+    "jellyfish/config": "dev-master",
+    "jellyfish/pimple": "dev-master",
     "monolog/monolog": "~1.19.0"
   },
   "require-dev": {

@@ -14,7 +14,7 @@ class Application extends BaseApplication
     protected $kernel;
 
     /**
-     * @param KernelInterface $kernel
+     * @param \Jellyfish\Kernel\KernelInterface $kernel
      */
     public function __construct(KernelInterface $kernel)
     {
@@ -28,7 +28,7 @@ class Application extends BaseApplication
      *
      * @return Command[] An array of default Command instances
      */
-    protected function getDefaultCommands()
+    protected function getDefaultCommands(): array
     {
         $defaultCommands = parent::getDefaultCommands();
 

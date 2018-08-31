@@ -7,7 +7,7 @@ use Pimple\Container;
 interface KernelInterface
 {
     /**
-     * @return Container
+     * @return \Pimple\Container
      */
     public function getContainer(): Container;
 }

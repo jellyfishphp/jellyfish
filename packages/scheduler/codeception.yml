@@ -1,4 +1,4 @@
-namespace: application
+namespace: scheduler
 
 suites:
   unit:

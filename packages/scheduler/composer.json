@@ -1,6 +1,6 @@
 {
-  "name": "jellyfish/config",
-  "description": "Jellyfish config bundle",
+  "name": "jellyfish/scheduler",
+  "description": "Jellyfish scheduler bundle",
   "license": "MIT",
   "authors": [
     {
@@ -9,6 +9,8 @@
     }
   ],
   "require": {
+    "dragonmantank/cron-expression": "~2.2.0",
+    "jellyfish/console": "dev-master",
     "jellyfish/pimple": "dev-master"
   },
   "require-dev": {
@@ -23,12 +25,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\Config\\": "src/Jellyfish/Config"
+      "Jellyfish\\Scheduler\\": "src/Jellyfish/Scheduler"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\Config\\": "tests/Jellyfish/Config"
+      "Jellyfish\\Scheduler\\": "tests/Jellyfish/Scheduler"
     }
   }
 }

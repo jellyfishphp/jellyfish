@@ -1,7 +1,9 @@
 include:
+  - packages/application/
   - packages/config/
   - packages/kernel/
   - packages/log/
+  - packages/scheduler/
 
 settings:
   shuffle: true

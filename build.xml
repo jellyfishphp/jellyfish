@@ -2,7 +2,52 @@
 <project name="jellyfish" default="build">
     <property file="build.properties" />
 
+    <target name="codeception">
+        <exec executable="vendor/bin/codecept">
+            <arg value="run"/>
+            <arg value="--report"/>
+            <arg value="--html"/>
+            <arg value="--xml"/>
+            <arg value="--coverage"/>
+            <arg value="--coverage-html"/>
+            <arg value="--coverage-xml"/>
+        </exec>
+    </target>
+
+    <target name="phpcs">
+        <exec executable="vendor/bin/phpcs">
+            <arg value="--standard=PSR12"/>
+            <arg path="packages/*/src/"/>
+        </exec>
+    </target>
+
+    <target name="phpcpd">
+        <exec executable="vendor/bin/phpcpd">
+            <arg path="packages/*/src/"/>
+        </exec>
+    </target>
+
+    <target name="phpstan">
+        <exec executable="vendor/bin/phpstan">
+            <arg value="analyse"/>
+            <arg value="--level"/>
+            <arg value="7"/>
+            <arg path="packages/*/src/"/>
+        </exec>
+    </target>
+
     <target name="build">
-        <echo message="building..."/>
+        <phingcall target="build:analyze"/>
+        <phingcall target="build:test"/>
+    </target>
+
+    <target name="build:analyze">
+        <phingcall target="phpcs"/>
+        <phingcall target="phpcpd"/>
+        <phingcall target="phpstan"/>
+    </target>
+
+    <target name="build:test">
+        <phingcall target="codeception"/>
     </target>
 </project>

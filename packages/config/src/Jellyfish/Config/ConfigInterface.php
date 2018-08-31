@@ -6,13 +6,13 @@ interface ConfigInterface
 {
     /**
      * @param string $key
-     * @param $default
+     * @param string|null $default
      *
-     * @return mixed
+     * @return string
      *
-     * @throws Exception
+     * @throws \Jellyfish\Config\Exception\ConfigKeyNotFoundException
      */
-    public function get(string $key, $default = null);
+    public function get(string $key, ?string $default = null): string;
 
     /**
      * @param string $key

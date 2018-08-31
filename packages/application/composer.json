@@ -10,6 +10,7 @@
   ],
   "require": {
     "jellyfish/console": "dev-master",
+    "jellyfish/kernel": "dev-master",
     "jellyfish/pimple": "dev-master"
   },
   "require-dev": {

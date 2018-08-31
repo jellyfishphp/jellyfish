@@ -43,8 +43,25 @@ class ConfigTest extends Unit
     public function testGet(): void
     {
         $this->assertEquals('default_config_value', $this->config->get('default_config_key'));
+        $this->assertEquals('1', $this->config->get('default_config_key_2'));
+        $this->assertEquals('0.2', $this->config->get('default_config_key_3'));
+        $this->assertEquals('1', $this->config->get('default_config_key_4'));
         $this->assertEquals('testing_config_value', $this->config->get('testing_config_key'));
         $this->assertEquals('eulav_gifnoc_derahs', $this->config->get('shared_config_key'));
+    }
+
+    /**
+     * @return void
+     *
+     * @throws Exception
+     */
+    public function testGetWithUnsupportedValueType(): void
+    {
+        try {
+            $this->config->get('default_config_key_5');
+            $this->fail();
+        } catch (Exception $e) {
+        }
     }
 
     /**
@@ -57,7 +74,7 @@ class ConfigTest extends Unit
         try {
             $this->assertEquals('default_config_value', $this->config->get('staging_config_key'));
             $this->fail();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
     }
 

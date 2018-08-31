@@ -13,21 +13,23 @@ use Psr\Log\LoggerInterface;
 class LogServiceProvider implements ServiceProviderInterface
 {
     /**
-     * @param Container $pimple
+     * @param \Pimple\Container $pimple
+     *
+     * @return void
      */
-    public function register(Container $pimple)
+    public function register(Container $pimple): void
     {
         $self = $this;
 
-        $pimple['logger'] = function ($container) use ($self) {
+        $pimple->offsetSet('logger', function ($container) use ($self) {
             return $self->createLogger($container['config']);
-        };
+        });
     }
 
     /**
-     * @param ConfigInterface $config
+     * @param \Jellyfish\Config\ConfigInterface $config
      *
-     * @return LoggerInterface
+     * @return \Psr\Log\LoggerInterface
      *
      * @throws \Exception
      */
@@ -41,15 +43,16 @@ class LogServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * @param ConfigInterface $config
+     * @param \Jellyfish\Config\ConfigInterface $config
+     *
      * @return \Monolog\Handler\AbstractProcessingHandler
      *
      * @throws \Exception
      */
     protected function createStreamHandler(ConfigInterface $config): AbstractProcessingHandler
     {
-        $logLevel = $config->get(LogConstants::LOG_LEVEL, LogConstants::DEFAULT_LOG_LEVEL);
+        $logLevel = $config->get(LogConstants::LOG_LEVEL, (string) LogConstants::DEFAULT_LOG_LEVEL);
 
-        return new StreamHandler('php://stdout', $logLevel);
+        return new StreamHandler('php://stdout', (int) $logLevel);
     }
 }

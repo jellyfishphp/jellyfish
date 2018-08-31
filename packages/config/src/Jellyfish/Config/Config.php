@@ -5,7 +5,7 @@ namespace Jellyfish\Config;
 use ArrayObject;
 use Exception;
 use Jellyfish\Config\Exception\ConfigKeyNotFoundException;
-use Jellyfish\Config\Exception\ConstantNotDefinedException;
+use Jellyfish\Config\Exception\NotSupportedConfigValueTypeException;
 
 class Config implements ConfigInterface
 {
@@ -46,23 +46,34 @@ class Config implements ConfigInterface
 
     /**
      * @param string $key
-     * @param $default
+     * @param string|null $default
      *
-     * @return mixed
+     * @return string
      *
-     * @throws Exception
+     * @throws \Jellyfish\Config\Exception\ConfigKeyNotFoundException
+     * @throws \Jellyfish\Config\Exception\NotSupportedConfigValueTypeException
      */
-    public function get(string $key, $default = null)
+    public function get(string $key, ?string $default = null): string
     {
         if ($default !== null && !$this->hasValue($key)) {
             return $default;
         }
 
         if (!$this->hasValue($key)) {
-            throw new ConfigKeyNotFoundException(sprintf('Could not find config key "%s" in "%s"', $key, __CLASS__));
+            throw new ConfigKeyNotFoundException(sprintf('Could not find key "%s" in "%s"', $key, __CLASS__));
         }
 
-        return $this->config[$key];
+        $value = $this->config[$key];
+
+        if (\is_string($value)) {
+            return $value;
+        }
+
+        if (\is_int($value) || \is_float($value) || \is_bool($value)) {
+            return (string) $value;
+        }
+
+        throw new NotSupportedConfigValueTypeException(sprintf('Value type for key "%s" is not supported.', $key));
     }
 
     /**
