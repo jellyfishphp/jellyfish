@@ -1,0 +1,23 @@
+language: php
+
+php:
+  - 7.1
+
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
+before_install:
+  - pear channel-discover pear.phing.info
+  - pear install phing/phing
+  - phpenv rehash
+
+install:
+  - composer install --no-interaction --prefer-dist
+
+script:
+  - phing -f build.xml build -verbose
+
+after_success:
+  - vendor/bin/php-coveralls

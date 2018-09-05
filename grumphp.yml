@@ -1,0 +1,23 @@
+parameters:
+  git_dir: .
+  bin_dir: vendor/bin
+  tasks:
+    codeception: ~
+    phpcs:
+      standard: 'PSR12'
+      whitelist_patterns:
+        - '/^packages\/[a-z\-]+\/src\/(.*)/'
+    phpmd:
+      exclude: ['*Test.php']
+      ruleset:
+        - 'cleancode'
+        - 'codesize'
+        - 'design'
+    phpcpd:
+      directory: 'packages/*/src'
+    phpstan:
+      level: 7
+      force_patterns:
+        - '/^packages\/[a-z\-]+\/src\/(.*)/'
+      ignore_patterns:
+        - '/^packages\/[a-z\-]+\/tests\/(.*)/'
