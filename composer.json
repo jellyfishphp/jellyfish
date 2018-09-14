@@ -11,6 +11,7 @@
     "php": ">=7.1",
     "dragonmantank/cron-expression": "~2.2.0",
     "monolog/monolog": "~1.23.0",
+    "php-amqplib/php-amqplib": "~2.7.2",
     "pimple/pimple": "~3.2.3",
     "symfony/console": "~4.1.3"
   },
@@ -31,6 +32,8 @@
       "Jellyfish\\Config\\": "packages/config/src/Jellyfish/Config",
       "Jellyfish\\Kernel\\": "packages/kernel/src/Jellyfish/Kernel",
       "Jellyfish\\Log\\": "packages/log/src/Jellyfish/Log",
+      "Jellyfish\\Queue\\": "packages/queue/src/Jellyfish/Queue",
+      "Jellyfish\\QueueRabbitMq\\": "packages/queue-rabbit-mq/src/Jellyfish/QueueRabbitMq",
       "Jellyfish\\Scheduler\\": "packages/scheduler/src/Jellyfish/Scheduler"
     }
   },
@@ -40,6 +43,8 @@
       "Jellyfish\\Config\\": "packages/config/tests/Jellyfish/Config",
       "Jellyfish\\Kernel\\": "packages/kernel/tests/Jellyfish/Kernel",
       "Jellyfish\\Log\\": "packages/log/tests/Jellyfish/Log",
+      "Jellyfish\\Queue\\": "packages/queue/tests/Jellyfish/Queue",
+      "Jellyfish\\QueueRabbitMq\\": "packages/queue-rabbit-mq/tests/Jellyfish/QueueRabbitMq",
       "Jellyfish\\Scheduler\\": "packages/scheduler/tests/Jellyfish/Scheduler"
     }
   }
