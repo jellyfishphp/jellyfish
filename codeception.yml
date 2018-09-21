@@ -3,6 +3,7 @@ include:
   - packages/config/
   - packages/kernel/
   - packages/log/
+  - packages/process/
   - packages/scheduler/
 
 settings:
