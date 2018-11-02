@@ -5,7 +5,7 @@ namespace Jellyfish\Queue;
 interface WorkerInterface
 {
     /**
-     * @return \Jellyfish\Queue\WorkerInterface
+     * @return void
      */
-    public function start(): WorkerInterface;
+    public function start(): void;
 }

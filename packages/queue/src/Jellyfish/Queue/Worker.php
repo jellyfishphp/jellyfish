@@ -2,7 +2,7 @@
 
 namespace Jellyfish\Queue;
 
-class Worker
+class Worker implements WorkerInterface
 {
     /**
      * @var \Jellyfish\Queue\JobManagerInterface
@@ -19,9 +19,9 @@ class Worker
     }
 
     /**
-     * @return \Jellyfish\Queue\WorkerInterface
+     * @return void
      */
-    public function start(): WorkerInterface
+    public function start(): void
     {
         $queueNames = $this->jobManager->getQueueNames();
 

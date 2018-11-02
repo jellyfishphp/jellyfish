@@ -3,6 +3,7 @@
 namespace Jellyfish\Process;
 
 use Codeception\Test\Unit;
+use Jellyfish\Process\Exception\RuntimeException;
 use org\bovigo\vfs\vfsStream;
 
 class SymfonyProcessTest extends Unit
@@ -39,6 +40,20 @@ class SymfonyProcessTest extends Unit
     {
         $this->symfonyProcess->start();
         $this->assertTrue($this->symfonyProcess->isLocked());
+    }
+
+    /**
+     * @return void
+     */
+    public function testStartLocked(): void
+    {
+        $this->symfonyProcess->start();
+
+        try {
+            $this->symfonyProcess->start();
+            $this->fail();
+        } catch (RuntimeException $e) {
+        }
     }
 
     /**

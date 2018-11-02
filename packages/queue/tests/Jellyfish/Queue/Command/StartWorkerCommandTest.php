@@ -1,13 +1,13 @@
 <?php
 
-namespace Jellyfish\Scheduler\Command;
+namespace Jellyfish\Queue\Command;
 
 use Codeception\Test\Unit;
-use Jellyfish\Scheduler\SchedulerInterface;
+use Jellyfish\Queue\WorkerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class RunSchedulerCommandTest extends Unit
+class StartWorkerCommandTest extends Unit
 {
     /**
      * @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -20,14 +20,14 @@ class RunSchedulerCommandTest extends Unit
     protected $outputMock;
 
     /**
-     * @var \Jellyfish\Scheduler\SchedulerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\WorkerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $schedulerMock;
+    protected $workerMock;
 
     /**
-     * @var \Jellyfish\Scheduler\Command\RunSchedulerCommand
+     * @var \Jellyfish\Queue\Command\StartWorkerCommand
      */
-    protected $runSchedulerCommand;
+    protected $startWorkerCommand;
 
     /**
      * @return void
@@ -44,11 +44,11 @@ class RunSchedulerCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->schedulerMock = $this->getMockBuilder(SchedulerInterface::class)
+        $this->workerMock = $this->getMockBuilder(WorkerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->runSchedulerCommand = new RunSchedulerCommand($this->schedulerMock);
+        $this->startWorkerCommand = new StartWorkerCommand($this->workerMock);
     }
 
     /**
@@ -56,7 +56,7 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testGetName(): void
     {
-        $this->assertEquals(RunSchedulerCommand::NAME, $this->runSchedulerCommand->getName());
+        $this->assertEquals(StartWorkerCommand::NAME, $this->startWorkerCommand->getName());
     }
 
     /**
@@ -64,7 +64,7 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testGetDescription(): void
     {
-        $this->assertEquals(RunSchedulerCommand::DESCRIPTION, $this->runSchedulerCommand->getDescription());
+        $this->assertEquals(StartWorkerCommand::DESCRIPTION, $this->startWorkerCommand->getDescription());
     }
 
     /**
@@ -74,10 +74,10 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testRun(): void
     {
-        $this->schedulerMock->expects($this->atLeastOnce())
-            ->method('run');
+        $this->workerMock->expects($this->atLeastOnce())
+            ->method('start');
 
-        $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
+        $exitCode = $this->startWorkerCommand->run($this->inputMock, $this->outputMock);
 
         $this->assertEquals(0, $exitCode);
     }

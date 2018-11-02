@@ -9,8 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RunSchedulerCommand extends Command
 {
-    protected const NAME = 'scheduler:run';
-    protected const DESCRIPTION = 'Run scheduler.';
+    public const NAME = 'scheduler:run';
+    public const DESCRIPTION = 'Run scheduler.';
 
     /**
      * @var \Jellyfish\Scheduler\SchedulerInterface
