@@ -7,7 +7,7 @@ use Jellyfish\Scheduler\SchedulerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class RunCommandTest extends Unit
+class RunSchedulerCommandTest extends Unit
 {
     /**
      * @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -25,9 +25,9 @@ class RunCommandTest extends Unit
     protected $schedulerMock;
 
     /**
-     * @var \Jellyfish\Scheduler\Command\RunCommand
+     * @var \Jellyfish\Scheduler\Command\RunSchedulerCommand
      */
-    protected $runCommand;
+    protected $runSchedulerCommand;
 
     /**
      * @return void
@@ -48,7 +48,7 @@ class RunCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->runCommand = new RunCommand($this->schedulerMock);
+        $this->runSchedulerCommand = new RunSchedulerCommand($this->schedulerMock);
     }
 
     /**
@@ -56,7 +56,7 @@ class RunCommandTest extends Unit
      */
     public function testGetName(): void
     {
-        $this->assertEquals('scheduler:run', $this->runCommand->getName());
+        $this->assertEquals('scheduler:run', $this->runSchedulerCommand->getName());
     }
 
     /**
@@ -64,7 +64,7 @@ class RunCommandTest extends Unit
      */
     public function testGetDescription(): void
     {
-        $this->assertEquals('Run scheduler.', $this->runCommand->getDescription());
+        $this->assertEquals('Run scheduler.', $this->runSchedulerCommand->getDescription());
     }
 
     /**
@@ -77,7 +77,7 @@ class RunCommandTest extends Unit
         $this->schedulerMock->expects($this->atLeastOnce())
             ->method('run');
 
-        $exitCode = $this->runCommand->run($this->inputMock, $this->outputMock);
+        $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
 
         $this->assertEquals(0, $exitCode);
     }

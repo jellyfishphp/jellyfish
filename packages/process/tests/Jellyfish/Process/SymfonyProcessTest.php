@@ -3,6 +3,7 @@
 namespace Jellyfish\Process;
 
 use Codeception\Test\Unit;
+use org\bovigo\vfs\vfsStream;
 
 class SymfonyProcessTest extends Unit
 {
@@ -12,18 +13,39 @@ class SymfonyProcessTest extends Unit
     protected $symfonyProcess;
 
     /**
+     * @var array
+     */
+    protected $command;
+
+    /**
      * @return void
      */
     protected function _before(): void
     {
         parent::_before();
 
-        $this->symfonyProcess = new SymfonyProcess(['sleep', '5']);
+        $tempDir = vfsStream::setup('tmp')->url();
+        $tempDir = rtrim($tempDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
+        $this->command = ['sleep', '5'];
+
+        $this->symfonyProcess = new SymfonyProcess($this->command, $tempDir);
     }
 
-    public function testStartAndIsRunning(): void
+    /**
+     * @return void
+     */
+    public function testStartAndIsLocked(): void
     {
         $this->symfonyProcess->start();
-        $this->assertTrue($this->symfonyProcess->isRunning());
+        $this->assertTrue($this->symfonyProcess->isLocked());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetCommand(): void
+    {
+        $this->assertEquals($this->command, $this->symfonyProcess->getCommand());
     }
 }

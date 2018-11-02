@@ -3,7 +3,6 @@
 namespace Jellyfish\Scheduler;
 
 use Codeception\Test\Unit;
-use DateTime;
 
 class SchedulerTest extends Unit
 {

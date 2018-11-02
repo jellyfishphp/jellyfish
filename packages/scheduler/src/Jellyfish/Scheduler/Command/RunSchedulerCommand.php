@@ -7,7 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class RunCommand extends Command
+class RunSchedulerCommand extends Command
 {
     protected const NAME = 'scheduler:run';
     protected const DESCRIPTION = 'Run scheduler.';

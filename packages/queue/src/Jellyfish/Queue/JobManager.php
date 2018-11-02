@@ -2,6 +2,9 @@
 
 namespace Jellyfish\Queue;
 
+use Jellyfish\Process\ProcessFactoryInterface;
+use Jellyfish\Queue\Command\RunJobCommand;
+
 class JobManager implements JobManagerInterface
 {
     /**
@@ -10,17 +13,31 @@ class JobManager implements JobManagerInterface
     protected $jobs;
 
     /**
+     * @var \Jellyfish\Process\ProcessInterface[]
+     */
+    protected $processList;
+
+    /**
      * @var \Jellyfish\Queue\ClientInterface
      */
     protected $client;
 
     /**
+     * @var \Jellyfish\Process\ProcessFactoryInterface
+     */
+    protected $processFactory;
+
+    /**
      * @param \Jellyfish\Queue\ClientInterface $client
+     * @param \Jellyfish\Process\ProcessFactoryInterface $processFactory
      */
     public function __construct(
-        ClientInterface $client
+        ClientInterface $client,
+        ProcessFactoryInterface $processFactory
     ) {
         $this->client = $client;
+        $this->processFactory = $processFactory;
+        $this->processList = [];
         $this->jobs = [];
     }
 
@@ -28,7 +45,7 @@ class JobManager implements JobManagerInterface
      * @param string $queueName
      * @return bool
      */
-    public function exists(string $queueName): bool
+    public function existsJob(string $queueName): bool
     {
         return \array_key_exists($queueName, $this->jobs);
     }
@@ -38,9 +55,9 @@ class JobManager implements JobManagerInterface
      *
      * @return \Jellyfish\Queue\JobManagerInterface
      */
-    public function run(string $queueName): JobManagerInterface
+    public function runJob(string $queueName): JobManagerInterface
     {
-        $job = $this->get($queueName);
+        $job = $this->getJob($queueName);
 
         if ($job === null) {
             return $this;
@@ -55,11 +72,32 @@ class JobManager implements JobManagerInterface
     /**
      * @param string $queueName
      *
+     * @return \Jellyfish\Queue\JobManagerInterface
+     */
+    public function runJobAsProcess(string $queueName): JobManagerInterface
+    {
+        if (!\array_key_exists($queueName, $this->processList)) {
+            $command = ['', RunJobCommand::NAME, $queueName];
+            $this->processList[$queueName] = $this->processFactory->create($command);
+        }
+
+        $process = $this->processList[$queueName];
+
+        if (!$process->isLocked()) {
+            $process->start();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $queueName
+     *
      * @return \Jellyfish\Queue\JobInterface|null
      */
-    public function get(string $queueName): ?JobInterface
+    public function getJob(string $queueName): ?JobInterface
     {
-        if (!$this->exists($queueName)) {
+        if (!$this->existsJob($queueName)) {
             return null;
         }
 
@@ -69,7 +107,7 @@ class JobManager implements JobManagerInterface
     /**
      * @return \Jellyfish\Queue\JobInterface[]
      */
-    public function getAll(): array
+    public function getAllJobs(): array
     {
         return $this->jobs;
     }
@@ -88,7 +126,7 @@ class JobManager implements JobManagerInterface
      *
      * @return \Jellyfish\Queue\JobManagerInterface
      */
-    public function set(string $queueName, JobInterface $job): JobManagerInterface
+    public function setJob(string $queueName, JobInterface $job): JobManagerInterface
     {
         $this->jobs[$queueName] = $job;
 
@@ -100,9 +138,9 @@ class JobManager implements JobManagerInterface
      *
      * @return \Jellyfish\Queue\JobManagerInterface
      */
-    public function unset(string $queueName): JobManagerInterface
+    public function unsetJob(string $queueName): JobManagerInterface
     {
-        if (!$this->exists($queueName)) {
+        if (!$this->existsJob($queueName)) {
             return $this;
         }
 

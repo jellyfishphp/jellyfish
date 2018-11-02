@@ -4,6 +4,16 @@ namespace Jellyfish\Process;
 
 class SymfonyProcessFactory implements ProcessFactoryInterface
 {
+    protected $tempDir;
+
+    /**
+     * @param string $tempDir
+     */
+    public function __construct(string $tempDir)
+    {
+        $this->tempDir = $tempDir;
+    }
+
     /**
      * @param array $command
      *
@@ -11,6 +21,6 @@ class SymfonyProcessFactory implements ProcessFactoryInterface
      */
     public function create(array $command): ProcessInterface
     {
-        return new SymfonyProcess($command);
+        return new SymfonyProcess($command, $this->tempDir);
     }
 }

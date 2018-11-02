@@ -9,8 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class StartWorkerCommand extends Command
 {
-    protected const NAME = 'queue:worker:start';
-    protected const DESCRIPTION = 'Start queue worker.';
+    public const NAME = 'queue:worker:start';
+    public const DESCRIPTION = 'Start queue worker.';
 
     protected $worker;
 

@@ -4,6 +4,7 @@ namespace Jellyfish\Scheduler;
 
 use Codeception\Test\Unit;
 use Jellyfish\Scheduler\Command\RunCommand;
+use Jellyfish\Scheduler\Command\RunSchedulerCommand;
 use Pimple\Container;
 
 class SchedulerServiceProviderTest extends Unit
@@ -45,7 +46,7 @@ class SchedulerServiceProviderTest extends Unit
 
         $commands = $this->container->offsetGet('commands');
         $this->assertCount(1, $commands);
-        $this->assertInstanceOf(RunCommand::class, $commands[0]);
+        $this->assertInstanceOf(RunSchedulerCommand::class, $commands[0]);
 
         $scheduler = $this->container->offsetGet('scheduler');
         $this->assertInstanceOf(SchedulerInterface::class, $scheduler);

@@ -4,6 +4,8 @@ include:
   - packages/kernel/
   - packages/log/
   - packages/process/
+  - packages/queue/
+  - packages/queue-rabbit-mq/
   - packages/scheduler/
 
 settings:

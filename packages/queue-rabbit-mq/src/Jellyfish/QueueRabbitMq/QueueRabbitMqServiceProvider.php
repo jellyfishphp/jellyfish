@@ -25,7 +25,6 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
         });
     }
 
-
     /**
      * @param \Jellyfish\Config\ConfigInterface $config
      *
@@ -37,11 +36,8 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
     {
         $connection = $this->createConnection($config);
 
-        $client = new Client($connection);
-
-        return $client;
+        return new Client($connection);
     }
-
 
     /**
      * @param \Jellyfish\Config\ConfigInterface $config
@@ -71,6 +67,7 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
             QueueRabbitMqConstants::RABBIT_MQ_PASSWORD,
             QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PASSWORD
         );
+
         $rabbitMqVhost = $config->get(
             QueueRabbitMqConstants::RABBIT_MQ_VHOST,
             QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_VHOST

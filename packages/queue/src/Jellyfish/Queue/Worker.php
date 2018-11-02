@@ -23,11 +23,11 @@ class Worker
      */
     public function start(): WorkerInterface
     {
-        while (true) {
-            $queueNames = $this->jobManager->getQueueNames();
+        $queueNames = $this->jobManager->getQueueNames();
 
+        while (true) {
             foreach ($queueNames as $queueName) {
-                //TODO: Run job in background
+                $this->jobManager->runJobAsProcess($queueName);
             }
         }
     }

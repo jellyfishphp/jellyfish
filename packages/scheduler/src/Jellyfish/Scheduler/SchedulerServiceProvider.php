@@ -2,7 +2,7 @@
 
 namespace Jellyfish\Scheduler;
 
-use Jellyfish\Scheduler\Command\RunCommand;
+use Jellyfish\Scheduler\Command\RunSchedulerCommand;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -22,7 +22,7 @@ class SchedulerServiceProvider implements ServiceProviderInterface
         });
 
         $pimple->extend('commands', function ($commands, $container) use ($self) {
-            $commands[] = $self->createRunCommand($container);
+            $commands[] = $self->createRunSchedulerCommand($container);
 
             return $commands;
         });
@@ -39,12 +39,12 @@ class SchedulerServiceProvider implements ServiceProviderInterface
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Jellyfish\Scheduler\Command\RunCommand
+     * @return \Jellyfish\Scheduler\Command\RunSchedulerCommand
      */
-    protected function createRunCommand(Container $container): RunCommand
+    protected function createRunSchedulerCommand(Container $container): RunSchedulerCommand
     {
         $scheduler = $container->offsetGet('scheduler');
 
-        return new RunCommand($scheduler);
+        return new RunSchedulerCommand($scheduler);
     }
 }

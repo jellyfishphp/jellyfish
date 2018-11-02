@@ -3,6 +3,7 @@
 namespace Jellyfish\Process;
 
 use Codeception\Test\Unit;
+use org\bovigo\vfs\vfsStream;
 
 class SymfonyProcessFactoryTest extends Unit
 {
@@ -18,7 +19,10 @@ class SymfonyProcessFactoryTest extends Unit
     {
         parent::_before();
 
-        $this->symfonyProcessFactory = new SymfonyProcessFactory();
+        $tempDir = vfsStream::setup('tmp')->url();
+        $tempDir = rtrim($tempDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
+        $this->symfonyProcessFactory = new SymfonyProcessFactory($tempDir);
     }
 
     /**
