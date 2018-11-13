@@ -5,7 +5,6 @@ namespace Jellyfish\QueueSQS;
 use Aws\Sqs\SqsClient;
 use Jellyfish\Config\ConfigInterface;
 use Jellyfish\Queue\ClientInterface;
-use Jellyfish\QueueRabbitMq\QueueSQSConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

@@ -2,8 +2,6 @@
 
 namespace Jellyfish\QueueSQS;
 
-use Aws\Exception\AwsException;
-use Aws\Sqs\Exception\SqsException;
 use Aws\Sqs\SqsClient;
 use Jellyfish\Queue\ClientInterface;
 use Jellyfish\QueueSQS\Exception\CreateQueueException;

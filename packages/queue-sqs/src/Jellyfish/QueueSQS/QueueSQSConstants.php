@@ -1,6 +1,6 @@
 <?php
 
-namespace Jellyfish\QueueRabbitMq;
+namespace Jellyfish\QueueSQS;
 
 interface QueueSQSConstants
 {
