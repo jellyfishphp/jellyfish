@@ -7,9 +7,9 @@ interface ClientInterface
     /**
      * @param string $queueName
      *
-     * @return string
+     * @return string|null
      */
-    public function receiveMessage(string $queueName): string;
+    public function receiveMessage(string $queueName): ?string;
 
     /**
      * @param string $queueName

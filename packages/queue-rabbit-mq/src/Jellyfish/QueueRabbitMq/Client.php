@@ -29,9 +29,10 @@ class Client implements ClientInterface
 
     /**
      * @param string $queueName
-     * @return string
+     *
+     * @return string|null
      */
-    public function receiveMessage(string $queueName): string
+    public function receiveMessage(string $queueName): ?string
     {
         $this->channel->queue_declare($queueName);
 
