@@ -5,7 +5,7 @@ namespace Jellyfish\Scheduler;
 use Codeception\Test\Unit;
 use Cron\CronExpression;
 use DateTime;
-use org\bovigo\vfs\vfsStream;
+use Jellyfish\Process\ProcessInterface;
 
 class JobTest extends Unit
 {
@@ -20,9 +20,9 @@ class JobTest extends Unit
     protected $cronExpressionMock;
 
     /**
-     * @var string
+     * @var \Jellyfish\Process\ProcessInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $tempDir;
+    protected $processMock;
 
     /**
      * @var DateTime
@@ -31,13 +31,12 @@ class JobTest extends Unit
 
     /**
      * @return void
+     *
+     * @throws \ReflectionException
      */
     protected function _before(): void
     {
         parent::_before();
-
-        $this->tempDir = vfsStream::setup('tmp')->url();
-        $this->tempDir = rtrim($this->tempDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
         $this->dateTime = new DateTime();
 
@@ -45,19 +44,9 @@ class JobTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->job = new Job(
-            'ls -la',
-            $this->cronExpressionMock,
-            $this->tempDir
-        );
-    }
+        $this->processMock = $this->getMockForAbstractClass(ProcessInterface::class);
 
-    /**
-     * @return void
-     */
-    public function testGetId(): void
-    {
-        $this->assertEquals(sha1('ls -la'), $this->job->getId());
+        $this->job = new Job($this->processMock, $this->cronExpressionMock);
     }
 
     /**
@@ -65,7 +54,13 @@ class JobTest extends Unit
      */
     public function testGetCommand(): void
     {
-        $this->assertEquals('ls -la', $this->job->getCommand());
+        $expectedCommand = ['ls', '-la'];
+
+        $this->processMock->expects($this->atLeastOnce())
+            ->method('getCommand')
+            ->willReturn($expectedCommand);
+
+        $this->assertEquals($expectedCommand, $this->job->getCommand());
     }
 
     /**
@@ -94,7 +89,9 @@ class JobTest extends Unit
      */
     public function testRunWithExistingLockFile(): void
     {
-        touch($this->tempDir . $this->job->getId());
+        $this->processMock->expects($this->atLeastOnce())
+            ->method('isLocked')
+            ->willReturn(true);
 
         $this->cronExpressionMock->expects($this->never())
             ->method('isDue')
@@ -102,8 +99,6 @@ class JobTest extends Unit
             ->willReturn(true);
 
         $this->job->run($this->dateTime);
-
-        unlink($this->tempDir . $this->job->getId());
     }
 
     /**

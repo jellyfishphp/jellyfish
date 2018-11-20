@@ -8,14 +8,9 @@ use DateTime;
 interface JobInterface
 {
     /**
-     * @return string
+     * @return array
      */
-    public function getId(): string;
-
-    /**
-     * @return string
-     */
-    public function getCommand(): string;
+    public function getCommand(): array;
 
     /**
      * @return \Cron\CronExpression

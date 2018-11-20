@@ -4,23 +4,15 @@ namespace Jellyfish\Scheduler;
 
 use Cron\CronExpression;
 use DateTime;
+use Jellyfish\Process\ProcessFactoryInterface;
+use Jellyfish\Process\ProcessInterface;
 
 class Job implements JobInterface
 {
     /**
-     * @var string
+     * @var \Jellyfish\Process\ProcessInterface
      */
-    protected $id;
-
-    /**
-     * @var string
-     */
-    protected $preparedCommand;
-
-    /**
-     * @var string
-     */
-    protected $command;
+    protected $process;
 
     /**
      * @var \Cron\CronExpression
@@ -28,41 +20,23 @@ class Job implements JobInterface
     protected $cronExpression;
 
     /**
-     * @var string
-     */
-    protected $pathToLockFile;
-
-    /**
-     * @param string $command
+     * @param \Jellyfish\Process\ProcessInterface $process
      * @param \Cron\CronExpression $cronExpression
-     * @param string $tempDir
      */
     public function __construct(
-        string $command,
-        CronExpression $cronExpression,
-        string $tempDir
+        ProcessInterface $process,
+        CronExpression $cronExpression
     ) {
-        $this->id = \sha1($command);
-        $this->command = $command;
+        $this->process = $process;
         $this->cronExpression = $cronExpression;
-        $this->pathToLockFile = rtrim($tempDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $this->id;
-        $this->preparedCommand = '(' . $this->command . ' ; rm ' . $this->pathToLockFile . ') > /dev/null 2>&1 &';
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getId(): string
+    public function getCommand(): array
     {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCommand(): string
-    {
-        return $this->command;
+        return $this->process->getCommand();
     }
 
     /**
@@ -84,22 +58,6 @@ class Job implements JobInterface
     }
 
     /**
-     * @return bool
-     */
-    protected function isLocked(): bool
-    {
-        return file_exists($this->pathToLockFile);
-    }
-
-    /**
-     * @return void
-     */
-    protected function lock(): void
-    {
-        touch($this->pathToLockFile);
-    }
-
-    /**
      * @param \DateTime|null $dateTime
      *
      * @return void
@@ -110,7 +68,7 @@ class Job implements JobInterface
             $dateTime = new DateTime();
         }
 
-        if ($this->isLocked()) {
+        if ($this->process->isLocked()) {
             return;
         }
 
@@ -118,7 +76,6 @@ class Job implements JobInterface
             return;
         }
 
-        $this->lock();
-        exec($this->preparedCommand);
+        $this->process->start();
     }
 }

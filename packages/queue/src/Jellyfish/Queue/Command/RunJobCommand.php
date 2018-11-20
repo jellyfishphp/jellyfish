@@ -1,30 +1,32 @@
 <?php
 
-namespace Jellyfish\Scheduler\Command;
+namespace Jellyfish\Queue\Command;
 
-use Jellyfish\Scheduler\SchedulerInterface;
+use Jellyfish\Queue\JobManagerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class RunCommand extends Command
+class RunJobCommand extends Command
 {
-    protected const NAME = 'scheduler:run';
-    protected const DESCRIPTION = 'Run scheduler.';
+    public const NAME = 'queue:job:run';
+    public const DESCRIPTION = 'Run queue job';
 
     /**
-     * @var \Jellyfish\Scheduler\SchedulerInterface
+     * @var \Jellyfish\Queue\JobManagerInterface
      */
-    protected $scheduler;
+    protected $jobManager;
 
     /**
-     * @param \Jellyfish\Scheduler\SchedulerInterface $scheduler
+     * RunJobCommand constructor.
+     * @param \Jellyfish\Queue\JobManagerInterface $jobManager
      */
-    public function __construct(SchedulerInterface $scheduler)
+    public function __construct(JobManagerInterface $jobManager)
     {
         parent::__construct(null);
 
-        $this->scheduler = $scheduler;
+        $this->jobManager = $jobManager;
     }
 
     /**
@@ -36,6 +38,7 @@ class RunCommand extends Command
 
         $this->setName(static::NAME);
         $this->setDescription(static::DESCRIPTION);
+        $this->addArgument('queue', InputArgument::REQUIRED, 'Name of the job queue');
     }
 
     /**
@@ -46,7 +49,9 @@ class RunCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $this->scheduler->run();
+        $queue = (string) $input->getArgument('queue');
+
+        $this->jobManager->runJob($queue);
 
         return null;
     }
