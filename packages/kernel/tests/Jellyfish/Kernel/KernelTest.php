@@ -3,6 +3,7 @@
 namespace Jellyfish\Kernel;
 
 use Codeception\Test\Unit;
+use Jellyfish\Kernel\Exception\EnvVarNotSetException;
 use org\bovigo\vfs\vfsStream;
 
 class KernelTest extends Unit
@@ -14,8 +15,6 @@ class KernelTest extends Unit
 
     /**
      * @return void
-     *
-     * @throws Exception\EnvVarNotFoundException
      */
     protected function _before(): void
     {
@@ -30,9 +29,13 @@ class KernelTest extends Unit
 
     /**
      * @return void
+     *
+     * @throws \Jellyfish\Kernel\Exception\EnvVarNotSetException
      */
     public function testGetContainer(): void
     {
+        \putenv('APPLICATION_ENV=development');
+
         $kernel = new Kernel($this->rootDir);
 
         $container = $kernel->getContainer();
@@ -43,15 +46,33 @@ class KernelTest extends Unit
 
     /**
      * @return void
+     *
+     * @throws \Jellyfish\Kernel\Exception\EnvVarNotSetException
      */
     public function testGetContainerWithEmptyAppDir(): void
     {
-        unlink($this->rootDir . DIRECTORY_SEPARATOR .'app' . DIRECTORY_SEPARATOR . 'service_providers.php');
+        \putenv('APPLICATION_ENV=development');
+
+        unlink($this->rootDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'service_providers.php');
 
         $kernel = new Kernel($this->rootDir);
 
         $container = $kernel->getContainer();
 
         $this->assertFalse($container->offsetExists('key'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testInitKernelWithUnsetEnvVar(): void
+    {
+        \putenv('APPLICATION_ENV');
+
+        try {
+            new Kernel($this->rootDir);
+            $this->fail();
+        } catch (EnvVarNotSetException $e) {
+        }
     }
 }

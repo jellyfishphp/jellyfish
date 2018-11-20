@@ -6,7 +6,7 @@ use Jellyfish\Kernel\KernelInterface;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
 
-class Application extends BaseApplication
+class Console extends BaseApplication
 {
     /**
      * @var \Jellyfish\Kernel\KernelInterface

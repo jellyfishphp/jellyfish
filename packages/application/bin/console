@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+use Jellyfish\Kernel\Kernel;
+use Jellyfish\Application\Console;
+
+$rootDir = __DIR__ . '../..';
+
+require_once $rootDir . '/vendor/autoload.php';
+
+$kernel = new Kernel($rootDir);
+$application = new Console($kernel);
+
+$application->run();

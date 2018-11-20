@@ -7,12 +7,12 @@ use Jellyfish\Kernel\KernelInterface;
 use Pimple\Container;
 use Symfony\Component\Console\Command\Command;
 
-class ApplicationTest extends Unit
+class ConsoleTest extends Unit
 {
     /**
-     * @var \Jellyfish\Application\Application
+     * @var \Jellyfish\Application\Console
      */
-    protected $application;
+    protected $console;
 
     /**
      * @var \Jellyfish\Kernel\KernelInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -45,7 +45,7 @@ class ApplicationTest extends Unit
             ->method('getContainer')
             ->willReturn($this->containerMock);
 
-        $this->application = new Application($this->kernelMock);
+        $this->console = new Console($this->kernelMock);
     }
 
     /**
@@ -64,7 +64,7 @@ class ApplicationTest extends Unit
             ->method('offsetGet')
             ->with('commands');
 
-        $this->assertCount(2, $this->application->all());
+        $this->assertCount(2, $this->console->all());
     }
 
     /**
@@ -84,7 +84,7 @@ class ApplicationTest extends Unit
             ->with('commands')
             ->willReturn(0);
 
-        $this->assertCount(2, $this->application->all());
+        $this->assertCount(2, $this->console->all());
     }
 
     /**
@@ -104,6 +104,6 @@ class ApplicationTest extends Unit
             ->with('commands')
             ->willReturn([new Command('foo:bar'), new \stdClass()]);
 
-        $this->assertCount(3, $this->application->all());
+        $this->assertCount(3, $this->console->all());
     }
 }

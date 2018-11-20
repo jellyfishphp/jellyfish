@@ -3,6 +3,7 @@
 namespace Jellyfish\Kernel;
 
 use ArrayObject;
+use Jellyfish\Kernel\Exception\EnvVarNotSetException;
 use Pimple\Container;
 
 class Kernel implements KernelInterface
@@ -32,28 +33,50 @@ class Kernel implements KernelInterface
 
     /**
      * @param string $rootDir
-     * @param string $environment
+     *
+     * @throws \Jellyfish\Kernel\Exception\EnvVarNotSetException
      */
-    public function __construct(string $rootDir, string $environment = 'development')
+    public function __construct(string $rootDir)
     {
         $this->rootDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $this->appDir = $this->rootDir . static::APP_DIRECTORY_NAME . DIRECTORY_SEPARATOR;
-        $this->environment = $environment;
-        $this->buildContainer();
+        $this->environment = $this->buildEnvironment();
+        $this->container = $this->buildContainer();
     }
 
     /**
-     * @return void
+     * @return string
+     *
+     * @throws \Jellyfish\Kernel\Exception\EnvVarNotSetException
      */
-    protected function buildContainer(): void
+    protected function buildEnvironment(): string
     {
-        $this->container = new Container();
+        $environment = getenv('APPLICATION_ENV', true) ?: getenv('APPLICATION_ENV');
+
+        if (!$environment) {
+            throw new EnvVarNotSetException('Environment variable "APPLICATION_ENV" is not set.');
+        }
+
+        return $environment;
+    }
+
+    /**
+     * @return \Pimple\Container
+     */
+    protected function buildContainer(): Container
+    {
+        $container = new Container([
+            'appDir' => $this->appDir,
+            'environment' => $this->environment
+        ]);
 
         $serviceProviders = $this->buildServiceProviders();
 
         foreach ($serviceProviders as $serviceProvider) {
-            $this->container->register($serviceProvider);
+            $container->register($serviceProvider);
         }
+
+        return $container;
     }
 
     /**
