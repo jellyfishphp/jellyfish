@@ -1,6 +1,6 @@
 {
-  "name": "jellyfish/pimple",
-  "description": "Jellyfish application bundle",
+  "name": "jellyfish/http",
+  "description": "Jellyfish http bundle",
   "license": "MIT",
   "authors": [
     {
@@ -9,10 +9,10 @@
     }
   ],
   "require": {
-    "jellyfish/console": "dev-master",
-    "jellyfish/http": "dev-master",
-    "jellyfish/kernel": "dev-master",
-    "jellyfish/pimple": "dev-master"
+    "http-interop/http-factory-diactoros": "~1.0.0",
+    "jellyfish/pimple": "dev-master",
+    "league/route": "~4.2.0",
+    "zendframework/zend-httphandlerrunner": "~1.0.1"
   },
   "require-dev": {
     "codeception/codeception": "~2.4.5",
@@ -27,15 +27,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\Application": "src/Jellyfish/Application"
+      "Jellyfish\\Http\\": "src/Jellyfish/Http"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\Application": "tests/Jellyfish/Application"
+      "Jellyfish\\Http\\": "tests/Jellyfish/Http"
     }
-  },
-  "bin": [
-    "bin/console"
-  ]
+  }
 }
