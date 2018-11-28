@@ -1,0 +1,14 @@
+{
+  "name": "jellyfish/guzzle",
+  "description": "Jellyfish guzzle bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Rose",
+      "email": "daniel-rose@gmx.de"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "~6.3.3"
+  }
+}

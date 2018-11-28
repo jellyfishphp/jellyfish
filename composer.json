@@ -35,6 +35,7 @@
     "psr-4": {
       "Jellyfish\\Application\\": "packages/application/src/Jellyfish/Application",
       "Jellyfish\\Config\\": "packages/config/src/Jellyfish/Config",
+      "Jellyfish\\Feed\\": "packages/feed/src/Jellyfish/Feed",
       "Jellyfish\\Http\\": "packages/http/src/Jellyfish/Http",
       "Jellyfish\\Kernel\\": "packages/kernel/src/Jellyfish/Kernel",
       "Jellyfish\\Log\\": "packages/log/src/Jellyfish/Log",
@@ -49,6 +50,7 @@
     "psr-4": {
       "Jellyfish\\Application\\": "packages/application/tests/Jellyfish/Application",
       "Jellyfish\\Config\\": "packages/config/tests/Jellyfish/Config",
+      "Jellyfish\\Feed\\": "packages/feed/tests/Jellyfish/Feed",
       "Jellyfish\\Http\\": "packages/http/tests/Jellyfish/Http",
       "Jellyfish\\Kernel\\": "packages/kernel/tests/Jellyfish/Kernel",
       "Jellyfish\\Log\\": "packages/log/tests/Jellyfish/Log",
