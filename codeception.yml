@@ -1,6 +1,7 @@
 include:
   - packages/application/
   - packages/config/
+  - packages/feed/
   - packages/http/
   - packages/kernel/
   - packages/log/

@@ -4,7 +4,6 @@ namespace Jellyfish\Scheduler;
 
 use Cron\CronExpression;
 use DateTime;
-use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Process\ProcessInterface;
 
 class Job implements JobInterface
