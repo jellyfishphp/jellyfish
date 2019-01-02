@@ -10,8 +10,9 @@
   ],
   "require": {
     "aws/aws-sdk-php": "~3.70.3",
+    "jellyfish/pimple": "dev-master",
     "jellyfish/queue": "dev-master",
-    "jellyfish/pimple": "dev-master"
+    "jellyfish/serializer": "dev-master"
   },
   "require-dev": {
     "codeception/codeception": "~2.4.5",

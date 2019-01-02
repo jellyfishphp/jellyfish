@@ -9,8 +9,9 @@
     }
   ],
   "require": {
-    "jellyfish/queue": "dev-master",
     "jellyfish/pimple": "dev-master",
+    "jellyfish/queue": "dev-master",
+    "jellyfish/serializer": "dev-master",
     "php-amqplib/php-amqplib": "~2.7.2"
   },
   "require-dev": {

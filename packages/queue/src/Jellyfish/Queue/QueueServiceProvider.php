@@ -2,11 +2,9 @@
 
 namespace Jellyfish\Queue;
 
-use Jellyfish\Process\ProcessFactoryInterface;
-use Jellyfish\Queue\Command\RunJobCommand;
-use Jellyfish\Queue\Command\StartWorkerCommand;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use \Jellyfish\Serializer\SerializerInterface;
 
 class QueueServiceProvider implements ServiceProviderInterface
 {
@@ -19,65 +17,33 @@ class QueueServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $pimple->offsetSet('job_manager', function ($container) use ($self) {
-            return $self->createJobManager(
-                $container->offsetGet('queue_client'),
-                $container->offsetGet('process_factory')
+        $pimple->offsetSet('message_factory', function () use ($self) {
+            return $self->createMessageFactory();
+        });
+
+        $pimple->offsetSet('message_mapper', function (Container $container) use ($self) {
+            return $self->createMessageMapper(
+                $container->offsetGet('serializer')
             );
         });
-
-        $pimple->offsetSet('worker', function ($container) use ($self) {
-            return $self->createWorker($container->offsetGet('job_manager'));
-        });
-
-        $pimple->extend('commands', function ($commands, $container) use ($self) {
-            $commands[] = $self->createRunJobCommand($container->offsetGet('job_manager'));
-            $commands[] = $self->createStartWorkerCommand($container->offsetGet('worker'));
-
-            return $commands;
-        });
     }
 
     /**
-     * @param \Jellyfish\Queue\ClientInterface $client
-     * @param \Jellyfish\Process\ProcessFactoryInterface $processFactory
+     * @param \Jellyfish\Serializer\SerializerInterface $serializer
      *
-     * @return \Jellyfish\Queue\JobManagerInterface
+     * @return \Jellyfish\Queue\MessageMapperInterface
      */
-    protected function createJobManager(
-        ClientInterface $client,
-        ProcessFactoryInterface $processFactory
-    ): JobManagerInterface {
-        return new JobManager($client, $processFactory);
+    protected function createMessageMapper(
+        SerializerInterface $serializer
+    ): MessageMapperInterface {
+        return new MessageMapper($serializer);
     }
 
     /**
-     * @param \Jellyfish\Queue\JobManagerInterface $jobManager
-     *
-     * @return \Jellyfish\Queue\WorkerInterface
+     * @return \Jellyfish\Queue\MessageFactoryInterface
      */
-    protected function createWorker(JobManagerInterface $jobManager): WorkerInterface
+    protected function createMessageFactory(): MessageFactoryInterface
     {
-        return new Worker($jobManager);
-    }
-
-    /**
-     * @param \Jellyfish\Queue\JobManagerInterface $jobManager
-     *
-     * @return \Jellyfish\Queue\Command\RunJobCommand
-     */
-    protected function createRunJobCommand(JobManagerInterface $jobManager): RunJobCommand
-    {
-        return new RunJobCommand($jobManager);
-    }
-
-    /**
-     * @param \Jellyfish\Queue\WorkerInterface $worker
-     *
-     * @return \Jellyfish\Queue\Command\StartWorkerCommand
-     */
-    protected function createStartWorkerCommand(WorkerInterface $worker): StartWorkerCommand
-    {
-        return new StartWorkerCommand($worker);
+        return new MessageFactory();
     }
 }

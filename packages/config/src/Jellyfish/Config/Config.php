@@ -63,6 +63,18 @@ class Config implements ConfigInterface
             throw new ConfigKeyNotFoundException(sprintf('Could not find key "%s" in "%s"', $key, __CLASS__));
         }
 
+        return $this->getValue($key);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return string
+     *
+     * @throws \Jellyfish\Config\Exception\NotSupportedConfigValueTypeException
+     */
+    protected function getValue(string $key): string
+    {
         $value = $this->config[$key];
 
         if (\is_string($value)) {
@@ -81,18 +93,9 @@ class Config implements ConfigInterface
      *
      * @return bool
      */
-    public function hasValue(string $key): bool
+    protected function hasValue(string $key): bool
     {
         return isset($this->config[$key]);
-    }
-
-    /**
-     * @param string $key
-     * @return bool
-     */
-    public function hasKey(string $key): bool
-    {
-        return array_key_exists($key, $this->config);
     }
 
     /**

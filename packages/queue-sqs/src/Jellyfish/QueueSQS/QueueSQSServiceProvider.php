@@ -4,7 +4,8 @@ namespace Jellyfish\QueueSQS;
 
 use Aws\Sqs\SqsClient;
 use Jellyfish\Config\ConfigInterface;
-use Jellyfish\Queue\ClientInterface;
+use Jellyfish\Queue\MessageMapperInterface;
+use Jellyfish\Queue\QueueClientInterface;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -19,23 +20,29 @@ class QueueSQSServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $pimple->offsetSet('queue_client', function ($container) use ($self) {
-            return $self->createClient($container['config']);
+        $pimple->offsetSet('queue_client', function (Container $container) use ($self) {
+            return $self->createClient(
+                $container->offsetGet('config'),
+                $container->offsetGet('message_mapper')
+            );
         });
     }
 
     /**
      * @param \Jellyfish\Config\ConfigInterface $config
+     * @param \Jellyfish\Queue\MessageMapperInterface $messageMapper
      *
-     * @return \Jellyfish\Queue\ClientInterface
+     * @return \Jellyfish\Queue\QueueClientInterface
      *
      * @throws \Jellyfish\Config\Exception\ConfigKeyNotFoundException
      */
-    protected function createClient(ConfigInterface $config): ClientInterface
-    {
+    protected function createClient(
+        ConfigInterface $config,
+        MessageMapperInterface $messageMapper
+    ): QueueClientInterface {
         $sqsClient = $this->createSqsClient($config);
 
-        return new Client($sqsClient);
+        return new QueueClient($sqsClient, $messageMapper);
     }
 
     /**

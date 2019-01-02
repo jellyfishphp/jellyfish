@@ -3,13 +3,16 @@
 namespace Jellyfish\Queue;
 
 use Codeception\Test\Unit;
-use Jellyfish\Process\ProcessFactoryInterface;
-use Jellyfish\Queue\Command\RunJobCommand;
-use Jellyfish\Queue\Command\StartWorkerCommand;
 use Pimple\Container;
+use Jellyfish\Serializer\SerializerInterface;
 
 class QueueServiceProviderTest extends Unit
 {
+    /**
+     * @var \Jellyfish\Serializer\SerializerInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $serializerMock;
+
     /**
      * @var \Pimple\Container;
      */
@@ -29,18 +32,14 @@ class QueueServiceProviderTest extends Unit
     {
         parent::_before();
 
+        $self = $this;
+
         $this->container = new Container();
 
-        $this->container->offsetSet('queue_client', function ($container) {
-            return $this->getMockForAbstractClass(ClientInterface::class);
-        });
-
-        $this->container->offsetSet('process_factory', function ($container) {
-            return $this->getMockForAbstractClass(ProcessFactoryInterface::class);
-        });
-
-        $this->container->offsetSet('commands', function ($container) {
-            return [];
+        $this->container->offsetSet('serializer', function () use ($self) {
+            return $self->getMockBuilder(SerializerInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock();
         });
 
         $this->queueServiceProvider = new QueueServiceProvider();
@@ -53,15 +52,10 @@ class QueueServiceProviderTest extends Unit
     {
         $this->queueServiceProvider->register($this->container);
 
-        $commands = $this->container->offsetGet('commands');
-        $this->assertCount(2, $commands);
-        $this->assertInstanceOf(RunJobCommand::class, $commands[0]);
-        $this->assertInstanceOf(StartWorkerCommand::class, $commands[1]);
+        $messageMapper = $this->container->offsetGet('message_mapper');
+        $this->assertInstanceOf(MessageMapper::class, $messageMapper);
 
-        $jobManager = $this->container->offsetGet('job_manager');
-        $this->assertInstanceOf(JobManagerInterface::class, $jobManager);
-
-        $worker = $this->container->offsetGet('worker');
-        $this->assertInstanceOf(WorkerInterface::class, $worker);
+        $messageFactory = $this->container->offsetGet('message_factory');
+        $this->assertInstanceOf(MessageFactory::class, $messageFactory);
     }
 }

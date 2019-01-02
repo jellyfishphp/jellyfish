@@ -3,7 +3,8 @@
 namespace Jellyfish\QueueRabbitMq;
 
 use Jellyfish\Config\ConfigInterface;
-use Jellyfish\Queue\ClientInterface;
+use Jellyfish\Queue\MessageMapperInterface;
+use Jellyfish\Queue\QueueClientInterface;
 use PhpAmqpLib\Connection\AbstractConnection;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Pimple\Container;
@@ -20,23 +21,29 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $pimple->offsetSet('queue_client', function ($container) use ($self) {
-            return $self->createClient($container['config']);
+        $pimple->offsetSet('queue_client', function (Container $container) use ($self) {
+            return $self->createClient(
+                $container->offsetGet('config'),
+                $container->offsetGet('message_mapper')
+            );
         });
     }
 
     /**
      * @param \Jellyfish\Config\ConfigInterface $config
+     * @param \Jellyfish\Queue\MessageMapperInterface $messageMapper
      *
-     * @return \Jellyfish\Queue\ClientInterface
+     * @return \Jellyfish\Queue\QueueClientInterface
      *
      * @throws \Jellyfish\Config\Exception\ConfigKeyNotFoundException
      */
-    protected function createClient(ConfigInterface $config): ClientInterface
-    {
+    protected function createClient(
+        ConfigInterface $config,
+        MessageMapperInterface $messageMapper
+    ): QueueClientInterface {
         $connection = $this->createConnection($config);
 
-        return new Client($connection);
+        return new QueueClient($connection, $messageMapper);
     }
 
     /**

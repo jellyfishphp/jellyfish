@@ -29,7 +29,7 @@ class ConfigTest extends Unit
             ],
         ])->url();
 
-        $appDir = rtrim($rootDir,DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $appDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $environment = 'testing';
 
         $this->config = new Config($appDir, $environment);
@@ -85,39 +85,9 @@ class ConfigTest extends Unit
      */
     public function testGetWithDefault(): void
     {
-        $this->assertEquals('staging_config_value',
-            $this->config->get('staging_config_key', 'staging_config_value'));
-    }
-
-    /**
-     * @return void
-     */
-    public function testHasKey(): void
-    {
-        $this->assertTrue($this->config->hasKey('testing_config_key'));
-    }
-
-    /**
-     * @return void
-     */
-    public function testHasKeyWithNotExistingEntry(): void
-    {
-        $this->assertFalse($this->config->hasKey('staging_config_ke'));
-    }
-
-    /**
-     * @return void
-     */
-    public function testHasValue(): void
-    {
-        $this->assertTrue($this->config->hasValue('testing_config_key'));
-    }
-
-    /**
-     * @return void
-     */
-    public function testHasValueWithNotExistingEntry(): void
-    {
-        $this->assertFalse($this->config->hasValue(1));
+        $this->assertEquals(
+            'staging_config_value',
+            $this->config->get('staging_config_key', 'staging_config_value')
+        );
     }
 }
