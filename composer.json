@@ -35,6 +35,9 @@
     "sebastian/phpcpd": "~4.0.0",
     "squizlabs/php_codesniffer": "~3.3.1"
   },
+  "bin": [
+    "packages/application/bin/console"
+  ],
   "autoload": {
     "psr-4": {
       "Jellyfish\\Application\\": "packages/application/src/Jellyfish/Application",
