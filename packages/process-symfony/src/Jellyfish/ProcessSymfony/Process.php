@@ -62,6 +62,7 @@ class Process implements ProcessInterface
     protected function lock(): void
     {
         touch($this->pathToLockFile);
+        file_put_contents($this->pathToLockFile, implode(' ', $this->command));
     }
 
     /**

@@ -102,7 +102,8 @@ class EventServiceProvider implements ServiceProviderInterface
                 $container->offsetGet('process_factory'),
                 $container->offsetGet('event_mapper'),
                 $container->offsetGet('event_queue_name_generator'),
-                $container->offsetGet('queue_client')
+                $container->offsetGet('queue_client'),
+                $container->offsetGet('root_dir')
             );
         });
 

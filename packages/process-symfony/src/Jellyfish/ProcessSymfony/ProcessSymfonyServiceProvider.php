@@ -25,7 +25,7 @@ class ProcessSymfonyServiceProvider implements ServiceProviderInterface
     protected function createProcessFactory(Container $container): ProcessSymfonyServiceProvider
     {
         $container->offsetSet('process_factory', function (Container $container) {
-            $rootDir = $container->offsetGet('rootDir');
+            $rootDir = $container->offsetGet('root_dir');
 
             return new ProcessFactory($rootDir . 'tmp' . DIRECTORY_SEPARATOR);
         });

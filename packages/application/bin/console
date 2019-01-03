@@ -4,7 +4,11 @@
 use Jellyfish\Kernel\Kernel;
 use Jellyfish\Application\Console;
 
-$rootDir = __DIR__ . '../..';
+$rootDir = __DIR__ . '/../../../..';
+
+if (!\file_exists($rootDir . '/vendor/autoload.php')) {
+    $rootDir = __DIR__ . '/../../../../../..';
+}
 
 require_once $rootDir . '/vendor/autoload.php';
 

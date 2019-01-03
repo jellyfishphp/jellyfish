@@ -82,8 +82,8 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
 
         $connection = new AMQPStreamConnection(
             $rabbitMqHost,
-            $rabbitMqUser,
             $rabbitMqPort,
+            $rabbitMqUser,
             $rabbitMqPassword,
             $rabbitMqVhost
         );

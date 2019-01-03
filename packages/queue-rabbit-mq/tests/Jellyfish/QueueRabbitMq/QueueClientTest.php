@@ -37,6 +37,11 @@ class QueueClientTest extends Unit
     protected $messageMock;
 
     /**
+     * @var \PhpAmqpLib\Channel\AMQPChannel|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $amqpMessageMock;
+
+    /**
      * @return void
      *
      * @throws \ReflectionException
@@ -63,6 +68,10 @@ class QueueClientTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->amqpMessageMock = $this->getMockBuilder(AMQPMessage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->queueClient = new QueueClient($this->connectionMock, $this->messageMapperMock);
     }
 
@@ -80,7 +89,11 @@ class QueueClientTest extends Unit
 
         $this->channelMock->expects($this->atLeastOnce())
             ->method('basic_get')
-            ->with($queueName)
+            ->with($queueName, true)
+            ->willReturn($this->amqpMessageMock);
+
+        $this->amqpMessageMock->expects($this->atLeastOnce())
+            ->method('getBody')
             ->willReturn($expectedMessageAsJson);
 
         $this->messageMapperMock->expects($this->atLeastOnce())
@@ -104,7 +117,7 @@ class QueueClientTest extends Unit
 
         $this->channelMock->expects($this->atLeastOnce())
             ->method('basic_get')
-            ->with($queueName)
+            ->with($queueName, true)
             ->willReturn(null);
 
         $this->messageMapperMock->expects($this->never())

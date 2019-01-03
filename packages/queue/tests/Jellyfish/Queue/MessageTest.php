@@ -21,6 +21,33 @@ class MessageTest extends Unit
         $this->message = new Message();
     }
 
+    /**
+     * @return void
+     */
+    public function testGetHeaders(): void
+    {
+        $this->assertCount(0, $this->message->getHeaders());
+    }
+
+    /**
+     * @return void
+     */
+    public function testSetAndGetHeaders(): void
+    {
+        $headers = [
+            'test' => 'test'
+        ];
+
+        $this->message->setHeaders($headers);
+        $actualHeaders = $this->message->getHeaders();
+
+        $this->assertCount(1, $actualHeaders);
+        $this->assertEquals($headers, $actualHeaders);
+    }
+
+    /**
+     * @return void
+     */
     public function testSetAndGetBody(): void
     {
         $body = 'Test';

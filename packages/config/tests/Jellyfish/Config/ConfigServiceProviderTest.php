@@ -37,7 +37,7 @@ class ConfigServiceProviderTest extends Unit
 
         $this->configServiceProvider = new ConfigServiceProvider();
         $this->container = new Container([
-            'appDir' => $appDir,
+            'app_dir' => $appDir,
             'environment' => $environment
         ]);
     }

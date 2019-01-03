@@ -45,13 +45,13 @@ class QueueClient implements QueueClientInterface
     {
         $this->channel->queue_declare($queueName);
 
-        $messageAsJson = $this->channel->basic_get($queueName);
+        $messageAsJson = $this->channel->basic_get($queueName, true);
         
-        if ($messageAsJson === null) {
+        if ($messageAsJson === null || !($messageAsJson instanceof AMQPMessage)) {
             return null;
         }
 
-        return $this->messageMapper->fromJson($messageAsJson);
+        return $this->messageMapper->fromJson($messageAsJson->getBody());
     }
 
     /**

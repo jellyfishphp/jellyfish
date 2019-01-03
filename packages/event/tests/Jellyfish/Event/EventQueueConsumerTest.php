@@ -109,7 +109,8 @@ class EventQueueConsumerTest extends Unit
             $this->processFactoryMock,
             $this->eventMapperMock,
             $this->eventQueueNameGeneratorMock,
-            $this->queueClientMock
+            $this->queueClientMock,
+            '/'
         );
     }
 

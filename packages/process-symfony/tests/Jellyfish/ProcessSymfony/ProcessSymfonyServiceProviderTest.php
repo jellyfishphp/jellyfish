@@ -26,7 +26,7 @@ class ProcessSymfonyServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet('rootDir', function () {
+        $this->container->offsetSet('root_dir', function () {
             return DIRECTORY_SEPARATOR;
         });
 

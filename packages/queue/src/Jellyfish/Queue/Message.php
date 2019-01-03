@@ -20,6 +20,26 @@ class Message implements MessageInterface
     }
 
     /**
+     * @return array
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @param array $headers
+     *
+     * @return \Jellyfish\Queue\MessageInterface
+     */
+    public function setHeaders(array $headers): MessageInterface
+    {
+        $this->headers = $headers;
+
+        return $this;
+    }
+
+    /**
      * @param string $key
      *
      * @return string|null

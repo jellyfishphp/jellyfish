@@ -5,6 +5,18 @@ namespace Jellyfish\Queue;
 interface MessageInterface
 {
     /**
+     * @return array
+     */
+    public function getHeaders(): array;
+
+    /**
+     * @param array $headers
+     * 
+     * @return \Jellyfish\Queue\MessageInterface
+     */
+    public function setHeaders(array $headers): MessageInterface;
+
+    /**
      * @param string $key
      *
      * @return string|null

@@ -66,8 +66,12 @@ class Kernel implements KernelInterface
     protected function buildContainer(): Container
     {
         $container = new Container([
-            'appDir' => $this->appDir,
-            'environment' => $this->environment
+            'root_dir' => $this->rootDir,
+            'app_dir' => $this->appDir,
+            'environment' => $this->environment,
+            'commands' => function() {
+                return [];
+            }
         ]);
 
         $serviceProviders = $this->buildServiceProviders();
