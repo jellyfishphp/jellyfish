@@ -69,7 +69,7 @@ class Kernel implements KernelInterface
             'root_dir' => $this->rootDir,
             'app_dir' => $this->appDir,
             'environment' => $this->environment,
-            'commands' => function() {
+            'commands' => function () {
                 return [];
             }
         ]);

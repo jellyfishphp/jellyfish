@@ -175,7 +175,12 @@ class EventQueueConsumerTest extends Unit
      */
     public function testDequeueEventAsProcess(): void
     {
-        $command = ['', EventQueueConsumeCommand::NAME, $this->eventName, $this->eventListenerIdentifier];
+        $command = [
+            '/vendor/bin/console',
+            EventQueueConsumeCommand::NAME,
+            $this->eventName,
+            $this->eventListenerIdentifier
+        ];
 
         $this->eventQueueNameGeneratorMock->expects($this->atLeastOnce())
             ->method('generate')

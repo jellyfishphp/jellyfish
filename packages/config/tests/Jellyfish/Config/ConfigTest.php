@@ -29,7 +29,7 @@ class ConfigTest extends Unit
             ],
         ])->url();
 
-        $appDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $appDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR;
         $environment = 'testing';
 
         $this->config = new Config($appDir, $environment);

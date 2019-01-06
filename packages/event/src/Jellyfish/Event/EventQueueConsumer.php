@@ -36,13 +36,14 @@ class EventQueueConsumer implements EventQueueConsumerInterface
     /**
      * @var string
      */
-    protected $rootDir;
+    protected $pathToConsole;
 
     /**
      * @param \Jellyfish\Process\ProcessFactoryInterface $processFactory
      * @param \Jellyfish\Event\EventMapperInterface $eventMapper
      * @param \Jellyfish\Event\EventQueueNameGeneratorInterface $eventQueueNameGenerator
      * @param \Jellyfish\Queue\QueueClientInterface $queueClient
+     * @param string $rootDir
      */
     public function __construct(
         ProcessFactoryInterface $processFactory,
@@ -56,7 +57,7 @@ class EventQueueConsumer implements EventQueueConsumerInterface
         $this->eventQueueNameGenerator = $eventQueueNameGenerator;
         $this->queueClient = $queueClient;
         $this->processList = [];
-        $this->rootDir = $rootDir;
+        $this->pathToConsole = sprintf('%svendor/bin/console', $rootDir);
     }
 
     /**
@@ -70,7 +71,7 @@ class EventQueueConsumer implements EventQueueConsumerInterface
         $eventQueueName = $this->eventQueueNameGenerator->generate($eventName, $listenerIdentifier);
 
         if (!\array_key_exists($eventQueueName, $this->processList)) {
-            $command = [$this->rootDir . 'vendor/bin/console', EventQueueConsumeCommand::NAME, $eventName, $listenerIdentifier];
+            $command = [$this->pathToConsole, EventQueueConsumeCommand::NAME, $eventName, $listenerIdentifier];
             $this->processList[$eventQueueName] = $this->processFactory->create($command);
         }
 

@@ -11,7 +11,7 @@ interface MessageInterface
 
     /**
      * @param array $headers
-     * 
+     *
      * @return \Jellyfish\Queue\MessageInterface
      */
     public function setHeaders(array $headers): MessageInterface;
