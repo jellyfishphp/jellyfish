@@ -30,7 +30,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
      */
     protected function createConfig(Container $container): ConfigInterface
     {
-        $appDir = $container->offsetGet('appDir');
+        $appDir = $container->offsetGet('app_dir');
         $environment = $container->offsetGet('environment');
 
         return new Config($appDir, $environment);

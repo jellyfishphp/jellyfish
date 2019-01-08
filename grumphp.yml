@@ -2,6 +2,8 @@ parameters:
   git_dir: .
   bin_dir: vendor/bin
   tasks:
+    phpversion:
+      project: '7.2'
     codeception: ~
     phpcs:
       standard: 'PSR12'

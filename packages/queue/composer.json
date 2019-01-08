@@ -9,9 +9,7 @@
     }
   ],
   "require": {
-    "jellyfish/console": "dev-master",
-    "jellyfish/pimple": "dev-master",
-    "jellyfish/process": "dev-master"
+    "jellyfish/pimple": "dev-master"
   },
   "require-dev": {
     "codeception/codeception": "~2.4.5",

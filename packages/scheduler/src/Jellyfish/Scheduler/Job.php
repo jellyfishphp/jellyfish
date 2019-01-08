@@ -60,6 +60,8 @@ class Job implements JobInterface
      * @param \DateTime|null $dateTime
      *
      * @return void
+     *
+     * @throws \Exception
      */
     public function run(?DateTime $dateTime = null): void
     {

@@ -17,11 +17,11 @@ class SchedulerServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $pimple->offsetSet('scheduler', function ($container) use ($self) {
+        $pimple->offsetSet('scheduler', function (Container $container) use ($self) {
             return $self->createScheduler();
         });
 
-        $pimple->extend('commands', function ($commands, $container) use ($self) {
+        $pimple->extend('commands', function (array $commands, Container $container) use ($self) {
             $commands[] = $self->createRunSchedulerCommand($container->offsetGet('scheduler'));
 
             return $commands;

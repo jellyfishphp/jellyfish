@@ -1,15 +1,19 @@
 include:
   - packages/application/
   - packages/config/
+  - packages/event/
   - packages/feed/
   - packages/http/
   - packages/kernel/
   - packages/log/
   - packages/process/
+  - packages/process-symfony/
   - packages/queue/
   - packages/queue-rabbit-mq/
   - packages/queue-sqs/
   - packages/scheduler/
+  - packages/serializer/
+  - packages/serializer-symfony/
 
 settings:
   shuffle: true
