@@ -33,6 +33,10 @@ class Process implements ProcessInterface
      */
     public function start(): ProcessInterface
     {
+        if ($this->process->isRunning()) {
+            return $this;
+        }
+
         $this->process->start();
 
         return $this;
