@@ -76,10 +76,7 @@ class EventQueueConsumer implements EventQueueConsumerInterface
         }
 
         $process = $this->processList[$eventQueueName];
-
-        if (!$process->isLocked()) {
-            $process->start();
-        }
+        $process->start();
 
         return $this;
     }

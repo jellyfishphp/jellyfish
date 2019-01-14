@@ -5,6 +5,8 @@ namespace Jellyfish\Event\Command;
 use Jellyfish\Event\EventDispatcherInterface;
 use Jellyfish\Event\EventListenerInterface;
 use Jellyfish\Event\EventQueueConsumerInterface;
+use Jellyfish\Lock\LockFactoryInterface;
+use Jellyfish\Lock\LockTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,6 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class EventQueueConsumeCommand extends Command
 {
+    use LockTrait;
+
     public const NAME = 'event:queue:consume';
     public const DESCRIPTION = 'Consume from event queue';
 
@@ -28,15 +32,18 @@ class EventQueueConsumeCommand extends Command
     /**
      * @param \Jellyfish\Event\EventDispatcherInterface $eventDispatcher
      * @param \Jellyfish\Event\EventQueueConsumerInterface $eventQueueConsumer
+     * @param \Jellyfish\Lock\LockFactoryInterface $lockFactory
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
-        EventQueueConsumerInterface $eventQueueConsumer
+        EventQueueConsumerInterface $eventQueueConsumer,
+        LockFactoryInterface $lockFactory
     ) {
-        parent::__construct(null);
+        parent::__construct();
 
         $this->eventDispatcher = $eventDispatcher;
         $this->eventQueueConsumer = $eventQueueConsumer;
+        $this->lockFactory = $lockFactory;
     }
 
     /**
@@ -63,7 +70,27 @@ class EventQueueConsumeCommand extends Command
     {
         $eventName = (string) $input->getArgument('eventName');
         $listenerIdentifier = (string) $input->getArgument('listenerIdentifier');
+        $lockIdentifier = $this->createIdentifier([static::NAME, $eventName, $listenerIdentifier]);
 
+        if (!$this->acquire($lockIdentifier)) {
+            return null;
+        }
+
+        $result = $this->executeLockablePart($eventName, $listenerIdentifier);
+
+        $this->release();
+
+        return $result;
+    }
+
+    /**
+     * @param string $eventName
+     * @param string $listenerIdentifier
+     *
+     * @return int|null
+     */
+    protected function executeLockablePart(string $eventName, string $listenerIdentifier): ?int
+    {
         $event = $this->eventQueueConsumer->dequeueEvent($eventName, $listenerIdentifier);
 
         if ($event === null) {

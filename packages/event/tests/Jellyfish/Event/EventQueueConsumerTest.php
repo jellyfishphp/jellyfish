@@ -193,10 +193,6 @@ class EventQueueConsumerTest extends Unit
             ->willReturn($this->processMock);
 
         $this->processMock->expects($this->atLeastOnce())
-            ->method('isLocked')
-            ->willReturn(false);
-
-        $this->processMock->expects($this->atLeastOnce())
             ->method('start')
             ->willReturn($this->processMock);
 

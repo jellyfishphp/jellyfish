@@ -5,14 +5,9 @@ namespace Jellyfish\Process;
 interface ProcessInterface
 {
     /**
-     * @return void
+     * @return \Jellyfish\Process\ProcessInterface
      */
-    public function start(): void;
-
-    /**
-     * @return bool
-     */
-    public function isLocked(): bool;
+    public function start(): ProcessInterface;
 
     /**
      * @return array

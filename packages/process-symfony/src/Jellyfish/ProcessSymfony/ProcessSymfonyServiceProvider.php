@@ -20,14 +20,12 @@ class ProcessSymfonyServiceProvider implements ServiceProviderInterface
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Jellyfish\ProcessSymfony\ProcessSymfonyServiceProvider
+     * @return \Pimple\ServiceProviderInterface
      */
-    protected function createProcessFactory(Container $container): ProcessSymfonyServiceProvider
+    protected function createProcessFactory(Container $container): ServiceProviderInterface
     {
-        $container->offsetSet('process_factory', function (Container $container) {
-            $rootDir = $container->offsetGet('root_dir');
-
-            return new ProcessFactory($rootDir . 'tmp' . DIRECTORY_SEPARATOR);
+        $container->offsetSet('process_factory', function () {
+            return new ProcessFactory();
         });
 
         return $this;

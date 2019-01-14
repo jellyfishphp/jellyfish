@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "jellyfish/lock": "dev-master",
     "jellyfish/queue": "dev-master",
     "jellyfish/pimple": "dev-master",
     "jellyfish/process": "dev-master",

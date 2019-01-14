@@ -4,6 +4,7 @@ namespace Jellyfish\ProcessSymfony;
 
 use Codeception\Test\Unit;
 use Jellyfish\Process\Exception\RuntimeException;
+use Jellyfish\Process\ProcessInterface;
 use org\bovigo\vfs\vfsStream;
 
 class ProcessTest extends Unit
@@ -25,35 +26,17 @@ class ProcessTest extends Unit
     {
         parent::_before();
 
-        $tempDir = vfsStream::setup('tmp')->url();
-        $tempDir = rtrim($tempDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-
         $this->command = ['sleep', '5'];
 
-        $this->symfonyProcess = new Process($this->command, $tempDir);
+        $this->symfonyProcess = new Process($this->command);
     }
 
     /**
      * @return void
      */
-    public function testStartAndIsLocked(): void
+    public function testStart(): void
     {
-        $this->symfonyProcess->start();
-        $this->assertTrue($this->symfonyProcess->isLocked());
-    }
-
-    /**
-     * @return void
-     */
-    public function testStartLocked(): void
-    {
-        $this->symfonyProcess->start();
-
-        try {
-            $this->symfonyProcess->start();
-            $this->fail();
-        } catch (RuntimeException $e) {
-        }
+        $this->assertInstanceOf(Process::class, $this->symfonyProcess->start());
     }
 
     /**

@@ -33,7 +33,7 @@ class SchedulerTest extends Unit
      */
     public function testQueueJobAndGetQueuedJobs(): void
     {
-        $this->scheduler->queueJob($this->jobMock);
+        $this->assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));
 
         $queuedJobs = $this->scheduler->getQueuedJobs();
         $this->assertCount(1, $queuedJobs);
@@ -47,13 +47,13 @@ class SchedulerTest extends Unit
      */
     public function testQueueJobAndRun(): void
     {
-        $this->scheduler->queueJob($this->jobMock);
+        $this->assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));
 
         $this->jobMock->expects($this->atLeastOnce())
             ->method('run')
             ->withAnyParameters(); // TODO: only DateTime
 
-        $this->scheduler->run();
+        $this->assertEquals($this->scheduler, $this->scheduler->run());
     }
 
     /**
@@ -63,8 +63,8 @@ class SchedulerTest extends Unit
      */
     public function testGetQueuedJobsAfterQueueJobAndClearJobs(): void
     {
-        $this->scheduler->queueJob($this->jobMock);
-        $this->scheduler->clearJobs();
+        $this->assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));
+        $this->assertEquals($this->scheduler, $this->scheduler->clearJobs());
 
         $queuedJobs = $this->scheduler->getQueuedJobs();
         $this->assertCount(0, $queuedJobs);

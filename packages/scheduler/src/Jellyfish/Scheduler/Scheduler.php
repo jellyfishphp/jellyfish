@@ -22,31 +22,39 @@ class Scheduler implements SchedulerInterface
     /**
      * @param \Jellyfish\Scheduler\JobInterface $job
      *
-     * @return void
+     * @return \Jellyfish\Scheduler\SchedulerInterface
      */
-    public function queueJob(JobInterface $job): void
+    public function queueJob(JobInterface $job): SchedulerInterface
     {
         $this->jobs[] = $job;
+
+        return $this;
     }
 
     /**
-     * @return void
+     * @return \Jellyfish\Scheduler\SchedulerInterface
      */
-    public function clearJobs(): void
+    public function clearJobs(): SchedulerInterface
     {
         $this->jobs = [];
+
+        return $this;
     }
 
     /**
-     * @return void
+     * @return \Jellyfish\Scheduler\SchedulerInterface
+     *
+     * @throws \Exception
      */
-    public function run(): void
+    public function run(): SchedulerInterface
     {
         $dateTime = new DateTime();
 
         foreach ($this->jobs as $job) {
             $job->run($dateTime);
         }
+
+        return $this;
     }
 
     /**

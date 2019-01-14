@@ -7,16 +7,6 @@ use Jellyfish\Process\ProcessInterface;
 
 class ProcessFactory implements ProcessFactoryInterface
 {
-    protected $tempDir;
-
-    /**
-     * @param string $tempDir
-     */
-    public function __construct(string $tempDir)
-    {
-        $this->tempDir = $tempDir;
-    }
-
     /**
      * @param array $command
      *
@@ -24,6 +14,6 @@ class ProcessFactory implements ProcessFactoryInterface
      */
     public function create(array $command): ProcessInterface
     {
-        return new Process($command, $this->tempDir);
+        return new Process($command);
     }
 }

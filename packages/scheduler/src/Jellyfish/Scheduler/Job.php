@@ -59,24 +59,22 @@ class Job implements JobInterface
     /**
      * @param \DateTime|null $dateTime
      *
-     * @return void
+     * @return \Jellyfish\Scheduler\JobInterface
      *
      * @throws \Exception
      */
-    public function run(?DateTime $dateTime = null): void
+    public function run(?DateTime $dateTime = null): JobInterface
     {
         if ($dateTime === null) {
             $dateTime = new DateTime();
         }
 
-        if ($this->process->isLocked()) {
-            return;
-        }
-
         if (!$this->isDue($dateTime)) {
-            return;
+            return $this;
         }
 
         $this->process->start();
+
+        return $this;
     }
 }

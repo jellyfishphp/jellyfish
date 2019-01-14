@@ -2,6 +2,7 @@
 
 namespace Jellyfish\Scheduler;
 
+use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Scheduler\Command\RunSchedulerCommand;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -17,12 +18,15 @@ class SchedulerServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $pimple->offsetSet('scheduler', function (Container $container) use ($self) {
+        $pimple->offsetSet('scheduler', function () use ($self) {
             return $self->createScheduler();
         });
 
         $pimple->extend('commands', function (array $commands, Container $container) use ($self) {
-            $commands[] = $self->createRunSchedulerCommand($container->offsetGet('scheduler'));
+            $commands[] = $self->createRunSchedulerCommand(
+                $container->offsetGet('scheduler'),
+                $container->offsetGet('lock_factory')
+            );
 
             return $commands;
         });
@@ -38,11 +42,14 @@ class SchedulerServiceProvider implements ServiceProviderInterface
 
     /**
      * @param \Jellyfish\Scheduler\SchedulerInterface $scheduler
+     * @param \Jellyfish\Lock\LockFactoryInterface $lockFactory
      *
      * @return \Jellyfish\Scheduler\Command\RunSchedulerCommand
      */
-    protected function createRunSchedulerCommand(SchedulerInterface $scheduler): RunSchedulerCommand
-    {
-        return new RunSchedulerCommand($scheduler);
+    protected function createRunSchedulerCommand(
+        SchedulerInterface $scheduler,
+        LockFactoryInterface $lockFactory
+    ): RunSchedulerCommand {
+        return new RunSchedulerCommand($scheduler, $lockFactory);
     }
 }

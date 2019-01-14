@@ -19,7 +19,8 @@ interface JobInterface
 
     /**
      * @param \DateTime|null $dateTime
-     * @return void
+     *
+     * @return \Jellyfish\Scheduler\JobInterface
      */
-    public function run(?DateTime $dateTime = null): void;
+    public function run(?DateTime $dateTime = null): JobInterface;
 }

@@ -11,6 +11,7 @@
   "require": {
     "dragonmantank/cron-expression": "~2.2.0",
     "jellyfish/console": "dev-master",
+    "jellyfish/lock": "dev-master",
     "jellyfish/pimple": "dev-master",
     "jellyfish/process": "dev-master"
   },

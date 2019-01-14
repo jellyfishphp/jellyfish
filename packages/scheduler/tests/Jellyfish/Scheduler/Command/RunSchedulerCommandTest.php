@@ -3,6 +3,8 @@
 namespace Jellyfish\Scheduler\Command;
 
 use Codeception\Test\Unit;
+use Jellyfish\Lock\LockFactoryInterface;
+use Jellyfish\Lock\LockInterface;
 use Jellyfish\Scheduler\SchedulerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,9 +27,24 @@ class RunSchedulerCommandTest extends Unit
     protected $schedulerMock;
 
     /**
+     * @var \Jellyfish\Lock\LockFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $lockFactoryMock;
+
+    /**
+     * @var \Jellyfish\Lock\LockInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $lockMock;
+
+    /**
      * @var \Jellyfish\Scheduler\Command\RunSchedulerCommand
      */
     protected $runSchedulerCommand;
+
+    /**
+     * @var string
+     */
+    protected $lockIdentifier;
 
     /**
      * @return void
@@ -48,7 +65,18 @@ class RunSchedulerCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->runSchedulerCommand = new RunSchedulerCommand($this->schedulerMock);
+        $this->lockFactoryMock = $this->getMockBuilder(LockFactoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->lockMock = $this->getMockBuilder(LockInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $lockIdentifierParts = [RunSchedulerCommand::NAME];
+        $this->lockIdentifier = \sha1(\implode(' ', $lockIdentifierParts));
+
+        $this->runSchedulerCommand = new RunSchedulerCommand($this->schedulerMock, $this->lockFactoryMock);
     }
 
     /**
@@ -74,8 +102,49 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testRun(): void
     {
+        $this->lockFactoryMock->expects($this->atLeastOnce())
+            ->method('create')
+            ->with($this->lockIdentifier, 360.0)
+            ->willReturn($this->lockMock);
+
+        $this->lockMock->expects($this->atLeastOnce())
+            ->method('acquire')
+            ->willReturn(true);
+
         $this->schedulerMock->expects($this->atLeastOnce())
             ->method('run');
+
+        $this->lockMock->expects($this->atLeastOnce())
+            ->method('release')
+            ->willReturn($this->lockMock);
+
+        $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
+
+        $this->assertEquals(0, $exitCode);
+    }
+
+    /**
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function testRunWithLockedStatus(): void
+    {
+        $this->lockFactoryMock->expects($this->atLeastOnce())
+            ->method('create')
+            ->with($this->lockIdentifier, 360.0)
+            ->willReturn($this->lockMock);
+
+        $this->lockMock->expects($this->atLeastOnce())
+            ->method('acquire')
+            ->willReturn(false);
+
+        $this->schedulerMock->expects($this->never())
+            ->method('run');
+
+        $this->lockMock->expects($this->never())
+            ->method('release')
+            ->willReturn($this->lockMock);
 
         $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
 
