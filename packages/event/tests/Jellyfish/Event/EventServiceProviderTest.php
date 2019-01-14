@@ -5,6 +5,7 @@ namespace Jellyfish\Event;
 use Codeception\Test\Unit;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
+use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Queue\MessageFactoryInterface;
 use Jellyfish\Queue\QueueClientInterface;
@@ -51,6 +52,12 @@ class EventServiceProviderTest extends Unit
 
         $this->container->offsetSet('serializer', function () use ($self) {
             return $self->getMockBuilder(SerializerInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+        });
+
+        $this->container->offsetSet('lock_factory', function () use ($self) {
+            return $self->getMockBuilder(LockFactoryInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });

@@ -154,7 +154,8 @@ class EventServiceProvider implements ServiceProviderInterface
         $container->extend('commands', function (array $commands, Container $container) {
             $commands[] = new EventQueueConsumeCommand(
                 $container->offsetGet('event_dispatcher'),
-                $container->offsetGet('event_queue_consumer')
+                $container->offsetGet('event_queue_consumer'),
+                $container->offsetGet('lock_factory')
             );
 
             $commands[] = new EventQueueWorkerStartCommand(

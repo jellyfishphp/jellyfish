@@ -81,24 +81,7 @@ class JobTest extends Unit
             ->with($this->dateTime)
             ->willReturn(true);
 
-        $this->job->run($this->dateTime);
-    }
-
-    /**
-     * @return void
-     */
-    public function testRunWithExistingLockFile(): void
-    {
-        $this->processMock->expects($this->atLeastOnce())
-            ->method('isLocked')
-            ->willReturn(true);
-
-        $this->cronExpressionMock->expects($this->never())
-            ->method('isDue')
-            ->with($this->dateTime)
-            ->willReturn(true);
-
-        $this->job->run($this->dateTime);
+        $this->assertEquals($this->job, $this->job->run($this->dateTime));
     }
 
     /**
@@ -111,7 +94,7 @@ class JobTest extends Unit
             ->with($this->dateTime)
             ->willReturn(false);
 
-        $this->job->run($this->dateTime);
+        $this->assertEquals($this->job, $this->job->run($this->dateTime));
     }
 
     /**
@@ -124,6 +107,6 @@ class JobTest extends Unit
             ->withAnyParameters()
             ->willReturn(true);
 
-        $this->job->run();
+        $this->assertEquals($this->job, $this->job->run());
     }
 }

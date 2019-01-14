@@ -5,12 +5,15 @@ include:
   - packages/feed/
   - packages/http/
   - packages/kernel/
+  - packages/lock/
+  - packages/lock-symfony/
   - packages/log/
   - packages/process/
   - packages/process-symfony/
   - packages/queue/
   - packages/queue-rabbit-mq/
   - packages/queue-sqs/
+  - packages/redis/
   - packages/scheduler/
   - packages/serializer/
   - packages/serializer-symfony/

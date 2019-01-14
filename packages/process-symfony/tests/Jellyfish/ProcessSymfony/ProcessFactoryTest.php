@@ -18,11 +18,7 @@ class ProcessFactoryTest extends Unit
     protected function _before(): void
     {
         parent::_before();
-
-        $tempDir = vfsStream::setup('tmp')->url();
-        $tempDir = rtrim($tempDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-
-        $this->symfonyProcessFactory = new ProcessFactory($tempDir);
+        $this->symfonyProcessFactory = new ProcessFactory();
     }
 
     /**

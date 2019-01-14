@@ -7,9 +7,9 @@ interface SchedulerInterface
     /**
      * @param \Jellyfish\Scheduler\JobInterface $job
      *
-     * @return void
+     * @return \Jellyfish\Scheduler\SchedulerInterface
      */
-    public function queueJob(JobInterface $job): void;
+    public function queueJob(JobInterface $job): SchedulerInterface;
 
     /**
      * @return \Jellyfish\Scheduler\JobInterface[]
@@ -17,12 +17,12 @@ interface SchedulerInterface
     public function getQueuedJobs(): array;
 
     /**
-     * @return void
+     * @return \Jellyfish\Scheduler\SchedulerInterface
      */
-    public function clearJobs(): void;
+    public function clearJobs(): SchedulerInterface;
 
     /**
-     * @return void
+     * @return \Jellyfish\Scheduler\SchedulerInterface
      */
-    public function run(): void;
+    public function run(): SchedulerInterface;
 }
