@@ -42,6 +42,15 @@ class ProcessTest extends Unit
     /**
      * @return void
      */
+    public function testStartStartedProcess(): void
+    {
+        $this->assertInstanceOf(Process::class, $this->symfonyProcess->start());
+        $this->assertInstanceOf(Process::class, $this->symfonyProcess->start());
+    }
+
+    /**
+     * @return void
+     */
     public function testGetCommand(): void
     {
         $this->assertEquals($this->command, $this->symfonyProcess->getCommand());
