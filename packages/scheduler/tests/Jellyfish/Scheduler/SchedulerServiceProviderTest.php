@@ -7,6 +7,7 @@ use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Scheduler\Command\RunCommand;
 use Jellyfish\Scheduler\Command\RunSchedulerCommand;
 use Pimple\Container;
+use Psr\Log\LoggerInterface;
 
 class SchedulerServiceProviderTest extends Unit
 {
@@ -39,6 +40,12 @@ class SchedulerServiceProviderTest extends Unit
 
         $this->container->offsetSet('lock_factory', function () use ($self) {
             return $self->getMockBuilder(LockFactoryInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+        });
+
+        $this->container->offsetSet('logger', function () use ($self) {
+            return $self->getMockBuilder(LoggerInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });

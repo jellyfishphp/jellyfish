@@ -11,6 +11,7 @@ use Jellyfish\Queue\MessageFactoryInterface;
 use Jellyfish\Queue\QueueClientInterface;
 use Pimple\Container;
 use Jellyfish\Serializer\SerializerInterface;
+use Psr\Log\LoggerInterface;
 
 class EventServiceProviderTest extends Unit
 {
@@ -58,6 +59,12 @@ class EventServiceProviderTest extends Unit
 
         $this->container->offsetSet('lock_factory', function () use ($self) {
             return $self->getMockBuilder(LockFactoryInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+        });
+
+        $this->container->offsetSet('logger', function () use ($self) {
+            return $self->getMockBuilder(LoggerInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });

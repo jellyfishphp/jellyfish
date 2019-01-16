@@ -9,6 +9,7 @@ use Jellyfish\Event\EventListenerInterface;
 use Jellyfish\Event\EventQueueConsumerInterface;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -53,6 +54,11 @@ class EventQueueConsumeCommandTest extends Unit
      * @var \Jellyfish\Lock\LockInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $lockMock;
+
+    /**
+     * @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $loggerMock;
 
     /**
      * @var \Jellyfish\Event\Command\EventQueueConsumeCommand
@@ -114,6 +120,10 @@ class EventQueueConsumeCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->loggerMock = $this->getMockBuilder(LoggerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->eventName = 'test';
         $this->listenerIdentifier = 'testListener';
 
@@ -123,7 +133,8 @@ class EventQueueConsumeCommandTest extends Unit
         $this->eventQueueConsumeCommand = new EventQueueConsumeCommand(
             $this->eventDispatcherMock,
             $this->eventQueueConsumerMock,
-            $this->lockFactoryMock
+            $this->lockFactoryMock,
+            $this->loggerMock
         );
     }
 
@@ -278,6 +289,59 @@ class EventQueueConsumeCommandTest extends Unit
         $this->eventListenerMock->expects($this->atLeastOnce())
             ->method('handle')
             ->with($this->eventMock);
+
+        $this->loggerMock->expects($this->never())
+            ->method('error');
+
+        $this->lockMock->expects($this->atLeastOnce())
+            ->method('release')
+            ->willReturn($this->lockMock);
+
+        $exitCode = $this->eventQueueConsumeCommand->run($this->inputMock, $this->outputMock);
+
+        $this->assertEquals(0, $exitCode);
+    }
+
+    /**
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function testRunWithHandlerException(): void
+    {
+        $exceptionMessage = 'Test exception';
+
+        $this->inputMock->expects($this->atLeastOnce())
+            ->method('getArgument')
+            ->withConsecutive(['eventName'], ['listenerIdentifier'])
+            ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
+
+        $this->lockFactoryMock->expects($this->atLeastOnce())
+            ->method('create')
+            ->with($this->lockIdentifier, 360.0)
+            ->willReturn($this->lockMock);
+
+        $this->lockMock->expects($this->atLeastOnce())
+            ->method('acquire')
+            ->willReturn(true);
+
+        $this->eventQueueConsumerMock->expects($this->atLeastOnce())
+            ->method('dequeueEvent')
+            ->with($this->eventName, $this->listenerIdentifier)
+            ->willReturn($this->eventMock);
+
+        $this->eventDispatcherMock->expects($this->atLeastOnce())
+            ->method('getListener')
+            ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
+            ->willReturn($this->eventListenerMock);
+
+        $this->eventListenerMock->expects($this->atLeastOnce())
+            ->method('handle')
+            ->willThrowException(new \Exception($exceptionMessage));
+
+        $this->loggerMock->expects($this->atLeastOnce())
+            ->method('error')
+            ->with($exceptionMessage);
 
         $this->lockMock->expects($this->atLeastOnce())
             ->method('release')
