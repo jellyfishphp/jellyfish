@@ -42,9 +42,11 @@ class LogServiceProviderTest extends Unit
 
         $self = $this;
 
-        $this->container['config'] = function ($container) use ($self) {
+        $this->container->offsetSet('root_dir', DIRECTORY_SEPARATOR);
+
+        $this->container->offsetSet('config', function () use ($self) {
             return $self->configMock;
-        };
+        });
 
         $this->logServiceProvider = new LogServiceProvider();
     }

@@ -69,28 +69,27 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * @param string $eventName
      * @param \Jellyfish\Event\EventInterface $event
      *
      * @return \Jellyfish\Event\EventDispatcherInterface
      */
-    public function dispatch(string $eventName, EventInterface $event): EventDispatcherInterface
+    public function dispatch(EventInterface $event): EventDispatcherInterface
     {
-        $this->dispatchSync($eventName, $event);
-        $this->dispatchAsync($eventName, $event);
+        $this->dispatchSync($event);
+        $this->dispatchAsync($event);
 
         return $this;
     }
 
     /**
-     * @param string $eventName
      * @param \Jellyfish\Event\EventInterface $event
      *
      * @return \Jellyfish\Event\EventDispatcherInterface
      */
-    protected function dispatchSync(string $eventName, EventInterface $event): EventDispatcherInterface
+    protected function dispatchSync(EventInterface $event): EventDispatcherInterface
     {
         $type = EventListenerInterface::TYPE_SYNC;
+        $eventName = $event->getName();
 
         if (!\array_key_exists($eventName, $this->listeners[$type])) {
             return $this;
@@ -105,14 +104,14 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * @param string $eventName
      * @param \Jellyfish\Event\EventInterface $event
      *
      * @return \Jellyfish\Event\EventDispatcherInterface
      */
-    protected function dispatchAsync(string $eventName, EventInterface $event): EventDispatcherInterface
+    protected function dispatchAsync(EventInterface $event): EventDispatcherInterface
     {
         $type = EventListenerInterface::TYPE_ASYNC;
+        $eventName = $event->getName();
 
         if (!\array_key_exists($eventName, $this->listeners[$type])) {
             return $this;

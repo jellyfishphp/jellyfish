@@ -21,12 +21,11 @@ interface EventDispatcherInterface
     public function removeListener(string $eventName, EventListenerInterface $listener): EventDispatcherInterface;
 
     /**
-     * @param string $eventName
      * @param \Jellyfish\Event\EventInterface $event
      *
      * @return \Jellyfish\Event\EventDispatcherInterface
      */
-    public function dispatch(string $eventName, EventInterface $event): EventDispatcherInterface;
+    public function dispatch(EventInterface $event): EventDispatcherInterface;
 
     /**
      * @param string|null $type

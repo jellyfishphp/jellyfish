@@ -2,7 +2,6 @@
 
 namespace Jellyfish\Scheduler;
 
-use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Scheduler\Command\RunSchedulerCommand;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -16,40 +15,42 @@ class SchedulerServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $self = $this;
+        $this->createScheduler($pimple);
+        $this->createCommands($pimple);
+    }
 
-        $pimple->offsetSet('scheduler', function () use ($self) {
-            return $self->createScheduler();
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Pimple\ServiceProviderInterface
+     */
+    protected function createScheduler(Container $container): ServiceProviderInterface
+    {
+        $container->offsetSet('scheduler', function () {
+            return new Scheduler();
         });
 
-        $pimple->extend('commands', function (array $commands, Container $container) use ($self) {
-            $commands[] = $self->createRunSchedulerCommand(
+        return $this;
+    }
+
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Pimple\ServiceProviderInterface
+     */
+    protected function createCommands(Container $container): ServiceProviderInterface
+    {
+        $container->extend('commands', function (array $commands, Container $container) {
+            $commands[] = new RunSchedulerCommand(
                 $container->offsetGet('scheduler'),
-                $container->offsetGet('lock_factory')
+                $container->offsetGet('lock_factory'),
+                $container->offsetGet('logger')
             );
 
             return $commands;
         });
-    }
 
-    /**
-     * @return \Jellyfish\Scheduler\SchedulerInterface
-     */
-    protected function createScheduler(): SchedulerInterface
-    {
-        return new Scheduler();
-    }
 
-    /**
-     * @param \Jellyfish\Scheduler\SchedulerInterface $scheduler
-     * @param \Jellyfish\Lock\LockFactoryInterface $lockFactory
-     *
-     * @return \Jellyfish\Scheduler\Command\RunSchedulerCommand
-     */
-    protected function createRunSchedulerCommand(
-        SchedulerInterface $scheduler,
-        LockFactoryInterface $lockFactory
-    ): RunSchedulerCommand {
-        return new RunSchedulerCommand($scheduler, $lockFactory);
+        return $this;
     }
 }

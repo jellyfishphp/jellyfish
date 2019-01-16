@@ -5,6 +5,7 @@ namespace Jellyfish\Scheduler\Command;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockTrait;
 use Jellyfish\Scheduler\SchedulerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,17 +23,25 @@ class RunSchedulerCommand extends Command
     protected $scheduler;
 
     /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * @param \Jellyfish\Scheduler\SchedulerInterface $scheduler
      * @param \Jellyfish\Lock\LockFactoryInterface $lockFactory
+     * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(
         SchedulerInterface $scheduler,
-        LockFactoryInterface $lockFactory
+        LockFactoryInterface $lockFactory,
+        LoggerInterface $logger
     ) {
         parent::__construct();
 
         $this->scheduler = $scheduler;
         $this->lockFactory = $lockFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -60,9 +69,13 @@ class RunSchedulerCommand extends Command
             return null;
         }
 
-        $this->scheduler->run();
-
-        $this->release();
+        try {
+            $this->scheduler->run();
+        } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
+        } finally {
+            $this->release();
+        }
 
         return null;
     }
