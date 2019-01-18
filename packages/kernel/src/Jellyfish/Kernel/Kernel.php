@@ -38,7 +38,7 @@ class Kernel implements KernelInterface
      */
     public function __construct(string $rootDir)
     {
-        $this->rootDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $this->rootDir = \rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $this->appDir = $this->rootDir . static::APP_DIRECTORY_NAME . DIRECTORY_SEPARATOR;
         $this->environment = $this->buildEnvironment();
         $this->container = $this->buildContainer();
@@ -51,7 +51,7 @@ class Kernel implements KernelInterface
      */
     protected function buildEnvironment(): string
     {
-        $environment = getenv('APPLICATION_ENV', true) ?: getenv('APPLICATION_ENV');
+        $environment = \getenv('APPLICATION_ENV', true) ?: \getenv('APPLICATION_ENV');
 
         if (!$environment) {
             throw new EnvVarNotSetException('Environment variable "APPLICATION_ENV" is not set.');
@@ -91,7 +91,7 @@ class Kernel implements KernelInterface
         $serviceProviders = new ArrayObject();
         $pathToServiceProvidersFile = $this->appDir . static::SERVICE_PROVIDERS_FILE_NAME;
 
-        if (file_exists($pathToServiceProvidersFile)) {
+        if (\file_exists($pathToServiceProvidersFile)) {
             include $pathToServiceProvidersFile;
         }
 

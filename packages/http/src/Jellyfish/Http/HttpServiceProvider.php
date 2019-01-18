@@ -25,15 +25,15 @@ class HttpServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $pimple->offsetSet('request', function ($container) use ($self) {
+        $pimple->offsetSet('request', function () use ($self) {
             return $self->createServerRequest();
         });
 
-        $pimple->offsetSet('router', function ($container) use ($self) {
+        $pimple->offsetSet('router', function () use ($self) {
             return $self->createRouter();
         });
 
-        $pimple->offsetSet('emitter', function ($container) use ($self) {
+        $pimple->offsetSet('emitter', function () use ($self) {
             return $self->createEmitter();
         });
     }

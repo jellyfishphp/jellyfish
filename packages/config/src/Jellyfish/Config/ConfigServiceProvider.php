@@ -16,7 +16,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $pimple->offsetSet('config', function ($container) use ($self) {
+        $pimple->offsetSet('config', function (Container $container) use ($self) {
             return $self->createConfig($container);
         });
     }

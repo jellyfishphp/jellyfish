@@ -125,7 +125,7 @@ class Config implements ConfigInterface
         $fileName = self::CONFIG_FILE_PREFIX . $configFile . self::CONFIG_FILE_SUFFIX;
         $pathToConfigFile = $this->appDir . $fileName;
 
-        if (file_exists($pathToConfigFile)) {
+        if (\file_exists($pathToConfigFile)) {
             include $pathToConfigFile;
         }
 

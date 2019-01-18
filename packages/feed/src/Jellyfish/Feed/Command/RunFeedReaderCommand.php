@@ -23,7 +23,7 @@ class RunFeedReaderCommand extends Command
      */
     public function __construct(FeedReaderManagerInterface $feedReaderManager)
     {
-        parent::__construct(null);
+        parent::__construct();
 
         $this->feedReaderManager = $feedReaderManager;
     }

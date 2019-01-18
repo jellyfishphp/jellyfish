@@ -100,6 +100,10 @@ class EventQueueProducerTest extends Unit
             ->with($eventName, $listenerIdentifier)
             ->willReturn($eventQueueName);
 
+        $this->eventMock->expects($this->atLeastOnce())
+            ->method('getName')
+            ->willReturn('test');
+
         $this->eventMapperMock->expects($this->atLeastOnce())
             ->method('toMessage')
             ->with($this->eventMock)
@@ -111,7 +115,7 @@ class EventQueueProducerTest extends Unit
 
         $this->assertEquals(
             $this->eventQueueProducer,
-            $this->eventQueueProducer->enqueueEvent($eventName, $this->eventMock, $this->eventListenerMock)
+            $this->eventQueueProducer->enqueueEvent($this->eventMock, $this->eventListenerMock)
         );
     }
 }

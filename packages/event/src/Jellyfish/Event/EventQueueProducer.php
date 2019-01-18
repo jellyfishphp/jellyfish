@@ -37,18 +37,16 @@ class EventQueueProducer implements EventQueueProducerInterface
     }
 
     /**
-     * @param string $eventName
      * @param \Jellyfish\Event\EventInterface $event
      * @param \Jellyfish\Event\EventListenerInterface $listener
      *
      * @return \Jellyfish\Event\EventQueueProducerInterface
      */
     public function enqueueEvent(
-        string $eventName,
         EventInterface $event,
         EventListenerInterface $listener
     ): EventQueueProducerInterface {
-        $eventQueueName = $this->eventQueueNameGenerator->generate($eventName, $listener->getIdentifier());
+        $eventQueueName = $this->eventQueueNameGenerator->generate($event->getName(), $listener->getIdentifier());
         $message = $this->eventMapper->toMessage($event);
 
         $this->queueClient->sendMessage($eventQueueName, $message);

@@ -15,11 +15,11 @@ class FeedServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $pimple->offsetSet('feed_reader_manager', function ($container) use ($self) {
+        $pimple->offsetSet('feed_reader_manager', function () use ($self) {
             return $self->createFeedReaderManager();
         });
 
-        $pimple->extend('commands', function ($commands, $container) use ($self) {
+        $pimple->extend('commands', function (array $commands, Container $container) use ($self) {
             $commands[] = $self->createRunFeedReaderCommand($container->offsetGet('feed_reader_manager'));
 
             return $commands;

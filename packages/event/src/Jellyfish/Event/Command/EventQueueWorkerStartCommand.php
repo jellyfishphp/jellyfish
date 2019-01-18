@@ -25,7 +25,7 @@ class EventQueueWorkerStartCommand extends Command
     public function __construct(
         EventQueueWorkerInterface $eventQueueWorker
     ) {
-        parent::__construct(null);
+        parent::__construct();
 
         $this->eventQueueWorker = $eventQueueWorker;
     }

@@ -47,7 +47,7 @@ class Serializer implements SerializerInterface
      */
     public function deserialize(string $data, string $type, string $format): object
     {
-        if (substr($type, -2) !== '[]') {
+        if (\substr($type, -2) !== '[]') {
             return $this->symfonySerializer->deserialize($data, $type, $format);
         }
 

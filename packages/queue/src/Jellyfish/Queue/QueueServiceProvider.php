@@ -2,9 +2,9 @@
 
 namespace Jellyfish\Queue;
 
+use Jellyfish\Serializer\SerializerInterface;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use \Jellyfish\Serializer\SerializerInterface;
 
 class QueueServiceProvider implements ServiceProviderInterface
 {

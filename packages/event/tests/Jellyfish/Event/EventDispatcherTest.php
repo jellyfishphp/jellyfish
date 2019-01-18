@@ -266,7 +266,7 @@ class EventDispatcherTest extends Unit
 
         $this->eventQueueProducerMock->expects($this->atLeastOnce())
             ->method('enqueueEvent')
-            ->with($this->eventName, $this->eventMock, $this->eventListenerMock);
+            ->with($this->eventMock, $this->eventListenerMock);
 
         $this->assertEquals(
             $this->eventDispatcher,

@@ -2,9 +2,9 @@
 
 namespace Jellyfish\QueueRabbitMq;
 
+use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\MessageMapperInterface;
 use Jellyfish\Queue\QueueClientInterface;
-use Jellyfish\Queue\MessageInterface;
 use PhpAmqpLib\Connection\AbstractConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 

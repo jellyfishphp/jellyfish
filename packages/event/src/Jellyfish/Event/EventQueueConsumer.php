@@ -57,7 +57,7 @@ class EventQueueConsumer implements EventQueueConsumerInterface
         $this->eventQueueNameGenerator = $eventQueueNameGenerator;
         $this->queueClient = $queueClient;
         $this->processList = [];
-        $this->pathToConsole = sprintf('%svendor/bin/console', $rootDir);
+        $this->pathToConsole = \sprintf('%svendor/bin/console', $rootDir);
     }
 
     /**

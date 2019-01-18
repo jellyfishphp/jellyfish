@@ -118,7 +118,7 @@ class EventDispatcher implements EventDispatcherInterface
         }
 
         foreach ($this->listeners[$type][$eventName] as $listener) {
-            $this->eventQueueProducer->enqueueEvent($eventName, $event, $listener);
+            $this->eventQueueProducer->enqueueEvent($event, $listener);
         }
 
         return $this;
