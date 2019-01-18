@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class RunSchedulerCommand extends Command
 {
@@ -71,7 +72,7 @@ class RunSchedulerCommand extends Command
 
         try {
             $this->scheduler->run();
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             $this->logger->error($e->getMessage());
         } finally {
             $this->release();

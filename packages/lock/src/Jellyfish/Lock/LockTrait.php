@@ -58,8 +58,8 @@ trait LockTrait
      */
     private function createIdentifier(array $values): string
     {
-        $value = implode(' ', $values);
+        $value = \implode(' ', $values);
 
-        return sha1($value);
+        return \sha1($value);
     }
 }

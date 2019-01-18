@@ -4,7 +4,7 @@ namespace Jellyfish\SerializerSymfony;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
@@ -48,7 +48,7 @@ class SerializerSymfonyServiceProvider implements ServiceProviderInterface
     protected function createSymfonySerializer(): SymfonySerializerInterface
     {
         $normalizer = [
-            new ObjectNormalizer(null, null, null, new ReflectionExtractor()),
+            new ObjectNormalizer(null, null, null, new PhpDocExtractor()),
             new ArrayDenormalizer()
         ];
 
