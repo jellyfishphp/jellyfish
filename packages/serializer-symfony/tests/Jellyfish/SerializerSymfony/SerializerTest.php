@@ -44,7 +44,7 @@ class SerializerTest extends Unit
 
         $this->symfonySerializerMock->expects($this->atLeastOnce())
             ->method('serialize')
-            ->with([$arrayObjectItem], 'json')
+            ->with([$arrayObjectItem], 'json', ['skip_null_values' => true])
             ->willReturn($expectedJson);
 
         $this->assertEquals($expectedJson, $this->serializer->serialize($objectToSerialize, 'json'));
@@ -60,7 +60,7 @@ class SerializerTest extends Unit
 
         $this->symfonySerializerMock->expects($this->atLeastOnce())
             ->method('serialize')
-            ->with($objectToSerialize, 'json')
+            ->with($objectToSerialize, 'json', ['skip_null_values' => true])
             ->willReturn($expectedJson);
 
         $this->assertEquals($expectedJson, $this->serializer->serialize($objectToSerialize, 'json'));
