@@ -30,12 +30,16 @@ class Serializer implements SerializerInterface
     public function serialize(object $data, string $format): string
     {
         if (!($data instanceof ArrayObject)) {
-            return $this->symfonySerializer->serialize($data, $format);
+            return $this->symfonySerializer->serialize($data, $format, [
+                'skip_null_values' => true
+            ]);
         }
 
         $dataAsArray = $data->getArrayCopy();
 
-        return $this->symfonySerializer->serialize($dataAsArray, $format);
+        return $this->symfonySerializer->serialize($dataAsArray, $format, [
+            'skip_null_values' => true
+        ]);
     }
 
     /**
