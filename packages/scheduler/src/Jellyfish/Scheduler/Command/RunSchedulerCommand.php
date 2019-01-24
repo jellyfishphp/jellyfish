@@ -64,9 +64,9 @@ class RunSchedulerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $lockIdentifier = $this->createIdentifier([static::NAME]);
+        $lockIdentifierParts = [static::NAME];
 
-        if (!$this->acquire($lockIdentifier)) {
+        if (!$this->acquire($lockIdentifierParts)) {
             return null;
         }
 

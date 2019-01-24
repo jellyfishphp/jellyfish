@@ -3,6 +3,7 @@
 namespace Jellyfish\LockSymfony;
 
 use Codeception\Test\Unit;
+use Jellyfish\Lock\LockIdentifierGeneratorInterface;
 use Symfony\Component\Lock\Factory as SymfonyLockFactory;
 use Symfony\Component\Lock\LockInterface as SymfonyLockInterface;
 
@@ -24,6 +25,11 @@ class LockFactoryTest extends Unit
     protected $symfonyLockMock;
 
     /**
+     * @var \Jellyfish\Lock\LockIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $lockIdentifierGeneratorMock;
+
+    /**
      * @return void
      */
     protected function _before(): void
@@ -38,7 +44,14 @@ class LockFactoryTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->lockFactory = new LockFactory($this->symfonyLockFactoryMock);
+        $this->lockIdentifierGeneratorMock = $this->getMockBuilder(LockIdentifierGeneratorInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->lockFactory = new LockFactory(
+            $this->symfonyLockFactoryMock,
+            $this->lockIdentifierGeneratorMock
+        );
     }
 
     /**
@@ -46,13 +59,21 @@ class LockFactoryTest extends Unit
      */
     public function testCreate(): void
     {
-        $lockIdentifier = \sha1('test1 test2');
+        $lockIdentifierParts = ['x', 'y'];
+        $lockIdentifierWithoutPrefix = \sha1(\implode(' ', $lockIdentifierParts));
+        $lockIdentifier = \sprintf('%s:%s', 'lock', $lockIdentifierWithoutPrefix);
+
+
+        $this->lockIdentifierGeneratorMock->expects($this->atLeastOnce())
+            ->method('generate')
+            ->with($lockIdentifierParts)
+            ->willReturn($lockIdentifier);
 
         $this->symfonyLockFactoryMock->expects($this->atLeastOnce())
             ->method('createLock')
             ->with($lockIdentifier, 360.0)
             ->willReturn($this->symfonyLockMock);
 
-        $this->assertInstanceOf(Lock::class, $this->lockFactory->create($lockIdentifier, 360.0));
+        $this->assertInstanceOf(Lock::class, $this->lockFactory->create($lockIdentifierParts, 360.0));
     }
 }
