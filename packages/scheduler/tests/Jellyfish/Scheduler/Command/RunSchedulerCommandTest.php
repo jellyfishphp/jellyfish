@@ -48,9 +48,9 @@ class RunSchedulerCommandTest extends Unit
     protected $runSchedulerCommand;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $lockIdentifier;
+    protected $lockIdentifierParts;
 
     /**
      * @return void
@@ -83,9 +83,7 @@ class RunSchedulerCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-
-        $lockIdentifierParts = [RunSchedulerCommand::NAME];
-        $this->lockIdentifier = \sha1(\implode(' ', $lockIdentifierParts));
+        $this->lockIdentifierParts = [RunSchedulerCommand::NAME];
 
         $this->runSchedulerCommand = new RunSchedulerCommand(
             $this->schedulerMock,
@@ -119,7 +117,7 @@ class RunSchedulerCommandTest extends Unit
     {
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
-            ->with($this->lockIdentifier, 360.0)
+            ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
         $this->lockMock->expects($this->atLeastOnce())
@@ -150,7 +148,7 @@ class RunSchedulerCommandTest extends Unit
     {
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
-            ->with($this->lockIdentifier, 360.0)
+            ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
         $this->lockMock->expects($this->atLeastOnce())
@@ -183,7 +181,7 @@ class RunSchedulerCommandTest extends Unit
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
-            ->with($this->lockIdentifier, 360.0)
+            ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
         $this->lockMock->expects($this->atLeastOnce())

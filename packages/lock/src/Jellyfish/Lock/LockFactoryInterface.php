@@ -5,10 +5,10 @@ namespace Jellyfish\Lock;
 interface LockFactoryInterface
 {
     /**
-     * @param string $identifier
+     * @param array $identifierParts
      * @param float $ttl
      *
      * @return \Jellyfish\Lock\LockInterface
      */
-    public function create(string $identifier, float $ttl): LockInterface;
+    public function create(array $identifierParts, float $ttl): LockInterface;
 }

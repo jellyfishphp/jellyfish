@@ -76,9 +76,9 @@ class EventQueueConsumeCommandTest extends Unit
     protected $listenerIdentifier;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $lockIdentifier;
+    protected $lockIdentifierParts;
 
     /**
      * @return void
@@ -126,9 +126,7 @@ class EventQueueConsumeCommandTest extends Unit
 
         $this->eventName = 'test';
         $this->listenerIdentifier = 'testListener';
-
-        $lockIdentifierParts = [EventQueueConsumeCommand::NAME, $this->eventName, $this->listenerIdentifier];
-        $this->lockIdentifier = \sha1(\implode(' ', $lockIdentifierParts));
+        $this->lockIdentifierParts = [EventQueueConsumeCommand::NAME, $this->eventName, $this->listenerIdentifier];
 
         $this->eventQueueConsumeCommand = new EventQueueConsumeCommand(
             $this->eventDispatcherMock,
@@ -168,7 +166,7 @@ class EventQueueConsumeCommandTest extends Unit
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
-            ->with($this->lockIdentifier, 360.0)
+            ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
         $this->lockMock->expects($this->atLeastOnce())
@@ -194,7 +192,7 @@ class EventQueueConsumeCommandTest extends Unit
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
-            ->with($this->lockIdentifier, 360.0)
+            ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
         $this->lockMock->expects($this->atLeastOnce())
@@ -229,7 +227,7 @@ class EventQueueConsumeCommandTest extends Unit
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
-            ->with($this->lockIdentifier, 360.0)
+            ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
         $this->lockMock->expects($this->atLeastOnce())
@@ -269,7 +267,7 @@ class EventQueueConsumeCommandTest extends Unit
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
-            ->with($this->lockIdentifier, 360.0)
+            ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
         $this->lockMock->expects($this->atLeastOnce())
@@ -318,7 +316,7 @@ class EventQueueConsumeCommandTest extends Unit
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
-            ->with($this->lockIdentifier, 360.0)
+            ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
         $this->lockMock->expects($this->atLeastOnce())
