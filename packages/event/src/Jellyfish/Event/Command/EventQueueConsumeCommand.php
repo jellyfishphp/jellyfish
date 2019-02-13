@@ -12,6 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class EventQueueConsumeCommand extends Command
 {
@@ -79,9 +80,9 @@ class EventQueueConsumeCommand extends Command
     {
         $eventName = (string) $input->getArgument('eventName');
         $listenerIdentifier = (string) $input->getArgument('listenerIdentifier');
-        $lockIdentifier = $this->createIdentifier([static::NAME, $eventName, $listenerIdentifier]);
+        $lockIdentifierParts = [static::NAME, $eventName, $listenerIdentifier];
 
-        if (!$this->acquire($lockIdentifier)) {
+        if (!$this->acquire($lockIdentifierParts)) {
             return null;
         }
 
@@ -89,7 +90,7 @@ class EventQueueConsumeCommand extends Command
 
         try {
             $result = $this->executeLockablePart($eventName, $listenerIdentifier);
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             $this->logger->error($e->getMessage());
         } finally {
             $this->release();

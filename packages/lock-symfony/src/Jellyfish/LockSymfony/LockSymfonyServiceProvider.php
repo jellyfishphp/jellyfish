@@ -2,6 +2,7 @@
 
 namespace Jellyfish\LockSymfony;
 
+use Jellyfish\Lock\LockIdentifierGeneratorInterface;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Predis\Client;
@@ -31,7 +32,10 @@ class LockSymfonyServiceProvider implements ServiceProviderInterface
         $self = $this;
 
         $container->offsetSet('lock_factory', function (Container $container) use ($self) {
-            return new LockFactory($self->createSymfonyLockFactory($container));
+            return new LockFactory(
+                $self->createSymfonyLockFactory($container),
+                $self->createLockIdentifierGenerator()
+            );
         });
 
         return $this;
@@ -75,5 +79,13 @@ class LockSymfonyServiceProvider implements ServiceProviderInterface
             'port' => $config->get(LockConstants::REDIS_STORE_PORT, LockConstants::DEFAULT_REDIS_STORE_PORT),
             'database' => $config->get(LockConstants::REDIS_STORE_DB, LockConstants::DEFAULT_REDIS_STORE_DB),
         ]);
+    }
+
+    /**
+     * @return \Jellyfish\Lock\LockIdentifierGeneratorInterface
+     */
+    protected function createLockIdentifierGenerator(): LockIdentifierGeneratorInterface
+    {
+        return new LockIdentifierGenerator();
     }
 }

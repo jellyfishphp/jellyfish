@@ -15,18 +15,18 @@ trait LockTrait
     private $lock;
 
     /**
-     * @param string $identifier
+     * @param array $identifierParts
      * @param float $ttl
      *
      * @return bool
      */
-    private function acquire(string $identifier, float $ttl = 360.0): bool
+    private function acquire(array $identifierParts, float $ttl = 360.0): bool
     {
         if ($this->lockFactory === null) {
             return true;
         }
 
-        $this->lock = $this->lockFactory->create($identifier, $ttl);
+        $this->lock = $this->lockFactory->create($identifierParts, $ttl);
 
         if (!$this->lock->acquire()) {
             $this->lock = null;
@@ -49,17 +49,5 @@ trait LockTrait
         $this->lock = null;
 
         return $this;
-    }
-
-    /**
-     * @param array $values
-     *
-     * @return string
-     */
-    private function createIdentifier(array $values): string
-    {
-        $value = \implode(' ', $values);
-
-        return \sha1($value);
     }
 }

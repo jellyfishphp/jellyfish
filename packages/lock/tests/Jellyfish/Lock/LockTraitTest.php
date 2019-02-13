@@ -44,21 +44,9 @@ class LockTraitTest extends Unit
     /**
      * @return void
      */
-    public function testCreateIdentifier(): void
-    {
-        $expectedResult = \sha1(\implode(' ', $this->identifierParts));
-
-        $this->assertEquals($expectedResult, $this->createIdentifier($this->identifierParts));
-    }
-
-    /**
-     * @return void
-     */
     public function testAcquireAndReleaseWithNullLockFactory(): void
     {
-        $lockIdentifier = $this->createIdentifier($this->identifierParts);
-
-        $this->assertTrue($this->acquire($lockIdentifier));
+        $this->assertTrue($this->acquire($this->identifierParts));
         $this->assertEquals($this, $this->release());
     }
 
@@ -67,12 +55,10 @@ class LockTraitTest extends Unit
      */
     public function testAcquireAndReleaseWithLockFactory(): void
     {
-        $lockIdentifier = $this->createIdentifier($this->identifierParts);
-
         $this->lockFactory = $this->lockFactoryMock;
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
-            ->with($lockIdentifier)
+            ->with($this->identifierParts)
             ->willReturn($this->lockMock);
 
 
@@ -84,7 +70,7 @@ class LockTraitTest extends Unit
             ->method('release')
             ->willReturn($this->lockMock);
 
-        $this->assertTrue($this->acquire($lockIdentifier));
+        $this->assertTrue($this->acquire($this->identifierParts));
         $this->assertEquals($this, $this->release());
     }
 
@@ -93,12 +79,10 @@ class LockTraitTest extends Unit
      */
     public function testAcquireWithLockFactoryAndLockedStatus(): void
     {
-        $lockIdentifier = $this->createIdentifier($this->identifierParts);
-
         $this->lockFactory = $this->lockFactoryMock;
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
-            ->with($lockIdentifier)
+            ->with($this->identifierParts)
             ->willReturn($this->lockMock);
 
 
@@ -106,6 +90,6 @@ class LockTraitTest extends Unit
             ->method('acquire')
             ->willReturn(false);
 
-        $this->assertFalse($this->acquire($lockIdentifier));
+        $this->assertFalse($this->acquire($this->identifierParts));
     }
 }
