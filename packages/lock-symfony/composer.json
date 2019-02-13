@@ -10,6 +10,7 @@
   ],
   "require": {
     "jellyfish/pimple": "dev-master",
+    "jellyfish/predis": "dev-master",
     "jellyfish/lock": "dev-master",
     "symfony/lock": "~4.2.2"
   },
