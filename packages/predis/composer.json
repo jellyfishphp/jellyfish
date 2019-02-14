@@ -1,0 +1,14 @@
+{
+  "name": "jellyfish/guzzle",
+  "description": "Jellyfish predis bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Rose",
+      "email": "daniel-rose@gmx.de"
+    }
+  ],
+  "require": {
+    "predis/predis": "~1.1.1"
+  }
+}

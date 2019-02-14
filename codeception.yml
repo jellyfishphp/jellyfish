@@ -15,7 +15,6 @@ include:
   - packages/queue/
   - packages/queue-rabbit-mq/
   - packages/queue-sqs/
-  - packages/redis/
   - packages/scheduler/
   - packages/serializer/
   - packages/serializer-symfony/
