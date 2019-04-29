@@ -1,0 +1,8 @@
+    {# Getter #}
+    /**
+    * @return {% if not property.isPrimitive() %}\{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}\{% if property.getTypeNamespace() is defined %}{{ property.getTypeNamespace() }}\{% endif %}{% endif %}{{ property.getType() }}{% if property.isArray() %}[]{% endif %}{% if property.isNullable() %}|null{% endif %}
+    */
+    public function get{{ property.getName() | capitalize }}(): {% if property.isNullable() %}?{% endif %}{% if property.isArray() %}array{% else %}{{ property.getType() }}{% endif %}
+    {
+        return $this->{{ property.getName() }};
+    }

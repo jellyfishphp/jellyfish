@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="jellyfish" default="build">
+<project name="jellyfish-filesystem-symfony" default="build">
     <target name="codeception">
         <exec executable="vendor/bin/codecept">
             <arg value="run"/>
@@ -19,21 +19,19 @@
             <arg value="design,cleancode,codesize"/>
             <arg value="--exclude"/>
             <arg value="*Test.php"/>
-            <arg value="--exclude"/>
-            <arg value="TransferServiceProvider.php"/>
         </exec>
     </target>
 
     <target name="phpcs">
         <exec executable="vendor/bin/phpcs">
             <arg value="--standard=PSR12"/>
-            <arg path="packages/*/src/"/>
+            <arg path="src/"/>
         </exec>
     </target>
 
     <target name="phpcpd">
         <exec executable="vendor/bin/phpcpd">
-            <arg path="packages/*/src/"/>
+            <arg path="src/"/>
         </exec>
     </target>
 
@@ -42,7 +40,7 @@
             <arg value="analyse"/>
             <arg value="--level"/>
             <arg value="7"/>
-            <arg path="packages/*/src/"/>
+            <arg path="src/"/>
         </exec>
     </target>
 

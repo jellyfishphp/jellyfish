@@ -1,0 +1,12 @@
+    {# Setter #}
+    /**
+     * @param {% if not property.isPrimitive() %}\{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}\{% if property.getTypeNamespace() is defined %}{{ property.getTypeNamespace() }}\{% endif %}{% endif %}{{ property.getType() }}{% if property.isArray() %}[]{% endif %}{% if property.isNullable() %}|null{% endif %} ${{ property.getName() }}
+     *
+     * @return \{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}\{% if classDefinition.getNamespace() is defined %}{{ classDefinition.getNamespace() }}\{% endif %}{{ classDefinition.getName() }}
+     */
+    public function set{{ property.getName() | capitalize }}({% if property.isNullable() %}?{% endif %}{% if property.isArray() %}array{% else %}{{ property.getType() }}{% endif %} ${{ property.getName() }}): {{ classDefinition.getName() }}
+    {
+        $this->{{ property.getName() }} = ${{ property.getName() }};
+
+        return $this;
+    }

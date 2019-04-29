@@ -3,6 +3,10 @@ include:
   - packages/config/
   - packages/event/
   - packages/feed/
+  - packages/finder/
+  - packages/finder-symfony/
+  - packages/filesystem/
+  - packages/filesystem-symfony/
   - packages/http/
   - packages/json-schema/
   - packages/json-schema-opis/
@@ -19,6 +23,7 @@ include:
   - packages/scheduler/
   - packages/serializer/
   - packages/serializer-symfony/
+  - packages/transfer/
 
 settings:
   shuffle: true
