@@ -1,49 +1,15 @@
 <?php
 
-namespace Jellyfish\Transfer\ClassGenerator;
+namespace Jellyfish\Transfer\Generator;
 
-use Jellyfish\Filesystem\FilesystemInterface;
 use Jellyfish\Transfer\Definition\ClassDefinitionInterface;
-use Twig\Environment;
 
-abstract class AbstractClassGenerator implements ClassGeneratorInterface
+abstract class AbstractClassGenerator extends AbstractGenerator implements ClassGeneratorInterface
 {
-    protected const FILE_EXTENSION = '.php';
-
-    /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface
-     */
-    protected $filesystem;
-
-    /**
-     * @var \Twig\Environment
-     */
-    protected $twig;
-
-    /**
-     * @var string
-     */
-    protected $targetDirectory;
-
-    /**
-     * @param \Jellyfish\Filesystem\FilesystemInterface $filesystem
-     * @param \Twig\Environment $twig
-     * @param string $targetDirectory
-     */
-    public function __construct(
-        FilesystemInterface $filesystem,
-        Environment $twig,
-        string $targetDirectory
-    ) {
-        $this->twig = $twig;
-        $this->targetDirectory = $targetDirectory;
-        $this->filesystem = $filesystem;
-    }
-
     /**
      * @param \Jellyfish\Transfer\Definition\ClassDefinitionInterface $classDefinition
      *
-     * @return \Jellyfish\Transfer\ClassGenerator\ClassGeneratorInterface
+     * @return \Jellyfish\Transfer\Generator\ClassGeneratorInterface
      *
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -87,26 +53,5 @@ abstract class AbstractClassGenerator implements ClassGeneratorInterface
         $namespaceParts = \explode('\\', $namespace);
 
         return $this->targetDirectory . \implode(DIRECTORY_SEPARATOR, $namespaceParts) . DIRECTORY_SEPARATOR;
-    }
-
-    /**
-     * @return string
-     */
-    abstract protected function getTemplateName(): string;
-
-    /**
-     * @param string $path
-     *
-     * @return \Jellyfish\Transfer\ClassGenerator\ClassGeneratorInterface
-     */
-    protected function createDirectories(string $path): ClassGeneratorInterface
-    {
-        if ($this->filesystem->exists($path)) {
-            return $this;
-        }
-
-        $this->filesystem->mkdir($path, 0775);
-
-        return $this;
     }
 }

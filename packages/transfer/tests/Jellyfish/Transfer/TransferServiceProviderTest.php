@@ -7,8 +7,10 @@ use Jellyfish\Filesystem\FilesystemInterface;
 use Jellyfish\Finder\FinderFactoryInterface;
 use Jellyfish\Serializer\SerializerInterface;
 use Jellyfish\Transfer\Command\TransferGenerateCommand;
+use org\bovigo\vfs\vfsStream;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
+use stdClass;
 
 class TransferServiceProviderTest extends Unit
 {
@@ -29,13 +31,23 @@ class TransferServiceProviderTest extends Unit
     {
         parent::_before();
 
+        $rootDir = vfsStream::setup('root', null, [
+            'src' => [
+                'Generated' => [
+                    'Transfer' => [
+                        'factory-registry.php' => file_get_contents(codecept_data_dir('factory-registry.php'))
+                    ]
+                ]
+            ]
+        ])->url();
+
+        $rootDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
         $self = $this;
 
         $this->container = new Container();
 
-        $this->container->offsetSet('root_dir', function () {
-            return DIRECTORY_SEPARATOR;
-        });
+        $this->container->offsetSet('root_dir', $rootDir);
 
         $this->container->offsetSet('commands', function () {
             return [];
@@ -81,5 +93,11 @@ class TransferServiceProviderTest extends Unit
 
         $this->assertCount(1, $commands);
         $this->assertInstanceOf(TransferGenerateCommand::class, $commands[0]);
+
+        $this->assertTrue($this->container->offsetExists('generated_transfer_test_factory'));
+
+        $testFactory = $this->container->offsetGet('generated_transfer_test_factory');
+
+        $this->assertInstanceOf(stdClass::class, $testFactory);
     }
 }

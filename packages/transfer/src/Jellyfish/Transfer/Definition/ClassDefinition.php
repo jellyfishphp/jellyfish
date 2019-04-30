@@ -6,7 +6,7 @@ class ClassDefinition implements ClassDefinitionInterface
 {
     public const NAMESPACE_PREFIX = 'Generated\\Transfer';
     public const NAMESPACE_SEPARATOR = '\\';
-    public const FACTORY_NAME_SUFFIX = 'TransferFactory';
+    public const FACTORY_NAME_SUFFIX = 'Factory';
 
     /**
      * @var string
@@ -22,6 +22,25 @@ class ClassDefinition implements ClassDefinitionInterface
      * @var \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface[]
      */
     protected $properties;
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        $pattern = '/(?<=\\w)(?=[A-Z])/';
+        $replacement = '_$1';
+        $id = \str_replace('\\', '', static::NAMESPACE_PREFIX);
+
+        if ($this->namespace !== null) {
+            $id .= $this->namespace;
+        }
+
+        $id .= $this->name;
+        $id = \preg_replace($pattern, $replacement, $id);
+
+        return \strtolower($id);
+    }
 
     /**
      * @return string

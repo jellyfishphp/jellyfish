@@ -2,8 +2,9 @@
 
 namespace Jellyfish\Transfer;
 
-use Jellyfish\Transfer\ClassGenerator\ClassGenerator;
-use Jellyfish\Transfer\ClassGenerator\FactoryClassGenerator;
+use ArrayObject;
+use Jellyfish\Transfer\Generator\ClassGenerator;
+use Jellyfish\Transfer\Generator\FactoryClassGenerator;
 use Jellyfish\Transfer\Command\TransferGenerateCommand;
 use Jellyfish\Transfer\Definition\ClassDefinitionMapLoader;
 use Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface;
@@ -28,6 +29,7 @@ class TransferServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple): void
     {
         $this->registerCommands($pimple);
+        $this->registerFactories($pimple);
     }
 
     /**
@@ -170,5 +172,28 @@ class TransferServiceProvider implements ServiceProviderInterface
             $container->offsetGet('filesystem'),
             $targetDirectory
         );
+    }
+
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Pimple\ServiceProviderInterface
+     */
+    protected function registerFactories(Container $container): ServiceProviderInterface
+    {
+        $pathToFactoryRegistry = $this->getTargetDirectory($container) . 'factory-registry.php';
+        $factoryRegistry = new ArrayObject();
+
+        if (\file_exists($pathToFactoryRegistry)) {
+            include $pathToFactoryRegistry;
+        }
+
+        foreach ($factoryRegistry as $factoryId => $factory) {
+            $container->offsetSet($factoryId, function () use ($factory) {
+                return $factory;
+            });
+        }
+
+        return $this;
     }
 }

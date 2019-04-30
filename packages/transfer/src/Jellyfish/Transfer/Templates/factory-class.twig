@@ -1,6 +1,6 @@
 <?php
 
-namespace {{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}{% if classDefinition.getNamespace() is defined %}\{{ classDefinition.getNamespace() }};{% endif %}
+namespace {{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}{% if classDefinition.getNamespace() is defined %}\{{ classDefinition.getNamespace() }}{% endif %};
 
 class {{ classDefinition.getName() }}{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::FACTORY_NAME_SUFFIX') }}
 {

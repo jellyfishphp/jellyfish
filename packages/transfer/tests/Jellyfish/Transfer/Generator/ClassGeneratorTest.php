@@ -1,18 +1,23 @@
 <?php
 
-namespace Jellyfish\Transfer\ClassGenerator;
+namespace Jellyfish\Transfer\Generator;
 
 use Codeception\Test\Unit;
 use Jellyfish\Filesystem\FilesystemInterface;
 use Jellyfish\Transfer\Definition\ClassDefinitionInterface;
 use Twig\Environment;
 
-class FactoryClassGeneratorTest extends Unit
+class ClassGeneratorTest extends Unit
 {
     /**
      * @var string
      */
     protected $targetDirectory;
+
+    /**
+     * @var \Jellyfish\Transfer\Generator\ClassGenerator
+     */
+    protected $classGenerator;
 
     /**
      * @var \Jellyfish\Filesystem\FilesystemInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -28,11 +33,6 @@ class FactoryClassGeneratorTest extends Unit
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $classDefinitionMock;
-
-    /**
-     * @var \Jellyfish\Transfer\ClassGenerator\FactoryClassGenerator
-     */
-    protected $factoryClassGenerator;
 
     /**
      * @return void
@@ -55,7 +55,7 @@ class FactoryClassGeneratorTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->factoryClassGenerator = new FactoryClassGenerator(
+        $this->classGenerator = new ClassGenerator(
             $this->filesystemMock,
             $this->twigEnvironmentMock,
             $this->targetDirectory
@@ -79,8 +79,8 @@ class FactoryClassGeneratorTest extends Unit
 
         $this->twigEnvironmentMock->expects($this->atLeastOnce())
             ->method('render')
-            ->with('factory-class.twig', ['classDefinition' => $this->classDefinitionMock])
-            ->willReturn('<?php');
+            ->with('class.twig', ['classDefinition' => $this->classDefinitionMock])
+            ->willReturn('use ...');
 
         $this->filesystemMock->expects($this->atLeastOnce())
             ->method('exists')
@@ -92,9 +92,12 @@ class FactoryClassGeneratorTest extends Unit
 
         $this->filesystemMock->expects($this->atLeastOnce())
             ->method('writeToFile')
-            ->with($this->targetDirectory . 'Catalog/ProductTransferFactory.php', '<?php');
+            ->with($this->targetDirectory . 'Catalog/Product.php', 'use ...');
 
-        $this->factoryClassGenerator->generate($this->classDefinitionMock);
+        $this->assertEquals(
+            $this->classGenerator,
+            $this->classGenerator->generate($this->classDefinitionMock)
+        );
     }
 
     /**
@@ -114,8 +117,8 @@ class FactoryClassGeneratorTest extends Unit
 
         $this->twigEnvironmentMock->expects($this->atLeastOnce())
             ->method('render')
-            ->with('factory-class.twig', ['classDefinition' => $this->classDefinitionMock])
-            ->willReturn('<?php');
+            ->with('class.twig', ['classDefinition' => $this->classDefinitionMock])
+            ->willReturn('use ...');
 
         $this->filesystemMock->expects($this->atLeastOnce())
             ->method('exists')
@@ -127,9 +130,12 @@ class FactoryClassGeneratorTest extends Unit
 
         $this->filesystemMock->expects($this->atLeastOnce())
             ->method('writeToFile')
-            ->with($this->targetDirectory . 'ProductTransferFactory.php', '<?php');
+            ->with($this->targetDirectory . 'Product.php', 'use ...');
 
-        $this->factoryClassGenerator->generate($this->classDefinitionMock);
+        $this->assertEquals(
+            $this->classGenerator,
+            $this->classGenerator->generate($this->classDefinitionMock)
+        );
     }
 
     /**
@@ -149,8 +155,8 @@ class FactoryClassGeneratorTest extends Unit
 
         $this->twigEnvironmentMock->expects($this->atLeastOnce())
             ->method('render')
-            ->with('factory-class.twig', ['classDefinition' => $this->classDefinitionMock])
-            ->willReturn('<?php');
+            ->with('class.twig', ['classDefinition' => $this->classDefinitionMock])
+            ->willReturn('use ...');
 
         $this->filesystemMock->expects($this->atLeastOnce())
             ->method('exists')
@@ -162,8 +168,11 @@ class FactoryClassGeneratorTest extends Unit
 
         $this->filesystemMock->expects($this->atLeastOnce())
             ->method('writeToFile')
-            ->with($this->targetDirectory . 'ProductTransferFactory.php', '<?php');
+            ->with($this->targetDirectory . 'Product.php', 'use ...');
 
-        $this->factoryClassGenerator->generate($this->classDefinitionMock);
+        $this->assertEquals(
+            $this->classGenerator,
+            $this->classGenerator->generate($this->classDefinitionMock)
+        );
     }
 }

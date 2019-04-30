@@ -1,6 +1,6 @@
 <?php
 
-namespace Jellyfish\Transfer\ClassGenerator;
+namespace Jellyfish\Transfer\Generator;
 
 use Jellyfish\Transfer\Definition\ClassDefinition;
 use Jellyfish\Transfer\Definition\ClassDefinitionInterface;

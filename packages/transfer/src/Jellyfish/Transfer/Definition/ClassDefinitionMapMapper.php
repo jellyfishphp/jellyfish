@@ -30,21 +30,36 @@ class ClassDefinitionMapMapper implements ClassDefinitionMapMapperInterface
      */
     public function from(string $data): array
     {
-        /** @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface[] $jsonClassDefinitions */
-        $jsonClassDefinitions = $this->serializer->deserialize($data, static::TYPE, static::FORMAT);
-        $jsonClassDefinitionMap = [];
+        /** @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface[] $classDefinitions */
+        $classDefinitions = $this->serializer->deserialize($data, static::TYPE, static::FORMAT);
+        $classDefinitionMap = [];
 
-        foreach ($jsonClassDefinitions as $jsonClassDefinition) {
-            $jsonClassDefinitionMap[$jsonClassDefinition->getName()] = $jsonClassDefinition;
-            $jsonClassPropertyDefinitionMap = [];
+        foreach ($classDefinitions as $classDefinition) {
+            $classDefinitionMapKey = $this->generateClassDefinitionMapKey($classDefinition);
+            $classDefinitionMap[$classDefinitionMapKey] = $classDefinition;
+            $classPropertyDefinitionMap = [];
 
-            foreach ($jsonClassDefinition->getProperties() as $jsonClassPropertyDefinition) {
-                $jsonClassPropertyDefinitionMap[$jsonClassPropertyDefinition->getName()] = $jsonClassPropertyDefinition;
+            foreach ($classDefinition->getProperties() as $classPropertyDefinition) {
+                $classPropertyDefinitionMap[$classPropertyDefinition->getName()] = $classPropertyDefinition;
             }
 
-            $jsonClassDefinition->setProperties($jsonClassPropertyDefinitionMap);
+            $classDefinition->setProperties($classPropertyDefinitionMap);
         }
 
-        return $jsonClassDefinitionMap;
+        return $classDefinitionMap;
+    }
+
+    /**
+     * @param \Jellyfish\Transfer\Definition\ClassDefinitionInterface $classDefinition
+     *
+     * @return string
+     */
+    protected function generateClassDefinitionMapKey(ClassDefinitionInterface $classDefinition): string
+    {
+        if ($classDefinition->getNamespace() === null) {
+            return $classDefinition->getName();
+        }
+
+        return \sprintf('%s\\%s', $classDefinition->getNamespace(), $classDefinition->getName());
     }
 }

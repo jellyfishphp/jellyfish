@@ -3,7 +3,7 @@
 namespace Jellyfish\Transfer;
 
 use Codeception\Test\Unit;
-use Jellyfish\Transfer\ClassGenerator\ClassGeneratorInterface;
+use Jellyfish\Transfer\Generator\ClassGeneratorInterface;
 use Jellyfish\Transfer\Definition\ClassDefinitionInterface;
 use Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface;
 
@@ -20,7 +20,7 @@ class TransferGeneratorTest extends Unit
     protected $classDefinitionMapLoaderMock;
 
     /**
-     * @var \Jellyfish\Transfer\ClassGenerator\ClassGeneratorInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
+     * @var \Jellyfish\Transfer\Generator\ClassGeneratorInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
      */
     protected $classGeneratorMocks;
 

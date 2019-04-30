@@ -24,6 +24,27 @@ class ClassDefinitionTest extends Unit
     /**
      * @return void
      */
+    public function testGetIdWithoutNamespace(): void
+    {
+        $this->classDefinition->setName('Product');
+
+        $this->assertEquals('generated_transfer_product', $this->classDefinition->getId());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetId(): void
+    {
+        $this->classDefinition->setName('Product')
+            ->setNamespace('Catalog');
+
+        $this->assertEquals('generated_transfer_catalog_product', $this->classDefinition->getId());
+    }
+
+    /**
+     * @return void
+     */
     public function testSetAndGetName(): void
     {
         $name = 'Product';

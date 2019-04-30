@@ -18,7 +18,7 @@ class TransferGenerator implements TransferGeneratorInterface
 
     /**
      * @param \Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface $classDefinitionMapLoader
-     * @param \Jellyfish\Transfer\ClassGenerator\ClassGeneratorInterface[] $classGenerators
+     * @param \Jellyfish\Transfer\Generator\ClassGeneratorInterface[] $classGenerators
      */
     public function __construct(
         ClassDefinitionMapLoaderInterface $classDefinitionMapLoader,
