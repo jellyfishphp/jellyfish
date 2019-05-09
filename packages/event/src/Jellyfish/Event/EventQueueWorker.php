@@ -4,6 +4,8 @@ namespace Jellyfish\Event;
 
 class EventQueueWorker implements EventQueueWorkerInterface
 {
+    protected const DELAY_INTERVAL = 1000000;
+
     /**
      * @var \Jellyfish\Event\EventQueueConsumerInterface
      */
@@ -36,8 +38,11 @@ class EventQueueWorker implements EventQueueWorkerInterface
             foreach ($listeners as $eventName => $listenersPerEvent) {
                 foreach ($listenersPerEvent as $listenerIdentifier => $listener) {
                     $this->eventQueueConsumer->dequeueEventAsProcess($eventName, $listenerIdentifier);
+                    \usleep(static::DELAY_INTERVAL);
                 }
             }
+
+            \usleep(static::DELAY_INTERVAL);
         }
     }
 }
