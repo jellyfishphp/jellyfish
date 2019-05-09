@@ -1,0 +1,28 @@
+{% set useBlock = include('use-block.twig') with {classDefinition: classDefinition} only %}
+<?php
+
+namespace {{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}{% if classDefinition.getNamespace() is defined %}\{{ classDefinition.getNamespace() }};{% endif %}
+{% if useBlock != '' %}
+
+{{ useBlock }}
+{% endif %}
+
+class {{ classDefinition.getName() }}
+{
+{% for property in classDefinition.getProperties() %}
+{% if not loop.first %}
+
+{% endif %}
+{% include('property.twig') with {property: property} only %}
+{% endfor %}
+{% for property in classDefinition.getProperties() %}
+{% include('getter.twig') with {property: property} only %}
+{% include('setter.twig') with {property: property, classDefinition: classDefinition} only %}
+{% if property.isArray() %}
+{% include('adder.twig') with {property: property, classDefinition: classDefinition} only %}
+{% endif %}
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}
+}

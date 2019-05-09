@@ -8,9 +8,9 @@ parameters:
     phpcs:
       standard: 'PSR12'
       whitelist_patterns:
-        - '/^packages\/[a-z\-]+\/src\/(.*)/'
+        - '/^packages\/[a-z\-]+\/src\/(.*)\.php/'
     phpmd:
-      exclude: ['*Test.php']
+      exclude: ['*Test.php', 'TransferServiceProvider.php']
       ruleset:
         - 'cleancode'
         - 'codesize'
@@ -20,6 +20,6 @@ parameters:
     phpstan:
       level: 7
       force_patterns:
-        - '/^packages\/[a-z\-]+\/src\/(.*)/'
+        - '/^packages\/[a-z\-]+\/src\/(.*)\.php/'
       ignore_patterns:
         - '/^packages\/[a-z\-]+\/tests\/(.*)/'

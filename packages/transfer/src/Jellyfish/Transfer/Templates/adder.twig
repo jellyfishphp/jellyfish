@@ -1,0 +1,13 @@
+
+    {# Adder #}
+    /**
+     * @param @param {% if not property.isPrimitive() %}\{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}\{% if property.getTypeNamespace() is defined %}{{ property.getTypeNamespace() }}\{% endif %}{% endif %}{{ property.getType() }} ${{ property.getSingular() }}
+     *
+     * @return \{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}\{% if classDefinition.getNamespace() is defined %}{{ classDefinition.getNamespace() }}\{% endif %}{{ classDefinition.getName() }}
+     */
+    public function add{{ property.getSingular() | capitalize }}({{ property.getType() }} ${{ property.getSingular() }}): {{ classDefinition.getName() }}
+    {
+        $this->{{ property.getName() }}[] = ${{ property.getSingular() }};
+
+        return $this;
+    }

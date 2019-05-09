@@ -1,0 +1,14 @@
+{
+  "name": "jellyfish/twig",
+  "description": "Jellyfish twig bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Rose",
+      "email": "daniel-rose@gmx.de"
+    }
+  ],
+  "require": {
+    "twig/twig": "~2.7.4"
+  }
+}

@@ -1,0 +1,4 @@
+    /**
+     * @var {% if not property.isPrimitive() %}\{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}\{% if property.getTypeNamespace() is defined %}{{ property.getTypeNamespace() }}\{% endif %}{% endif %}{{ property.getType() }}{% if property.isArray() %}[]{% endif %}{% if property.isNullable() %}|null{% endif %} ${{ property.getName }}
+     */
+    protected ${{ property.getName }};

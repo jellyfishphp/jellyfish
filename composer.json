@@ -27,6 +27,7 @@
     "symfony/property-access": "~4.2.2",
     "symfony/property-info": "~4.2.2",
     "symfony/serializer": "~4.2.2",
+    "twig/twig": "~2.7.4",
     "zendframework/zend-httphandlerrunner": "~1.0.1"
   },
   "require-dev": {
@@ -50,6 +51,10 @@
       "Jellyfish\\Config\\": "packages/config/src/Jellyfish/Config",
       "Jellyfish\\Event\\": "packages/event/src/Jellyfish/Event",
       "Jellyfish\\Feed\\": "packages/feed/src/Jellyfish/Feed",
+      "Jellyfish\\Filesystem\\": "packages/filesystem/src/Jellyfish/Filesystem",
+      "Jellyfish\\FilesystemSymfony\\": "packages/filesystem-symfony/src/Jellyfish/FilesystemSymfony",
+      "Jellyfish\\Finder\\": "packages/finder/src/Jellyfish/Finder",
+      "Jellyfish\\FinderSymfony\\": "packages/finder-symfony/src/Jellyfish/FinderSymfony",
       "Jellyfish\\Http\\": "packages/http/src/Jellyfish/Http",
       "Jellyfish\\JsonSchema\\": "packages/json-schema/src/Jellyfish/JsonSchema",
       "Jellyfish\\JsonSchemaOpis\\": "packages/json-schema-opis/src/Jellyfish/JsonSchemaOpis",
@@ -65,7 +70,8 @@
       "Jellyfish\\Redis\\": "packages/redis/src/Jellyfish/Redis",
       "Jellyfish\\Scheduler\\": "packages/scheduler/src/Jellyfish/Scheduler",
       "Jellyfish\\Serializer\\": "packages/serializer/src/Jellyfish/Serializer",
-      "Jellyfish\\SerializerSymfony\\": "packages/serializer-symfony/src/Jellyfish/SerializerSymfony"
+      "Jellyfish\\SerializerSymfony\\": "packages/serializer-symfony/src/Jellyfish/SerializerSymfony",
+      "Jellyfish\\Transfer\\": "packages/transfer/src/Jellyfish/Transfer"
     }
   },
   "autoload-dev": {
@@ -74,6 +80,10 @@
       "Jellyfish\\Config\\": "packages/config/tests/Jellyfish/Config",
       "Jellyfish\\Event\\": "packages/event/tests/Jellyfish/Event",
       "Jellyfish\\Feed\\": "packages/feed/tests/Jellyfish/Feed",
+      "Jellyfish\\Filesystem\\": "packages/filesystem/tests/Jellyfish/Filesystem",
+      "Jellyfish\\FilesystemSymfony\\": "packages/filesystem-symfony/tests/Jellyfish/FilesystemSymfony",
+      "Jellyfish\\Finder\\": "packages/finder/tests/Jellyfish/Finder",
+      "Jellyfish\\FinderSymfony\\": "packages/finder-symfony/tests/Jellyfish/FinderSymfony",
       "Jellyfish\\Http\\": "packages/http/tests/Jellyfish/Http",
       "Jellyfish\\JsonSchemaOpis\\": "packages/json-schema-opis/tests/Jellyfish/JsonSchemaOpis",
       "Jellyfish\\Kernel\\": "packages/kernel/tests/Jellyfish/Kernel",
@@ -86,7 +96,8 @@
       "Jellyfish\\ProcessSymfony\\": "packages/process-symfony/tests/Jellyfish/ProcessSymfony",
       "Jellyfish\\Redis\\": "packages/redis/tests/Jellyfish/Redis",
       "Jellyfish\\Scheduler\\": "packages/scheduler/tests/Jellyfish/Scheduler",
-      "Jellyfish\\SerializerSymfony\\": "packages/serializer-symfony/tests/Jellyfish/SerializerSymfony"
+      "Jellyfish\\SerializerSymfony\\": "packages/serializer-symfony/tests/Jellyfish/SerializerSymfony",
+      "Jellyfish\\Transfer\\": "packages/transfer/tests/Jellyfish/Transfer"
     }
   }
 }
