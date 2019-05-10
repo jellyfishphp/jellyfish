@@ -14,6 +14,8 @@ use Jellyfish\Transfer\Definition\ClassDefinitionMapMerger;
 use Jellyfish\Transfer\Definition\ClassDefinitionMapMergerInterface;
 use Jellyfish\Transfer\Definition\DefinitionFinder;
 use Jellyfish\Transfer\Definition\DefinitionFinderInterface;
+use Jellyfish\Transfer\Generator\FactoryRegistryGenerator;
+use Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Twig\Environment;
@@ -21,6 +23,11 @@ use Twig\Loader\FilesystemLoader;
 
 class TransferServiceProvider implements ServiceProviderInterface
 {
+    /**
+     * @var \Twig\Environment|null
+     */
+    protected $twigEnvironment;
+
     /**
      * @param \Pimple\Container $pimple
      *
@@ -63,6 +70,7 @@ class TransferServiceProvider implements ServiceProviderInterface
     {
         return new TransferGenerator(
             $this->createClassDefinitionMapLoader($container),
+            $this->createFactoryRegistryGenerator($container),
             $this->createClassGenerators($container)
         );
     }
@@ -115,12 +123,25 @@ class TransferServiceProvider implements ServiceProviderInterface
     /**
      * @param \Pimple\Container $container
      *
+     * @return \Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface
+     */
+    protected function createFactoryRegistryGenerator(Container $container): FactoryRegistryGeneratorInterface
+    {
+        $targetDirectory = $this->getTargetDirectory($container);
+        $twigEnvironment = $this->getTwigEnvironment();
+
+        return new FactoryRegistryGenerator($container->offsetGet('filesystem'), $twigEnvironment, $targetDirectory);
+    }
+
+    /**
+     * @param \Pimple\Container $container
+     *
      * @return array
      */
     protected function createClassGenerators(Container $container): array
     {
         $targetDirectory = $this->getTargetDirectory($container);
-        $twigEnvironment = $this->createTwigEnvironment();
+        $twigEnvironment = $this->getTwigEnvironment();
 
         return [
             new ClassGenerator(
@@ -139,13 +160,15 @@ class TransferServiceProvider implements ServiceProviderInterface
     /**
      * @return \Twig\Environment
      */
-    protected function createTwigEnvironment(): Environment
+    protected function getTwigEnvironment(): Environment
     {
-        $pathToTemplates = __DIR__ . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
+        if ($this->twigEnvironment === null) {
+            $pathToTemplates = __DIR__ . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
+            $loader = new FilesystemLoader($pathToTemplates);
+            $this->twigEnvironment = new Environment($loader, []);
+        }
 
-        $loader = new FilesystemLoader($pathToTemplates);
-
-        return new Environment($loader, []);
+        return $this->twigEnvironment;
     }
 
     /**

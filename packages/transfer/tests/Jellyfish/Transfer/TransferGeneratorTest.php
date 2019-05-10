@@ -6,6 +6,7 @@ use Codeception\Test\Unit;
 use Jellyfish\Transfer\Generator\ClassGeneratorInterface;
 use Jellyfish\Transfer\Definition\ClassDefinitionInterface;
 use Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface;
+use Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface;
 
 class TransferGeneratorTest extends Unit
 {
@@ -18,6 +19,11 @@ class TransferGeneratorTest extends Unit
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $classDefinitionMapLoaderMock;
+
+    /**
+     * @var \Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $factoryRegistryGeneratorMock;
 
     /**
      * @var \Jellyfish\Transfer\Generator\ClassGeneratorInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
@@ -46,6 +52,10 @@ class TransferGeneratorTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->factoryRegistryGeneratorMock = $this->getMockBuilder(FactoryRegistryGeneratorInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->classGeneratorMocks = [
             $this->getMockBuilder(ClassGeneratorInterface::class)
                 ->disableOriginalConstructor()
@@ -54,6 +64,7 @@ class TransferGeneratorTest extends Unit
 
         $this->transferGenerator = new TransferGenerator(
             $this->classDefinitionMapLoaderMock,
+            $this->factoryRegistryGeneratorMock,
             $this->classGeneratorMocks
         );
     }
@@ -71,6 +82,11 @@ class TransferGeneratorTest extends Unit
             ->method('generate')
             ->with($this->classDefinitionMapMock[0])
             ->willReturn($this->classGeneratorMocks[0]);
+
+        $this->factoryRegistryGeneratorMock->expects($this->atLeastOnce())
+            ->method('generate')
+            ->with($this->classDefinitionMapMock)
+            ->willReturn($this->factoryRegistryGeneratorMock);
 
         $this->assertEquals(
             $this->transferGenerator,

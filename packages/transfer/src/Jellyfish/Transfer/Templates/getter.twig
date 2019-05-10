@@ -1,8 +1,32 @@
-    {# Getter #}
+{% set atReturnTag %}
+    {%- if not property.isPrimitive() -%}
+        {{ '\\' ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' }}
+        {%- if property.getTypeNamespace() is defined and property.getTypeNamespace() is not null -%}
+            {{ property.getTypeNamespace() ~ '\\' }}
+        {%- endif %}
+    {%- endif %}
+    {{- property.getType() -}}
+    {%- if property.isArray() -%}
+        []
+    {%- endif %}
+    {%- if property.isNullable() -%}
+        |null
+    {%- endif %}
+{% endset %}
+{% set returnType %}
+    {%- if property.isNullable() -%}
+        ?
+    {%- endif %}
+    {%- if property.isArray() -%}
+        array
+    {%- else -%}
+        {{ property.getType() }}
+    {%- endif %}
+{% endset %}
     /**
-    * @return {% if not property.isPrimitive() %}\{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}\{% if property.getTypeNamespace() is defined %}{{ property.getTypeNamespace() }}\{% endif %}{% endif %}{{ property.getType() }}{% if property.isArray() %}[]{% endif %}{% if property.isNullable() %}|null{% endif %}
-    */
-    public function get{{ property.getName() | capitalize }}(): {% if property.isNullable() %}?{% endif %}{% if property.isArray() %}array{% else %}{{ property.getType() }}{% endif %}
+     * @return {{ atReturnTag }}
+     */
+    public function get{{ property.getName()[:1]|upper ~ property.getName()[1:] }}(): {{ returnType }}
     {
         return $this->{{ property.getName() }};
     }

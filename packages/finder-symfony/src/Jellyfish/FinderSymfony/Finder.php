@@ -46,6 +46,18 @@ class Finder implements FinderInterface
     }
 
     /**
+     * @param int $level
+     *
+     * @return \Jellyfish\Finder\FinderInterface
+     */
+    public function depth(int $level): FinderInterface
+    {
+        $this->symfonyFinder->depth($level);
+
+        return $this;
+    }
+
+    /**
      * @return \Iterator
      */
     public function getIterator(): Iterator

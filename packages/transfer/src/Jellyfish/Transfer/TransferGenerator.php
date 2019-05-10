@@ -3,6 +3,7 @@
 namespace Jellyfish\Transfer;
 
 use Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface;
+use Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface;
 
 class TransferGenerator implements TransferGeneratorInterface
 {
@@ -17,14 +18,22 @@ class TransferGenerator implements TransferGeneratorInterface
     protected $classGenerators;
 
     /**
+     * @var \Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface
+     */
+    protected $factoryRegistryGenerator;
+
+    /**
      * @param \Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface $classDefinitionMapLoader
+     * @param \Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface $factoryRegistryGenerator
      * @param \Jellyfish\Transfer\Generator\ClassGeneratorInterface[] $classGenerators
      */
     public function __construct(
         ClassDefinitionMapLoaderInterface $classDefinitionMapLoader,
+        FactoryRegistryGeneratorInterface $factoryRegistryGenerator,
         array $classGenerators
     ) {
         $this->classDefinitionMapLoader = $classDefinitionMapLoader;
+        $this->factoryRegistryGenerator = $factoryRegistryGenerator;
         $this->classGenerators = $classGenerators;
     }
 
@@ -40,6 +49,8 @@ class TransferGenerator implements TransferGeneratorInterface
                 $classGenerator->generate($classDefinitionMapEntry);
             }
         }
+
+        $this->factoryRegistryGenerator->generate($classDefinitionMap);
 
         return $this;
     }

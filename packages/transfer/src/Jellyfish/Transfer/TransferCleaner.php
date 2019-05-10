@@ -4,10 +4,14 @@ namespace Jellyfish\Transfer;
 
 use Jellyfish\Filesystem\FilesystemInterface;
 use Jellyfish\Finder\FinderFactoryInterface;
+use Jellyfish\Transfer\Generator\FactoryRegistryGenerator;
+use Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface;
 use SplFileInfo;
 
 class TransferCleaner implements TransferCleanerInterface
 {
+    protected const EXCLUDED_FILE = 'factory-registry.php';
+
     /**
      * @var string
      */
@@ -32,7 +36,8 @@ class TransferCleaner implements TransferCleanerInterface
         FinderFactoryInterface $finderFactory,
         FilesystemInterface $filesystem,
         string $targetDirectory
-    ) {
+    )
+    {
         $this->finderFactory = $finderFactory;
         $this->targetDirectory = $targetDirectory;
         $this->filesystem = $filesystem;
@@ -43,7 +48,19 @@ class TransferCleaner implements TransferCleanerInterface
      */
     public function clean(): TransferCleanerInterface
     {
+        if (!$this->canClean()) {
+            return $this;
+        }
+
         return $this->cleanDirectory($this->targetDirectory);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function canClean(): bool
+    {
+        return $this->filesystem->exists($this->targetDirectory);
     }
 
     /**
@@ -55,20 +72,38 @@ class TransferCleaner implements TransferCleanerInterface
     {
         $finder = $this->finderFactory->create();
 
-        $iterator = $finder->in($directory)->getIterator();
+        $iterator = $finder->in($directory)->depth(1)->getIterator();
 
         foreach ($iterator as $item) {
             if (!($item instanceof SplFileInfo)) {
                 continue;
             }
 
-            if ($item->isDir()) {
-                $this->cleanDirectory($item->getRealPath());
+            $itemRealPath = $item->getRealPath();
+
+            if (!$this->canRemove($itemRealPath)) {
+                continue;
             }
 
-            $this->filesystem->remove($item->getRealPath());
+            if ($item->isDir()) {
+                $this->cleanDirectory($itemRealPath);
+            }
+
+            $this->filesystem->remove($itemRealPath);
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $realPathOfItem
+     *
+     * @return bool
+     */
+    protected function canRemove(string $realPathOfItem): bool
+    {
+        $realPathOfFactoryRegistry = $this->targetDirectory . static::EXCLUDED_FILE;
+
+        return $realPathOfFactoryRegistry !== $realPathOfItem;
     }
 }
