@@ -1,10 +1,31 @@
-    {# Setter #}
+{% set atParamTag %}
+    {%- if not property.isPrimitive() -%}
+        {{ '\\' ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' }}
+        {%- if property.getTypeNamespace() is defined and property.getTypeNamespace() is not null -%}
+            {{ property.getTypeNamespace() ~ '\\' }}
+        {%- endif %}
+    {%- endif %}
+    {{- property.getType() -}}
+    {%- if property.isArray() -%}
+        []
+    {%- endif %}
+    {%- if property.isNullable() -%}
+        |null
+    {%- endif %}
+{% endset %}
+{% set atReturnTag %}
+    {{- '\\' ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' -}}
+    {%- if classDefinition.getNamespace() is defined and classDefinition.getNamespace() is not null -%}
+        {{ classDefinition.getNamespace() ~ '\\' }}
+    {%- endif %}
+    {{- classDefinition.getName() -}}
+{% endset %}
     /**
-     * @param {% if not property.isPrimitive() %}\{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}\{% if property.getTypeNamespace() is defined %}{{ property.getTypeNamespace() }}\{% endif %}{% endif %}{{ property.getType() }}{% if property.isArray() %}[]{% endif %}{% if property.isNullable() %}|null{% endif %} ${{ property.getName() }}
+     * @param {{ atParamTag }} ${{ property.getName() }}
      *
-     * @return \{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}\{% if classDefinition.getNamespace() is defined %}{{ classDefinition.getNamespace() }}\{% endif %}{{ classDefinition.getName() }}
+     * @return {{ atReturnTag }}
      */
-    public function set{{ property.getName() | capitalize }}({% if property.isNullable() %}?{% endif %}{% if property.isArray() %}array{% else %}{{ property.getType() }}{% endif %} ${{ property.getName() }}): {{ classDefinition.getName() }}
+    public function set{{ property.getName()[:1]|upper ~ property.getName()[1:] }}({% if property.isNullable() %}?{% endif %}{% if property.isArray() %}array{% else %}{{ property.getType() }}{% endif %} ${{ property.getName() }}): {{ classDefinition.getName() }}
     {
         $this->{{ property.getName() }} = ${{ property.getName() }};
 

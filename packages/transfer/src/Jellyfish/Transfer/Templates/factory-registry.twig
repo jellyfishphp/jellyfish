@@ -1,14 +1,22 @@
 <?php
+{% if classDefinitionMap|length > 0 %}
 
+{% endif %}
 {% for classDefinition in classDefinitionMap %}
-    use {{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}\{% if classDefinition.getNamespace() is defined %}{{ classDefinition.getNamespace() }}\{% endif %}{{ classDefinition.getName() }};
-    {% if loop.last %}
-
-    {% endif %}
+    {{- 'use ' ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' -}}
+    {%- if classDefinition.getNamespace() is defined and classDefinition.getNamespace() is not null -%}
+        {{ classDefinition.getNamespace() ~ '\\' }}
+    {%- endif %}
+    {{- classDefinition.getName() ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::FACTORY_NAME_SUFFIX') ~ ';' }}
 {% endfor %}
-{% for classDefinition in classDefinitionMap %}
-    $factoryRegistry[{{ classDefinition.getId() }}_factory] = new {{ classDefinition.getName() }}{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::FACTORY_NAME_SUFFIX') }}();
-    {% if loop.last %}
+{% if classDefinitionMap|length > 0 %}
 
-    {% endif %}
+{% endif %}
+{% for classDefinition in classDefinitionMap %}
+    {{- "$factoryRegistry['" -}}
+    {{- classDefinition.getId() -}}
+    {{- "_factory'] = new " -}}
+    {{- classDefinition.getName() -}}
+    {{- constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::FACTORY_NAME_SUFFIX') -}}
+    {{- '();' }}
 {% endfor %}

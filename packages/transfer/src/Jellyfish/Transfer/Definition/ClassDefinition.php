@@ -19,7 +19,7 @@ class ClassDefinition implements ClassDefinitionInterface
     protected $namespace;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface[]
+     * @var \Jellyfish\Transfer\Definition\ClassPropertyDefinition[]
      */
     protected $properties;
 

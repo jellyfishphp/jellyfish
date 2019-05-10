@@ -1,18 +1,15 @@
 #!/usr/bin/env php
 <?php
 
-use Jellyfish\Kernel\Kernel;
-use Jellyfish\Application\Console;
-
-$rootDir = __DIR__ . '/../../../..';
+$rootDir = \realpath(__DIR__ . '/../../../..');
 
 if (!\file_exists($rootDir . '/vendor/autoload.php')) {
-    $rootDir = __DIR__ . '/../../../../../..';
+    $rootDir = \realpath(__DIR__ . '/../../../../../..');
 }
 
 require_once $rootDir . '/vendor/autoload.php';
 
-$kernel = new Kernel($rootDir);
-$application = new Console($kernel);
+$kernel = new \Jellyfish\Kernel\Kernel($rootDir);
+$application = new \Jellyfish\Application\Console($kernel);
 
 $application->run();

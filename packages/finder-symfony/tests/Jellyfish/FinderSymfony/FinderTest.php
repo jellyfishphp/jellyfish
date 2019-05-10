@@ -74,6 +74,21 @@ class FinderTest extends Unit
     /**
      * @return void
      */
+    public function testDepth(): void
+    {
+        $level = 0;
+
+        $this->symfonyFinderMock->expects($this->atLeastOnce())
+            ->method('depth')
+            ->with($level)
+            ->willReturn($this->symfonyFinderMock);
+
+        $this->assertEquals($this->finder, $this->finder->depth($level));
+    }
+
+    /**
+     * @return void
+     */
     public function testGetIterator(): void
     {
         $this->symfonyFinderMock->expects($this->atLeastOnce())

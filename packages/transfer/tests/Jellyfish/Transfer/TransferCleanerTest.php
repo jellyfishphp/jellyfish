@@ -47,7 +47,7 @@ class TransferCleanerTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->targetDirectory = '/root/src/Generated/Transfer';
+        $this->targetDirectory = '/root/src/Generated/Transfer/';
 
         $this->transferCleaner = new TransferCleaner(
             $this->finderFactoryMock,
@@ -86,7 +86,15 @@ class TransferCleanerTest extends Unit
             $this->getMockBuilder(SplFileInfo::class)
                 ->disableOriginalConstructor()
                 ->getMock(),
+            $this->getMockBuilder(SplFileInfo::class)
+                ->disableOriginalConstructor()
+                ->getMock(),
         ];
+
+        $this->filesystemMock->expects($this->atLeastOnce())
+            ->method('exists')
+            ->with($this->targetDirectory)
+            ->willReturn(true);
 
         $this->finderFactoryMock->expects($this->atLeastOnce())
             ->method('create')
@@ -98,6 +106,11 @@ class TransferCleanerTest extends Unit
             ->willReturn($finderMocks[0]);
 
         $finderMocks[0]->expects($this->atLeastOnce())
+            ->method('depth')
+            ->with(1)
+            ->willReturn($finderMocks[0]);
+
+        $finderMocks[0]->expects($this->atLeastOnce())
             ->method('getIterator')
             ->willReturn($iteratorMocks[0]);
 
@@ -106,11 +119,11 @@ class TransferCleanerTest extends Unit
 
         $iteratorMocks[0]->expects($this->atLeastOnce())
             ->method('valid')
-            ->willReturnOnConsecutiveCalls(true, false);
+            ->willReturnOnConsecutiveCalls(true, true, false);
 
         $iteratorMocks[0]->expects($this->atLeastOnce())
             ->method('current')
-            ->willReturn($splFileInfoMocks[0]);
+            ->willReturnOnConsecutiveCalls($splFileInfoMocks[0], $splFileInfoMocks[1]);
 
         $splFileInfoMocks[0]->expects($this->atLeastOnce())
             ->method('isDir')
@@ -118,18 +131,27 @@ class TransferCleanerTest extends Unit
 
         $splFileInfoMocks[0]->expects($this->atLeastOnce())
             ->method('getRealPath')
-            ->willReturn($this->targetDirectory . '/Product');
+            ->willReturn($this->targetDirectory . 'Product');
+
+        $splFileInfoMocks[1]->expects($this->atLeastOnce())
+            ->method('getRealPath')
+            ->willReturn($this->targetDirectory . 'factory-registry.php');
 
         $this->filesystemMock->expects($this->atLeastOnce())
             ->method('remove')
             ->withConsecutive(
-                [$this->targetDirectory . '/Product/AttributeTransfer.php'],
-                [$this->targetDirectory . '/Product']
+                [$this->targetDirectory . 'Product/AttributeTransfer.php'],
+                [$this->targetDirectory . 'Product']
             )->willReturn($this->filesystemMock);
 
         $finderMocks[1]->expects($this->atLeastOnce())
             ->method('in')
-            ->with($this->targetDirectory . '/Product')
+            ->with($this->targetDirectory . 'Product')
+            ->willReturn($finderMocks[1]);
+
+        $finderMocks[1]->expects($this->atLeastOnce())
+            ->method('depth')
+            ->with(1)
             ->willReturn($finderMocks[1]);
 
         $finderMocks[1]->expects($this->atLeastOnce())
@@ -145,15 +167,15 @@ class TransferCleanerTest extends Unit
 
         $iteratorMocks[1]->expects($this->atLeastOnce())
             ->method('current')
-            ->willReturn($splFileInfoMocks[1]);
+            ->willReturn($splFileInfoMocks[2]);
 
-        $splFileInfoMocks[1]->expects($this->atLeastOnce())
+        $splFileInfoMocks[2]->expects($this->atLeastOnce())
             ->method('isDir')
             ->willReturn(false);
 
-        $splFileInfoMocks[1]->expects($this->atLeastOnce())
+        $splFileInfoMocks[2]->expects($this->atLeastOnce())
             ->method('getRealPath')
-            ->willReturn($this->targetDirectory . '/Product/AttributeTransfer.php');
+            ->willReturn($this->targetDirectory . 'Product/AttributeTransfer.php');
 
         $this->assertEquals($this->transferCleaner, $this->transferCleaner->clean());
     }
@@ -163,6 +185,11 @@ class TransferCleanerTest extends Unit
      */
     public function testCleanWithInvalidIteratorElement(): void
     {
+        $this->filesystemMock->expects($this->atLeastOnce())
+            ->method('exists')
+            ->with($this->targetDirectory)
+            ->willReturn(true);
+
         $finderMock = $this->getMockBuilder(FinderInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -185,6 +212,11 @@ class TransferCleanerTest extends Unit
             ->willReturn($finderMock);
 
         $finderMock->expects($this->atLeastOnce())
+            ->method('depth')
+            ->with(1)
+            ->willReturn($finderMock);
+
+        $finderMock->expects($this->atLeastOnce())
             ->method('getIterator')
             ->willReturn($iteratorMock);
 
@@ -203,6 +235,22 @@ class TransferCleanerTest extends Unit
             ->method('remove')
             ->willReturn($this->filesystemMock);
         
+        $this->assertEquals($this->transferCleaner, $this->transferCleaner->clean());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCleanWithNonExistingTargetDirectory(): void
+    {
+        $this->filesystemMock->expects($this->atLeastOnce())
+            ->method('exists')
+            ->with($this->targetDirectory)
+            ->willReturn(false);
+
+        $this->finderFactoryMock->expects($this->never())
+            ->method('create');
+
         $this->assertEquals($this->transferCleaner, $this->transferCleaner->clean());
     }
 }

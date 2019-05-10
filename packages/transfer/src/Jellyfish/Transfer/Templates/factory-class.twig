@@ -1,11 +1,18 @@
+{% set atReturnTag %}
+    {{- '\\' ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' -}}
+    {%- if classDefinition.getNamespace() is defined and classDefinition.getNamespace() is not null -%}
+        {{ classDefinition.getNamespace() ~ '\\' }}
+    {%- endif %}
+    {{- classDefinition.getName() -}}
+{% endset %}
 <?php
 
-namespace {{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}{% if classDefinition.getNamespace() is defined %}\{{ classDefinition.getNamespace() }}{% endif %};
+{% include('namespace.twig') with { classDefinition: classDefinition } only %}
 
 class {{ classDefinition.getName() }}{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::FACTORY_NAME_SUFFIX') }}
 {
     /**
-     * @return \{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}\{% if classDefinition.getNamespace() is defined %}{{ classDefinition.getNamespace() }}\{% endif %}{{ classDefinition.getName() }}
+     * @return {{ atReturnTag }}
      */
     public function create(): {{ classDefinition.getName() }}
     {

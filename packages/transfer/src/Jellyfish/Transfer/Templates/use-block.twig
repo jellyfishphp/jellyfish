@@ -1,5 +1,0 @@
-{% for property in classDefinition.getProperties() %}
-{% if not property.isPrimitive() and not property.isArray() and property.getTypeNamespace() != classDefinition.getNamespace() %}
-use {{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') }}\{% if property.getTypeNamespace() is defined %}{{ property.getTypeNamespace() }}\{% endif %}{{ property.getType() }};
-{% endif %}
-{% endfor %}

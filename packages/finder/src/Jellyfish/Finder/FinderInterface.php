@@ -22,6 +22,13 @@ interface FinderInterface extends IteratorAggregate
     public function name(string $pattern): FinderInterface;
 
     /**
+     * @param int $level
+     *
+     * @return \Jellyfish\Finder\FinderInterface
+     */
+    public function depth(int $level): FinderInterface;
+
+    /**
      * @return \Iterator
      */
     public function getIterator(): Iterator;
