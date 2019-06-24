@@ -3,7 +3,7 @@
 namespace Jellyfish\Event\Command;
 
 use Codeception\Test\Unit;
-use Jellyfish\Event\EventDispatcherInterface;
+use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventInterface;
 use Jellyfish\Event\EventListenerInterface;
 use Jellyfish\Event\EventQueueConsumerInterface;
@@ -26,9 +26,9 @@ class EventQueueConsumeCommandTest extends Unit
     protected $outputMock;
 
     /**
-     * @var \Jellyfish\Event\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Event\EventListenerProviderInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $eventDispatcherMock;
+    protected $eventListenerProviderMock;
 
     /**
      * @var \Jellyfish\Event\EventQueueConsumerInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -95,7 +95,7 @@ class EventQueueConsumeCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->eventDispatcherMock = $this->getMockBuilder(EventDispatcherInterface::class)
+        $this->eventListenerProviderMock = $this->getMockBuilder(EventListenerProviderInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -129,7 +129,7 @@ class EventQueueConsumeCommandTest extends Unit
         $this->lockIdentifierParts = [EventQueueConsumeCommand::NAME, $this->eventName, $this->listenerIdentifier];
 
         $this->eventQueueConsumeCommand = new EventQueueConsumeCommand(
-            $this->eventDispatcherMock,
+            $this->eventListenerProviderMock,
             $this->eventQueueConsumerMock,
             $this->lockFactoryMock,
             $this->loggerMock
@@ -239,7 +239,7 @@ class EventQueueConsumeCommandTest extends Unit
             ->with($this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventMock);
 
-        $this->eventDispatcherMock->expects($this->atLeastOnce())
+        $this->eventListenerProviderMock->expects($this->atLeastOnce())
             ->method('getListener')
             ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
             ->willReturn(null);
@@ -279,7 +279,7 @@ class EventQueueConsumeCommandTest extends Unit
             ->with($this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventMock);
 
-        $this->eventDispatcherMock->expects($this->atLeastOnce())
+        $this->eventListenerProviderMock->expects($this->atLeastOnce())
             ->method('getListener')
             ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventListenerMock);
@@ -328,7 +328,7 @@ class EventQueueConsumeCommandTest extends Unit
             ->with($this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventMock);
 
-        $this->eventDispatcherMock->expects($this->atLeastOnce())
+        $this->eventListenerProviderMock->expects($this->atLeastOnce())
             ->method('getListener')
             ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventListenerMock);

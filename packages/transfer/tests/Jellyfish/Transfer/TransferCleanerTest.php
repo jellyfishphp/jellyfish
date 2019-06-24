@@ -107,7 +107,7 @@ class TransferCleanerTest extends Unit
 
         $finderMocks[0]->expects($this->atLeastOnce())
             ->method('depth')
-            ->with(1)
+            ->with(0)
             ->willReturn($finderMocks[0]);
 
         $finderMocks[0]->expects($this->atLeastOnce())
@@ -151,7 +151,7 @@ class TransferCleanerTest extends Unit
 
         $finderMocks[1]->expects($this->atLeastOnce())
             ->method('depth')
-            ->with(1)
+            ->with(0)
             ->willReturn($finderMocks[1]);
 
         $finderMocks[1]->expects($this->atLeastOnce())
@@ -213,7 +213,7 @@ class TransferCleanerTest extends Unit
 
         $finderMock->expects($this->atLeastOnce())
             ->method('depth')
-            ->with(1)
+            ->with(0)
             ->willReturn($finderMock);
 
         $finderMock->expects($this->atLeastOnce())

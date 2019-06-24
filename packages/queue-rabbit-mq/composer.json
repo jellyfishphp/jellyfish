@@ -16,7 +16,7 @@
   },
   "require-dev": {
     "codeception/codeception": "~2.4.5",
-    "mikey179/vfsStream": "~1.6.5",
+    "mikey179/vfsstream": "~1.6.6",
     "php-coveralls/php-coveralls": "~2.1.0",
     "phpmd/phpmd": "~2.6.0",
     "phpro/grumphp": "~0.14.1",

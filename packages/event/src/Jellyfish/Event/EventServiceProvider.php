@@ -21,6 +21,7 @@ class EventServiceProvider implements ServiceProviderInterface
         $this->createEventMapper($pimple);
         $this->createEventQueueProducer($pimple);
         $this->createEventQueueConsumer($pimple);
+        $this->createEventListenerProvider($pimple);
         $this->createEventDispatcher($pimple);
         $this->createEventQueueWorker($pimple);
         $this->createCommands($pimple);
@@ -110,6 +111,14 @@ class EventServiceProvider implements ServiceProviderInterface
         return $this;
     }
 
+    protected function createEventListenerProvider(Container $container): ServiceProviderInterface
+    {
+        $container->offsetSet('event_listener_provider', function () {
+            return new EventListenerProvider();
+        });
+
+        return $this;
+    }
 
     /**
      * @param \Pimple\Container $container
@@ -120,6 +129,7 @@ class EventServiceProvider implements ServiceProviderInterface
     {
         $container->offsetSet('event_dispatcher', function (Container $container) {
             return new EventDispatcher(
+                $container->offsetGet('event_listener_provider'),
                 $container->offsetGet('event_queue_producer')
             );
         });
@@ -136,7 +146,7 @@ class EventServiceProvider implements ServiceProviderInterface
     {
         $container->offsetSet('event_queue_worker', function (Container $container) {
             return new EventQueueWorker(
-                $container->offsetGet('event_dispatcher'),
+                $container->offsetGet('event_listener_provider'),
                 $container->offsetGet('event_queue_consumer')
             );
         });
@@ -153,7 +163,7 @@ class EventServiceProvider implements ServiceProviderInterface
     {
         $container->extend('commands', function (array $commands, Container $container) {
             $commands[] = new EventQueueConsumeCommand(
-                $container->offsetGet('event_dispatcher'),
+                $container->offsetGet('event_listener_provider'),
                 $container->offsetGet('event_queue_consumer'),
                 $container->offsetGet('lock_factory'),
                 $container->offsetGet('logger')

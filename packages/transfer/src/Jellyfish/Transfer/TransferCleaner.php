@@ -36,8 +36,7 @@ class TransferCleaner implements TransferCleanerInterface
         FinderFactoryInterface $finderFactory,
         FilesystemInterface $filesystem,
         string $targetDirectory
-    )
-    {
+    ) {
         $this->finderFactory = $finderFactory;
         $this->targetDirectory = $targetDirectory;
         $this->filesystem = $filesystem;
@@ -72,7 +71,7 @@ class TransferCleaner implements TransferCleanerInterface
     {
         $finder = $this->finderFactory->create();
 
-        $iterator = $finder->in($directory)->depth(1)->getIterator();
+        $iterator = $finder->in($directory)->depth(0)->getIterator();
 
         foreach ($iterator as $item) {
             if (!($item instanceof SplFileInfo)) {

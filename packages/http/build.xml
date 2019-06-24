@@ -18,7 +18,7 @@
             <arg value="xml"/>
             <arg value="design,cleancode,codesize"/>
             <arg value="--exclude"/>
-            <arg value="*Test.php"/>
+            <arg value="EventServiceProvider.php,TransferServiceProvider.php,*Test.php"/>
         </exec>
     </target>
 

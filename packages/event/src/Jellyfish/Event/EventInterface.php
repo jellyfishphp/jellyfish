@@ -17,6 +17,18 @@ interface EventInterface
     public function setName(string $name): EventInterface;
 
     /**
+     * @return int
+     */
+    public function getRetries(): int;
+
+    /**
+     * @param int $retries
+     *
+     * @return \Jellyfish\Event\EventInterface
+     */
+    public function setRetries(int $retries): EventInterface;
+
+    /**
      * @return object
      */
     public function getPayload(): object;

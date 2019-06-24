@@ -3,6 +3,9 @@
 namespace Jellyfish\FilesystemSymfony;
 
 use Codeception\Test\Unit;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamWrapper;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 
 class FilesystemTest extends Unit
@@ -82,15 +85,49 @@ class FilesystemTest extends Unit
      */
     public function testAppendToFile(): void
     {
-        $pathToFile = '/path/to/file.ext';
-        $content = 'Lorem Ipsum';
-
-        $this->symfonyFilesystemMock->expects($this->atLeastOnce())
-            ->method('appendToFile')
-            ->with($pathToFile, $content);
-
+        $currentContent = 'Lorem ipsum ';
+        $root = vfsStream::setup('root', null, ['to' => ['file.ext' => $currentContent]]);
+        $pathToFile = $root->url() . '/to/file.ext';
+        $content = 'dolor sit';
 
         $this->filesystem->appendToFile($pathToFile, $content);
+
+        $this->assertFileExists($pathToFile);
+        $this->assertEquals($currentContent . $content, \file_get_contents($pathToFile));
+    }
+
+    /**
+     * @return void
+     */
+    public function testAppendToFileWithNonExistingSubdirectory(): void
+    {
+        $root = vfsStream::setup();
+        $pathToFile = $root->url() . '/to/file.ext';
+        $content = 'dolor sit';
+
+        try {
+            $this->filesystem->appendToFile($pathToFile, $content);
+            $this->fail();
+        } catch (IOException $e) {
+            $this->assertFileNotExists($pathToFile);
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function testWriteToFileWithNonExistingSubdirectory(): void
+    {
+        $root = vfsStream::setup();
+        $pathToFile = $root->url() . '/to/file.ext';
+        $content = 'Lorem ipsum';
+
+        try {
+            $this->filesystem->writeToFile($pathToFile, $content);
+            $this->fail();
+        } catch (IOException $e) {
+            $this->assertFileNotExists($pathToFile);
+        }
     }
 
     /**
@@ -98,14 +135,13 @@ class FilesystemTest extends Unit
      */
     public function testWriteToFile(): void
     {
-        $pathToFile = '/path/to/file.ext';
-        $content = 'Lorem Ipsum';
-
-        $this->symfonyFilesystemMock->expects($this->atLeastOnce())
-            ->method('dumpFile')
-            ->with($pathToFile, $content);
-
+        $root = vfsStream::setup('root', null, ['to' => []]);
+        $pathToFile = $root->url() . '/to/file.ext';
+        $content = 'Lorem ipsum';
 
         $this->filesystem->writeToFile($pathToFile, $content);
+
+        $this->assertFileExists($pathToFile);
+        $this->assertEquals($content, \file_get_contents($pathToFile));
     }
 }

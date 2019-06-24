@@ -124,6 +124,9 @@ class EventServiceProviderTest extends Unit
         $this->assertTrue($this->container->offsetExists('event_dispatcher'));
         $this->assertInstanceOf(EventDispatcher::class, $this->container->offsetGet('event_dispatcher'));
 
+        $this->assertTrue($this->container->offsetExists('event_listener_provider'));
+        $this->assertInstanceOf(EventListenerProvider::class, $this->container->offsetGet('event_listener_provider'));
+
 
         $this->assertTrue($this->container->offsetExists('event_queue_worker'));
         $this->assertInstanceOf(EventQueueWorker::class, $this->container->offsetGet('event_queue_worker'));

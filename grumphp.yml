@@ -10,7 +10,7 @@ parameters:
       whitelist_patterns:
         - '/^packages\/[a-z\-]+\/src\/(.*)\.php/'
     phpmd:
-      exclude: ['*Test.php', 'TransferServiceProvider.php']
+      exclude: ['*Test.php', 'TransferServiceProvider.php', 'EventServiceProvider.php']
       ruleset:
         - 'cleancode'
         - 'codesize'
