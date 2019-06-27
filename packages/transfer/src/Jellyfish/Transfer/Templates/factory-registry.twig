@@ -16,6 +16,9 @@
     {{- "$factoryRegistry['" -}}
     {{- classDefinition.getId() -}}
     {{- "_factory'] = new " -}}
+    {%- if classDefinition.getNamespace() is defined and classDefinition.getNamespace() is not null -%}
+        {{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' ~ classDefinition.getNamespace() ~ '\\' }}
+    {%- endif %}
     {{- classDefinition.getName() -}}
     {{- constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::FACTORY_NAME_SUFFIX') -}}
     {{- '();' }}

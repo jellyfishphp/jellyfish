@@ -19,6 +19,8 @@
     {%- endif %}
     {%- if property.isArray() -%}
         array
+    {%- elseif property.isPrimitive() is defined and property.isPrimitive() == false and property.getTypeAlias() is defined and property.getTypeAlias() is not null -%}
+        {{ property.getTypeAlias() }}
     {%- else -%}
         {{ property.getType() }}
     {%- endif %}

@@ -31,6 +31,18 @@ interface ClassPropertyDefinitionInterface
     /**
      * @return string|null
      */
+    public function getTypeAlias(): ?string;
+
+    /**
+     * @param string|null $typeAlias
+     *
+     * @return \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface
+     */
+    public function setTypeAlias(?string $typeAlias): ClassPropertyDefinitionInterface;
+
+    /**
+     * @return string|null
+     */
     public function getTypeNamespace(): ?string;
 
     /**

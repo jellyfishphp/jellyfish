@@ -20,12 +20,24 @@
     {%- endif %}
     {{- classDefinition.getName() -}}
 {% endset %}
+{% set paramType %}
+    {%- if property.isNullable() -%}
+        ?
+    {%- endif %}
+    {%- if property.isArray() -%}
+        array
+    {%- elseif property.isPrimitive() is defined and property.isPrimitive() == false and property.getTypeAlias() is defined and property.getTypeAlias() is not null -%}
+        {{ property.getTypeAlias() }}
+    {%- else -%}
+        {{ property.getType() }}
+    {%- endif %}
+{% endset %}
     /**
      * @param {{ atParamTag }} ${{ property.getName() }}
      *
      * @return {{ atReturnTag }}
      */
-    public function set{{ property.getName()[:1]|upper ~ property.getName()[1:] }}({% if property.isNullable() %}?{% endif %}{% if property.isArray() %}array{% else %}{{ property.getType() }}{% endif %} ${{ property.getName() }}): {{ classDefinition.getName() }}
+    public function set{{ property.getName()[:1]|upper ~ property.getName()[1:] }}({{ paramType }} ${{ property.getName() }}): {{ classDefinition.getName() }}
     {
         $this->{{ property.getName() }} = ${{ property.getName() }};
 

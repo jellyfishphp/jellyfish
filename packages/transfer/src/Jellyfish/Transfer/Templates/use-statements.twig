@@ -5,7 +5,11 @@
         {%- if property.getTypeNamespace() is defined and property.getTypeNamespace() is not null -%}
             {% set useStatement = useStatement ~ property.getTypeNamespace() ~ '\\' %}
         {%- endif %}
-        {%- set useStatement = useStatement ~ property.getType() ~ ';' -%}
+        {%- set useStatement = useStatement ~ property.getType() -%}
+        {%- if property.getTypeAlias() is defined and property.getTypeAlias() is not null -%}
+            {%- set useStatement = useStatement ~ ' as ' ~ property.getTypeAlias() -%}
+        {%- endif %}
+        {%- set useStatement = useStatement ~ ';' -%}
         {%- set useStatements = useStatements|merge([useStatement]) -%}
     {%- endif %}
 {%- endfor %}
