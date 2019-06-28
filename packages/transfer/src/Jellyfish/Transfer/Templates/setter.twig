@@ -1,7 +1,7 @@
 {% set atParamTag %}
     {%- if not property.isPrimitive() -%}
         {{ '\\' ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' }}
-        {%- if property.getTypeNamespace() is defined and property.getTypeNamespace() is not null -%}
+        {%- if property.getTypeNamespace() is not null -%}
             {{ property.getTypeNamespace() ~ '\\' }}
         {%- endif %}
     {%- endif %}
@@ -15,7 +15,7 @@
 {% endset %}
 {% set atReturnTag %}
     {{- '\\' ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' -}}
-    {%- if classDefinition.getNamespace() is defined and classDefinition.getNamespace() is not null -%}
+    {%- if classDefinition.getNamespace() is not null -%}
         {{ classDefinition.getNamespace() ~ '\\' }}
     {%- endif %}
     {{- classDefinition.getName() -}}
@@ -26,7 +26,7 @@
     {%- endif %}
     {%- if property.isArray() -%}
         array
-    {%- elseif property.isPrimitive() is defined and property.isPrimitive() == false and property.getTypeAlias() is defined and property.getTypeAlias() is not null -%}
+    {%- elseif property.isPrimitive() == false and property.getTypeAlias() is not null -%}
         {{ property.getTypeAlias() }}
     {%- else -%}
         {{ property.getType() }}

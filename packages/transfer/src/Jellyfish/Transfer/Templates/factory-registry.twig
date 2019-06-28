@@ -3,20 +3,10 @@
 
 {% endif %}
 {% for classDefinition in classDefinitionMap %}
-    {{- 'use ' ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' -}}
-    {%- if classDefinition.getNamespace() is defined and classDefinition.getNamespace() is not null -%}
-        {{ classDefinition.getNamespace() ~ '\\' }}
-    {%- endif %}
-    {{- classDefinition.getName() ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::FACTORY_NAME_SUFFIX') ~ ';' }}
-{% endfor %}
-{% if classDefinitionMap|length > 0 %}
-
-{% endif %}
-{% for classDefinition in classDefinitionMap %}
     {{- "$factoryRegistry['" -}}
     {{- classDefinition.getId() -}}
     {{- "_factory'] = new " -}}
-    {%- if classDefinition.getNamespace() is defined and classDefinition.getNamespace() is not null -%}
+    {%- if classDefinition.getNamespace() is not null -%}
         {{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' ~ classDefinition.getNamespace() ~ '\\' }}
     {%- endif %}
     {{- classDefinition.getName() -}}

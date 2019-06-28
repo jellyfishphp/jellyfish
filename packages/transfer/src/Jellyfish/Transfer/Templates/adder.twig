@@ -1,7 +1,7 @@
 {% set atParamTag %}
     {%- if not property.isPrimitive() -%}
         {{ '\\' ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' }}
-        {%- if property.getTypeNamespace() is defined and property.getTypeNamespace() is not null -%}
+        {%- if property.getTypeNamespace() is not null -%}
             {{ property.getTypeNamespace() ~ '\\'}}
         {%- endif %}
     {%- endif %}
@@ -9,13 +9,13 @@
 {% endset %}
 {% set atReturnTag %}
     {{- '\\' ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' -}}
-    {%- if classDefinition.getNamespace() is defined and classDefinition.getNamespace() is not null -%}
+    {%- if classDefinition.getNamespace() is not null -%}
         {{ classDefinition.getNamespace() ~ '\\' }}
     {%- endif %}
     {{- classDefinition.getName() -}}
 {% endset %}
 {% set paramType %}
-    {%- if property.isPrimitive() is defined and property.isPrimitive() == false and property.getTypeAlias() is defined and property.getTypeAlias() is not null -%}
+    {%- if property.isPrimitive() == false and property.getTypeAlias() is not null -%}
         {{ property.getTypeAlias() }}
     {%- else -%}
         {{ property.getType() }}
@@ -26,7 +26,7 @@
      *
      * @return {{ atReturnTag }}
      */
-    public function add{{ property.getSingular()[:1] | upper ~ property.getSingular()[1:] }}({{ property.getType() }} ${{ property.getSingular() }}): {{ classDefinition.getName() }}
+    public function add{{ property.getSingular()[:1] | upper ~ property.getSingular()[1:] }}({{ paramType }} ${{ property.getSingular() }}): {{ classDefinition.getName() }}
     {
         $this->{{ property.getName() }}[] = ${{ property.getSingular() }};
 
