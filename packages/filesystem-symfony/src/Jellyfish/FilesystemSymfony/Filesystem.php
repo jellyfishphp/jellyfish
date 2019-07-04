@@ -3,6 +3,7 @@
 namespace Jellyfish\FilesystemSymfony;
 
 use Jellyfish\Filesystem\FilesystemInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 
 class Filesystem implements FilesystemInterface
@@ -63,7 +64,9 @@ class Filesystem implements FilesystemInterface
      */
     public function appendToFile(string $pathToFile, string $content): FilesystemInterface
     {
-        $this->symfonyFilesystem->appendToFile($pathToFile, $content);
+        if (false === @\file_put_contents($pathToFile, $content, FILE_APPEND)) {
+            throw new IOException(sprintf('Failed to write file "%s".', $pathToFile), 0, null, $pathToFile);
+        }
 
         return $this;
     }
@@ -76,7 +79,9 @@ class Filesystem implements FilesystemInterface
      */
     public function writeToFile(string $pathToFile, string $content): FilesystemInterface
     {
-        $this->symfonyFilesystem->dumpFile($pathToFile, $content);
+        if (false === @\file_put_contents($pathToFile, $content)) {
+            throw new IOException(sprintf('Failed to write file "%s".', $pathToFile), 0, null, $pathToFile);
+        }
 
         return $this;
     }

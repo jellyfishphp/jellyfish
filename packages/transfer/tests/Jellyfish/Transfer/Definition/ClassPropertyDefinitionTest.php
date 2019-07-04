@@ -71,6 +71,16 @@ class ClassPropertyDefinitionTest extends Unit
     /**
      * @return void
      */
+    public function testSetAndGetTypeAlias(): void
+    {
+        $typeAlias = 'Alias';
+        $this->classPropertyDefinition->setTypeAlias($typeAlias);
+        $this->assertEquals($typeAlias, $this->classPropertyDefinition->getTypeAlias());
+    }
+
+    /**
+     * @return void
+     */
     public function testSetAndGetTypeNamespace(): void
     {
         $typeNamespace = 'Catalog';

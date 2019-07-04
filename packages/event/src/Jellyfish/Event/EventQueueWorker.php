@@ -11,19 +11,19 @@ class EventQueueWorker implements EventQueueWorkerInterface
      */
     protected $eventQueueConsumer;
     /**
-     * @var \Jellyfish\Event\EventDispatcherInterface
+     * @var \Jellyfish\Event\EventListenerProviderInterface
      */
-    protected $eventDispatcher;
+    protected $eventListenerProvider;
 
     /**
-     * @param \Jellyfish\Event\EventDispatcherInterface $eventDispatcher
+     * @param \Jellyfish\Event\EventListenerProviderInterface $eventListenerProvider
      * @param \Jellyfish\Event\EventQueueConsumerInterface $eventQueueConsumer
      */
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
+        EventListenerProviderInterface $eventListenerProvider,
         EventQueueConsumerInterface $eventQueueConsumer
     ) {
-        $this->eventDispatcher = $eventDispatcher;
+        $this->eventListenerProvider = $eventListenerProvider;
         $this->eventQueueConsumer = $eventQueueConsumer;
     }
 
@@ -32,7 +32,7 @@ class EventQueueWorker implements EventQueueWorkerInterface
      */
     public function start(): void
     {
-        $listeners = $this->eventDispatcher->getListeners(EventListenerInterface::TYPE_ASYNC);
+        $listeners = $this->eventListenerProvider->getListenersByType(EventListenerInterface::TYPE_ASYNC);
 
         while (true) {
             foreach ($listeners as $eventName => $listenersPerEvent) {

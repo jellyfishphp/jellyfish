@@ -10,6 +10,11 @@ class Event implements EventInterface
     protected $name;
 
     /**
+     * @var int
+     */
+    protected $retries;
+
+    /**
      * @var object
      */
     protected $payload;
@@ -30,6 +35,26 @@ class Event implements EventInterface
     public function setName(string $name): EventInterface
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRetries(): int
+    {
+        return $this->retries;
+    }
+
+    /**
+     * @param int $retries
+     *
+     * @return \Jellyfish\Event\EventInterface
+     */
+    public function setRetries(int $retries): EventInterface
+    {
+        $this->retries = $retries;
 
         return $this;
     }

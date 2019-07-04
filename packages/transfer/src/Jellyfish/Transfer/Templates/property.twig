@@ -1,7 +1,7 @@
 {% set atVarTag %}
     {%- if not property.isPrimitive() -%}
         {{ '\\' ~ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' }}
-        {%- if property.getTypeNamespace() is defined and property.getTypeNamespace() is not null-%}
+        {%- if property.getTypeNamespace() is not null-%}
             {{ property.getTypeNamespace() ~ '\\' }}
         {%- endif %}
     {%- endif %}

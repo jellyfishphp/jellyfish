@@ -17,6 +17,11 @@ class ClassPropertyDefinition implements ClassPropertyDefinitionInterface
     /**
      * @var string|null
      */
+    protected $typeAlias;
+
+    /**
+     * @var string|null
+     */
     protected $typeNamespace;
 
     /**
@@ -70,6 +75,26 @@ class ClassPropertyDefinition implements ClassPropertyDefinitionInterface
     public function setType(string $type): ClassPropertyDefinitionInterface
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTypeAlias(): ?string
+    {
+        return $this->typeAlias;
+    }
+
+    /**
+     * @param string|null $typeAlias
+     *
+     * @return \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface
+     */
+    public function setTypeAlias(?string $typeAlias): ClassPropertyDefinitionInterface
+    {
+        $this->typeAlias = $typeAlias;
 
         return $this;
     }

@@ -2,7 +2,7 @@
 
 namespace Jellyfish\Event\Command;
 
-use Jellyfish\Event\EventDispatcherInterface;
+use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventListenerInterface;
 use Jellyfish\Event\EventQueueConsumerInterface;
 use Jellyfish\Lock\LockFactoryInterface;
@@ -22,7 +22,7 @@ class EventQueueConsumeCommand extends Command
     public const DESCRIPTION = 'Consume from event queue';
 
     /**
-     * @param \Jellyfish\Event\EventDispatcherInterface $eventDispatcher
+     * @param \Jellyfish\Event\EventListenerProviderInterface $eventDispatcher
      */
     protected $eventDispatcher;
 
@@ -37,13 +37,13 @@ class EventQueueConsumeCommand extends Command
     protected $logger;
 
     /**
-     * @param \Jellyfish\Event\EventDispatcherInterface $eventDispatcher
+     * @param \Jellyfish\Event\EventListenerProviderInterface $eventDispatcher
      * @param \Jellyfish\Event\EventQueueConsumerInterface $eventQueueConsumer
      * @param \Jellyfish\Lock\LockFactoryInterface $lockFactory
      * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
+        EventListenerProviderInterface $eventDispatcher,
         EventQueueConsumerInterface $eventQueueConsumer,
         LockFactoryInterface $lockFactory,
         LoggerInterface $logger

@@ -40,6 +40,17 @@ class EventTest extends Unit
     /**
      * @return void
      */
+    public function testSetAndGetRetries(): void
+    {
+        $retries = 2;
+
+        $this->assertEquals($this->event, $this->event->setRetries($retries));
+        $this->assertEquals($retries, $this->event->getRetries());
+    }
+
+    /**
+     * @return void
+     */
     public function testSetAndGetPayload(): void
     {
         $this->assertEquals($this->event, $this->event->setPayload($this->payload));

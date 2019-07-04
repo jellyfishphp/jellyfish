@@ -30,13 +30,14 @@ class ClassDefinition implements ClassDefinitionInterface
     {
         $pattern = '/(?<=\\w)(?=[A-Z])/';
         $replacement = '_$1';
-        $id = \str_replace('\\', '', static::NAMESPACE_PREFIX);
+        $id = static::NAMESPACE_PREFIX;
 
         if ($this->namespace !== null) {
             $id .= $this->namespace;
         }
 
         $id .= $this->name;
+        $id = \str_replace('\\', '', $id);
         $id = \preg_replace($pattern, $replacement, $id);
 
         return \strtolower($id);
@@ -83,7 +84,7 @@ class ClassDefinition implements ClassDefinitionInterface
     }
 
     /**
-     * @return \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface[]
+     * @return \Jellyfish\Transfer\Definition\ClassPropertyDefinition[]
      */
     public function getProperties(): array
     {
@@ -91,7 +92,7 @@ class ClassDefinition implements ClassDefinitionInterface
     }
 
     /**
-     * @param \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface[] $properties
+     * @param \Jellyfish\Transfer\Definition\ClassPropertyDefinition[] $properties
      *
      * @return \Jellyfish\Transfer\Definition\ClassDefinitionInterface
      */
