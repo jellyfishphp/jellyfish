@@ -2,6 +2,7 @@
 
 namespace Jellyfish\SerializerSymfony;
 
+use Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverter;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
@@ -21,21 +22,21 @@ class SerializerSymfonyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->createSerializer($pimple);
+        $this->registerSerializer($pimple);
     }
 
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
+     * @return \Jellyfish\SerializerSymfony\SerializerSymfonyServiceProvider
      */
-    protected function createSerializer(Container $container): ServiceProviderInterface
+    protected function registerSerializer(Container $container): SerializerSymfonyServiceProvider
     {
         $self = $this;
 
-        $container->offsetSet('serializer', function () use ($self) {
+        $container->offsetSet('serializer', function (Container $container) use ($self) {
             return new Serializer(
-                $self->createSymfonySerializer()
+                $self->createSymfonySerializer($container)
             );
         });
 
@@ -45,10 +46,17 @@ class SerializerSymfonyServiceProvider implements ServiceProviderInterface
     /**
      * @return \Symfony\Component\Serializer\SerializerInterface
      */
-    protected function createSymfonySerializer(): SymfonySerializerInterface
+    protected function createSymfonySerializer(Container $container): SymfonySerializerInterface
     {
+        $strategryProvider = $container->offsetGet('serializer_property_name_converter_strategy_provider');
+
         $normalizer = [
-            new ObjectNormalizer(null, null, null, new PhpDocExtractor()),
+            new ObjectNormalizer(
+                null,
+                new PropertyNameConverter($strategryProvider),
+                null,
+                new PhpDocExtractor()
+            ),
             new ArrayDenormalizer()
         ];
 
