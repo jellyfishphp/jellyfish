@@ -100,36 +100,8 @@ class EventServiceProviderTest extends Unit
         $this->assertTrue($this->container->offsetExists('event_factory'));
         $this->assertInstanceOf(EventFactory::class, $this->container->offsetGet('event_factory'));
 
-        $this->assertTrue($this->container->offsetExists('event_queue_name_generator'));
-        $this->assertInstanceOf(
-            EventQueueNameGenerator::class,
-            $this->container->offsetGet('event_queue_name_generator')
-        );
-
-        $this->assertTrue($this->container->offsetExists('event_mapper'));
-        $this->assertInstanceOf(EventMapper::class, $this->container->offsetGet('event_mapper'));
-
-        $this->assertTrue($this->container->offsetExists('event_queue_consumer'));
-        $this->assertInstanceOf(
-            EventQueueConsumer::class,
-            $this->container->offsetGet('event_queue_consumer')
-        );
-
-        $this->assertTrue($this->container->offsetExists('event_queue_producer'));
-        $this->assertInstanceOf(
-            EventQueueProducer::class,
-            $this->container->offsetGet('event_queue_producer')
-        );
-
         $this->assertTrue($this->container->offsetExists('event_dispatcher'));
         $this->assertInstanceOf(EventDispatcher::class, $this->container->offsetGet('event_dispatcher'));
-
-        $this->assertTrue($this->container->offsetExists('event_listener_provider'));
-        $this->assertInstanceOf(EventListenerProvider::class, $this->container->offsetGet('event_listener_provider'));
-
-
-        $this->assertTrue($this->container->offsetExists('event_queue_worker'));
-        $this->assertInstanceOf(EventQueueWorker::class, $this->container->offsetGet('event_queue_worker'));
 
         $this->assertTrue($this->container->offsetExists('commands'));
 
