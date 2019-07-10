@@ -5,6 +5,7 @@ namespace Jellyfish\QueueRabbitMq;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\MessageMapperInterface;
 use Jellyfish\Queue\QueueClientInterface;
+use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AbstractConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -16,7 +17,7 @@ class QueueClient implements QueueClientInterface
     protected $connection;
 
     /**
-     * @var \PhpAmqpLib\Channel\AMQPChannel
+     * @var \PhpAmqpLib\Channel\AMQPChannel|null
      */
     protected $channel;
 
@@ -32,7 +33,6 @@ class QueueClient implements QueueClientInterface
     public function __construct(AbstractConnection $connection, MessageMapperInterface $messageMapper)
     {
         $this->connection = $connection;
-        $this->channel = $this->connection->channel();
         $this->messageMapper = $messageMapper;
     }
 
@@ -43,10 +43,10 @@ class QueueClient implements QueueClientInterface
      */
     public function receiveMessage(string $queueName): ?MessageInterface
     {
-        $this->channel->queue_declare($queueName);
+        $this->getChannel()->queue_declare($queueName);
 
-        $messageAsJson = $this->channel->basic_get($queueName, true);
-        
+        $messageAsJson = $this->getChannel()->basic_get($queueName, true);
+
         if ($messageAsJson === null || !($messageAsJson instanceof AMQPMessage)) {
             return null;
         }
@@ -64,18 +64,28 @@ class QueueClient implements QueueClientInterface
     {
         $messageAsJson = $this->messageMapper->toJson($message);
 
-        $this->channel->queue_declare($queueName);
-        $this->channel->basic_publish(new AMQPMessage($messageAsJson), '', $queueName);
+        $this->getChannel()->queue_declare($queueName);
+        $this->getChannel()->basic_publish(new AMQPMessage($messageAsJson), '', $queueName);
 
         return $this;
     }
 
-    public function __destruct()
+    /**
+     * @return \PhpAmqpLib\Channel\AMQPChannel
+     */
+    protected function getChannel(): AMQPChannel
     {
-        if ($this->channel !== null) {
-            $this->channel->close();
+        if ($this->channel === null) {
+            $this->channel = $this->connection->channel();
         }
 
-        $this->connection->close();
+        return $this->channel;
+    }
+
+    public function __destruct()
+    {
+        if ($this->connection->isConnected()) {
+            $this->connection->close();
+        }
     }
 }

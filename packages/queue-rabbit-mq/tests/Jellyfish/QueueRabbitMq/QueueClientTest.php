@@ -56,10 +56,6 @@ class QueueClientTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->connectionMock->expects($this->atLeastOnce())
-            ->method('channel')
-            ->willReturn($this->channelMock);
-
         $this->messageMapperMock = $this->getMockBuilder(MessageMapperInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -82,6 +78,10 @@ class QueueClientTest extends Unit
     {
         $queueName = 'foo';
         $expectedMessageAsJson = '{"foo": "bar"}';
+
+        $this->connectionMock->expects($this->atLeastOnce())
+            ->method('channel')
+            ->willReturn($this->channelMock);
 
         $this->channelMock->expects($this->atLeastOnce())
             ->method('queue_declare')
@@ -111,6 +111,10 @@ class QueueClientTest extends Unit
     {
         $queueName = 'foo';
 
+        $this->connectionMock->expects($this->atLeastOnce())
+            ->method('channel')
+            ->willReturn($this->channelMock);
+
         $this->channelMock->expects($this->atLeastOnce())
             ->method('queue_declare')
             ->with($queueName);
@@ -134,6 +138,10 @@ class QueueClientTest extends Unit
         $queueName = 'foo';
         $messageAsJson = '{"foo": "bar"}';
 
+        $this->connectionMock->expects($this->atLeastOnce())
+            ->method('channel')
+            ->willReturn($this->channelMock);
+
         $this->messageMapperMock->expects($this->atLeastOnce())
             ->method('toJson')
             ->with($this->messageMock)
@@ -150,10 +158,29 @@ class QueueClientTest extends Unit
         $this->queueClient->sendMessage($queueName, $this->messageMock);
     }
 
+    /**
+     * @return void
+     */
+    public function testDestructWithClosedConnection()
+    {
+        $this->connectionMock->expects($this->atLeastOnce())
+            ->method('isConnected')
+            ->willReturn(false);
+
+        $this->connectionMock->expects($this->never())
+            ->method('close');
+
+        unset($this->queueClient);
+    }
+
+    /**
+     * @return void
+     */
     public function testDestruct()
     {
-        $this->channelMock->expects($this->atLeastOnce())
-            ->method('close');
+        $this->connectionMock->expects($this->atLeastOnce())
+            ->method('isConnected')
+            ->willReturn(true);
 
         $this->connectionMock->expects($this->atLeastOnce())
             ->method('close');

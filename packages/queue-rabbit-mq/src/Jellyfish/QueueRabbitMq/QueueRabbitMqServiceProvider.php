@@ -6,7 +6,7 @@ use Jellyfish\Config\ConfigInterface;
 use Jellyfish\Queue\MessageMapperInterface;
 use Jellyfish\Queue\QueueClientInterface;
 use PhpAmqpLib\Connection\AbstractConnection;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Connection\AMQPLazyConnection;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -80,7 +80,7 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
             QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_VHOST
         );
 
-        $connection = new AMQPStreamConnection(
+        $connection = new AMQPLazyConnection(
             $rabbitMqHost,
             $rabbitMqPort,
             $rabbitMqUser,
