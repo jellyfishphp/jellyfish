@@ -10,29 +10,132 @@ use Pimple\ServiceProviderInterface;
 class EventServiceProvider implements ServiceProviderInterface
 {
     /**
+     * @var \Jellyfish\Event\EventQueueNameGeneratorInterface|null
+     */
+    protected $eventQueueNameGenerator;
+
+    /**
+     * @var \Jellyfish\Event\EventMapperInterface
+     */
+    protected $eventMapper;
+
+    /**
+     * @var \Jellyfish\Event\EventQueueProducerInterface
+     */
+    protected $eventQueueProducer;
+
+    /**
+     * @var \Jellyfish\Event\EventQueueConsumerInterface
+     */
+    protected $eventQueueConsumer;
+
+    /**
+     * @var \Jellyfish\Event\EventQueueWorkerInterface
+     */
+    protected $eventQueueWorker;
+
+    /**
      * @param \Pimple\Container $pimple
      *
      * @return void
      */
     public function register(Container $pimple): void
     {
-        $this->createEventFactory($pimple);
-        $this->createEventQueueNameGenerator($pimple);
-        $this->createEventMapper($pimple);
-        $this->createEventQueueProducer($pimple);
-        $this->createEventQueueConsumer($pimple);
-        $this->createEventListenerProvider($pimple);
-        $this->createEventDispatcher($pimple);
-        $this->createEventQueueWorker($pimple);
-        $this->createCommands($pimple);
+        $this->registerEventFactory($pimple)
+            ->registerEventDispatcher($pimple)
+            ->registerCommands($pimple);
+    }
+
+    /**
+     * @return \Jellyfish\Event\EventQueueNameGeneratorInterface
+     */
+    protected function createEventQueueNameGenerator(): EventQueueNameGeneratorInterface
+    {
+        if ($this->eventQueueNameGenerator === null) {
+            $this->eventQueueNameGenerator = new EventQueueNameGenerator();
+        }
+
+        return $this->eventQueueNameGenerator;
+    }
+
+    /**
+     * @param \Pimple\Container $container
+     * @return \Jellyfish\Event\EventMapperInterface
+     */
+    protected function createEventMapper(Container $container): EventMapperInterface
+    {
+        if ($this->eventMapper === null) {
+            $this->eventMapper = new EventMapper(
+                $container->offsetGet('event_factory'),
+                $container->offsetGet('message_factory'),
+                $container->offsetGet('serializer')
+            );
+        }
+
+        return $this->eventMapper;
     }
 
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
+     * @return \Jellyfish\Event\EventQueueProducerInterface
      */
-    protected function createEventFactory(Container $container): ServiceProviderInterface
+    protected function createEventQueueProducer(Container $container): EventQueueProducerInterface
+    {
+        if ($this->eventQueueProducer === null) {
+            $this->eventQueueProducer = new EventQueueProducer(
+                $this->createEventMapper($container),
+                $this->createEventQueueNameGenerator(),
+                $container->offsetGet('queue_client')
+            );
+        }
+
+        return $this->eventQueueProducer;
+    }
+
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Jellyfish\Event\EventQueueConsumerInterface
+     */
+    protected function createEventQueueConsumer(Container $container): EventQueueConsumerInterface
+    {
+        if ($this->eventQueueConsumer === null) {
+            $this->eventQueueConsumer = new EventQueueConsumer(
+                $container->offsetGet('process_factory'),
+                $this->createEventMapper($container),
+                $this->createEventQueueNameGenerator(),
+                $container->offsetGet('queue_client'),
+                $container->offsetGet('root_dir')
+            );
+        }
+
+        return $this->eventQueueConsumer;
+    }
+
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Jellyfish\Event\EventQueueWorkerInterface
+     */
+    protected function createEventQueueWorker(Container $container): EventQueueWorkerInterface
+    {
+        if ($this->eventQueueWorker === null) {
+            $this->eventQueueWorker = new EventQueueWorker(
+                $container->offsetGet('event_dispatcher')->getEventListenerProvider(),
+                $this->createEventQueueConsumer($container)
+            );
+        }
+
+        return $this->eventQueueWorker;
+    }
+
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Jellyfish\Event\EventServiceProvider
+     */
+    protected function registerEventFactory(Container $container): EventServiceProvider
     {
         $container->offsetSet('event_factory', function () {
             return new EventFactory();
@@ -44,93 +147,16 @@ class EventServiceProvider implements ServiceProviderInterface
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
+     * @return \Jellyfish\Event\EventServiceProvider
      */
-    protected function createEventQueueNameGenerator(Container $container): ServiceProviderInterface
+    protected function registerEventDispatcher(Container $container): EventServiceProvider
     {
-        $container->offsetSet('event_queue_name_generator', function () {
-            return new EventQueueNameGenerator();
-        });
+        $self = $this;
 
-        return $this;
-    }
-
-    /**
-     * @param \Pimple\Container $container
-     *
-     * @return \Pimple\ServiceProviderInterface
-     */
-    protected function createEventMapper(Container $container): ServiceProviderInterface
-    {
-        $container->offsetSet('event_mapper', function (Container $container) {
-            return new EventMapper(
-                $container->offsetGet('event_factory'),
-                $container->offsetGet('message_factory'),
-                $container->offsetGet('serializer')
-            );
-        });
-
-        return $this;
-    }
-
-    /**
-     * @param \Pimple\Container $container
-     *
-     * @return \Pimple\ServiceProviderInterface
-     */
-    protected function createEventQueueProducer(Container $container): ServiceProviderInterface
-    {
-        $container->offsetSet('event_queue_producer', function (Container $container) {
-            return new EventQueueProducer(
-                $container->offsetGet('event_mapper'),
-                $container->offsetGet('event_queue_name_generator'),
-                $container->offsetGet('queue_client')
-            );
-        });
-
-        return $this;
-    }
-
-    /**
-     * @param \Pimple\Container $container
-     *
-     * @return \Pimple\ServiceProviderInterface
-     */
-    protected function createEventQueueConsumer(Container $container): ServiceProviderInterface
-    {
-        $container->offsetSet('event_queue_consumer', function (Container $container) {
-            return new EventQueueConsumer(
-                $container->offsetGet('process_factory'),
-                $container->offsetGet('event_mapper'),
-                $container->offsetGet('event_queue_name_generator'),
-                $container->offsetGet('queue_client'),
-                $container->offsetGet('root_dir')
-            );
-        });
-
-        return $this;
-    }
-
-    protected function createEventListenerProvider(Container $container): ServiceProviderInterface
-    {
-        $container->offsetSet('event_listener_provider', function () {
-            return new EventListenerProvider();
-        });
-
-        return $this;
-    }
-
-    /**
-     * @param \Pimple\Container $container
-     *
-     * @return \Pimple\ServiceProviderInterface
-     */
-    protected function createEventDispatcher(Container $container): ServiceProviderInterface
-    {
-        $container->offsetSet('event_dispatcher', function (Container $container) {
+        $container->offsetSet('event_dispatcher', function (Container $container) use ($self) {
             return new EventDispatcher(
-                $container->offsetGet('event_listener_provider'),
-                $container->offsetGet('event_queue_producer')
+                new EventListenerProvider(),
+                $self->createEventQueueProducer($container)
             );
         });
 
@@ -140,37 +166,22 @@ class EventServiceProvider implements ServiceProviderInterface
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
+     * @return \Jellyfish\Event\EventServiceProvider
      */
-    protected function createEventQueueWorker(Container $container): ServiceProviderInterface
+    protected function registerCommands(Container $container): EventServiceProvider
     {
-        $container->offsetSet('event_queue_worker', function (Container $container) {
-            return new EventQueueWorker(
-                $container->offsetGet('event_listener_provider'),
-                $container->offsetGet('event_queue_consumer')
-            );
-        });
+        $self = $this;
 
-        return $this;
-    }
-
-    /**
-     * @param \Pimple\Container $container
-     *
-     * @return \Pimple\ServiceProviderInterface
-     */
-    protected function createCommands(Container $container): ServiceProviderInterface
-    {
-        $container->extend('commands', function (array $commands, Container $container) {
+        $container->extend('commands', function (array $commands, Container $container) use ($self) {
             $commands[] = new EventQueueConsumeCommand(
-                $container->offsetGet('event_listener_provider'),
-                $container->offsetGet('event_queue_consumer'),
+                $container->offsetGet('event_dispatcher')->getEventListenerProvider(),
+                $self->createEventQueueConsumer($container),
                 $container->offsetGet('lock_factory'),
                 $container->offsetGet('logger')
             );
 
             $commands[] = new EventQueueWorkerStartCommand(
-                $container->offsetGet('event_queue_worker')
+                $self->createEventQueueWorker($container)
             );
 
             return $commands;

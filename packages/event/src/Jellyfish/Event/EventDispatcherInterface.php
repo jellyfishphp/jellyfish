@@ -12,4 +12,9 @@ interface EventDispatcherInterface
      * @return \Jellyfish\Event\EventDispatcherInterface
      */
     public function dispatch(EventInterface $event): EventDispatcherInterface;
+
+    /**
+     * @return \Jellyfish\Event\EventListenerProviderInterface
+     */
+    public function getEventListenerProvider(): EventListenerProviderInterface;
 }

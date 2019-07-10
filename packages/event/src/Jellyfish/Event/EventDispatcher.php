@@ -79,4 +79,12 @@ class EventDispatcher implements EventDispatcherInterface
 
         return $this;
     }
+
+    /**
+     * @return \Jellyfish\Event\EventListenerProviderInterface
+     */
+    public function getEventListenerProvider(): EventListenerProviderInterface
+    {
+        return $this->eventListenerProvider;
+    }
 }

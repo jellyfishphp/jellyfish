@@ -117,6 +117,9 @@ class EventDispatcherTest extends Unit
         );
     }
 
+    /**
+     * @return void
+     */
     public function testDispatchAsyncListeners(): void
     {
         $this->eventMock->expects($this->atLeastOnce())
@@ -140,6 +143,17 @@ class EventDispatcherTest extends Unit
         $this->assertEquals(
             $this->eventDispatcher,
             $this->eventDispatcher->dispatch($this->eventMock)
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetEventListenerProvider(): void
+    {
+        $this->assertEquals(
+            $this->eventListenerProviderMock,
+            $this->eventDispatcher->getEventListenerProvider()
         );
     }
 }
