@@ -84,6 +84,75 @@ class ClassDefinition implements ClassDefinitionInterface
     }
 
     /**
+     * @return string
+     */
+    public function getNamespaceStatement(): string
+    {
+        return \sprintf('namespace %s\\%s;', static::NAMESPACE_PREFIX, $this->namespace);
+    }
+
+    /**
+     * @return array
+     */
+    public function getUseStatements(): array
+    {
+        $useStatements = [];
+
+        foreach ($this->properties as $property) {
+            if (!$this->canCreateUseStatement($property)) {
+                continue;
+            }
+
+            $useStatement = $this->createUseStatement($property);
+            $useStatementKey = \sha1($useStatement);
+
+            if (array_key_exists($useStatementKey, $useStatements)) {
+                continue;
+            }
+
+            $useStatements[$useStatementKey] = $useStatement;
+        }
+
+        return $useStatements;
+    }
+
+    /**
+     * @param \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface $property
+     *
+     * @return bool
+     */
+    protected function canCreateUseStatement(ClassPropertyDefinitionInterface $property): bool
+    {
+        return $property->isPrimitive() === false
+            && ($property->getTypeNamespace() !== $this->namespace || $property->getTypeAlias() !== null);
+    }
+
+    /**
+     * @param \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface $property
+     *
+     * @return string
+     */
+    protected function createUseStatement(ClassPropertyDefinitionInterface $property): string
+    {
+        if ($property->getTypeAlias() === null) {
+            return \sprintf(
+                'use %s\\%s\\%s;',
+                static::NAMESPACE_PREFIX,
+                $property->getTypeNamespace(),
+                $property->getType()
+            );
+        }
+
+        return \sprintf(
+            'use %s\\%s\\%s as %s;',
+            static::NAMESPACE_PREFIX,
+            $property->getTypeNamespace(),
+            $property->getType(),
+            $property->getTypeAlias()
+        );
+    }
+
+    /**
      * @return \Jellyfish\Transfer\Definition\ClassPropertyDefinition[]
      */
     public function getProperties(): array

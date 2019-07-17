@@ -7,7 +7,7 @@
 {% endset %}
 <?php
 
-{% include('namespace.twig') with { classDefinition: classDefinition } only %}
+{% include('namespace.twig') with { namespaceStatement: classDefinition.getNamespaceStatement() } only %}
 
 class {{ classDefinition.getName() }}{{ constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::FACTORY_NAME_SUFFIX') }}
 {

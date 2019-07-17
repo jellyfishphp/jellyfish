@@ -1,7 +1,1 @@
-{% set namespace %}
-    {{- constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') -}}
-    {%- if classDefinition.getNamespace() is not null-%}
-        {{ '\\' ~ classDefinition.getNamespace() }}
-    {%- endif %}
-{% endset %}
-namespace {{ namespace }};
+{{ namespaceStatement }}

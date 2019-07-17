@@ -65,6 +65,97 @@ class ClassDefinitionTest extends Unit
     /**
      * @return void
      */
+    public function testGetNamespaceStatement(): void
+    {
+       $namespace = 'Lorem';
+       $expectedNamespaceStatement = \sprintf('namespace %s\\%s;', ClassDefinition::NAMESPACE_PREFIX, $namespace);
+
+       $this->assertEquals($this->classDefinition, $this->classDefinition->setNamespace($namespace));
+       $this->assertEquals($expectedNamespaceStatement, $this->classDefinition->getNamespaceStatement());
+
+    }
+
+    /**
+     * @return void
+     */
+    public function testUseStatements(): void
+    {
+        $propertyMocks = [
+            $this->getMockBuilder(ClassPropertyDefinitionInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock(),
+            $this->getMockBuilder(ClassPropertyDefinitionInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock(),
+            $this->getMockBuilder(ClassPropertyDefinitionInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock(),
+            $this->getMockBuilder(ClassPropertyDefinitionInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock()
+        ];
+
+        $this->assertEquals($this->classDefinition, $this->classDefinition->setNamespace('Lorem'));
+        $this->assertEquals($this->classDefinition, $this->classDefinition->setProperties($propertyMocks));
+
+        $propertyMocks[0]->expects($this->atLeastOnce())
+            ->method('isPrimitive')
+            ->willReturn(true);
+
+        $propertyMocks[1]->expects($this->atLeastOnce())
+            ->method('isPrimitive')
+            ->willReturn(false);
+
+        $propertyMocks[1]->expects($this->atLeastOnce())
+            ->method('getTypeNamespace')
+            ->willReturn('Ipsum');
+
+        $propertyMocks[1]->expects($this->atLeastOnce())
+            ->method('getTypeAlias')
+            ->willReturn(null);
+
+        $propertyMocks[1]->expects($this->atLeastOnce())
+            ->method('getType')
+            ->willReturn('A');
+
+        $propertyMocks[2]->expects($this->atLeastOnce())
+            ->method('isPrimitive')
+            ->willReturn(false);
+
+        $propertyMocks[2]->expects($this->atLeastOnce())
+            ->method('getTypeNamespace')
+            ->willReturn('Ipsum');
+
+        $propertyMocks[2]->expects($this->atLeastOnce())
+            ->method('getTypeAlias')
+            ->willReturn(null);
+
+        $propertyMocks[2]->expects($this->atLeastOnce())
+            ->method('getType')
+            ->willReturn('A');
+
+        $propertyMocks[3]->expects($this->atLeastOnce())
+            ->method('isPrimitive')
+            ->willReturn(false);
+
+        $propertyMocks[3]->expects($this->atLeastOnce())
+            ->method('getTypeNamespace')
+            ->willReturn('Lorem');
+
+        $propertyMocks[3]->expects($this->atLeastOnce())
+            ->method('getTypeAlias')
+            ->willReturn('LoremA');
+
+        $propertyMocks[3]->expects($this->atLeastOnce())
+            ->method('getType')
+            ->willReturn('A');
+
+        $this->assertCount(2, $this->classDefinition->getUseStatements());
+    }
+
+    /**
+     * @return void
+     */
     public function testSetAndGetProperties(): void
     {
         $propertyMocks = [
