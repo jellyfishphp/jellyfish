@@ -1,19 +1,4 @@
-{% set useStatements = [] %}
-{% for property in classDefinition.getProperties() -%}
-    {%- if not property.isPrimitive() and (property.getTypeNamespace() != classDefinition.getNamespace() or property.getTypeAlias() is not null) -%}
-        {% set useStatement = 'use ' ~  constant('\\Jellyfish\\Transfer\\Definition\\ClassDefinition::NAMESPACE_PREFIX') ~ '\\' %}
-        {%- if property.getTypeNamespace() is not null -%}
-            {% set useStatement = useStatement ~ property.getTypeNamespace() ~ '\\' %}
-        {%- endif %}
-        {%- set useStatement = useStatement ~ property.getType() -%}
-        {%- if property.getTypeAlias() is not null -%}
-            {%- set useStatement = useStatement ~ ' as ' ~ property.getTypeAlias() -%}
-        {%- endif %}
-        {%- set useStatement = useStatement ~ ';' -%}
-        {%- set useStatements = useStatements|merge([useStatement]) -%}
-    {%- endif %}
-{%- endfor %}
-{% for useStatement in useStatements %}
+{% for useStatement in useStatements -%}
     {{- useStatement }}
 {% endfor %}
 {% if useStatements|length > 0 %}

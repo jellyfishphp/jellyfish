@@ -34,6 +34,16 @@ interface ClassDefinitionInterface
     public function setNamespace(?string $namespace): ClassDefinitionInterface;
 
     /**
+     * @return array
+     */
+    public function getUseStatements(): array;
+
+    /**
+     * @return string
+     */
+    public function getNamespaceStatement(): string;
+
+    /**
      * @return \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface[]
      */
     public function getProperties(): array;

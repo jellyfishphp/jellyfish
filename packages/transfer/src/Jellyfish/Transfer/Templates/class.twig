@@ -1,8 +1,8 @@
 <?php
 
-{% include('namespace.twig') with { classDefinition: classDefinition } only %}
+{% include('namespace.twig') with { namespaceStatement: classDefinition.getNamespaceStatement() } only %}
 
-{% include('use-statements.twig') with { classDefinition: classDefinition } only %}
+{% include('use-statements.twig') with { useStatements: classDefinition.getUseStatements() } only %}
 class {{ classDefinition.getName() }}
 {
 {% for property in classDefinition.getProperties() %}

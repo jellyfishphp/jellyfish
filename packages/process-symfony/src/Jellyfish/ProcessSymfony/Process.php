@@ -23,9 +23,7 @@ class Process implements ProcessInterface
     public function __construct(array $command)
     {
         $this->command = $command;
-        $preparedCommand = \implode(' ', $this->command);
-
-        $this->process = new SymfonyProcess($preparedCommand);
+        $this->process = new SymfonyProcess($command);
     }
 
     /**
