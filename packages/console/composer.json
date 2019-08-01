@@ -9,6 +9,6 @@
     }
   ],
   "require": {
-    "symfony/console": "~4.3.2"
+    "symfony/console": "~4.3.3"
   }
 }
