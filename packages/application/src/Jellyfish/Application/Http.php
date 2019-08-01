@@ -19,6 +19,9 @@ class Http
         $this->kernel = $kernel;
     }
 
+    /**
+     * @return void
+     */
     public function run(): void
     {
         /** @var \Psr\Http\Message\ServerRequestInterface $request */

@@ -24,9 +24,7 @@ class Console extends BaseApplication
     }
 
     /**
-     * Gets the default commands that should always be available.
-     *
-     * @return Command[] An array of default Command instances
+     * @return \Symfony\Component\Console\Command\Command[]
      */
     protected function getDefaultCommands(): array
     {

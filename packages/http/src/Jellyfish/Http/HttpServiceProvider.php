@@ -23,37 +23,59 @@ class HttpServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
+        $this->registerRequest($pimple)
+            ->registerRouter($pimple)
+            ->registerEmitter($pimple);
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     *
+     * @param \Pimple\Container $container
+     *
+     * @return \Jellyfish\Http\HttpServiceProvider
+     */
+    protected function registerRequest(Container $container): HttpServiceProvider
+    {
+        $container->offsetSet('request', function () {
+            return ServerRequestFactory::fromGlobals();
+        });
+
+        return $this;
+    }
+
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Jellyfish\Http\HttpServiceProvider
+     */
+    protected function registerRouter(Container $container): HttpServiceProvider
+    {
         $self = $this;
 
-        $pimple->offsetSet('request', function () use ($self) {
-            return $self->createServerRequest();
+        $container->offsetSet('router', function () use ($self) {
+            $router = new Router();
+
+            $router->setStrategy($self->createStrategy());
+
+            return $router;
         });
 
-        $pimple->offsetSet('router', function () use ($self) {
-            return $self->createRouter();
-        });
-
-        $pimple->offsetSet('emitter', function () use ($self) {
-            return $self->createEmitter();
-        });
+        return $this;
     }
 
     /**
-     * @SuppressWarnings(PHPMD)
+     * @param \Pimple\Container $container
      *
-     * @return \Psr\Http\Message\ServerRequestInterface
+     * @return \Jellyfish\Http\HttpServiceProvider
      */
-    protected function createServerRequest(): ServerRequestInterface
+    protected function registerEmitter(Container $container): HttpServiceProvider
     {
-        return ServerRequestFactory::fromGlobals();
-    }
+        $container->offsetSet('emitter', function () {
+            return new SapiStreamEmitter();
+        });
 
-    /**
-     * @return \Psr\Http\Message\ResponseFactoryInterface
-     */
-    protected function createResponseFactory(): ResponseFactoryInterface
-    {
-        return new ResponseFactory();
+        return $this;
     }
 
     /**
@@ -65,22 +87,10 @@ class HttpServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * @return \League\Route\Router
+     * @return \Psr\Http\Message\ResponseFactoryInterface
      */
-    protected function createRouter(): Router
+    protected function createResponseFactory(): ResponseFactoryInterface
     {
-        $router = new Router();
-
-        $router->setStrategy($this->createStrategy());
-
-        return $router;
-    }
-
-    /**
-     * @return \Zend\HttpHandlerRunner\Emitter\EmitterInterface
-     */
-    protected function createEmitter(): EmitterInterface
-    {
-        return new SapiStreamEmitter();
+        return new ResponseFactory();
     }
 }

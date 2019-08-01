@@ -10,37 +10,42 @@ class FeedServiceProvider implements ServiceProviderInterface
 {
     /**
      * @param \Pimple\Container $pimple
+     *
+     * @®return void
      */
-    public function register(Container $pimple)
+    public function register(Container $pimple): void
     {
-        $self = $this;
+        $this->registerFeedReaderManager($pimple)
+            ->registerCommands($pimple);
+    }
 
-        $pimple->offsetSet('feed_reader_manager', function () use ($self) {
-            return $self->createFeedReaderManager();
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Jellyfish\Feed\FeedServiceProvider
+     */
+    protected function registerFeedReaderManager(Container $container): FeedServiceProvider
+    {
+        $container->offsetSet('feed_reader_manager', function () {
+            return new FeedReaderManager();
         });
 
-        $pimple->extend('commands', function (array $commands, Container $container) use ($self) {
-            $commands[] = $self->createRunFeedReaderCommand($container->offsetGet('feed_reader_manager'));
+        return $this;
+    }
+
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Jellyfish\Feed\FeedServiceProvider
+     */
+    protected function registerCommands(Container $container): FeedServiceProvider
+    {
+        $container->extend('commands', function (array $commands, Container $container) {
+            $commands[] = new RunFeedReaderCommand($container->offsetGet('feed_reader_manager'));
 
             return $commands;
         });
-    }
 
-    /**
-     * @return \Jellyfish\Feed\FeedReaderManagerInterface
-     */
-    protected function createFeedReaderManager(): FeedReaderManagerInterface
-    {
-        return new FeedReaderManager();
-    }
-
-    /**
-     * @param \Jellyfish\Feed\FeedReaderManagerInterface $feedReaderManager
-     *
-     * @return \Jellyfish\Feed\Command\RunFeedReaderCommand
-     */
-    protected function createRunFeedReaderCommand(FeedReaderManagerInterface $feedReaderManager): RunFeedReaderCommand
-    {
-        return new RunFeedReaderCommand($feedReaderManager);
+        return $this;
     }
 }

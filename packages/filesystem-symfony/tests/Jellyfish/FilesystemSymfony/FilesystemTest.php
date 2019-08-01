@@ -144,4 +144,32 @@ class FilesystemTest extends Unit
         $this->assertFileExists($pathToFile);
         $this->assertEquals($content, \file_get_contents($pathToFile));
     }
+
+    /**
+     * @return void
+     */
+    public function testReadFromFile(): void
+    {
+        $root = vfsStream::setup('root', null, ['to' => []]);
+        $pathToNonExistingFile = $root->url() . '/to/file.ext';
+        $content = 'Lorem ipsum';
+        @\file_put_contents($pathToNonExistingFile, $content);
+
+        $this->assertEquals($content, $this->filesystem->readFromFile($pathToNonExistingFile));
+    }
+
+    /**
+     * @return void
+     */
+    public function testReadFromNonExistingFile(): void
+    {
+        $root = vfsStream::setup('root', null, ['to' => []]);
+        $pathToNonExistingFile = $root->url() . '/to/file.ext';
+
+        try {
+            $this->filesystem->readFromFile($pathToNonExistingFile);
+            $this->fail();
+        } catch (IOException $e) {
+        }
+    }
 }

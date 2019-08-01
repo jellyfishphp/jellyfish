@@ -2,6 +2,7 @@
 
 namespace Jellyfish\Event\Command;
 
+use InvalidArgumentException;
 use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventListenerInterface;
 use Jellyfish\Event\EventQueueConsumerInterface;
@@ -78,8 +79,13 @@ class EventQueueConsumeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $eventName = (string) $input->getArgument('eventName');
-        $listenerIdentifier = (string) $input->getArgument('listenerIdentifier');
+        $eventName = $input->getArgument('eventName');
+        $listenerIdentifier = $input->getArgument('listenerIdentifier');
+
+        if (!is_string($eventName) || !is_string($listenerIdentifier)) {
+            throw new InvalidArgumentException('Unsupported type for given arguments');
+        }
+
         $lockIdentifierParts = [static::NAME, $eventName, $listenerIdentifier];
 
         if (!$this->acquire($lockIdentifierParts)) {

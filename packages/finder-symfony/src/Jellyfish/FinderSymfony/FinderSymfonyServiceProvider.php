@@ -14,15 +14,15 @@ class FinderSymfonyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->createFinderFactory($pimple);
+        $this->registerFinderFactory($pimple);
     }
 
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
+     * @return \Jellyfish\FinderSymfony\FinderSymfonyServiceProvider
      */
-    protected function createFinderFactory(Container $container): ServiceProviderInterface
+    protected function registerFinderFactory(Container $container): FinderSymfonyServiceProvider
     {
         $container->offsetSet('finder_factory', function () {
             return new FinderFactory();

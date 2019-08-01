@@ -14,15 +14,15 @@ class JsonSchemaOpisServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->createValidatorFactory($pimple);
+        $this->registerValidatorFactory($pimple);
     }
 
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
+     * @return \Jellyfish\JsonSchemaOpis\JsonSchemaOpisServiceProvider
      */
-    protected function createValidatorFactory(Container $container): ServiceProviderInterface
+    protected function registerValidatorFactory(Container $container): JsonSchemaOpisServiceProvider
     {
         $container->offsetSet('json_schema_validator_factory', function () {
             return new ValidatorFactory();

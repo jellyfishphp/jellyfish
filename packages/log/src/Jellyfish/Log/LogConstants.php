@@ -6,6 +6,6 @@ use Monolog\Logger;
 
 interface LogConstants
 {
-    const LOG_LEVEL = 'LOG_LEVEL';
-    const DEFAULT_LOG_LEVEL = Logger::INFO;
+    public const LOG_LEVEL = 'LOG_LEVEL';
+    public const DEFAULT_LOG_LEVEL = Logger::INFO;
 }

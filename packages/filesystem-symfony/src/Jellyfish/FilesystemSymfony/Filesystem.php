@@ -85,4 +85,20 @@ class Filesystem implements FilesystemInterface
 
         return $this;
     }
+
+    /**
+     * @param string $pathToFile
+     *
+     * @return string
+     */
+    public function readFromFile(string $pathToFile): string
+    {
+        $fileContent = @\file_get_contents($pathToFile);
+
+        if (false === $fileContent) {
+            throw new IOException(sprintf('Failed to read file "%s".', $pathToFile), 0, null, $pathToFile);
+        }
+
+        return $fileContent;
+    }
 }

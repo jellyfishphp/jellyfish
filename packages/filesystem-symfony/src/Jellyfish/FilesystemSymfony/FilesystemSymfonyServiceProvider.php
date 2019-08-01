@@ -15,7 +15,7 @@ class FilesystemSymfonyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->addFilesystem($pimple);
+        $this->registerFilesystem($pimple);
     }
 
     /**
@@ -23,7 +23,7 @@ class FilesystemSymfonyServiceProvider implements ServiceProviderInterface
      *
      * @return \Jellyfish\FilesystemSymfony\FilesystemSymfonyServiceProvider
      */
-    protected function addFilesystem(Container $container): FilesystemSymfonyServiceProvider
+    protected function registerFilesystem(Container $container): FilesystemSymfonyServiceProvider
     {
         $container->offsetSet('filesystem', function () {
             $symfonyFilesystem = new SymfonyFilesystem();

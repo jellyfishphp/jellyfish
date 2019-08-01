@@ -48,12 +48,12 @@ class SerializerSymfonyServiceProvider implements ServiceProviderInterface
      */
     protected function createSymfonySerializer(Container $container): SymfonySerializerInterface
     {
-        $strategryProvider = $container->offsetGet('serializer_property_name_converter_strategy_provider');
+        $strategyProvider = $container->offsetGet('serializer_property_name_converter_strategy_provider');
 
         $normalizer = [
             new ObjectNormalizer(
                 null,
-                new PropertyNameConverter($strategryProvider),
+                new PropertyNameConverter($strategyProvider),
                 null,
                 new PhpDocExtractor()
             ),

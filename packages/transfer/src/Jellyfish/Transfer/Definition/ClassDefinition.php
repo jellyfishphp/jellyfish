@@ -8,6 +8,9 @@ class ClassDefinition implements ClassDefinitionInterface
     public const NAMESPACE_SEPARATOR = '\\';
     public const FACTORY_NAME_SUFFIX = 'Factory';
 
+    protected const PATTERN_ID = '/(?<=\\w)(?=[A-Z])/';
+    protected const REPLACEMENT_ID = '_$1';
+
     /**
      * @var string
      */
@@ -28,8 +31,6 @@ class ClassDefinition implements ClassDefinitionInterface
      */
     public function getId(): string
     {
-        $pattern = '/(?<=\\w)(?=[A-Z])/';
-        $replacement = '_$1';
         $id = static::NAMESPACE_PREFIX;
 
         if ($this->namespace !== null) {
@@ -38,7 +39,11 @@ class ClassDefinition implements ClassDefinitionInterface
 
         $id .= $this->name;
         $id = \str_replace('\\', '', $id);
-        $id = \preg_replace($pattern, $replacement, $id);
+        $id = @\preg_replace(static::PATTERN_ID, static::REPLACEMENT_ID, $id);
+
+        if ($id === null) {
+            throw new \RuntimeException('Could not perform a regular expression search and replace.');
+        }
 
         return \strtolower($id);
     }

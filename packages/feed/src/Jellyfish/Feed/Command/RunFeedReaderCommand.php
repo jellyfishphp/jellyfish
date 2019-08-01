@@ -2,6 +2,7 @@
 
 namespace Jellyfish\Feed\Command;
 
+use InvalidArgumentException;
 use Jellyfish\Feed\FeedReaderManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -48,7 +49,11 @@ class RunFeedReaderCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $identifier = (string) $input->getArgument('identifier');
+        $identifier = $input->getArgument('identifier');
+
+        if (!\is_string($identifier)) {
+            throw new InvalidArgumentException('Unsupported type for given argument');
+        }
 
         $this->feedReaderManager->readFromFeedReader($identifier);
 

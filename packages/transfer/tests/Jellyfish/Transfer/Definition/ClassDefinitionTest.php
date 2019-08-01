@@ -3,6 +3,7 @@
 namespace Jellyfish\Transfer\Definition;
 
 use Codeception\Test\Unit;
+use RuntimeException;
 
 class ClassDefinitionTest extends Unit
 {
@@ -29,6 +30,26 @@ class ClassDefinitionTest extends Unit
         $this->classDefinition->setName('Product');
 
         $this->assertEquals('generated_transfer_product', $this->classDefinition->getId());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetIdWithInvalidPattern(): void
+    {
+        $extendedClassDefinition = new class() extends ClassDefinition
+        {
+            protected const PATTERN_ID = '';
+        };
+
+        $extendedClassDefinition->setName('Product')
+            ->setNamespace('Catalog');
+
+        try {
+            $extendedClassDefinition->getId();
+            $this->fail();
+        } catch (RuntimeException $e) {
+        }
     }
 
     /**
@@ -67,12 +88,11 @@ class ClassDefinitionTest extends Unit
      */
     public function testGetNamespaceStatement(): void
     {
-       $namespace = 'Lorem';
-       $expectedNamespaceStatement = \sprintf('namespace %s\\%s;', ClassDefinition::NAMESPACE_PREFIX, $namespace);
+        $namespace = 'Lorem';
+        $expectedNamespaceStatement = \sprintf('namespace %s\\%s;', ClassDefinition::NAMESPACE_PREFIX, $namespace);
 
-       $this->assertEquals($this->classDefinition, $this->classDefinition->setNamespace($namespace));
-       $this->assertEquals($expectedNamespaceStatement, $this->classDefinition->getNamespaceStatement());
-
+        $this->assertEquals($this->classDefinition, $this->classDefinition->setNamespace($namespace));
+        $this->assertEquals($expectedNamespaceStatement, $this->classDefinition->getNamespaceStatement());
     }
 
     /**

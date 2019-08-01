@@ -15,16 +15,16 @@ class SchedulerServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->createScheduler($pimple);
-        $this->createCommands($pimple);
+        $this->registerScheduler($pimple)
+            ->registerCommands($pimple);
     }
 
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
+     * @return \Jellyfish\Scheduler\SchedulerServiceProvider
      */
-    protected function createScheduler(Container $container): ServiceProviderInterface
+    protected function registerScheduler(Container $container): SchedulerServiceProvider
     {
         $container->offsetSet('scheduler', function () {
             return new Scheduler();
@@ -36,9 +36,9 @@ class SchedulerServiceProvider implements ServiceProviderInterface
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
+     * @return \Jellyfish\Scheduler\SchedulerServiceProvider
      */
-    protected function createCommands(Container $container): ServiceProviderInterface
+    protected function registerCommands(Container $container): SchedulerServiceProvider
     {
         $container->extend('commands', function (array $commands, Container $container) {
             $commands[] = new RunSchedulerCommand(
@@ -49,7 +49,6 @@ class SchedulerServiceProvider implements ServiceProviderInterface
 
             return $commands;
         });
-
 
         return $this;
     }

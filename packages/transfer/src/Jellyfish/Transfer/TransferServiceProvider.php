@@ -35,16 +35,16 @@ class TransferServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->registerCommands($pimple);
-        $this->registerFactories($pimple);
+        $this->registerCommands($pimple)
+            ->registerFactories($pimple);
     }
 
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
+     * @return \Jellyfish\Transfer\TransferServiceProvider
      */
-    protected function registerCommands(Container $container): ServiceProviderInterface
+    protected function registerCommands(Container $container): TransferServiceProvider
     {
         $self = $this;
 
@@ -84,6 +84,7 @@ class TransferServiceProvider implements ServiceProviderInterface
     {
         return new ClassDefinitionMapLoader(
             $this->createDefinitionFinder($container),
+            $container->offsetGet('filesystem'),
             $this->createClassDefinitionMapMapper($container),
             $this->createClassDefinitionMapMerger()
         );
@@ -200,9 +201,9 @@ class TransferServiceProvider implements ServiceProviderInterface
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
+     * @return \Jellyfish\Transfer\TransferServiceProvider
      */
-    protected function registerFactories(Container $container): ServiceProviderInterface
+    protected function registerFactories(Container $container): TransferServiceProvider
     {
         $pathToFactoryRegistry = $this->getTargetDirectory($container) . 'factory-registry.php';
         $factoryRegistry = new ArrayObject();
@@ -212,7 +213,7 @@ class TransferServiceProvider implements ServiceProviderInterface
         }
 
         foreach ($factoryRegistry as $factoryId => $factory) {
-            $container->offsetSet($factoryId, function () use ($factory) {
+            $container->offsetSet((string)$factoryId, function () use ($factory) {
                 return $factory;
             });
         }

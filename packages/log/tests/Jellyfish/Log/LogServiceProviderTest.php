@@ -58,8 +58,8 @@ class LogServiceProviderTest extends Unit
     {
         $this->configMock->expects($this->atLeastOnce())
             ->method('get')
-            ->with(LogConstants::LOG_LEVEL, LogConstants::DEFAULT_LOG_LEVEL)
-            ->willReturn(Logger::DEBUG);
+            ->with(LogConstants::LOG_LEVEL, (string) LogConstants::DEFAULT_LOG_LEVEL)
+            ->willReturn((string) Logger::DEBUG);
 
         $this->logServiceProvider->register($this->container);
 

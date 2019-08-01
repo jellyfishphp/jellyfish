@@ -14,15 +14,15 @@ class ProcessSymfonyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->createProcessFactory($pimple);
+        $this->registerProcessFactory($pimple);
     }
 
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
+     * @return \Jellyfish\ProcessSymfony\ProcessSymfonyServiceProvider
      */
-    protected function createProcessFactory(Container $container): ServiceProviderInterface
+    protected function registerProcessFactory(Container $container): ProcessSymfonyServiceProvider
     {
         $container->offsetSet('process_factory', function () {
             return new ProcessFactory();

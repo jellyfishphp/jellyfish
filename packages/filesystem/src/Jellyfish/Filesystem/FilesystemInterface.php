@@ -41,4 +41,11 @@ interface FilesystemInterface
      * @return \Jellyfish\Filesystem\FilesystemInterface
      */
     public function writeToFile(string $pathToFile, string $content): FilesystemInterface;
+
+    /**
+     * @param string $pathToFile
+     *
+     * @return string
+     */
+    public function readFromFile(string $pathToFile): string;
 }

@@ -3,6 +3,7 @@
 namespace Jellyfish\Feed\Command;
 
 use Codeception\Test\Unit;
+use InvalidArgumentException;
 use Jellyfish\Feed\FeedReaderManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -88,5 +89,27 @@ class RunFeedReaderCommandTest extends Unit
         $exitCode = $this->runFeedReaderCommand->run($this->inputMock, $this->outputMock);
 
         $this->assertEquals(0, $exitCode);
+    }
+
+    /**
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function testRunWithInvalidArgument(): void
+    {
+        $this->inputMock->expects($this->atLeastOnce())
+            ->method('getArgument')
+            ->with('identifier')
+            ->willReturn(null);
+
+        $this->feedReaderManagerMock->expects($this->never())
+            ->method('readFromFeedReader');
+
+        try {
+            $this->runFeedReaderCommand->run($this->inputMock, $this->outputMock);
+            $this->fail();
+        } catch (InvalidArgumentException $e) {
+        }
     }
 }
