@@ -19,15 +19,15 @@ class LockSymfonyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->createLockFactory($pimple);
+        $this->registerLockFactory($pimple);
     }
 
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
+     * @return \Jellyfish\LockSymfony\LockSymfonyServiceProvider
      */
-    protected function createLockFactory(Container $container): ServiceProviderInterface
+    protected function registerLockFactory(Container $container): LockSymfonyServiceProvider
     {
         $self = $this;
 

@@ -9,6 +9,6 @@
     }
   ],
   "require": {
-    "twig/twig": "~2.7.4"
+    "twig/twig": "~2.11.3"
   }
 }

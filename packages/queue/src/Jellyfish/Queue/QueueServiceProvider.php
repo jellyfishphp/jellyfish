@@ -2,7 +2,6 @@
 
 namespace Jellyfish\Queue;
 
-use Jellyfish\Serializer\SerializerInterface;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -15,35 +14,37 @@ class QueueServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $self = $this;
+        $this->registerMessageFactory($pimple)
+            ->registerMessageMapper($pimple);
+    }
 
-        $pimple->offsetSet('message_factory', function () use ($self) {
-            return $self->createMessageFactory();
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Jellyfish\Queue\QueueServiceProvider
+     */
+    protected function registerMessageFactory(Container $container): QueueServiceProvider
+    {
+        $container->offsetSet('message_factory', function () {
+            return new MessageFactory();
         });
 
-        $pimple->offsetSet('message_mapper', function (Container $container) use ($self) {
-            return $self->createMessageMapper(
+        return $this;
+    }
+
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Jellyfish\Queue\QueueServiceProvider
+     */
+    protected function registerMessageMapper(Container $container): QueueServiceProvider
+    {
+        $container->offsetSet('message_mapper', function (Container $container) {
+            return new MessageMapper(
                 $container->offsetGet('serializer')
             );
         });
-    }
 
-    /**
-     * @param \Jellyfish\Serializer\SerializerInterface $serializer
-     *
-     * @return \Jellyfish\Queue\MessageMapperInterface
-     */
-    protected function createMessageMapper(
-        SerializerInterface $serializer
-    ): MessageMapperInterface {
-        return new MessageMapper($serializer);
-    }
-
-    /**
-     * @return \Jellyfish\Queue\MessageFactoryInterface
-     */
-    protected function createMessageFactory(): MessageFactoryInterface
-    {
-        return new MessageFactory();
+        return $this;
     }
 }

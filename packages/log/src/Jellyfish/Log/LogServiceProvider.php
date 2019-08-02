@@ -18,16 +18,15 @@ class LogServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->createLogger($pimple);
+        $this->registerLogger($pimple);
     }
 
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Pimple\ServiceProviderInterface
-     *
+     * @return \Jellyfish\Log\LogServiceProvider
      */
-    protected function createLogger(Container $container): ServiceProviderInterface
+    protected function registerLogger(Container $container): LogServiceProvider
     {
         $self = $this;
 

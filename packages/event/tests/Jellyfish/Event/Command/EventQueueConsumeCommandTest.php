@@ -3,6 +3,7 @@
 namespace Jellyfish\Event\Command;
 
 use Codeception\Test\Unit;
+use InvalidArgumentException;
 use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventInterface;
 use Jellyfish\Event\EventListenerInterface;
@@ -348,5 +349,54 @@ class EventQueueConsumeCommandTest extends Unit
         $exitCode = $this->eventQueueConsumeCommand->run($this->inputMock, $this->outputMock);
 
         $this->assertEquals(0, $exitCode);
+    }
+
+    /**
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function testRunWithInvalidArgument(): void
+    {
+        $this->inputMock->expects($this->atLeastOnce())
+            ->method('getArgument')
+            ->withConsecutive(['eventName'], ['listenerIdentifier'])
+            ->willReturnOnConsecutiveCalls(null, $this->listenerIdentifier);
+
+        $this->lockFactoryMock->expects($this->never())
+            ->method('create')
+            ->with($this->lockIdentifierParts, 360.0)
+            ->willReturn($this->lockMock);
+
+        $this->lockMock->expects($this->never())
+            ->method('acquire')
+            ->willReturn(true);
+
+        $this->eventQueueConsumerMock->expects($this->never())
+            ->method('dequeueEvent')
+            ->with($this->eventName, $this->listenerIdentifier)
+            ->willReturn($this->eventMock);
+
+        $this->eventListenerProviderMock->expects($this->never())
+            ->method('getListener')
+            ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
+            ->willReturn($this->eventListenerMock);
+
+        $this->eventListenerMock->expects($this->never())
+            ->method('handle')
+            ->with($this->eventMock);
+
+        $this->loggerMock->expects($this->never())
+            ->method('error');
+
+        $this->lockMock->expects($this->never())
+            ->method('release')
+            ->willReturn($this->lockMock);
+
+        try {
+            $this->eventQueueConsumeCommand->run($this->inputMock, $this->outputMock);
+            $this->fail();
+        } catch (InvalidArgumentException $e) {
+        }
     }
 }

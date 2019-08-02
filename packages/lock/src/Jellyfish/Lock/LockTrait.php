@@ -10,7 +10,7 @@ trait LockTrait
     private $lockFactory;
 
     /**
-     * @var \Jellyfish\Lock\LockInterface
+     * @var \Jellyfish\Lock\LockInterface|null
      */
     private $lock;
 
@@ -37,17 +37,15 @@ trait LockTrait
     }
 
     /**
-     * @return \Jellyfish\Lock\LockTrait
+     * @return void
      */
-    private function release(): self
+    private function release(): void
     {
         if ($this->lock === null) {
-            return $this;
+            return;
         }
 
         $this->lock->release();
         $this->lock = null;
-
-        return $this;
     }
 }

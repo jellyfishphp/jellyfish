@@ -4,6 +4,7 @@ namespace Jellyfish\Transfer\Definition;
 
 use Codeception\Test\Unit;
 use Iterator;
+use Jellyfish\Filesystem\FilesystemInterface;
 use SplFileInfo;
 use stdClass;
 
@@ -18,6 +19,11 @@ class ClassDefinitionMapLoaderTest extends Unit
      * @var \Jellyfish\Transfer\Definition\DefinitionFinderInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $definitionFinderMock;
+
+    /**
+     * @var \Jellyfish\Filesystem\FilesystemInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $filesystemMock;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMapperInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -60,6 +66,10 @@ class ClassDefinitionMapLoaderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->filesystemMock = $this->getMockBuilder(FilesystemInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->classDefinitionMapMapperMock = $this->getMockBuilder(ClassDefinitionMapMapperInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -88,6 +98,7 @@ class ClassDefinitionMapLoaderTest extends Unit
 
         $this->classDefinitionMapLoader = new ClassDefinitionMapLoader(
             $this->definitionFinderMock,
+            $this->filesystemMock,
             $this->classDefinitionMapMapperMock,
             $this->classDefinitionMapMergerMock
         );
@@ -98,6 +109,8 @@ class ClassDefinitionMapLoaderTest extends Unit
      */
     public function testLoad(): void
     {
+        $realPath = codecept_data_dir('test.transfer.json');
+
         $this->definitionFinderMock->expects($this->atLeastOnce())
             ->method('find')
             ->willReturn($this->iteratorMock);
@@ -118,7 +131,12 @@ class ClassDefinitionMapLoaderTest extends Unit
 
         $this->splFileInfoMock->expects($this->atLeastOnce())
             ->method('getRealPath')
-            ->willReturn(codecept_data_dir('test.transfer.json'));
+            ->willReturn($realPath);
+
+        $this->filesystemMock->expects($this->atLeastOnce())
+            ->method('readFromFile')
+            ->with($realPath)
+            ->willReturn(\file_get_contents($realPath));
 
         $this->classDefinitionMapMapperMock->expects($this->atLeastOnce())
             ->method('from')

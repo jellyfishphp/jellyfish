@@ -47,7 +47,7 @@ class LockTraitTest extends Unit
     public function testAcquireAndReleaseWithNullLockFactory(): void
     {
         $this->assertTrue($this->acquire($this->identifierParts));
-        $this->assertEquals($this, $this->release());
+        $this->release();
     }
 
     /**
@@ -71,7 +71,7 @@ class LockTraitTest extends Unit
             ->willReturn($this->lockMock);
 
         $this->assertTrue($this->acquire($this->identifierParts));
-        $this->assertEquals($this, $this->release());
+        $this->release();
     }
 
     /**

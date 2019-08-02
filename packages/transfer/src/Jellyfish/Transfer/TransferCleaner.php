@@ -74,7 +74,7 @@ class TransferCleaner implements TransferCleanerInterface
         $iterator = $finder->in($directory)->depth(0)->getIterator();
 
         foreach ($iterator as $item) {
-            if (!($item instanceof SplFileInfo)) {
+            if (!($item instanceof SplFileInfo) || !is_string($item->getRealPath())) {
                 continue;
             }
 

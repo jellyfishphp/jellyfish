@@ -19,42 +19,29 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $self = $this;
+        $this->registerQueueClient($pimple);
+    }
 
-        $pimple->offsetSet('queue_client', function (Container $container) use ($self) {
-            return $self->createClient(
-                $container->offsetGet('config'),
+    protected function registerQueueClient(Container $container): QueueRabbitMqServiceProvider
+    {
+        $self = $this;
+        $container->offsetSet('queue_client', function (Container $container) use ($self) {
+            return new QueueClient(
+                $self->createConnection($container),
                 $container->offsetGet('message_mapper')
             );
         });
     }
 
     /**
-     * @param \Jellyfish\Config\ConfigInterface $config
-     * @param \Jellyfish\Queue\MessageMapperInterface $messageMapper
-     *
-     * @return \Jellyfish\Queue\QueueClientInterface
-     *
-     * @throws \Jellyfish\Config\Exception\ConfigKeyNotFoundException
-     */
-    protected function createClient(
-        ConfigInterface $config,
-        MessageMapperInterface $messageMapper
-    ): QueueClientInterface {
-        $connection = $this->createConnection($config);
-
-        return new QueueClient($connection, $messageMapper);
-    }
-
-    /**
-     * @param \Jellyfish\Config\ConfigInterface $config
+     * @param \Pimple\Container $container
      *
      * @return \PhpAmqpLib\Connection\AbstractConnection
-     *
-     * @throws \Jellyfish\Config\Exception\ConfigKeyNotFoundException
      */
-    protected function createConnection(ConfigInterface $config): AbstractConnection
+    protected function createConnection(Container $container): AbstractConnection
     {
+        $config = $container->offsetGet('config');
+
         $rabbitMqHost = $config->get(
             QueueRabbitMqConstants::RABBIT_MQ_HOST,
             QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST
