@@ -3,8 +3,8 @@
 namespace Jellyfish\Event\Command;
 
 use InvalidArgumentException;
-use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventListenerInterface;
+use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventQueueConsumerInterface;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockTrait;
@@ -97,7 +97,7 @@ class EventQueueConsumeCommand extends Command
         try {
             $result = $this->executeLockablePart($eventName, $listenerIdentifier);
         } catch (Throwable $e) {
-            $this->logger->error($e->getMessage());
+            $this->logger->error((string)$e);
         } finally {
             $this->release();
         }

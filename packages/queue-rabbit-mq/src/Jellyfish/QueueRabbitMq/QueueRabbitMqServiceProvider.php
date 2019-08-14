@@ -2,9 +2,6 @@
 
 namespace Jellyfish\QueueRabbitMq;
 
-use Jellyfish\Config\ConfigInterface;
-use Jellyfish\Queue\MessageMapperInterface;
-use Jellyfish\Queue\QueueClientInterface;
 use PhpAmqpLib\Connection\AbstractConnection;
 use PhpAmqpLib\Connection\AMQPLazyConnection;
 use Pimple\Container;
@@ -22,15 +19,23 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
         $this->registerQueueClient($pimple);
     }
 
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Jellyfish\QueueRabbitMq\QueueRabbitMqServiceProvider
+     */
     protected function registerQueueClient(Container $container): QueueRabbitMqServiceProvider
     {
         $self = $this;
+
         $container->offsetSet('queue_client', function (Container $container) use ($self) {
             return new QueueClient(
                 $self->createConnection($container),
                 $container->offsetGet('message_mapper')
             );
         });
+
+        return $this;
     }
 
     /**
