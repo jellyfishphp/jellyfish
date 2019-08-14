@@ -4,9 +4,9 @@ namespace Jellyfish\Event\Command;
 
 use Codeception\Test\Unit;
 use InvalidArgumentException;
-use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventInterface;
 use Jellyfish\Event\EventListenerInterface;
+use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventQueueConsumerInterface;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockInterface;
@@ -308,7 +308,7 @@ class EventQueueConsumeCommandTest extends Unit
      */
     public function testRunWithHandlerException(): void
     {
-        $exceptionMessage = 'Test exception';
+        $exception = new \Exception('Test exception');
 
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
@@ -336,11 +336,11 @@ class EventQueueConsumeCommandTest extends Unit
 
         $this->eventListenerMock->expects($this->atLeastOnce())
             ->method('handle')
-            ->willThrowException(new \Exception($exceptionMessage));
+            ->willThrowException($exception);
 
         $this->loggerMock->expects($this->atLeastOnce())
             ->method('error')
-            ->with($exceptionMessage);
+            ->with((string)$exception);
 
         $this->lockMock->expects($this->atLeastOnce())
             ->method('release')
