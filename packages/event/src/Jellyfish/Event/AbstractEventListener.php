@@ -26,7 +26,10 @@ abstract class AbstractEventListener implements EventListenerInterface
 
     /**
      * @param \Jellyfish\Event\EventInterface $event
+     *
      * @return \Jellyfish\Event\EventListenerInterface
+     *
+     * @throws \Exception
      */
     public function handle(EventInterface $event): EventListenerInterface
     {
@@ -51,11 +54,13 @@ abstract class AbstractEventListener implements EventListenerInterface
      * @param \Jellyfish\Event\EventInterface $event
      *
      * @return \Jellyfish\Event\EventListenerInterface
+     *
+     * @throws \Exception
      */
     protected function handleError(Exception $e, EventInterface $event): EventListenerInterface
     {
         if ($this->errorHandler === null) {
-            return $this;
+            throw $e;
         }
 
         $this->errorHandler->call($this, $e, $event);
