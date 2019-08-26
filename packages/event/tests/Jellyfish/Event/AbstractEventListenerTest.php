@@ -45,6 +45,8 @@ class AbstractEventListenerTest extends Unit
 
     /**
      * @return void
+     *
+     * @throws \Exception
      */
     public function testHandle(): void
     {
@@ -61,6 +63,8 @@ class AbstractEventListenerTest extends Unit
 
     /**
      * @return void
+     *
+     * @throws \Exception
      */
     public function testHandleWithUnhandledError(): void
     {
@@ -69,14 +73,17 @@ class AbstractEventListenerTest extends Unit
             ->with($this->eventMock)
             ->willThrowException(new Exception('Lorem ipsum'));
 
-        $this->assertEquals(
-            $this->abstractEventListenerMock,
-            $this->abstractEventListenerMock->handle($this->eventMock)
-        );
+        try {
+            $this->abstractEventListenerMock->handle($this->eventMock);
+            $this->fail();
+        } catch (Exception $e) {
+        }
     }
 
     /**
      * @return void
+     *
+     * @throws \Exception
      */
     public function testHandleWithHandledError(): void
     {
