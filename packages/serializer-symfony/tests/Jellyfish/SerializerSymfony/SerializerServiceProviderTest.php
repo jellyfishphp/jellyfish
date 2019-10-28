@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\SerializerSymfony;
 
 use Codeception\Test\Unit;
-use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProvider;
 use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface;
-use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderTest;
 use Pimple\Container;
 
 class SerializerServiceProviderTest extends Unit

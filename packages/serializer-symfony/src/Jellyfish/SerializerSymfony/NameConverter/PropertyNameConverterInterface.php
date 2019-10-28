@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\SerializerSymfony\NameConverter;
 
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface as SymfonyNameConverter;

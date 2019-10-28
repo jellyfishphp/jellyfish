@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Application;
 
 use Jellyfish\Kernel\KernelInterface;

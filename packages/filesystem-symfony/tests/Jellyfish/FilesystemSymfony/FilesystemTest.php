@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\FilesystemSymfony;
 
 use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamWrapper;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 

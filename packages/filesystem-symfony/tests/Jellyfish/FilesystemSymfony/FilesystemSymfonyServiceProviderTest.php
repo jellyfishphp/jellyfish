@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\FilesystemSymfony;
 
 use Codeception\Test\Unit;
-use Jellyfish\FinderSymfony\FinderFactory;
 use Pimple\Container;
 
 class FilesystemSymfonyServiceProviderTest extends Unit

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Event;
 
 use Codeception\Test\Unit;
@@ -9,8 +11,8 @@ use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Queue\MessageFactoryInterface;
 use Jellyfish\Queue\QueueClientInterface;
-use Pimple\Container;
 use Jellyfish\Serializer\SerializerInterface;
+use Pimple\Container;
 use Psr\Log\LoggerInterface;
 
 class EventServiceProviderTest extends Unit

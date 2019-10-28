@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Transfer\Generator;
 
 class FactoryRegistryGenerator extends AbstractGenerator implements FactoryRegistryGeneratorInterface

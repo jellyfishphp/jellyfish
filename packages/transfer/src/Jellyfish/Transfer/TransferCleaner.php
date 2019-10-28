@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Transfer;
 
 use Jellyfish\Filesystem\FilesystemInterface;
 use Jellyfish\Finder\FinderFactoryInterface;
-use Jellyfish\Transfer\Generator\FactoryRegistryGenerator;
-use Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface;
 use SplFileInfo;
 
 class TransferCleaner implements TransferCleanerInterface

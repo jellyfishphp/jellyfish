@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\ProcessSymfony;
 
 use Codeception\Test\Unit;
 use Jellyfish\Process\Exception\RuntimeException;
-use Jellyfish\Process\ProcessInterface;
-use org\bovigo\vfs\vfsStream;
 
 class ProcessTest extends Unit
 {
