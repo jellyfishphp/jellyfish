@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Transfer\Definition;
+
+use RuntimeException;
 
 class ClassDefinition implements ClassDefinitionInterface
 {
@@ -42,7 +46,7 @@ class ClassDefinition implements ClassDefinitionInterface
         $id = @\preg_replace(static::PATTERN_ID, static::REPLACEMENT_ID, $id);
 
         if ($id === null) {
-            throw new \RuntimeException('Could not perform a regular expression search and replace.');
+            throw new RuntimeException('Could not perform a regular expression search and replace.');
         }
 
         return \strtolower($id);

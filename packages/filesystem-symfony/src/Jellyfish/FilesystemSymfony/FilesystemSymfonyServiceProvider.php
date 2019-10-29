@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\FilesystemSymfony;
 
 use Pimple\Container;

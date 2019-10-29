@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Transfer;
 
 use Codeception\Test\Unit;
-use Jellyfish\Transfer\Generator\ClassGeneratorInterface;
 use Jellyfish\Transfer\Definition\ClassDefinitionInterface;
 use Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface;
+use Jellyfish\Transfer\Generator\ClassGeneratorInterface;
 use Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface;
 
 class TransferGeneratorTest extends Unit

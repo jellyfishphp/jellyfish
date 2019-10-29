@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Transfer;
 
 use ArrayObject;
-use Jellyfish\Transfer\Generator\ClassGenerator;
-use Jellyfish\Transfer\Generator\FactoryClassGenerator;
 use Jellyfish\Transfer\Command\TransferGenerateCommand;
 use Jellyfish\Transfer\Definition\ClassDefinitionMapLoader;
 use Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface;
@@ -14,6 +14,8 @@ use Jellyfish\Transfer\Definition\ClassDefinitionMapMerger;
 use Jellyfish\Transfer\Definition\ClassDefinitionMapMergerInterface;
 use Jellyfish\Transfer\Definition\DefinitionFinder;
 use Jellyfish\Transfer\Definition\DefinitionFinderInterface;
+use Jellyfish\Transfer\Generator\ClassGenerator;
+use Jellyfish\Transfer\Generator\FactoryClassGenerator;
 use Jellyfish\Transfer\Generator\FactoryRegistryGenerator;
 use Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface;
 use Pimple\Container;

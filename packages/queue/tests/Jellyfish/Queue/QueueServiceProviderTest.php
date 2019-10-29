@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Queue;
 
 use Codeception\Test\Unit;
-use Pimple\Container;
 use Jellyfish\Serializer\SerializerInterface;
+use Pimple\Container;
 
 class QueueServiceProviderTest extends Unit
 {

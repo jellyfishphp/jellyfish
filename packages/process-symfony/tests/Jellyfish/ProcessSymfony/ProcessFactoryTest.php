@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\ProcessSymfony;
 
 use Codeception\Test\Unit;
-use org\bovigo\vfs\vfsStream;
 
 class ProcessFactoryTest extends Unit
 {

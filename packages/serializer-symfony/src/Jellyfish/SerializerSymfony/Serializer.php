@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\SerializerSymfony;
 
 use ArrayObject;
@@ -51,10 +53,12 @@ class Serializer implements SerializerInterface
      */
     public function deserialize(string $data, string $type, string $format): object
     {
-        if (\substr($type, -2) !== '[]') {
-            return $this->symfonySerializer->deserialize($data, $type, $format);
+        $deserializedData = $this->symfonySerializer->deserialize($data, $type, $format);
+
+        if (\is_array($deserializedData)) {
+            return new ArrayObject($deserializedData);
         }
 
-        return new ArrayObject($this->symfonySerializer->deserialize($data, $type, $format));
+        return $deserializedData;
     }
 }

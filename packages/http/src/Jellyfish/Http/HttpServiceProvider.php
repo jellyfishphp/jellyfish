@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Http;
 
 use Http\Factory\Diactoros\ResponseFactory;
@@ -9,9 +11,7 @@ use League\Route\Strategy\StrategyInterface;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\ServerRequestFactory;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
 use Zend\HttpHandlerRunner\Emitter\SapiStreamEmitter;
 
 class HttpServiceProvider implements ServiceProviderInterface

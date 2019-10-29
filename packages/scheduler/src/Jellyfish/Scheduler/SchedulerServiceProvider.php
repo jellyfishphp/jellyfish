@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Scheduler;
 
 use Jellyfish\Scheduler\Command\RunSchedulerCommand;

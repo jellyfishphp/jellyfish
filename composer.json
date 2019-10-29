@@ -12,13 +12,14 @@
 
     "ext-json": "*",
 
-    "aws/aws-sdk-php": "~3.108.2",
+    "aws/aws-sdk-php": "~3.112.29",
     "dragonmantank/cron-expression": "~2.3.0",
     "http-interop/http-factory-diactoros": "~1.0.0",
-    "monolog/monolog": "~1.24.0",
-    "php-amqplib/php-amqplib": "~2.9.2",
+    "monolog/monolog": "~2.0.0",
     "league/route": "~4.3.1",
     "opis/json-schema": "~1.0.18",
+    "php-amqplib/php-amqplib": "~2.10.1",
+    "phpdocumentor/reflection-docblock": "~4.3.2",
     "pimple/pimple": "~3.2.3",
     "predis/predis": "~1.1.1",
     "symfony/console": "~4.3.3",
@@ -27,20 +28,20 @@
     "symfony/property-access": "~4.3.3",
     "symfony/property-info": "~4.3.3",
     "symfony/serializer": "~4.3.3",
-    "twig/twig": "~2.11.3",
+    "twig/twig": "~2.12.1",
     "zendframework/zend-httphandlerrunner": "~1.1.0"
   },
   "require-dev": {
-    "codeception/codeception": "~3.0.3",
+    "codeception/codeception": "~3.1.2",
     "mikey179/vfsstream": "~1.6.7",
     "php-coveralls/php-coveralls": "~2.1.0",
     "phpmd/phpmd": "~2.7.0",
-    "phpro/grumphp": "~0.15.2",
+    "phpro/grumphp": "~0.16.1",
     "phpstan/phpstan": "~0.11.2",
     "roave/security-advisories": "dev-master as 1.0.0",
     "sebastian/phpcpd": "~4.1.0",
     "sllh/composer-versions-check": "~2.0.3",
-    "squizlabs/php_codesniffer": "~3.4.2"
+    "squizlabs/php_codesniffer": "~3.5.2"
   },
   "bin": [
     "packages/application/bin/console"

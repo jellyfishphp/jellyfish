@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Serializer\NameConverter;
 
 class PropertyNameConverterStrategyProvider implements PropertyNameConverterStrategyProviderInterface
