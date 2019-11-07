@@ -23,13 +23,14 @@
     "pimple/pimple": "~3.2.3",
     "predis/predis": "~1.1.1",
     "symfony/console": "~4.3.3",
+    "symfony/filesystem": "~4.3.3",
     "symfony/lock": "~4.3.3",
     "symfony/process": "~4.3.3",
     "symfony/property-access": "~4.3.3",
     "symfony/property-info": "~4.3.3",
     "symfony/serializer": "~4.3.3",
     "twig/twig": "~2.12.1",
-    "zendframework/zend-httphandlerrunner": "~1.1.0"
+    "zendframework/zend-httphandlerrunner": "~1.1.0",
   },
   "require-dev": {
     "codeception/codeception": "~3.1.2",
