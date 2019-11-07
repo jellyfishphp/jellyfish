@@ -29,6 +29,7 @@
     "symfony/property-access": "~4.3.3",
     "symfony/property-info": "~4.3.3",
     "symfony/serializer": "~4.3.3",
+    "symfony/finder": "~4.3.3",
     "twig/twig": "~2.12.1",
     "zendframework/zend-httphandlerrunner": "~1.1.0"
   },
