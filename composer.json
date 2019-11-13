@@ -14,9 +14,10 @@
 
     "aws/aws-sdk-php": "~3.112.29",
     "dragonmantank/cron-expression": "~2.3.0",
+    "guzzlehttp/guzzle": "~6.3.3",
     "http-interop/http-factory-diactoros": "~1.0.0",
-    "monolog/monolog": "~2.0.0",
     "league/route": "~4.3.1",
+    "monolog/monolog": "~2.0.0",
     "opis/json-schema": "~1.0.18",
     "php-amqplib/php-amqplib": "~2.10.1",
     "phpdocumentor/reflection-docblock": "~4.3.2",
@@ -29,6 +30,7 @@
     "symfony/property-access": "~4.3.3",
     "symfony/property-info": "~4.3.3",
     "symfony/serializer": "~4.3.3",
+    "symfony/finder": "~4.3.3",
     "twig/twig": "~2.12.1",
     "zendframework/zend-httphandlerrunner": "~1.1.0"
   },
