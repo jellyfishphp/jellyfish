@@ -10,6 +10,9 @@ use Jellyfish\Queue\MessageMapperInterface;
 use Jellyfish\Queue\QueueClientInterface;
 use Jellyfish\QueueSQS\Exception\CreateQueueException;
 
+use function count;
+use function is_array;
+
 class QueueClient implements QueueClientInterface
 {
     /**
@@ -119,6 +122,47 @@ class QueueClient implements QueueClientInterface
         }
 
         return $this->messageMapper->fromJson($messageAsJson);
+    }
+
+    /**
+     * @param string $queueName
+     * @param int $count
+     *
+     * @return \Jellyfish\Queue\MessageInterface[]
+     *
+     * @throws \Jellyfish\QueueSQS\Exception\CreateQueueException
+     */
+    public function receiveMessages(string $queueName, int $count): array
+    {
+        $receivedMessages = [];
+        $queueUrl = $this->declareQueue($queueName);
+        $args = [
+            'QueueUrl' => $queueUrl,
+            'MaxNumberOfMessages' => 10
+        ];
+
+        for ($i = 0; $i < ceil($count / 10); $i++) {
+            $result = $this->sqsClient->receiveMessage($args);
+            $messages = $result->get('Messages');
+
+            if ($messages === null || !is_array($messages) || count($messages) === 0) {
+                return $receivedMessages;
+            }
+
+            foreach ($messages as $message) {
+                if (!isset($message['Body'])) {
+                    continue;
+                }
+
+                $receivedMessages[] = $this->messageMapper->fromJson($message['Body']);
+            }
+
+            if (count($messages) < 10) {
+                return $receivedMessages;
+            }
+        }
+
+        return $receivedMessages;
     }
 
     /**

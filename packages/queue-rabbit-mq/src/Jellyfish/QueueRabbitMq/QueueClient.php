@@ -58,6 +58,39 @@ class QueueClient implements QueueClientInterface
 
     /**
      * @param string $queueName
+     * @param int $count
+     *
+     * @return \Jellyfish\Queue\MessageInterface[]
+     */
+    public function receiveMessages(string $queueName, int $count): array
+    {
+        $receivedMessages = [];
+        $messageMapper = $this->messageMapper;
+
+        $this->getChannel()->queue_declare($queueName);
+        $this->getChannel()->basic_qos(0, $count, false);
+        $this->getChannel()->basic_consume(
+            $queueName,
+            '',
+            false,
+            false,
+            false,
+            false,
+            static function (AMQPMessage $message) use (&$receivedMessages, $messageMapper): void {
+                $message->delivery_info['channel']->basic_ack($message->delivery_info['delivery_tag']);
+                $receivedMessages[] = $messageMapper->fromJson($message->getBody());
+            }
+        );
+
+        while ($this->getChannel()->is_consuming()) {
+            $this->getChannel()->wait(null, false, 10);
+        }
+
+        return $receivedMessages;
+    }
+
+    /**
+     * @param string $queueName
      * @param \Jellyfish\Queue\MessageInterface $message
      *
      * @return \Jellyfish\Queue\QueueClientInterface

@@ -12,7 +12,7 @@ interface EventQueueProducerInterface
      *
      * @return \Jellyfish\Event\EventQueueProducerInterface
      */
-    public function enqueueEvent(
+    public function enqueue(
         EventInterface $event,
         EventListenerInterface $listener
     ): EventQueueProducerInterface;

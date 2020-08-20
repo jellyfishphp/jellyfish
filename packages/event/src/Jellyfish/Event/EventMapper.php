@@ -10,6 +10,8 @@ use Jellyfish\Queue\MessageFactoryInterface;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Serializer\SerializerInterface;
 
+use function get_class;
+
 class EventMapper implements EventMapperInterface
 {
     /**
@@ -59,12 +61,12 @@ class EventMapper implements EventMapperInterface
         }
 
         $payload = $this->serializer->deserialize($message->getBody(), $type, 'json');
+        $metaProperties = $this->mapHeadersToMetaProperties($message->getHeaders());
 
-        $event = $this->eventFactory->create()
+        return $this->eventFactory->create()
             ->setName($eventName)
-            ->setPayload($payload);
-
-        return $event;
+            ->setPayload($payload)
+            ->setMetaProperties($metaProperties);
     }
 
     /**
@@ -74,10 +76,12 @@ class EventMapper implements EventMapperInterface
     public function toMessage(EventInterface $event): MessageInterface
     {
         $payload = $event->getPayload();
+        $metaProperties = $event->getMetaProperties();
 
         $message = $this->messageFactory->create()
+            ->setHeaders($metaProperties)
             ->setHeader('event_name', $event->getName())
-            ->setHeader('body_type', \get_class($payload))
+            ->setHeader('body_type', get_class($payload))
             ->setBody($this->serializer->serialize($payload, 'json'));
 
         if (!($payload instanceof ArrayObject)) {
@@ -87,11 +91,25 @@ class EventMapper implements EventMapperInterface
         $type = 'stdClass[]';
 
         if ($payload->count() !== 0) {
-            $type = \get_class($payload->offsetGet(0)) . '[]';
+            $type = get_class($payload->offsetGet(0)) . '[]';
         }
 
         $message->setHeader('body_type', $type);
 
         return $message;
+    }
+
+    /**
+     * @param array $headers
+     *
+     * @return array
+     */
+    protected function mapHeadersToMetaProperties(array $headers): array
+    {
+        $metaProperties = $headers;
+
+        unset($metaProperties['body_type'], $metaProperties['event_name']);
+
+        return $metaProperties;
     }
 }

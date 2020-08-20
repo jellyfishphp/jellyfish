@@ -139,7 +139,7 @@ class EventDispatcherTest extends Unit
             ])->willReturnOnConsecutiveCalls([], [$this->eventListenerMock]);
 
         $this->eventQueueProducerMock->expects($this->atLeastOnce())
-            ->method('enqueueEvent')
+            ->method('enqueue')
             ->with($this->eventMock, $this->eventListenerMock);
 
         $this->assertEquals(

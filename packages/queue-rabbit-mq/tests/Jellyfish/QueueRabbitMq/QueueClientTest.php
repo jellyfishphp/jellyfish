@@ -39,7 +39,7 @@ class QueueClientTest extends Unit
     protected $messageMock;
 
     /**
-     * @var \PhpAmqpLib\Channel\AMQPChannel|\PHPUnit\Framework\MockObject\MockObject
+     * @var \PhpAmqpLib\Message\AMQPMessage|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $amqpMessageMock;
 
@@ -69,6 +69,9 @@ class QueueClientTest extends Unit
         $this->amqpMessageMock = $this->getMockBuilder(AMQPMessage::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->amqpMessageMock->delivery_info['channel'] = $this->channelMock;
+        $this->amqpMessageMock->delivery_info['delivery_tag'] = '';
 
         $this->queueClient = new QueueClient($this->connectionMock, $this->messageMapperMock);
     }
@@ -130,6 +133,64 @@ class QueueClientTest extends Unit
             ->method('fromJson');
 
         $this->assertNull($this->queueClient->receiveMessage($queueName));
+    }
+
+    /**
+     * @return void
+     */
+    public function testReceiveMessages(): void
+    {
+        $queueName = 'foo';
+        $count = 100;
+        $amqpMessageMock = $this->amqpMessageMock;
+        $messageBody = '{"foo": "bar"}';
+
+        $this->connectionMock->expects($this->atLeastOnce())
+            ->method('channel')
+            ->willReturn($this->channelMock);
+
+        $this->channelMock->expects($this->atLeastOnce())
+            ->method('basic_qos')
+            ->with(0, $count, false);
+
+        $this->channelMock->expects($this->atLeastOnce())
+            ->method('basic_ack')
+            ->with($amqpMessageMock->delivery_info['delivery_tag']);
+
+        $amqpMessageMock->expects($this->atLeastOnce())
+            ->method('getBody')
+            ->willReturn($messageBody);
+
+        $this->messageMapperMock->expects($this->atLeastOnce())
+            ->method('fromJson')
+            ->with($messageBody)
+            ->willReturn($this->messageMock);
+
+        $this->channelMock->expects($this->atLeastOnce())
+            ->method('basic_consume')
+            ->with(
+                $queueName,
+                '',
+                false,
+                false,
+                false,
+                false,
+                $this->callback(static function (callable $callback) use ($amqpMessageMock) {
+                    $callback($amqpMessageMock);
+
+                    return true;
+                })
+            );
+
+        $this->channelMock->expects($this->atLeastOnce())
+            ->method('is_consuming')
+            ->willReturnOnConsecutiveCalls(true, false);
+
+        $this->channelMock->expects($this->atLeastOnce())
+            ->method('wait')
+            ->with(null, false, 10);
+
+        $this->assertCount(1, $this->queueClient->receiveMessages($queueName, $count));
     }
 
     /**

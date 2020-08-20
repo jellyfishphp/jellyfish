@@ -15,6 +15,14 @@ interface QueueClientInterface
 
     /**
      * @param string $queueName
+     * @param int $count
+     *
+     * @return \Jellyfish\Queue\MessageInterface[]
+     */
+    public function receiveMessages(string $queueName, int $count): array;
+
+    /**
+     * @param string $queueName
      * @param \Jellyfish\Queue\MessageInterface $message
      *
      * @return \Jellyfish\Queue\QueueClientInterface

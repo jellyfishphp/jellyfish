@@ -8,6 +8,8 @@ use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Queue\QueueClientInterface;
 
+use function array_key_exists;
+
 class EventQueueConsumer implements EventQueueConsumerInterface
 {
     /**
@@ -68,11 +70,11 @@ class EventQueueConsumer implements EventQueueConsumerInterface
      *
      * @return \Jellyfish\Event\EventQueueConsumerInterface
      */
-    public function dequeueEventAsProcess(string $eventName, string $listenerIdentifier): EventQueueConsumerInterface
+    public function dequeueAsProcess(string $eventName, string $listenerIdentifier): EventQueueConsumerInterface
     {
         $eventQueueName = $this->eventQueueNameGenerator->generate($eventName, $listenerIdentifier);
 
-        if (!\array_key_exists($eventQueueName, $this->processList)) {
+        if (!array_key_exists($eventQueueName, $this->processList)) {
             $command = [$this->pathToConsole, EventQueueConsumeCommand::NAME, $eventName, $listenerIdentifier];
             $this->processList[$eventQueueName] = $this->processFactory->create($command);
         }
@@ -89,7 +91,7 @@ class EventQueueConsumer implements EventQueueConsumerInterface
      *
      * @return \Jellyfish\Event\EventInterface|null
      */
-    public function dequeueEvent(string $eventName, string $listenerIdentifier): ?EventInterface
+    public function dequeue(string $eventName, string $listenerIdentifier): ?EventInterface
     {
         $eventQueueName = $this->eventQueueNameGenerator->generate($eventName, $listenerIdentifier);
 
@@ -100,5 +102,25 @@ class EventQueueConsumer implements EventQueueConsumerInterface
         }
 
         return $this->eventMapper->fromMessage($message);
+    }
+
+    /**
+     * @param string $eventName
+     * @param string $listenerIdentifier
+     * @param int $chunkSize
+     *
+     * @return \Jellyfish\Event\EventInterface[]
+     */
+    public function dequeueBulk(string $eventName, string $listenerIdentifier, int $chunkSize): array
+    {
+        $eventQueueName = $this->eventQueueNameGenerator->generate($eventName, $listenerIdentifier);
+        $messages = $this->queueClient->receiveMessages($eventQueueName, $chunkSize);
+        $events = [];
+
+        foreach ($messages as $message) {
+            $events[] = $this->eventMapper->fromMessage($message);
+        }
+
+        return $events;
     }
 }

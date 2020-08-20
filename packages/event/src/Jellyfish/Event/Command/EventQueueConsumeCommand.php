@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\Event\Command;
 
 use InvalidArgumentException;
+use Jellyfish\Event\EventBulkListenerInterface;
 use Jellyfish\Event\EventListenerInterface;
 use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventQueueConsumerInterface;
@@ -16,6 +17,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
+
+use function is_string;
 
 class EventQueueConsumeCommand extends Command
 {
@@ -115,18 +118,29 @@ class EventQueueConsumeCommand extends Command
      */
     protected function executeLockablePart(string $eventName, string $listenerIdentifier): ?int
     {
-        $event = $this->eventQueueConsumer->dequeueEvent($eventName, $listenerIdentifier);
+        $listener = $this->eventDispatcher
+            ->getListener(EventListenerInterface::TYPE_ASYNC, $eventName, $listenerIdentifier);
+
+        if ($listener === null) {
+            return null;
+        }
+
+        if ($listener instanceof EventBulkListenerInterface) {
+            $events = $this->eventQueueConsumer
+                ->dequeueBulk($eventName, $listenerIdentifier, $listener->getChunkSize());
+
+            $listener->handleBulk($events);
+
+            return null;
+        }
+
+        $event = $this->eventQueueConsumer->dequeue($eventName, $listenerIdentifier);
 
         if ($event === null) {
             return null;
         }
 
-        $listener = $this->eventDispatcher
-            ->getListener(EventListenerInterface::TYPE_ASYNC, $eventName, $listenerIdentifier);
-
-        if ($listener !== null) {
-            $listener->handle($event);
-        }
+        $listener->handle($event);
 
         return null;
     }

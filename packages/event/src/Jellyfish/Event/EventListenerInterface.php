@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
-use Closure;
-
 interface EventListenerInterface
 {
     public const TYPE_SYNC = 'sync';
@@ -22,11 +20,23 @@ interface EventListenerInterface
     public function getIdentifier(): string;
 
     /**
-     * @param \Closure|null $errorHandler
+     * @return \Jellyfish\Event\EventErrorHandlerInterface[]
+     */
+    public function getErrorHandlers(): array;
+
+    /**
+     * @param \Jellyfish\Event\EventErrorHandlerInterface[] $eventErrorHandlers
      *
      * @return \Jellyfish\Event\EventListenerInterface
      */
-    public function setErrorHandler(?Closure $errorHandler): EventListenerInterface;
+    public function setErrorHandlers(array $eventErrorHandlers): EventListenerInterface;
+
+    /**
+     * @param \Jellyfish\Event\EventErrorHandlerInterface $eventErrorHandler
+     *
+     * @return \Jellyfish\Event\EventListenerInterface
+     */
+    public function addErrorHandler(EventErrorHandlerInterface $eventErrorHandler): EventListenerInterface;
 
     /**
      * @param \Jellyfish\Event\EventInterface $event

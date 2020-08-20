@@ -12,14 +12,19 @@ class Event implements EventInterface
     protected $name;
 
     /**
-     * @var int
-     */
-    protected $retries;
-
-    /**
      * @var object
      */
     protected $payload;
+
+    /**
+     * @var string[]
+     */
+    protected $metaProperties;
+
+    public function __construct()
+    {
+        $this->metaProperties = [];
+    }
 
     /**
      * @return string
@@ -42,26 +47,6 @@ class Event implements EventInterface
     }
 
     /**
-     * @return int
-     */
-    public function getRetries(): int
-    {
-        return $this->retries;
-    }
-
-    /**
-     * @param int $retries
-     *
-     * @return \Jellyfish\Event\EventInterface
-     */
-    public function setRetries(int $retries): EventInterface
-    {
-        $this->retries = $retries;
-
-        return $this;
-    }
-
-    /**
      * @return object
      */
     public function getPayload(): object
@@ -77,6 +62,52 @@ class Event implements EventInterface
     public function setPayload(object $payload): EventInterface
     {
         $this->payload = $payload;
+
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getMetaProperties(): array
+    {
+        return $this->metaProperties;
+    }
+
+    /**
+     * @param string[] $metaProperties
+     *
+     * @return \Jellyfish\Event\EventInterface
+     */
+    public function setMetaProperties(array $metaProperties): EventInterface
+    {
+        $this->metaProperties = $metaProperties;
+
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return string
+     */
+    public function getMetaProperty(string $key): ?string
+    {
+        if (!\array_key_exists($key, $this->metaProperties)) {
+            return null;
+        }
+        return $this->metaProperties[$key];
+    }
+
+    /**
+     * @param string $key
+     * @param string $metaProperty
+     *
+     * @return \Jellyfish\Event\EventInterface
+     */
+    public function setMetaProperty(string $key, string $metaProperty): EventInterface
+    {
+        $this->metaProperties[$key] = $metaProperty;
 
         return $this;
     }

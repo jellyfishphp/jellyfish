@@ -4,24 +4,43 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
-use Closure;
-use Exception;
+use Throwable;
 
 abstract class AbstractEventListener implements EventListenerInterface
 {
     /**
-     * @var \Closure|null
+     * @var \Jellyfish\Event\EventErrorHandlerInterface[]
      */
-    protected $errorHandler;
+    protected $errorHandlers;
 
     /**
-     * @param \Closure|null $errorHandler
+     * @return \Jellyfish\Event\EventErrorHandlerInterface[]
+     */
+    public function getErrorHandlers(): array
+    {
+        return $this->errorHandlers;
+    }
+
+    /**
+     * @param \Jellyfish\Event\EventErrorHandlerInterface[] $errorHandlers
      *
      * @return \Jellyfish\Event\EventListenerInterface
      */
-    public function setErrorHandler(?Closure $errorHandler): EventListenerInterface
+    public function setErrorHandlers(array $errorHandlers): EventListenerInterface
     {
-        $this->errorHandler = $errorHandler;
+        $this->errorHandlers = $errorHandlers;
+
+        return $this;
+    }
+
+    /**
+     * @param \Jellyfish\Event\EventErrorHandlerInterface $errorHandler
+     *
+     * @return \Jellyfish\Event\EventListenerInterface
+     */
+    public function addErrorHandler(EventErrorHandlerInterface $errorHandler): EventListenerInterface
+    {
+        $this->errorHandlers[] = $errorHandler;
 
         return $this;
     }
@@ -37,8 +56,8 @@ abstract class AbstractEventListener implements EventListenerInterface
     {
         try {
             $this->doHandle($event);
-        } catch (Exception $e) {
-            $this->handleError($e, $event);
+        } catch (Throwable $error) {
+            $this->handleError($error, $event);
         }
 
         return $this;
@@ -52,20 +71,22 @@ abstract class AbstractEventListener implements EventListenerInterface
     abstract protected function doHandle(EventInterface $event): EventListenerInterface;
 
     /**
-     * @param \Exception $e
+     * @param \Throwable $error
      * @param \Jellyfish\Event\EventInterface $event
      *
      * @return \Jellyfish\Event\EventListenerInterface
      *
-     * @throws \Exception
+     * @throws \Throwable
      */
-    protected function handleError(Exception $e, EventInterface $event): EventListenerInterface
+    protected function handleError(Throwable $error, EventInterface $event): EventListenerInterface
     {
-        if ($this->errorHandler === null) {
-            throw $e;
+        if ($this->errorHandlers === null || count($this->errorHandlers) === 0) {
+            throw $error;
         }
 
-        $this->errorHandler->call($this, $e, $event);
+        foreach ($this->errorHandlers as $errorHandler) {
+            $errorHandler->handle($error, $this->getIdentifier(), $event);
+        }
 
         return $this;
     }

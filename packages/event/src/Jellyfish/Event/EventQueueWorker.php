@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
+use function usleep;
+
 class EventQueueWorker implements EventQueueWorkerInterface
 {
     protected const DELAY_INTERVAL = 1000000;
@@ -36,15 +38,17 @@ class EventQueueWorker implements EventQueueWorkerInterface
     {
         $listeners = $this->eventListenerProvider->getListenersByType(EventListenerInterface::TYPE_ASYNC);
 
+        if (count($listeners) === 0) {
+            return;
+        }
+
         while (true) {
             foreach ($listeners as $eventName => $listenersPerEvent) {
                 foreach ($listenersPerEvent as $listenerIdentifier => $listener) {
-                    $this->eventQueueConsumer->dequeueEventAsProcess($eventName, $listenerIdentifier);
-                    \usleep(static::DELAY_INTERVAL);
+                    $this->eventQueueConsumer->dequeueAsProcess((string)$eventName, $listenerIdentifier);
+                    usleep(static::DELAY_INTERVAL);
                 }
             }
-
-            \usleep(static::DELAY_INTERVAL);
         }
     }
 }

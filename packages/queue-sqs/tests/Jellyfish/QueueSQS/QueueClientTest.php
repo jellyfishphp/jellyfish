@@ -11,7 +11,7 @@ use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\MessageMapperInterface;
 use Jellyfish\QueueSQS\Exception\CreateQueueException;
 
-class QueueuClientTest extends Unit
+class QueueClientTest extends Unit
 {
     /**
      * @var \Jellyfish\Queue\QueueClientInterface
@@ -71,7 +71,7 @@ class QueueuClientTest extends Unit
 
         $this->sqsClientMock = $this->getMockBuilder(SqsClient::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getQueueUrl', 'createQueue', 'receiveMessage', 'sendMessage'])
+            ->setMethods(['getQueueUrl', 'createQueue', 'receiveMessage', 'receiveMessages', 'sendMessage'])
             ->getMock();
 
         $this->resultMocks = [];
@@ -304,6 +304,178 @@ class QueueuClientTest extends Unit
             $this->fail();
         } catch (CreateQueueException $e) {
         }
+    }
+
+    /**
+     * @return void
+     */
+    public function testReceiveMessages(): void
+    {
+        $messageBody = '{"xxx": "yyy"}';
+        $messages = [];
+
+        for ($i = 0; $i < 10; $i++) {
+            $messages[] = ['Body' => $messageBody];
+        }
+
+        $this->resultMocks[0]->expects($this->atLeastOnce())
+            ->method('hasKey')
+            ->with('QueueUrl')
+            ->willReturn(true);
+
+        $this->resultMocks[0]->expects($this->atLeastOnce())
+            ->method('get')
+            ->with('QueueUrl')
+            ->willReturn($this->queueUrl);
+
+        $this->sqsClientMock->expects($this->atLeastOnce())
+            ->method('getQueueUrl')
+            ->with(['QueueName' => $this->queueName])
+            ->willReturn($this->resultMocks[0]);
+
+        $this->resultMocks[1]->expects($this->never())
+            ->method('hasKey')
+            ->with('QueueUrl');
+
+        $this->resultMocks[1]->expects($this->never())
+            ->method('get')
+            ->with('QueueUrl');
+
+        $this->sqsClientMock->expects($this->never())
+            ->method('createQueue')
+            ->with(['QueueName' => $this->queueName]);
+
+        $this->resultMocks[2]->expects($this->atLeastOnce())
+            ->method('get')
+            ->with('Messages')
+            ->willReturn($messages);
+
+        $this->sqsClientMock->expects($this->atLeastOnce())
+            ->method('receiveMessage')
+            ->with(['QueueUrl' => $this->queueUrl, 'MaxNumberOfMessages' => 10])
+            ->willReturn($this->resultMocks[2]);
+
+        $this->messageMapperMock->expects($this->atLeastOnce())
+            ->method('fromJson')
+            ->with($messageBody)
+            ->willReturn($this->messageMock);
+
+        $receivedMessages = $this->queueClient->receiveMessages($this->queueName, 10);
+
+        $this->assertCount(10, $receivedMessages);
+        $this->assertEquals($this->messageMock, $receivedMessages[0]);
+    }
+
+    /**
+     * @return void
+     */
+    public function testReceiveMessagesBelowLimit(): void
+    {
+        $messageBody = '{"xxx": "yyy"}';
+        $messages = [];
+
+        for ($i = 0; $i < 8; $i++) {
+            $messages[] = ['Body' => $messageBody];
+        }
+
+        $messages[] = [];
+
+        $this->resultMocks[0]->expects($this->atLeastOnce())
+            ->method('hasKey')
+            ->with('QueueUrl')
+            ->willReturn(true);
+
+        $this->resultMocks[0]->expects($this->atLeastOnce())
+            ->method('get')
+            ->with('QueueUrl')
+            ->willReturn($this->queueUrl);
+
+        $this->sqsClientMock->expects($this->atLeastOnce())
+            ->method('getQueueUrl')
+            ->with(['QueueName' => $this->queueName])
+            ->willReturn($this->resultMocks[0]);
+
+        $this->resultMocks[1]->expects($this->never())
+            ->method('hasKey')
+            ->with('QueueUrl');
+
+        $this->resultMocks[1]->expects($this->never())
+            ->method('get')
+            ->with('QueueUrl');
+
+        $this->sqsClientMock->expects($this->never())
+            ->method('createQueue')
+            ->with(['QueueName' => $this->queueName]);
+
+        $this->resultMocks[2]->expects($this->atLeastOnce())
+            ->method('get')
+            ->with('Messages')
+            ->willReturn($messages);
+
+        $this->sqsClientMock->expects($this->atLeastOnce())
+            ->method('receiveMessage')
+            ->with(['QueueUrl' => $this->queueUrl, 'MaxNumberOfMessages' => 10])
+            ->willReturn($this->resultMocks[2]);
+
+        $this->messageMapperMock->expects($this->atLeastOnce())
+            ->method('fromJson')
+            ->with($messageBody)
+            ->willReturn($this->messageMock);
+
+        $receivedMessages = $this->queueClient->receiveMessages($this->queueName, 11);
+
+        $this->assertCount(8, $receivedMessages);
+        $this->assertEquals($this->messageMock, $receivedMessages[0]);
+    }
+
+    /**
+     * @return void
+     */
+    public function testReceiveMessagesWithInvalidResult(): void
+    {
+        $this->resultMocks[0]->expects($this->atLeastOnce())
+            ->method('hasKey')
+            ->with('QueueUrl')
+            ->willReturn(true);
+
+        $this->resultMocks[0]->expects($this->atLeastOnce())
+            ->method('get')
+            ->with('QueueUrl')
+            ->willReturn($this->queueUrl);
+
+        $this->sqsClientMock->expects($this->atLeastOnce())
+            ->method('getQueueUrl')
+            ->with(['QueueName' => $this->queueName])
+            ->willReturn($this->resultMocks[0]);
+
+        $this->resultMocks[1]->expects($this->never())
+            ->method('hasKey')
+            ->with('QueueUrl');
+
+        $this->resultMocks[1]->expects($this->never())
+            ->method('get')
+            ->with('QueueUrl');
+
+        $this->sqsClientMock->expects($this->never())
+            ->method('createQueue')
+            ->with(['QueueName' => $this->queueName]);
+
+        $this->resultMocks[2]->expects($this->atLeastOnce())
+            ->method('get')
+            ->with('Messages')
+            ->willReturn(null);
+
+        $this->sqsClientMock->expects($this->atLeastOnce())
+            ->method('receiveMessage')
+            ->with(['QueueUrl' => $this->queueUrl, 'MaxNumberOfMessages' => 10])
+            ->willReturn($this->resultMocks[2]);
+
+        $this->messageMapperMock->expects($this->never())
+            ->method('fromJson');
+
+        $receivedMessages = $this->queueClient->receiveMessages($this->queueName, 11);
+
+        $this->assertCount(0, $receivedMessages);
     }
 
     /**
