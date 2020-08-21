@@ -30,9 +30,10 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet('queue_client', function (Container $container) use ($self) {
+        $container->offsetSet('queue_client', static function (Container $container) use ($self) {
             return new QueueClient(
                 $self->createConnection($container),
+                $self->createAmqpMessageFactory(),
                 $container->offsetGet('message_mapper')
             );
         });
@@ -74,14 +75,20 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
             QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_VHOST
         );
 
-        $connection = new AMQPLazyConnection(
+        return new AMQPLazyConnection(
             $rabbitMqHost,
             $rabbitMqPort,
             $rabbitMqUser,
             $rabbitMqPassword,
             $rabbitMqVhost
         );
+    }
 
-        return $connection;
+    /**
+     * @return \Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface
+     */
+    protected function createAmqpMessageFactory(): AmqpMessageFactoryInterface
+    {
+        return new AmqpMessageFactory();
     }
 }
