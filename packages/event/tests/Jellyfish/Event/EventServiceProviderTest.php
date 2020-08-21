@@ -99,11 +99,14 @@ class EventServiceProviderTest extends Unit
     {
         $this->eventServiceProvider->register($this->container);
 
-        $this->assertTrue($this->container->offsetExists('event_factory'));
-        $this->assertInstanceOf(EventFactory::class, $this->container->offsetGet('event_factory'));
+        $this->assertTrue($this->container->offsetExists(EventServiceProvider::KEY_EVENT_FACTORY));
+        $this->assertInstanceOf(EventFactory::class, $this->container->offsetGet(EventServiceProvider::KEY_EVENT_FACTORY));
 
-        $this->assertTrue($this->container->offsetExists('event_dispatcher'));
-        $this->assertInstanceOf(EventDispatcher::class, $this->container->offsetGet('event_dispatcher'));
+        $this->assertTrue($this->container->offsetExists(EventServiceProvider::KEY_EVENT_DISPATCHER));
+        $this->assertInstanceOf(EventDispatcher::class, $this->container->offsetGet(EventServiceProvider::KEY_EVENT_DISPATCHER));
+
+        $this->assertTrue($this->container->offsetExists(EventServiceProvider::KEY_DEFAULT_EVENT_ERROR_HANDLERS));
+        $this->assertIsArray($this->container->offsetGet(EventServiceProvider::KEY_DEFAULT_EVENT_ERROR_HANDLERS));
 
         $this->assertTrue($this->container->offsetExists('commands'));
 

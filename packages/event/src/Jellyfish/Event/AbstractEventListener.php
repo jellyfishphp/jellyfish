@@ -14,6 +14,14 @@ abstract class AbstractEventListener implements EventListenerInterface
     protected $errorHandlers;
 
     /**
+     * @param \Jellyfish\Event\EventErrorHandlerInterface[] $errorHandlers
+     */
+    public function __construct(array $errorHandlers = [])
+    {
+        $this->errorHandlers = $errorHandlers;
+    }
+
+    /**
      * @return \Jellyfish\Event\EventErrorHandlerInterface[]
      */
     public function getErrorHandlers(): array
@@ -50,7 +58,7 @@ abstract class AbstractEventListener implements EventListenerInterface
      *
      * @return \Jellyfish\Event\EventListenerInterface
      *
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function handle(EventInterface $event): EventListenerInterface
     {

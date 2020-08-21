@@ -11,6 +11,10 @@ use Pimple\ServiceProviderInterface;
 
 class EventServiceProvider implements ServiceProviderInterface
 {
+    public const KEY_DEFAULT_EVENT_ERROR_HANDLERS = 'default_event_error_handlers';
+    public const KEY_EVENT_DISPATCHER = 'event_dispatcher';
+    public const KEY_EVENT_FACTORY = 'event_factory';
+
     /**
      * @var \Jellyfish\Event\EventQueueNameGeneratorInterface|null
      */
@@ -37,15 +41,16 @@ class EventServiceProvider implements ServiceProviderInterface
     protected $eventQueueWorker;
 
     /**
-     * @param \Pimple\Container $pimple
+     * @param \Pimple\Container $container
      *
      * @return void
      */
-    public function register(Container $pimple): void
+    public function register(Container $container): void
     {
-        $this->registerEventFactory($pimple)
-            ->registerEventDispatcher($pimple)
-            ->registerCommands($pimple);
+        $this->registerEventFactory($container)
+            ->registerEventDispatcher($container)
+            ->registerCommands($container)
+            ->registerDefaultEventErrorHandlers($container);
     }
 
     /**
@@ -139,7 +144,7 @@ class EventServiceProvider implements ServiceProviderInterface
      */
     protected function registerEventFactory(Container $container): EventServiceProvider
     {
-        $container->offsetSet('event_factory', function () {
+        $container->offsetSet(static::KEY_EVENT_FACTORY, static function () {
             return new EventFactory();
         });
 
@@ -155,7 +160,7 @@ class EventServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet('event_dispatcher', function (Container $container) use ($self) {
+        $container->offsetSet(static::KEY_EVENT_DISPATCHER, static function (Container $container) use ($self) {
             return new EventDispatcher(
                 new EventListenerProvider(),
                 $self->createEventQueueProducer($container)
@@ -174,7 +179,7 @@ class EventServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->extend('commands', function (array $commands, Container $container) use ($self) {
+        $container->extend('commands', static function (array $commands, Container $container) use ($self) {
             $commands[] = new EventQueueConsumeCommand(
                 $container->offsetGet('event_dispatcher')->getEventListenerProvider(),
                 $self->createEventQueueConsumer($container),
@@ -187,6 +192,20 @@ class EventServiceProvider implements ServiceProviderInterface
             );
 
             return $commands;
+        });
+
+        return $this;
+    }
+
+    /**
+     * @param \Pimple\Container $container
+     *
+     * @return \Jellyfish\Event\EventServiceProvider
+     */
+    protected function registerDefaultEventErrorHandlers(Container $container): EventServiceProvider
+    {
+        $container->offsetSet(static::KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
+            return [];
         });
 
         return $this;
