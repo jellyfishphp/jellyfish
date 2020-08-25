@@ -10,6 +10,7 @@
   ],
   "require": {
     "jellyfish/config": "dev-master",
+    "jellyfish/event": "dev-master",
     "jellyfish/pimple": "dev-master",
     "monolog/monolog": "~2.0.0"
   },
