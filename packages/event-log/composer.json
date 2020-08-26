@@ -1,6 +1,6 @@
 {
-  "name": "jellyfish/log",
-  "description": "Jellyfish log bundle",
+  "name": "jellyfish/event-log",
+  "description": "Jellyfish event log bundle",
   "license": "MIT",
   "authors": [
     {
@@ -10,8 +10,9 @@
   ],
   "require": {
     "jellyfish/config": "dev-master",
-    "jellyfish/pimple": "dev-master",
-    "monolog/monolog": "~2.0.0"
+    "jellyfish/event": "dev-master",
+    "jellyfish/log": "dev-master",
+    "jellyfish/pimple": "dev-master"
   },
   "require-dev": {
     "codeception/codeception": "~3.1.2",

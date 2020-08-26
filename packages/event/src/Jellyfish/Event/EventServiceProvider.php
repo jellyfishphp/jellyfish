@@ -11,9 +11,9 @@ use Pimple\ServiceProviderInterface;
 
 class EventServiceProvider implements ServiceProviderInterface
 {
-    public const KEY_DEFAULT_EVENT_ERROR_HANDLERS = 'default_event_error_handlers';
-    public const KEY_EVENT_DISPATCHER = 'event_dispatcher';
-    public const KEY_EVENT_FACTORY = 'event_factory';
+    public const CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS = 'default_event_error_handlers';
+    public const CONTAINER_KEY_EVENT_DISPATCHER = 'event_dispatcher';
+    public const CONTAINER_KEY_EVENT_FACTORY = 'event_factory';
 
     /**
      * @var \Jellyfish\Event\EventQueueNameGeneratorInterface|null
@@ -144,7 +144,7 @@ class EventServiceProvider implements ServiceProviderInterface
      */
     protected function registerEventFactory(Container $container): EventServiceProvider
     {
-        $container->offsetSet(static::KEY_EVENT_FACTORY, static function () {
+        $container->offsetSet(static::CONTAINER_KEY_EVENT_FACTORY, static function () {
             return new EventFactory();
         });
 
@@ -160,12 +160,15 @@ class EventServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet(static::KEY_EVENT_DISPATCHER, static function (Container $container) use ($self) {
-            return new EventDispatcher(
-                new EventListenerProvider(),
-                $self->createEventQueueProducer($container)
-            );
-        });
+        $container->offsetSet(
+            static::CONTAINER_KEY_EVENT_DISPATCHER,
+            static function (Container $container) use ($self) {
+                return new EventDispatcher(
+                    new EventListenerProvider(),
+                    $self->createEventQueueProducer($container)
+                );
+            }
+        );
 
         return $this;
     }
@@ -204,7 +207,7 @@ class EventServiceProvider implements ServiceProviderInterface
      */
     protected function registerDefaultEventErrorHandlers(Container $container): EventServiceProvider
     {
-        $container->offsetSet(static::KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
+        $container->offsetSet(static::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
             return [];
         });
 

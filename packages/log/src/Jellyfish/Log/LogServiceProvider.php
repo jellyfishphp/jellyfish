@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jellyfish\Log;
 
-use Jellyfish\Event\EventServiceProvider;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
@@ -14,7 +13,7 @@ use Pimple\ServiceProviderInterface;
 
 class LogServiceProvider implements ServiceProviderInterface
 {
-    public const KEY_LOGGER = 'logger';
+    public const CONTAINER_KEY_LOGGER = 'logger';
 
     /**
      * @param \Pimple\Container $container
@@ -23,8 +22,7 @@ class LogServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container): void
     {
-        $this->registerLogger($container)
-            ->registerEventErrorHandler($container);
+        $this->registerLogger($container);
     }
 
     /**
@@ -36,7 +34,7 @@ class LogServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet(static::KEY_LOGGER, static function (Container $container) use ($self) {
+        $container->offsetSet(static::CONTAINER_KEY_LOGGER, static function (Container $container) use ($self) {
             $logger = new Logger('jellyfish');
 
             $logger->pushHandler($self->createStreamHandler($container));
@@ -76,28 +74,5 @@ class LogServiceProvider implements ServiceProviderInterface
         $filename = $container->offsetGet('root_dir') . 'var/log/jellyfish.log';
 
         return new RotatingFileHandler($filename, 0, (int) $logLevel);
-    }
-
-    /**
-     * @param \Pimple\Container $container
-     *
-     * @return \Jellyfish\Log\LogServiceProvider
-     */
-    protected function registerEventErrorHandler(Container $container): LogServiceProvider
-    {
-        if (!$container->offsetExists(EventServiceProvider::KEY_DEFAULT_EVENT_ERROR_HANDLERS)) {
-            return $this;
-        }
-
-        $container->extend(
-            EventServiceProvider::KEY_DEFAULT_EVENT_ERROR_HANDLERS,
-            static function (array $defaultEventErrorHandlers, Container $container) {
-                $defaultEventErrorHandlers[] = new LogEventErrorHandler($container->offsetGet(static::KEY_LOGGER));
-
-                return $defaultEventErrorHandlers;
-            }
-        );
-
-        return $this;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jellyfish\Log;
+namespace Jellyfish\EventLog\EventErrorHandler;
 
 use Jellyfish\Event\EventErrorHandlerInterface;
 use Jellyfish\Event\EventInterface;

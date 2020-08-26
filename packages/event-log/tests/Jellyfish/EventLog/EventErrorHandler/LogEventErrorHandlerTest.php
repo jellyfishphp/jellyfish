@@ -1,6 +1,6 @@
 <?php
 
-namespace Jellyfish\Log;
+namespace Jellyfish\EventLog\EventErrorHandler;
 
 use Codeception\Test\Unit;
 use Exception;
@@ -30,7 +30,7 @@ class LogEventErrorHandlerTest extends Unit
     protected $eventListenerIdentifier;
 
     /**
-     * @var \FondOfJellyfish\Log\LogEventErrorHandler
+     * @var \Jellyfish\EventLog\EventErrorHandler\LogEventErrorHandler
      */
     protected $logEventErrorHandler;
 

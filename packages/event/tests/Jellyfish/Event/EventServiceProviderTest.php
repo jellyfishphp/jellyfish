@@ -99,14 +99,14 @@ class EventServiceProviderTest extends Unit
     {
         $this->eventServiceProvider->register($this->container);
 
-        $this->assertTrue($this->container->offsetExists(EventServiceProvider::KEY_EVENT_FACTORY));
-        $this->assertInstanceOf(EventFactory::class, $this->container->offsetGet(EventServiceProvider::KEY_EVENT_FACTORY));
+        $this->assertTrue($this->container->offsetExists(EventServiceProvider::CONTAINER_KEY_EVENT_FACTORY));
+        $this->assertInstanceOf(EventFactory::class, $this->container->offsetGet(EventServiceProvider::CONTAINER_KEY_EVENT_FACTORY));
 
-        $this->assertTrue($this->container->offsetExists(EventServiceProvider::KEY_EVENT_DISPATCHER));
-        $this->assertInstanceOf(EventDispatcher::class, $this->container->offsetGet(EventServiceProvider::KEY_EVENT_DISPATCHER));
+        $this->assertTrue($this->container->offsetExists(EventServiceProvider::CONTAINER_KEY_EVENT_DISPATCHER));
+        $this->assertInstanceOf(EventDispatcher::class, $this->container->offsetGet(EventServiceProvider::CONTAINER_KEY_EVENT_DISPATCHER));
 
-        $this->assertTrue($this->container->offsetExists(EventServiceProvider::KEY_DEFAULT_EVENT_ERROR_HANDLERS));
-        $this->assertIsArray($this->container->offsetGet(EventServiceProvider::KEY_DEFAULT_EVENT_ERROR_HANDLERS));
+        $this->assertTrue($this->container->offsetExists(EventServiceProvider::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
+        $this->assertIsArray($this->container->offsetGet(EventServiceProvider::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
 
         $this->assertTrue($this->container->offsetExists('commands'));
 
