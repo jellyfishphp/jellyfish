@@ -11,6 +11,8 @@ use Jellyfish\Process\ProcessInterface;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\QueueClientInterface;
 
+use function sprintf;
+
 class EventQueueConsumerTest extends Unit
 {
     /**
@@ -105,7 +107,7 @@ class EventQueueConsumerTest extends Unit
 
         $this->eventName = 'test';
         $this->eventListenerIdentifier = 'testListener';
-        $this->eventQueueName = \sprintf('%s_%s', $this->eventName, $this->eventListenerIdentifier);
+        $this->eventQueueName = sprintf('%s_%s', $this->eventName, $this->eventListenerIdentifier);
 
         $this->eventQueueConsumer = new EventQueueConsumer(
             $this->processFactoryMock,
@@ -119,7 +121,7 @@ class EventQueueConsumerTest extends Unit
     /**
      * @return void
      */
-    public function testDequeueEvent(): void
+    public function testDequeue(): void
     {
         $this->eventQueueNameGeneratorMock->expects($this->atLeastOnce())
             ->method('generate')
@@ -136,7 +138,7 @@ class EventQueueConsumerTest extends Unit
             ->with($this->messageMock)
             ->willReturn($this->eventMock);
 
-        $event = $this->eventQueueConsumer->dequeueEvent(
+        $event = $this->eventQueueConsumer->dequeue(
             $this->eventName,
             $this->eventListenerIdentifier
         );
@@ -147,7 +149,7 @@ class EventQueueConsumerTest extends Unit
     /**
      * @return void
      */
-    public function testDequeueEventFromEmptyQueue(): void
+    public function testDequeueFromEmptyQueue(): void
     {
         $this->eventQueueNameGeneratorMock->expects($this->atLeastOnce())
             ->method('generate')
@@ -164,7 +166,7 @@ class EventQueueConsumerTest extends Unit
             ->with($this->messageMock)
             ->willReturn($this->eventMock);
 
-        $event = $this->eventQueueConsumer->dequeueEvent(
+        $event = $this->eventQueueConsumer->dequeue(
             $this->eventName,
             $this->eventListenerIdentifier
         );
@@ -175,7 +177,7 @@ class EventQueueConsumerTest extends Unit
     /**
      * @return void
      */
-    public function testDequeueEventAsProcess(): void
+    public function testDequeueAsProcess(): void
     {
         $command = [
             '/vendor/bin/console',
@@ -198,11 +200,44 @@ class EventQueueConsumerTest extends Unit
             ->method('start')
             ->willReturn($this->processMock);
 
-        $result = $this->eventQueueConsumer->dequeueEventAsProcess(
+        $result = $this->eventQueueConsumer->dequeueAsProcess(
             $this->eventName,
             $this->eventListenerIdentifier
         );
 
         $this->assertEquals($this->eventQueueConsumer, $result);
+    }
+
+    /**
+     * @return void
+     */
+    public function testDequeueBulk(): void
+    {
+        $chunkSize = 100;
+        $messages = [$this->messageMock];
+
+        $this->eventQueueNameGeneratorMock->expects($this->atLeastOnce())
+            ->method('generate')
+            ->with($this->eventName, $this->eventListenerIdentifier)
+            ->willReturn($this->eventQueueName);
+
+        $this->queueClientMock->expects($this->atLeastOnce())
+            ->method('receiveMessages')
+            ->with($this->eventQueueName, $chunkSize)
+            ->willReturn($messages);
+
+        $this->eventMapperMock->expects($this->atLeastOnce())
+            ->method('fromMessage')
+            ->with($this->messageMock)
+            ->willReturn($this->eventMock);
+
+        $events = $this->eventQueueConsumer->dequeueBulk(
+            $this->eventName,
+            $this->eventListenerIdentifier,
+            $chunkSize
+        );
+
+        $this->assertCount(1, $events);
+        $this->assertEquals($this->eventMock, $events[0]);
     }
 }

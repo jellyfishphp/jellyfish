@@ -117,7 +117,7 @@ class EventQueueProducerTest extends Unit
 
         $this->assertEquals(
             $this->eventQueueProducer,
-            $this->eventQueueProducer->enqueueEvent($this->eventMock, $this->eventListenerMock)
+            $this->eventQueueProducer->enqueue($this->eventMock, $this->eventListenerMock)
         );
     }
 }

@@ -9,6 +9,11 @@ use Exception;
 use Jellyfish\Config\Exception\ConfigKeyNotFoundException;
 use Jellyfish\Config\Exception\NotSupportedConfigValueTypeException;
 
+use function is_bool;
+use function is_float;
+use function is_int;
+use function is_string;
+
 class Config implements ConfigInterface
 {
     protected const CONFIG_FILE_PREFIX = 'config-';
@@ -79,11 +84,11 @@ class Config implements ConfigInterface
     {
         $value = $this->config[$key];
 
-        if (\is_string($value)) {
+        if (is_string($value)) {
             return $value;
         }
 
-        if (\is_int($value) || \is_float($value) || \is_bool($value)) {
+        if (is_int($value) || is_float($value) || is_bool($value)) {
             return (string) $value;
         }
 
@@ -117,7 +122,7 @@ class Config implements ConfigInterface
 
     /**
      * @param \ArrayObject $config
-     * @param string $environment
+     * @param string|null $environment
      *
      * @return \ArrayObject
      */

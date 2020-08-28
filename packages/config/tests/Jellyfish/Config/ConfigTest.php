@@ -8,6 +8,9 @@ use Codeception\Test\Unit;
 use Exception;
 use org\bovigo\vfs\vfsStream;
 
+use function file_get_contents;
+use function rtrim;
+
 class ConfigTest extends Unit
 {
     /**
@@ -44,12 +47,12 @@ class ConfigTest extends Unit
      */
     public function testGet(): void
     {
-        $this->assertEquals('default_config_value', $this->config->get('default_config_key'));
-        $this->assertEquals('1', $this->config->get('default_config_key_2'));
-        $this->assertEquals('0.2', $this->config->get('default_config_key_3'));
-        $this->assertEquals('1', $this->config->get('default_config_key_4'));
-        $this->assertEquals('testing_config_value', $this->config->get('testing_config_key'));
-        $this->assertEquals('eulav_gifnoc_derahs', $this->config->get('shared_config_key'));
+        self::assertEquals('default_config_value', $this->config->get('default_config_key'));
+        self::assertEquals('1', $this->config->get('default_config_key_2'));
+        self::assertEquals('0.2', $this->config->get('default_config_key_3'));
+        self::assertEquals('1', $this->config->get('default_config_key_4'));
+        self::assertEquals('testing_config_value', $this->config->get('testing_config_key'));
+        self::assertEquals('eulav_gifnoc_derahs', $this->config->get('shared_config_key'));
     }
 
     /**
@@ -61,7 +64,7 @@ class ConfigTest extends Unit
     {
         try {
             $this->config->get('default_config_key_5');
-            $this->fail();
+            self::fail();
         } catch (Exception $e) {
         }
     }
@@ -74,8 +77,8 @@ class ConfigTest extends Unit
     public function testGetWithNotExistingEntry(): void
     {
         try {
-            $this->assertEquals('default_config_value', $this->config->get('staging_config_key'));
-            $this->fail();
+            self::assertEquals('default_config_value', $this->config->get('staging_config_key'));
+            self::fail();
         } catch (Exception $e) {
         }
     }
@@ -87,7 +90,7 @@ class ConfigTest extends Unit
      */
     public function testGetWithDefault(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             'staging_config_value',
             $this->config->get('staging_config_key', 'staging_config_value')
         );

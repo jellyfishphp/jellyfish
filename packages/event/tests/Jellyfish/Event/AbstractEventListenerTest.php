@@ -20,6 +20,11 @@ class AbstractEventListenerTest extends Unit
     protected $eventMock;
 
     /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Event\EventErrorHandlerInterface
+     */
+    protected $errorHandlerMock;
+
+    /**
      * @return void
      *
      * @throws \ReflectionException
@@ -30,18 +35,28 @@ class AbstractEventListenerTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->errorHandlerMock = $this->getMockBuilder(EventErrorHandlerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->abstractEventListenerMock = $this->getMockForAbstractClass(AbstractEventListener::class);
     }
 
     /**
      * @return void
      */
-    public function testSetErrorHandler(): void
+    public function testSetAndGetErrorHandlers(): void
     {
+        $errorHandlers = [$this->errorHandlerMock];
+
         $this->assertEquals(
             $this->abstractEventListenerMock,
-            $this->abstractEventListenerMock->setErrorHandler(function (Exception $exception, EventInterface $event) {
-            })
+            $this->abstractEventListenerMock->setErrorHandlers($errorHandlers)
+        );
+
+        $this->assertEquals(
+            $errorHandlers,
+            $this->abstractEventListenerMock->getErrorHandlers()
         );
     }
 
@@ -89,40 +104,28 @@ class AbstractEventListenerTest extends Unit
      */
     public function testHandleWithHandledError(): void
     {
-        $eventName = 'Test';
-        $exceptionMessage = 'Lorem ipsum';
-        $errorMessage = '';
+        $identifier = 'foo';
+        $exception = new Exception();
 
-        $this->eventMock->expects($this->atLeastOnce())
-            ->method('getName')
-            ->willReturn($eventName);
-
-        $this->assertEquals(
-            $this->abstractEventListenerMock,
-            $this->abstractEventListenerMock->setErrorHandler(
-                function (Exception $exception, EventInterface $event) use (&$errorMessage) {
-                    $errorMessage = \sprintf(
-                        'EventName: %s / Exception: %s',
-                        $event->getName(),
-                        $exception->getMessage()
-                    );
-                }
-            )
-        );
+        $this->abstractEventListenerMock->addErrorHandler($this->errorHandlerMock);
 
         $this->abstractEventListenerMock->expects($this->atLeastOnce())
             ->method('doHandle')
             ->with($this->eventMock)
-            ->willThrowException(new Exception($exceptionMessage));
+            ->willThrowException($exception);
+
+        $this->abstractEventListenerMock->expects($this->atLeastOnce())
+            ->method('getIdentifier')
+            ->willReturn($identifier);
+
+        $this->errorHandlerMock->expects($this->atLeastOnce())
+            ->method('handle')
+            ->with($exception, $identifier, $this->eventMock)
+            ->willReturn($this->errorHandlerMock);
 
         $this->assertEquals(
             $this->abstractEventListenerMock,
             $this->abstractEventListenerMock->handle($this->eventMock)
-        );
-
-        $this->assertEquals(
-            $errorMessage,
-            \sprintf('EventName: %s / Exception: %s', $eventName, $exceptionMessage)
         );
     }
 }

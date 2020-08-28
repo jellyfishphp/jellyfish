@@ -7,6 +7,8 @@ namespace Jellyfish\Transfer\Definition;
 use Codeception\Test\Unit;
 use RuntimeException;
 
+use function sprintf;
+
 class ClassDefinitionTest extends Unit
 {
     /**
@@ -91,7 +93,7 @@ class ClassDefinitionTest extends Unit
     public function testGetNamespaceStatement(): void
     {
         $namespace = 'Lorem';
-        $expectedNamespaceStatement = \sprintf('namespace %s\\%s;', ClassDefinition::NAMESPACE_PREFIX, $namespace);
+        $expectedNamespaceStatement = sprintf('namespace %s\\%s;', ClassDefinition::NAMESPACE_PREFIX, $namespace);
 
         $this->assertEquals($this->classDefinition, $this->classDefinition->setNamespace($namespace));
         $this->assertEquals($expectedNamespaceStatement, $this->classDefinition->getNamespaceStatement());

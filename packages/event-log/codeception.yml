@@ -1,4 +1,4 @@
-namespace: queue-sqs
+namespace: event-log
 
 suites:
   unit:
@@ -19,5 +19,3 @@ coverage:
   enabled: true
   include:
     - src/*
-  exclude:
-    - src/Jellyfish/QueueSQS/QueueSQSServiceProvider.php

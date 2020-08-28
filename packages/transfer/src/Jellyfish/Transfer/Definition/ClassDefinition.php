@@ -6,6 +6,8 @@ namespace Jellyfish\Transfer\Definition;
 
 use RuntimeException;
 
+use function sprintf;
+
 class ClassDefinition implements ClassDefinitionInterface
 {
     public const NAMESPACE_PREFIX = 'Generated\\Transfer';
@@ -97,7 +99,7 @@ class ClassDefinition implements ClassDefinitionInterface
      */
     public function getNamespaceStatement(): string
     {
-        return \sprintf('namespace %s\\%s;', static::NAMESPACE_PREFIX, $this->namespace);
+        return sprintf('namespace %s\\%s;', static::NAMESPACE_PREFIX, $this->namespace);
     }
 
     /**
@@ -144,7 +146,7 @@ class ClassDefinition implements ClassDefinitionInterface
     protected function createUseStatement(ClassPropertyDefinitionInterface $property): string
     {
         if ($property->getTypeAlias() === null) {
-            return \sprintf(
+            return sprintf(
                 'use %s\\%s\\%s;',
                 static::NAMESPACE_PREFIX,
                 $property->getTypeNamespace(),
@@ -152,7 +154,7 @@ class ClassDefinition implements ClassDefinitionInterface
             );
         }
 
-        return \sprintf(
+        return sprintf(
             'use %s\\%s\\%s as %s;',
             static::NAMESPACE_PREFIX,
             $property->getTypeNamespace(),

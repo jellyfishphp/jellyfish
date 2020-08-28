@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Definition;
 
+use ArrayObject;
 use Codeception\Test\Unit;
 use Jellyfish\Serializer\SerializerInterface;
 
@@ -40,7 +41,7 @@ class ClassDefinitionMapMapperTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->classDefinitionMocks = new \ArrayObject([
+        $this->classDefinitionMocks = new ArrayObject([
             $this->getMockBuilder(ClassDefinition::class)
                 ->disableOriginalConstructor()
                 ->getMock()

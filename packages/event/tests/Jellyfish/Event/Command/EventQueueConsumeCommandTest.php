@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Jellyfish\Event\Command;
 
 use Codeception\Test\Unit;
+use Exception;
 use InvalidArgumentException;
+use Jellyfish\Event\EventBulkListenerInterface;
 use Jellyfish\Event\EventInterface;
 use Jellyfish\Event\EventListenerInterface;
 use Jellyfish\Event\EventListenerProviderInterface;
@@ -42,6 +44,11 @@ class EventQueueConsumeCommandTest extends Unit
      * @var \Jellyfish\Event\EventInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $eventMock;
+
+    /**
+     * @var \Jellyfish\Event\EventListenerInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $eventBulkListenerMock;
 
     /**
      * @var \Jellyfish\Event\EventListenerInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -112,6 +119,10 @@ class EventQueueConsumeCommandTest extends Unit
 
 
         $this->eventListenerMock = $this->getMockBuilder(EventListenerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->eventBulkListenerMock = $this->getMockBuilder(EventBulkListenerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -202,8 +213,13 @@ class EventQueueConsumeCommandTest extends Unit
             ->method('acquire')
             ->willReturn(true);
 
+        $this->eventListenerProviderMock->expects($this->atLeastOnce())
+            ->method('getListener')
+            ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
+            ->willReturn($this->eventListenerMock);
+
         $this->eventQueueConsumerMock->expects($this->atLeastOnce())
-            ->method('dequeueEvent')
+            ->method('dequeue')
             ->with($this->eventName, $this->listenerIdentifier)
             ->willReturn(null);
 
@@ -237,15 +253,16 @@ class EventQueueConsumeCommandTest extends Unit
             ->method('acquire')
             ->willReturn(true);
 
-        $this->eventQueueConsumerMock->expects($this->atLeastOnce())
-            ->method('dequeueEvent')
-            ->with($this->eventName, $this->listenerIdentifier)
-            ->willReturn($this->eventMock);
-
         $this->eventListenerProviderMock->expects($this->atLeastOnce())
             ->method('getListener')
             ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
             ->willReturn(null);
+
+        $this->eventQueueConsumerMock->expects($this->never())
+            ->method('dequeue');
+
+        $this->eventQueueConsumerMock->expects($this->never())
+            ->method('dequeueBulk');
 
         $this->lockMock->expects($this->atLeastOnce())
             ->method('release')
@@ -277,15 +294,15 @@ class EventQueueConsumeCommandTest extends Unit
             ->method('acquire')
             ->willReturn(true);
 
-        $this->eventQueueConsumerMock->expects($this->atLeastOnce())
-            ->method('dequeueEvent')
-            ->with($this->eventName, $this->listenerIdentifier)
-            ->willReturn($this->eventMock);
-
         $this->eventListenerProviderMock->expects($this->atLeastOnce())
             ->method('getListener')
             ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventListenerMock);
+
+        $this->eventQueueConsumerMock->expects($this->atLeastOnce())
+            ->method('dequeue')
+            ->with($this->eventName, $this->listenerIdentifier)
+            ->willReturn($this->eventMock);
 
         $this->eventListenerMock->expects($this->atLeastOnce())
             ->method('handle')
@@ -308,9 +325,64 @@ class EventQueueConsumeCommandTest extends Unit
      *
      * @throws \Exception
      */
+    public function testRunWithEventBulkListener(): void
+    {
+        $chunkSize = 100;
+        $events = [$this->eventMock];
+
+        $this->inputMock->expects($this->atLeastOnce())
+            ->method('getArgument')
+            ->withConsecutive(['eventName'], ['listenerIdentifier'])
+            ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
+
+        $this->lockFactoryMock->expects($this->atLeastOnce())
+            ->method('create')
+            ->with($this->lockIdentifierParts, 360.0)
+            ->willReturn($this->lockMock);
+
+        $this->lockMock->expects($this->atLeastOnce())
+            ->method('acquire')
+            ->willReturn(true);
+
+        $this->eventListenerProviderMock->expects($this->atLeastOnce())
+            ->method('getListener')
+            ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
+            ->willReturn($this->eventBulkListenerMock);
+
+        $this->eventBulkListenerMock->expects($this->atLeastOnce())
+            ->method('getChunkSize')
+            ->willReturn($chunkSize);
+
+        $this->eventQueueConsumerMock->expects($this->atLeastOnce())
+            ->method('dequeueBulk')
+            ->with($this->eventName, $this->listenerIdentifier, $chunkSize)
+            ->willReturn($events);
+
+        $this->eventBulkListenerMock->expects($this->atLeastOnce())
+            ->method('handleBulk')
+            ->with($events)
+            ->willReturn($this->eventBulkListenerMock);
+
+        $this->loggerMock->expects($this->never())
+            ->method('error');
+
+        $this->lockMock->expects($this->atLeastOnce())
+            ->method('release')
+            ->willReturn($this->lockMock);
+
+        $exitCode = $this->eventQueueConsumeCommand->run($this->inputMock, $this->outputMock);
+
+        $this->assertEquals(0, $exitCode);
+    }
+
+    /**
+     * @return void
+     *
+     * @throws \Exception
+     */
     public function testRunWithHandlerException(): void
     {
-        $exception = new \Exception('Test exception');
+        $exception = new Exception('Test exception');
 
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
@@ -327,7 +399,7 @@ class EventQueueConsumeCommandTest extends Unit
             ->willReturn(true);
 
         $this->eventQueueConsumerMock->expects($this->atLeastOnce())
-            ->method('dequeueEvent')
+            ->method('dequeue')
             ->with($this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventMock);
 
@@ -366,34 +438,22 @@ class EventQueueConsumeCommandTest extends Unit
             ->willReturnOnConsecutiveCalls(null, $this->listenerIdentifier);
 
         $this->lockFactoryMock->expects($this->never())
-            ->method('create')
-            ->with($this->lockIdentifierParts, 360.0)
-            ->willReturn($this->lockMock);
+            ->method('create');
 
         $this->lockMock->expects($this->never())
-            ->method('acquire')
-            ->willReturn(true);
-
-        $this->eventQueueConsumerMock->expects($this->never())
-            ->method('dequeueEvent')
-            ->with($this->eventName, $this->listenerIdentifier)
-            ->willReturn($this->eventMock);
+            ->method('acquire');
 
         $this->eventListenerProviderMock->expects($this->never())
-            ->method('getListener')
-            ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
-            ->willReturn($this->eventListenerMock);
+            ->method('getListener');
 
-        $this->eventListenerMock->expects($this->never())
-            ->method('handle')
-            ->with($this->eventMock);
+        $this->eventQueueConsumerMock->expects($this->never())
+            ->method('dequeue');
 
         $this->loggerMock->expects($this->never())
             ->method('error');
 
         $this->lockMock->expects($this->never())
-            ->method('release')
-            ->willReturn($this->lockMock);
+            ->method('release');
 
         try {
             $this->eventQueueConsumeCommand->run($this->inputMock, $this->outputMock);

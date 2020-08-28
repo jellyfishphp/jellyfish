@@ -19,9 +19,9 @@ class QueueClient implements QueueClientInterface
     protected $connection;
 
     /**
-     * @var \PhpAmqpLib\Channel\AMQPChannel|null
+     * @var \Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface
      */
-    protected $channel;
+    protected $amqpMessageFactory;
 
     /**
      * @var \Jellyfish\Queue\MessageMapperInterface
@@ -29,12 +29,22 @@ class QueueClient implements QueueClientInterface
     protected $messageMapper;
 
     /**
+     * @var \PhpAmqpLib\Channel\AMQPChannel|null
+     */
+    protected $channel;
+
+    /**
      * @param \PhpAmqpLib\Connection\AbstractConnection $connection
+     * @param \Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface $amqpMessageFactory
      * @param \Jellyfish\Queue\MessageMapperInterface $messageMapper
      */
-    public function __construct(AbstractConnection $connection, MessageMapperInterface $messageMapper)
-    {
+    public function __construct(
+        AbstractConnection $connection,
+        AmqpMessageFactoryInterface $amqpMessageFactory,
+        MessageMapperInterface $messageMapper
+    ) {
         $this->connection = $connection;
+        $this->amqpMessageFactory = $amqpMessageFactory;
         $this->messageMapper = $messageMapper;
     }
 
@@ -45,8 +55,18 @@ class QueueClient implements QueueClientInterface
      */
     public function receiveMessage(string $queueName): ?MessageInterface
     {
-        $this->getChannel()->queue_declare($queueName);
+        $this->declareQueue($queueName);
 
+        return $this->doReceiveMessage($queueName);
+    }
+
+    /**
+     * @param string $queueName
+     *
+     * @return \Jellyfish\Queue\MessageInterface|null
+     */
+    protected function doReceiveMessage(string $queueName): ?MessageInterface
+    {
         $messageAsJson = $this->getChannel()->basic_get($queueName, true);
 
         if ($messageAsJson === null || !($messageAsJson instanceof AMQPMessage)) {
@@ -58,16 +78,53 @@ class QueueClient implements QueueClientInterface
 
     /**
      * @param string $queueName
+     * @param int $count
+     *
+     * @return \Jellyfish\Queue\MessageInterface[]
+     */
+    public function receiveMessages(string $queueName, int $count): array
+    {
+        $receivedMessages = [];
+        $this->declareQueue($queueName);
+
+        for ($i = 0; $i < $count; $i++) {
+            $receivedMessage = $this->doReceiveMessage($queueName);
+
+            if ($receivedMessage === null) {
+                return $receivedMessages;
+            }
+
+            $receivedMessages[] = $receivedMessage;
+        }
+
+        return $receivedMessages;
+    }
+
+    /**
+     * @param string $queueName
      * @param \Jellyfish\Queue\MessageInterface $message
      *
      * @return \Jellyfish\Queue\QueueClientInterface
      */
     public function sendMessage(string $queueName, MessageInterface $message): QueueClientInterface
     {
-        $messageAsJson = $this->messageMapper->toJson($message);
+        $amqpMessageBody = $this->messageMapper->toJson($message);
+        $amqpMessage = $this->amqpMessageFactory->create($amqpMessageBody);
 
-        $this->getChannel()->queue_declare($queueName);
-        $this->getChannel()->basic_publish(new AMQPMessage($messageAsJson), '', $queueName);
+        $this->declareQueue($queueName);
+        $this->getChannel()->basic_publish($amqpMessage, '', $queueName);
+
+        return $this;
+    }
+
+    /**
+     * @param string $queueName
+     *
+     * @return \Jellyfish\Queue\QueueClientInterface
+     */
+    protected function declareQueue(string $queueName): QueueClientInterface
+    {
+        $this->getChannel()->queue_declare($queueName, false, true);
 
         return $this;
     }

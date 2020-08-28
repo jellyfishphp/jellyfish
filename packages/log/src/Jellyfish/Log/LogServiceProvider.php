@@ -13,14 +13,16 @@ use Pimple\ServiceProviderInterface;
 
 class LogServiceProvider implements ServiceProviderInterface
 {
+    public const CONTAINER_KEY_LOGGER = 'logger';
+
     /**
-     * @param \Pimple\Container $pimple
+     * @param \Pimple\Container $container
      *
      * @return void
      */
-    public function register(Container $pimple): void
+    public function register(Container $container): void
     {
-        $this->registerLogger($pimple);
+        $this->registerLogger($container);
     }
 
     /**
@@ -32,7 +34,7 @@ class LogServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet('logger', function (Container $container) use ($self) {
+        $container->offsetSet(static::CONTAINER_KEY_LOGGER, static function (Container $container) use ($self) {
             $logger = new Logger('jellyfish');
 
             $logger->pushHandler($self->createStreamHandler($container));

@@ -6,6 +6,7 @@ namespace Jellyfish\Log;
 
 use Codeception\Test\Unit;
 use Jellyfish\Config\ConfigInterface;
+use Jellyfish\Event\EventServiceProvider;
 use Monolog\Logger;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
@@ -46,8 +47,12 @@ class LogServiceProviderTest extends Unit
 
         $this->container->offsetSet('root_dir', DIRECTORY_SEPARATOR);
 
-        $this->container->offsetSet('config', function () use ($self) {
+        $this->container->offsetSet('config', static function () use ($self) {
             return $self->configMock;
+        });
+
+        $this->container->offsetSet(EventServiceProvider::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
+            return [];
         });
 
         $this->logServiceProvider = new LogServiceProvider();
@@ -58,13 +63,16 @@ class LogServiceProviderTest extends Unit
      */
     public function testRegister(): void
     {
-        $this->configMock->expects($this->atLeastOnce())
+        $this->configMock->expects(self::atLeastOnce())
             ->method('get')
             ->with(LogConstants::LOG_LEVEL, (string) LogConstants::DEFAULT_LOG_LEVEL)
             ->willReturn((string) Logger::DEBUG);
 
         $this->logServiceProvider->register($this->container);
 
-        $this->assertInstanceOf(LoggerInterface::class, $this->container['logger']);
+        self::assertInstanceOf(
+            LoggerInterface::class,
+            $this->container->offsetGet(LogServiceProvider::CONTAINER_KEY_LOGGER)
+        );
     }
 }

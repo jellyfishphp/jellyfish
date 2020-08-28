@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\Scheduler\Command;
 
 use Codeception\Test\Unit;
+use Exception;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockInterface;
 use Jellyfish\Scheduler\SchedulerInterface;
@@ -192,7 +193,7 @@ class RunSchedulerCommandTest extends Unit
 
         $this->schedulerMock->expects($this->atLeastOnce())
             ->method('run')
-            ->willThrowException(new \Exception($exceptionMessage));
+            ->willThrowException(new Exception($exceptionMessage));
 
         $this->loggerMock->expects($this->atLeastOnce())
             ->method('error')

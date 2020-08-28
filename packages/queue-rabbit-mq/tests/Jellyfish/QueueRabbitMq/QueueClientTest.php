@@ -34,19 +34,22 @@ class QueueClientTest extends Unit
     protected $messageMapperMock;
 
     /**
+     * @var \Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $amqpMessageFactoryMock;
+
+    /**
      * @var \Jellyfish\Queue\MessageInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $messageMock;
 
     /**
-     * @var \PhpAmqpLib\Channel\AMQPChannel|\PHPUnit\Framework\MockObject\MockObject
+     * @var \PhpAmqpLib\Message\AMQPMessage|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $amqpMessageMock;
 
     /**
      * @return void
-     *
-     * @throws \ReflectionException
      */
     protected function _before(): void
     {
@@ -55,6 +58,10 @@ class QueueClientTest extends Unit
             ->getMock();
 
         $this->connectionMock = $this->getMockBuilder(AbstractConnection::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->amqpMessageFactoryMock = $this->getMockBuilder(AmqpMessageFactoryInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -70,7 +77,14 @@ class QueueClientTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->queueClient = new QueueClient($this->connectionMock, $this->messageMapperMock);
+        $this->amqpMessageMock->delivery_info['channel'] = $this->channelMock;
+        $this->amqpMessageMock->delivery_info['delivery_tag'] = '';
+
+        $this->queueClient = new QueueClient(
+            $this->connectionMock,
+            $this->amqpMessageFactoryMock,
+            $this->messageMapperMock
+        );
     }
 
     /**
@@ -87,7 +101,7 @@ class QueueClientTest extends Unit
 
         $this->channelMock->expects($this->atLeastOnce())
             ->method('queue_declare')
-            ->with($queueName);
+            ->with($queueName, false, true);
 
         $this->channelMock->expects($this->atLeastOnce())
             ->method('basic_get')
@@ -119,7 +133,7 @@ class QueueClientTest extends Unit
 
         $this->channelMock->expects($this->atLeastOnce())
             ->method('queue_declare')
-            ->with($queueName);
+            ->with($queueName, false, true);
 
         $this->channelMock->expects($this->atLeastOnce())
             ->method('basic_get')
@@ -130,6 +144,76 @@ class QueueClientTest extends Unit
             ->method('fromJson');
 
         $this->assertNull($this->queueClient->receiveMessage($queueName));
+    }
+
+    /**
+     * @return void
+     */
+    public function testReceiveMessagesBelowCount(): void
+    {
+        $queueName = 'foo';
+        $count = 100;
+        $expectedMessageAsJson = '{"foo": "bar"}';
+
+        $this->connectionMock->expects($this->atLeastOnce())
+            ->method('channel')
+            ->willReturn($this->channelMock);
+
+        $this->channelMock->expects($this->atLeastOnce())
+            ->method('queue_declare')
+            ->with($queueName, false, true);
+
+        $this->channelMock->expects($this->atLeastOnce())
+            ->method('basic_get')
+            ->with($queueName, true)
+            ->willReturnOnConsecutiveCalls($this->amqpMessageMock, null);
+
+        $this->amqpMessageMock->expects($this->atLeastOnce())
+            ->method('getBody')
+            ->willReturn($expectedMessageAsJson);
+
+        $this->messageMapperMock->expects($this->atLeastOnce())
+            ->method('fromJson')
+            ->with($expectedMessageAsJson)
+            ->willReturn($this->messageMock);
+
+
+        $this->assertCount(1, $this->queueClient->receiveMessages($queueName, $count));
+    }
+
+    /**
+     * @return void
+     */
+    public function testReceiveMessages(): void
+    {
+        $queueName = 'foo';
+        $count = 2;
+        $expectedMessageAsJson = '{"foo": "bar"}';
+
+        $this->connectionMock->expects($this->atLeastOnce())
+            ->method('channel')
+            ->willReturn($this->channelMock);
+
+        $this->channelMock->expects($this->atLeastOnce())
+            ->method('queue_declare')
+            ->with($queueName, false, true);
+
+        $this->channelMock->expects($this->atLeastOnce())
+            ->method('basic_get')
+            ->with($queueName, true)
+            ->willReturnOnConsecutiveCalls($this->amqpMessageMock, $this->amqpMessageMock);
+
+        $this->amqpMessageMock->expects($this->atLeastOnce())
+            ->method('getBody')
+            ->willReturn($expectedMessageAsJson);
+
+        $this->messageMapperMock->expects($this->atLeastOnce())
+            ->method('fromJson')
+            ->with($expectedMessageAsJson)
+            ->willReturn($this->messageMock);
+
+
+        $this->assertCount(2, $this->queueClient->receiveMessages($queueName, $count));
     }
 
     /**
@@ -151,7 +235,7 @@ class QueueClientTest extends Unit
 
         $this->channelMock->expects($this->atLeastOnce())
             ->method('queue_declare')
-            ->with($queueName);
+            ->with($queueName, false, true);
 
         $this->channelMock->expects($this->atLeastOnce())
             ->method('basic_publish')
@@ -163,7 +247,7 @@ class QueueClientTest extends Unit
     /**
      * @return void
      */
-    public function testDestructWithClosedConnection()
+    public function testDestructWithClosedConnection(): void
     {
         $this->connectionMock->expects($this->atLeastOnce())
             ->method('isConnected')
@@ -178,7 +262,7 @@ class QueueClientTest extends Unit
     /**
      * @return void
      */
-    public function testDestruct()
+    public function testDestruct(): void
     {
         $this->connectionMock->expects($this->atLeastOnce())
             ->method('isConnected')

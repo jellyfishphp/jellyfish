@@ -42,12 +42,39 @@ class EventTest extends Unit
     /**
      * @return void
      */
-    public function testSetAndGetRetries(): void
+    public function testGetMetaProperties(): void
     {
-        $retries = 2;
+        $this->assertCount(0, $this->event->getMetaProperties());
+    }
 
-        $this->assertEquals($this->event, $this->event->setRetries($retries));
-        $this->assertEquals($retries, $this->event->getRetries());
+    /**
+     * @return void
+     */
+    public function testSetAndGetMetaProperties(): void
+    {
+        $metaProperties = [
+            'key' => 'value'
+        ];
+
+        $this->assertEquals($this->event, $this->event->setMetaProperties($metaProperties));
+        $this->assertEquals($metaProperties, $this->event->getMetaProperties());
+    }
+
+    /**
+     * @return void
+     */
+    public function testSetAndGetMetaProperty(): void
+    {
+        $this->assertEquals($this->event, $this->event->setMetaProperty('key', 'value'));
+        $this->assertEquals('value', $this->event->getMetaProperty('key'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetMetaProperty(): void
+    {
+        $this->assertEquals(null, $this->event->getMetaProperty('key'));
     }
 
     /**

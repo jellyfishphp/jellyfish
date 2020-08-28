@@ -7,6 +7,7 @@ namespace Jellyfish\Application;
 use Codeception\Test\Unit;
 use Jellyfish\Kernel\KernelInterface;
 use Pimple\Container;
+use stdClass;
 use Symfony\Component\Console\Command\Command;
 
 class ConsoleTest extends Unit
@@ -104,7 +105,7 @@ class ConsoleTest extends Unit
         $this->containerMock->expects($this->atLeastOnce())
             ->method('offsetGet')
             ->with('commands')
-            ->willReturn([new Command('foo:bar'), new \stdClass()]);
+            ->willReturn([new Command('foo:bar'), new stdClass()]);
 
         $this->assertCount(3, $this->console->all());
     }

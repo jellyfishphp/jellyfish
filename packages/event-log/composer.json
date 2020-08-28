@@ -1,6 +1,6 @@
 {
-  "name": "jellyfish/queue-sqs",
-  "description": "Jellyfish queue sqs bundle",
+  "name": "jellyfish/event-log",
+  "description": "Jellyfish event log bundle",
   "license": "MIT",
   "authors": [
     {
@@ -9,10 +9,10 @@
     }
   ],
   "require": {
-    "aws/aws-sdk-php": "~3.112.29",
-    "jellyfish/pimple": "dev-master",
-    "jellyfish/queue": "dev-master",
-    "jellyfish/serializer": "dev-master"
+    "jellyfish/config": "dev-master",
+    "jellyfish/event": "dev-master",
+    "jellyfish/log": "dev-master",
+    "jellyfish/pimple": "dev-master"
   },
   "require-dev": {
     "codeception/codeception": "~3.1.2",
@@ -27,12 +27,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\QueueSQS\\": "src/Jellyfish/QueueSQS"
+      "Jellyfish\\Log\\": "src/Jellyfish/Log"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\QueueSQS\\": "tests/Jellyfish/QueueSQS"
+      "Jellyfish\\Log\\": "tests/Jellyfish/Log"
     }
   }
 }

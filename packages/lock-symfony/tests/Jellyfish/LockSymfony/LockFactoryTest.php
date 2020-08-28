@@ -9,6 +9,10 @@ use Jellyfish\Lock\LockIdentifierGeneratorInterface;
 use Symfony\Component\Lock\Factory as SymfonyLockFactory;
 use Symfony\Component\Lock\LockInterface as SymfonyLockInterface;
 
+use function implode;
+use function sha1;
+use function sprintf;
+
 class LockFactoryTest extends Unit
 {
     /**
@@ -62,8 +66,8 @@ class LockFactoryTest extends Unit
     public function testCreate(): void
     {
         $lockIdentifierParts = ['x', 'y'];
-        $lockIdentifierWithoutPrefix = \sha1(\implode(' ', $lockIdentifierParts));
-        $lockIdentifier = \sprintf('%s:%s', 'lock', $lockIdentifierWithoutPrefix);
+        $lockIdentifierWithoutPrefix = sha1(implode(' ', $lockIdentifierParts));
+        $lockIdentifier = sprintf('%s:%s', 'lock', $lockIdentifierWithoutPrefix);
 
 
         $this->lockIdentifierGeneratorMock->expects($this->atLeastOnce())

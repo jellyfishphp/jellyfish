@@ -2,6 +2,7 @@ include:
   - packages/application/
   - packages/config/
   - packages/event/
+  - packages/event-log/
   - packages/feed/
   - packages/finder/
   - packages/finder-symfony/
@@ -18,7 +19,6 @@ include:
   - packages/process-symfony/
   - packages/queue/
   - packages/queue-rabbit-mq/
-  - packages/queue-sqs/
   - packages/scheduler/
   - packages/serializer/
   - packages/serializer-symfony/

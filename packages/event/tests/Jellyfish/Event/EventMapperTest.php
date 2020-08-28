@@ -81,9 +81,11 @@ class EventMapperTest extends Unit
      */
     public function testFromMessageWithArrayBody(): void
     {
-        $eventName = 'test';
-        $bodyType = 'Jellyfish\Event\Fixtures\Payload[]';
-        $json = '[{"name":"Test"}]';
+        $headers = [
+            'body_type' => 'Jellyfish\Event\Fixtures\Payload[]',
+            'event_name' => 'test'
+        ];
+        $body = '[{"name":"Test"}]';
 
         $payloadItem = new Payload();
         $payloadItem->setName('Test');
@@ -94,11 +96,15 @@ class EventMapperTest extends Unit
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getHeader')
             ->withConsecutive(['body_type'], ['event_name'])
-            ->willReturnOnConsecutiveCalls($bodyType, $eventName);
+            ->willReturnOnConsecutiveCalls($headers['body_type'], $headers['event_name']);
+
+        $this->messageMock->expects($this->atLeastOnce())
+            ->method('getHeaders')
+            ->willReturn($headers);
 
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getBody')
-            ->willReturn($json);
+            ->willReturn($body);
 
         $this->eventFactoryMock->expects($this->atLeastOnce())
             ->method('create')
@@ -106,17 +112,22 @@ class EventMapperTest extends Unit
 
         $this->serializerMock->expects($this->atLeastOnce())
             ->method('deserialize')
-            ->with($json, $bodyType, 'json')
+            ->with($body, $headers['body_type'], 'json')
             ->willReturn($payload);
 
         $this->eventMock->expects($this->atLeastOnce())
             ->method('setName')
-            ->with($eventName)
+            ->with($headers['event_name'])
             ->willReturn($this->eventMock);
 
         $this->eventMock->expects($this->atLeastOnce())
             ->method('setPayload')
             ->with($payload)
+            ->willReturn($this->eventMock);
+
+        $this->eventMock->expects($this->atLeastOnce())
+            ->method('setMetaProperties')
+            ->with([])
             ->willReturn($this->eventMock);
 
         $event = $this->eventMapper->fromMessage($this->messageMock);
@@ -129,40 +140,31 @@ class EventMapperTest extends Unit
      */
     public function testFromInvalidMessage(): void
     {
-        $eventName = 'test';
-        $bodyType = Payload::class;
-        $json = '{"name":"Test"}';
-
-        $payload = new Payload();
-        $payload->setName('Test');
-
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getHeader')
             ->withConsecutive(['body_type'], ['event_name'])
             ->willReturnOnConsecutiveCalls(null, null);
 
         $this->messageMock->expects($this->never())
-            ->method('getBody')
-            ->willReturn($json);
+            ->method('getHeaders');
+
+        $this->messageMock->expects($this->never())
+            ->method('getBody');
 
         $this->eventFactoryMock->expects($this->never())
-            ->method('create')
-            ->willReturn($this->eventMock);
+            ->method('create');
 
         $this->serializerMock->expects($this->never())
-            ->method('deserialize')
-            ->with($json, $bodyType, 'json')
-            ->willReturn($payload);
+            ->method('deserialize');
 
         $this->eventMock->expects($this->never())
-            ->method('setName')
-            ->with($eventName)
-            ->willReturn($this->eventMock);
+            ->method('setName');
 
         $this->eventMock->expects($this->never())
-            ->method('setPayload')
-            ->with($payload)
-            ->willReturn($this->eventMock);
+            ->method('setPayload');
+
+        $this->eventMock->expects($this->never())
+            ->method('setMetaProperties');
 
         try {
             $this->eventMapper->fromMessage($this->messageMock);
@@ -178,9 +180,11 @@ class EventMapperTest extends Unit
      */
     public function testFromMessage(): void
     {
-        $eventName = 'test';
-        $bodyType = Payload::class;
-        $json = '{"name":"Test"}';
+        $headers = [
+            'body_type' => Payload::class,
+            'event_name' => 'test'
+        ];
+        $body = '[{"name":"Test"}]';
 
         $payload = new Payload();
         $payload->setName('Test');
@@ -188,11 +192,15 @@ class EventMapperTest extends Unit
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getHeader')
             ->withConsecutive(['body_type'], ['event_name'])
-            ->willReturnOnConsecutiveCalls($bodyType, $eventName);
+            ->willReturnOnConsecutiveCalls($headers['body_type'], $headers['event_name']);
+
+        $this->messageMock->expects($this->atLeastOnce())
+            ->method('getHeaders')
+            ->willReturn($headers);
 
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getBody')
-            ->willReturn($json);
+            ->willReturn($body);
 
         $this->eventFactoryMock->expects($this->atLeastOnce())
             ->method('create')
@@ -200,17 +208,22 @@ class EventMapperTest extends Unit
 
         $this->serializerMock->expects($this->atLeastOnce())
             ->method('deserialize')
-            ->with($json, $bodyType, 'json')
+            ->with($body, $headers['body_type'], 'json')
             ->willReturn($payload);
 
         $this->eventMock->expects($this->atLeastOnce())
             ->method('setName')
-            ->with($eventName)
+            ->with($headers['event_name'])
             ->willReturn($this->eventMock);
 
         $this->eventMock->expects($this->atLeastOnce())
             ->method('setPayload')
             ->with($payload)
+            ->willReturn($this->eventMock);
+
+        $this->eventMock->expects($this->atLeastOnce())
+            ->method('setMetaProperties')
+            ->with([])
             ->willReturn($this->eventMock);
 
         $event = $this->eventMapper->fromMessage($this->messageMock);
@@ -234,6 +247,10 @@ class EventMapperTest extends Unit
             ->method('getPayload')
             ->willReturn($payload);
 
+        $this->eventMock->expects($this->atLeastOnce())
+            ->method('getMetaProperties')
+            ->willReturn([]);
+
         $this->serializerMock->expects($this->atLeastOnce())
             ->method('serialize')
             ->with($payload, 'json')
@@ -241,6 +258,11 @@ class EventMapperTest extends Unit
 
         $this->messageFactoryMock->expects($this->atLeastOnce())
             ->method('create')
+            ->willReturn($this->messageMock);
+
+        $this->messageMock->expects($this->atLeastOnce())
+            ->method('setHeaders')
+            ->with([])
             ->willReturn($this->messageMock);
 
         $this->messageMock->expects($this->atLeastOnce())
@@ -280,8 +302,17 @@ class EventMapperTest extends Unit
             ->method('getPayload')
             ->willReturn($payload);
 
+        $this->eventMock->expects($this->atLeastOnce())
+            ->method('getMetaProperties')
+            ->willReturn([]);
+
         $this->messageFactoryMock->expects($this->atLeastOnce())
             ->method('create')
+            ->willReturn($this->messageMock);
+
+        $this->messageMock->expects($this->atLeastOnce())
+            ->method('setHeaders')
+            ->with([])
             ->willReturn($this->messageMock);
 
         $this->messageMock->expects($this->atLeastOnce())
@@ -326,8 +357,17 @@ class EventMapperTest extends Unit
             ->method('getPayload')
             ->willReturn($payload);
 
+        $this->eventMock->expects($this->atLeastOnce())
+            ->method('getMetaProperties')
+            ->willReturn([]);
+
         $this->messageFactoryMock->expects($this->atLeastOnce())
             ->method('create')
+            ->willReturn($this->messageMock);
+
+        $this->messageMock->expects($this->atLeastOnce())
+            ->method('setHeaders')
+            ->with([])
             ->willReturn($this->messageMock);
 
         $this->messageMock->expects($this->atLeastOnce())

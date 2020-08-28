@@ -6,6 +6,9 @@ namespace Jellyfish\Event;
 
 use Jellyfish\Event\Exception\NotSupportedTypeException;
 
+use function array_key_exists;
+use function sprintf;
+
 class EventListenerProvider implements EventListenerProviderInterface
 {
     /**
@@ -26,7 +29,7 @@ class EventListenerProvider implements EventListenerProviderInterface
     {
         $type = $listener->getType();
 
-        if (!\array_key_exists($eventName, $this->listeners[$type])) {
+        if (!array_key_exists($eventName, $this->listeners[$type])) {
             $this->listeners[$type][$eventName] = [];
         }
 
@@ -80,8 +83,8 @@ class EventListenerProvider implements EventListenerProviderInterface
      */
     public function hasListener(string $type, string $eventName, string $listenerIdentifier): bool
     {
-        return \array_key_exists($eventName, $this->listeners[$type])
-            && \array_key_exists($listenerIdentifier, $this->listeners[$type][$eventName]);
+        return array_key_exists($eventName, $this->listeners[$type])
+            && array_key_exists($listenerIdentifier, $this->listeners[$type][$eventName]);
     }
 
     /**
@@ -101,8 +104,8 @@ class EventListenerProvider implements EventListenerProviderInterface
      */
     public function getListenersByType(string $type): array
     {
-        if (!\array_key_exists($type, $this->listeners)) {
-            throw new NotSupportedTypeException(\sprintf('Given type "%s" is not supported', $type));
+        if (!array_key_exists($type, $this->listeners)) {
+            throw new NotSupportedTypeException(sprintf('Given type "%s" is not supported', $type));
         }
 
         return $this->listeners[$type];
@@ -120,7 +123,7 @@ class EventListenerProvider implements EventListenerProviderInterface
     {
         $listeners = $this->getListenersByType($type);
 
-        if (\array_key_exists($eventName, $listeners)) {
+        if (array_key_exists($eventName, $listeners)) {
             return $listeners[$eventName];
         }
 
