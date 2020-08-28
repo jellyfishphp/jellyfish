@@ -60,6 +60,11 @@ class QueueClient implements QueueClientInterface
         return $this->doReceiveMessage($queueName);
     }
 
+    /**
+     * @param string $queueName
+     *
+     * @return \Jellyfish\Queue\MessageInterface|null
+     */
     protected function doReceiveMessage(string $queueName): ?MessageInterface
     {
         $messageAsJson = $this->getChannel()->basic_get($queueName, true);
@@ -111,6 +116,7 @@ class QueueClient implements QueueClientInterface
 
         return $this;
     }
+
     /**
      * @param string $queueName
      *

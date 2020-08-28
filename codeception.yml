@@ -19,7 +19,6 @@ include:
   - packages/process-symfony/
   - packages/queue/
   - packages/queue-rabbit-mq/
-  - packages/queue-sqs/
   - packages/scheduler/
   - packages/serializer/
   - packages/serializer-symfony/
