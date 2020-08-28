@@ -7,6 +7,7 @@ namespace Jellyfish\Event;
 use Jellyfish\Event\Exception\NotSupportedTypeException;
 
 use function array_key_exists;
+use function sprintf;
 
 class EventListenerProvider implements EventListenerProviderInterface
 {
@@ -104,7 +105,7 @@ class EventListenerProvider implements EventListenerProviderInterface
     public function getListenersByType(string $type): array
     {
         if (!array_key_exists($type, $this->listeners)) {
-            throw new NotSupportedTypeException(\sprintf('Given type "%s" is not supported', $type));
+            throw new NotSupportedTypeException(sprintf('Given type "%s" is not supported', $type));
         }
 
         return $this->listeners[$type];

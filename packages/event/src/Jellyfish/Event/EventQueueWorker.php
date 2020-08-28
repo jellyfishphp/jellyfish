@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
+use function count;
 use function usleep;
 
 class EventQueueWorker implements EventQueueWorkerInterface

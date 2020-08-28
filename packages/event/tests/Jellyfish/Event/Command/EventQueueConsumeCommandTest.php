@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\Event\Command;
 
 use Codeception\Test\Unit;
+use Exception;
 use InvalidArgumentException;
 use Jellyfish\Event\EventBulkListenerInterface;
 use Jellyfish\Event\EventInterface;
@@ -381,7 +382,7 @@ class EventQueueConsumeCommandTest extends Unit
      */
     public function testRunWithHandlerException(): void
     {
-        $exception = new \Exception('Test exception');
+        $exception = new Exception('Test exception');
 
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')

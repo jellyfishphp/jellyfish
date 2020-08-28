@@ -11,6 +11,8 @@ use Jellyfish\Process\ProcessInterface;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\QueueClientInterface;
 
+use function sprintf;
+
 class EventQueueConsumerTest extends Unit
 {
     /**
@@ -105,7 +107,7 @@ class EventQueueConsumerTest extends Unit
 
         $this->eventName = 'test';
         $this->eventListenerIdentifier = 'testListener';
-        $this->eventQueueName = \sprintf('%s_%s', $this->eventName, $this->eventListenerIdentifier);
+        $this->eventQueueName = sprintf('%s_%s', $this->eventName, $this->eventListenerIdentifier);
 
         $this->eventQueueConsumer = new EventQueueConsumer(
             $this->processFactoryMock,

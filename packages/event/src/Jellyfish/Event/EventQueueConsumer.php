@@ -9,6 +9,7 @@ use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Queue\QueueClientInterface;
 
 use function array_key_exists;
+use function sprintf;
 
 class EventQueueConsumer implements EventQueueConsumerInterface
 {
@@ -61,7 +62,7 @@ class EventQueueConsumer implements EventQueueConsumerInterface
         $this->eventQueueNameGenerator = $eventQueueNameGenerator;
         $this->queueClient = $queueClient;
         $this->processList = [];
-        $this->pathToConsole = \sprintf('%svendor/bin/console', $rootDir);
+        $this->pathToConsole = sprintf('%svendor/bin/console', $rootDir);
     }
 
     /**

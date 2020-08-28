@@ -8,6 +8,9 @@ use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
 use Pimple\Container;
 
+use function file_get_contents;
+use function rtrim;
+
 class ConfigServiceProviderTest extends Unit
 {
     /**
@@ -23,7 +26,7 @@ class ConfigServiceProviderTest extends Unit
     /**
      * @return void
      */
-    protected function _before()
+    protected function _before(): void
     {
         parent::_before();
 
@@ -34,7 +37,7 @@ class ConfigServiceProviderTest extends Unit
             ],
         ])->url();
 
-        $appDir = rtrim($rootDir,DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $appDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $environment = 'testing';
 
         $this->configServiceProvider = new ConfigServiceProvider();
@@ -47,9 +50,9 @@ class ConfigServiceProviderTest extends Unit
     /**
      * @return void
      */
-    public function testRegister()
+    public function testRegister(): void
     {
         $this->configServiceProvider->register($this->container);
-        $this->assertInstanceOf(Config::class, $this->container['config']);
+        self::assertInstanceOf(Config::class, $this->container['config']);
     }
 }

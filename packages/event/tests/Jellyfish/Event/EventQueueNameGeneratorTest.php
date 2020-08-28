@@ -6,6 +6,8 @@ namespace Jellyfish\Event;
 
 use Codeception\Test\Unit;
 
+use function sprintf;
+
 class EventQueueNameGeneratorTest extends Unit
 {
     /**
@@ -30,7 +32,7 @@ class EventQueueNameGeneratorTest extends Unit
     {
         $eventName = 'test';
         $eventListenerIdentifier = 'testListener';
-        $expectedEventQueueName = \sprintf('%s_%s', $eventName, $eventListenerIdentifier);
+        $expectedEventQueueName = sprintf('%s_%s', $eventName, $eventListenerIdentifier);
 
 
         $this->assertEquals(

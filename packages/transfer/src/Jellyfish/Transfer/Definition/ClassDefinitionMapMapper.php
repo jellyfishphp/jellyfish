@@ -6,6 +6,8 @@ namespace Jellyfish\Transfer\Definition;
 
 use Jellyfish\Serializer\SerializerInterface;
 
+use function sprintf;
+
 class ClassDefinitionMapMapper implements ClassDefinitionMapMapperInterface
 {
     protected const TYPE = ClassDefinition::class . '[]';
@@ -62,6 +64,6 @@ class ClassDefinitionMapMapper implements ClassDefinitionMapMapperInterface
             return $classDefinition->getName();
         }
 
-        return \sprintf('%s\\%s', $classDefinition->getNamespace(), $classDefinition->getName());
+        return sprintf('%s\\%s', $classDefinition->getNamespace(), $classDefinition->getName());
     }
 }

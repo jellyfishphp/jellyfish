@@ -6,6 +6,9 @@ namespace Jellyfish\Feed;
 
 use Jellyfish\Feed\Exception\FeedReaderNotFoundException;
 
+use function array_key_exists;
+use function sprintf;
+
 class FeedReaderManager implements FeedReaderManagerInterface
 {
     /**
@@ -25,7 +28,7 @@ class FeedReaderManager implements FeedReaderManagerInterface
      */
     public function existsFeedReader(string $identifier): bool
     {
-        return \array_key_exists($identifier, $this->feedReaders);
+        return array_key_exists($identifier, $this->feedReaders);
     }
 
     /**
@@ -51,10 +54,9 @@ class FeedReaderManager implements FeedReaderManagerInterface
     public function unsetFeedReader(string $identifier): FeedReaderManagerInterface
     {
         if (!$this->existsFeedReader($identifier)) {
-            throw new FeedReaderNotFoundException(\sprintf(
-                'Feed reader with identifier "%s" not found.',
-                $identifier
-            ));
+            throw new FeedReaderNotFoundException(
+                sprintf('Feed reader with identifier "%s" not found.', $identifier)
+            );
         }
 
         unset($this->feedReaders[$identifier]);
@@ -72,10 +74,9 @@ class FeedReaderManager implements FeedReaderManagerInterface
     public function getFeederReader(string $identifier): FeedReaderInterface
     {
         if (!$this->existsFeedReader($identifier)) {
-            throw new FeedReaderNotFoundException(\sprintf(
-                'Feed reader with identifier "%s" not found.',
-                $identifier
-            ));
+            throw new FeedReaderNotFoundException(
+                sprintf('Feed reader with identifier "%s" not found.', $identifier)
+            );
         }
 
         return $this->feedReaders[$identifier];

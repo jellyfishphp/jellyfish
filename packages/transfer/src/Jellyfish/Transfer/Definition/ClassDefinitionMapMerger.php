@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Definition;
 
+use function array_key_exists;
+
 class ClassDefinitionMapMerger implements ClassDefinitionMapMergerInterface
 {
     /**
@@ -15,7 +17,7 @@ class ClassDefinitionMapMerger implements ClassDefinitionMapMergerInterface
     public function merge(array $classDefinitionMapA, array $classDefinitionMapB): array
     {
         foreach ($classDefinitionMapB as $classDefinitionName => $classDefinition) {
-            if (!\array_key_exists($classDefinitionName, $classDefinitionMapA)) {
+            if (!array_key_exists($classDefinitionName, $classDefinitionMapA)) {
                 $classDefinitionMapA[$classDefinitionName] = $classDefinition;
                 continue;
             }
@@ -39,7 +41,7 @@ class ClassDefinitionMapMerger implements ClassDefinitionMapMergerInterface
         $classPropertyDefinitionMapA = $classDefinitionA->getProperties();
 
         foreach ($classDefinitionB->getProperties() as $classPropertyDefinitionName => $classPropertyDefinition) {
-            if (\array_key_exists($classPropertyDefinitionName, $classPropertyDefinitionMapA)) {
+            if (array_key_exists($classPropertyDefinitionName, $classPropertyDefinitionMapA)) {
                 continue;
             }
 

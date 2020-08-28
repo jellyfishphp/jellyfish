@@ -11,6 +11,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function is_string;
+
 class RunFeedReaderCommand extends Command
 {
     public const NAME = 'feed:feed-reader:run';
@@ -53,7 +55,7 @@ class RunFeedReaderCommand extends Command
     {
         $identifier = $input->getArgument('identifier');
 
-        if (!\is_string($identifier)) {
+        if (!is_string($identifier)) {
             throw new InvalidArgumentException('Unsupported type for given argument');
         }
 

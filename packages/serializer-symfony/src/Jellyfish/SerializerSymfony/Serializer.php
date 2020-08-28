@@ -8,6 +8,8 @@ use ArrayObject;
 use Jellyfish\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\SerializerInterface as SymfonySerializerInterface;
 
+use function is_array;
+
 class Serializer implements SerializerInterface
 {
     /**
@@ -55,7 +57,7 @@ class Serializer implements SerializerInterface
     {
         $deserializedData = $this->symfonySerializer->deserialize($data, $type, $format);
 
-        if (\is_array($deserializedData)) {
+        if (is_array($deserializedData)) {
             return new ArrayObject($deserializedData);
         }
 
