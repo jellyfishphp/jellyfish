@@ -38,7 +38,7 @@ class QueueServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet('serializer', function () use ($self) {
+        $this->container->offsetSet('serializer', static function () use ($self) {
             return $self->getMockBuilder(SerializerInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -54,10 +54,13 @@ class QueueServiceProviderTest extends Unit
     {
         $this->queueServiceProvider->register($this->container);
 
-        $messageMapper = $this->container->offsetGet('message_mapper');
-        $this->assertInstanceOf(MessageMapper::class, $messageMapper);
+        $messageMapper = $this->container->offsetGet(QueueServiceProvider::CONTAINER_KEY_MESSAGE_MAPPER);
+        self::assertInstanceOf(MessageMapper::class, $messageMapper);
 
-        $messageFactory = $this->container->offsetGet('message_factory');
-        $this->assertInstanceOf(MessageFactory::class, $messageFactory);
+        $messageFactory = $this->container->offsetGet(QueueServiceProvider::CONTAINER_KEY_MESSAGE_FACTORY);
+        self::assertInstanceOf(MessageFactory::class, $messageFactory);
+
+        $destinationFactory = $this->container->offsetGet(QueueServiceProvider::CONTAINER_KEY_DESTINATION_FACTORY);
+        self::assertInstanceOf(DestinationFactory::class, $destinationFactory);
     }
 }

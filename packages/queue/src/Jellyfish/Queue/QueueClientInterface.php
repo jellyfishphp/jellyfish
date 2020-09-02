@@ -7,25 +7,41 @@ namespace Jellyfish\Queue;
 interface QueueClientInterface
 {
     /**
-     * @param string $queueName
+     * @param string $type
+     * @param \Jellyfish\Queue\ConsumerInterface $consumer
+     *
+     * @return \Jellyfish\Queue\QueueClientInterface
+     */
+    public function setConsumer(string $type, ConsumerInterface $consumer): QueueClientInterface;
+
+    /**
+     * @param string $type
+     * @param \Jellyfish\Queue\ProducerInterface $producer
+     *
+     * @return \Jellyfish\Queue\QueueClientInterface
+     */
+    public function setProducer(string $type, ProducerInterface $producer): QueueClientInterface;
+
+    /**
+     * @param \Jellyfish\Queue\DestinationInterface $destination
      *
      * @return \Jellyfish\Queue\MessageInterface|null
      */
-    public function receiveMessage(string $queueName): ?MessageInterface;
+    public function receiveMessage(DestinationInterface $destination): ?MessageInterface;
 
     /**
-     * @param string $queueName
-     * @param int $count
+     * @param \Jellyfish\Queue\DestinationInterface $destination
+     * @param int $limit
      *
      * @return \Jellyfish\Queue\MessageInterface[]
      */
-    public function receiveMessages(string $queueName, int $count): array;
+    public function receiveMessages(DestinationInterface $destination, int $limit): array;
 
     /**
-     * @param string $queueName
+     * @param \Jellyfish\Queue\DestinationInterface $destination
      * @param \Jellyfish\Queue\MessageInterface $message
      *
      * @return \Jellyfish\Queue\QueueClientInterface
      */
-    public function sendMessage(string $queueName, MessageInterface $message): QueueClientInterface;
+    public function sendMessage(DestinationInterface $destination, MessageInterface $message): QueueClientInterface;
 }
