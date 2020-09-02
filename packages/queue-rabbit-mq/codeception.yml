@@ -19,5 +19,3 @@ coverage:
   enabled: true
   include:
     - src/*
-  exclude:
-    - src/Jellyfish/QueueRabbitMq/QueueRabbitMqServiceProvider.php

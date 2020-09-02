@@ -5,8 +5,13 @@ declare(strict_types=1);
 namespace Jellyfish\QueueRabbitMq;
 
 use Codeception\Test\Unit;
+use Exception;
+use Jellyfish\Queue\ConsumerInterface;
+use Jellyfish\Queue\Destination;
+use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\MessageMapperInterface;
+use Jellyfish\Queue\ProducerInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AbstractConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -14,29 +19,19 @@ use PhpAmqpLib\Message\AMQPMessage;
 class QueueClientTest extends Unit
 {
     /**
-     * @var \Jellyfish\Queue\QueueClientInterface
+     * @var \Jellyfish\Queue\ConsumerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $queueClient;
+    protected $consumerMock;
 
     /**
-     * @var \PhpAmqpLib\Connection\AbstractConnection|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\ProducerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $connectionMock;
+    protected $producerMock;
 
     /**
-     * @var \PhpAmqpLib\Channel\AMQPChannel|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\DestinationInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $channelMock;
-
-    /**
-     * @var \Jellyfish\Queue\MessageMapperInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $messageMapperMock;
-
-    /**
-     * @var \Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $amqpMessageFactoryMock;
+    protected $destinationMock;
 
     /**
      * @var \Jellyfish\Queue\MessageInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -44,28 +39,24 @@ class QueueClientTest extends Unit
     protected $messageMock;
 
     /**
-     * @var \PhpAmqpLib\Message\AMQPMessage|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\QueueClientInterface
      */
-    protected $amqpMessageMock;
+    protected $queueClient;
 
     /**
      * @return void
      */
     protected function _before(): void
     {
-        $this->channelMock = $this->getMockBuilder(AMQPChannel::class)
+        $this->consumerMock = $this->getMockBuilder(ConsumerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->connectionMock = $this->getMockBuilder(AbstractConnection::class)
+        $this->producerMock = $this->getMockBuilder(ProducerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->amqpMessageFactoryMock = $this->getMockBuilder(AmqpMessageFactoryInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->messageMapperMock = $this->getMockBuilder(MessageMapperInterface::class)
+        $this->destinationMock = $this->getMockBuilder(DestinationInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -73,17 +64,9 @@ class QueueClientTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->amqpMessageMock = $this->getMockBuilder(AMQPMessage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->amqpMessageMock->delivery_info['channel'] = $this->channelMock;
-        $this->amqpMessageMock->delivery_info['delivery_tag'] = '';
-
         $this->queueClient = new QueueClient(
-            $this->connectionMock,
-            $this->amqpMessageFactoryMock,
-            $this->messageMapperMock
+            [DestinationInterface::TYPE_QUEUE => $this->consumerMock],
+            [DestinationInterface::TYPE_QUEUE => $this->producerMock]
         );
     }
 
@@ -92,128 +75,103 @@ class QueueClientTest extends Unit
      */
     public function testReceiveMessage(): void
     {
-        $queueName = 'foo';
-        $expectedMessageAsJson = '{"foo": "bar"}';
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('getType')
+            ->willReturn(DestinationInterface::TYPE_QUEUE);
 
-        $this->connectionMock->expects($this->atLeastOnce())
-            ->method('channel')
-            ->willReturn($this->channelMock);
-
-        $this->channelMock->expects($this->atLeastOnce())
-            ->method('queue_declare')
-            ->with($queueName, false, true);
-
-        $this->channelMock->expects($this->atLeastOnce())
-            ->method('basic_get')
-            ->with($queueName, true)
-            ->willReturn($this->amqpMessageMock);
-
-        $this->amqpMessageMock->expects($this->atLeastOnce())
-            ->method('getBody')
-            ->willReturn($expectedMessageAsJson);
-
-        $this->messageMapperMock->expects($this->atLeastOnce())
-            ->method('fromJson')
-            ->with($expectedMessageAsJson)
+        $this->consumerMock->expects(self::atLeastOnce())
+            ->method('receiveMessage')
+            ->with($this->destinationMock)
             ->willReturn($this->messageMock);
 
-        $this->assertEquals($this->messageMock, $this->queueClient->receiveMessage($queueName));
+        self::assertEquals($this->messageMock, $this->queueClient->receiveMessage($this->destinationMock));
     }
 
     /**
      * @return void
      */
-    public function testReceiveMessageFromEmptyQueue(): void
+    public function testReceiveMessageFromEmptyDestination(): void
     {
-        $queueName = 'foo';
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('getType')
+            ->willReturn(DestinationInterface::TYPE_QUEUE);
 
-        $this->connectionMock->expects($this->atLeastOnce())
-            ->method('channel')
-            ->willReturn($this->channelMock);
-
-        $this->channelMock->expects($this->atLeastOnce())
-            ->method('queue_declare')
-            ->with($queueName, false, true);
-
-        $this->channelMock->expects($this->atLeastOnce())
-            ->method('basic_get')
-            ->with($queueName, true)
+        $this->consumerMock->expects(self::atLeastOnce())
+            ->method('receiveMessage')
+            ->with($this->destinationMock)
             ->willReturn(null);
 
-        $this->messageMapperMock->expects($this->never())
-            ->method('fromJson');
-
-        $this->assertNull($this->queueClient->receiveMessage($queueName));
+        self::assertEquals(null, $this->queueClient->receiveMessage($this->destinationMock));
     }
 
     /**
      * @return void
      */
-    public function testReceiveMessagesBelowCount(): void
+    public function testReceiveMessageWithNotExistingConsumer(): void
     {
-        $queueName = 'foo';
-        $count = 100;
-        $expectedMessageAsJson = '{"foo": "bar"}';
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('getType')
+            ->willReturn(DestinationInterface::TYPE_FANOUT);
 
-        $this->connectionMock->expects($this->atLeastOnce())
-            ->method('channel')
-            ->willReturn($this->channelMock);
-
-        $this->channelMock->expects($this->atLeastOnce())
-            ->method('queue_declare')
-            ->with($queueName, false, true);
-
-        $this->channelMock->expects($this->atLeastOnce())
-            ->method('basic_get')
-            ->with($queueName, true)
-            ->willReturnOnConsecutiveCalls($this->amqpMessageMock, null);
-
-        $this->amqpMessageMock->expects($this->atLeastOnce())
-            ->method('getBody')
-            ->willReturn($expectedMessageAsJson);
-
-        $this->messageMapperMock->expects($this->atLeastOnce())
-            ->method('fromJson')
-            ->with($expectedMessageAsJson)
-            ->willReturn($this->messageMock);
-
-
-        $this->assertCount(1, $this->queueClient->receiveMessages($queueName, $count));
+        try {
+            $this->queueClient->receiveMessage($this->destinationMock);
+            self::fail();
+        } catch (Exception $exception) {
+        }
     }
 
     /**
      * @return void
      */
-    public function testReceiveMessages(): void
+    public function testReceivesMessages(): void
     {
-        $queueName = 'foo';
-        $count = 2;
-        $expectedMessageAsJson = '{"foo": "bar"}';
+        $messages = [
+            $this->messageMock
+        ];
 
-        $this->connectionMock->expects($this->atLeastOnce())
-            ->method('channel')
-            ->willReturn($this->channelMock);
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('getType')
+            ->willReturn(DestinationInterface::TYPE_QUEUE);
 
-        $this->channelMock->expects($this->atLeastOnce())
-            ->method('queue_declare')
-            ->with($queueName, false, true);
+        $this->consumerMock->expects(self::atLeastOnce())
+            ->method('receiveMessages')
+            ->with($this->destinationMock)
+            ->willReturn($messages);
 
-        $this->channelMock->expects($this->atLeastOnce())
-            ->method('basic_get')
-            ->with($queueName, true)
-            ->willReturnOnConsecutiveCalls($this->amqpMessageMock, $this->amqpMessageMock);
+        self::assertEquals($messages, $this->queueClient->receiveMessages($this->destinationMock, 10));
+    }
 
-        $this->amqpMessageMock->expects($this->atLeastOnce())
-            ->method('getBody')
-            ->willReturn($expectedMessageAsJson);
+    /**
+     * @return void
+     */
+    public function testReceiveMessagesFromEmptyDestination(): void
+    {
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('getType')
+            ->willReturn(DestinationInterface::TYPE_QUEUE);
 
-        $this->messageMapperMock->expects($this->atLeastOnce())
-            ->method('fromJson')
-            ->with($expectedMessageAsJson)
-            ->willReturn($this->messageMock);
+        $this->consumerMock->expects(self::atLeastOnce())
+            ->method('receiveMessages')
+            ->with($this->destinationMock)
+            ->willReturn([]);
 
+        self::assertEquals([], $this->queueClient->receiveMessages($this->destinationMock, 10));
+    }
 
-        $this->assertCount(2, $this->queueClient->receiveMessages($queueName, $count));
+    /**
+     * @return void
+     */
+    public function testReceiveMessagesWithNotExistingConsumer(): void
+    {
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('getType')
+            ->willReturn(DestinationInterface::TYPE_FANOUT);
+
+        try {
+            $this->queueClient->receiveMessages($this->destinationMock, 10);
+            self::fail();
+        } catch (Exception $exception) {
+        }
     }
 
     /**
@@ -221,56 +179,66 @@ class QueueClientTest extends Unit
      */
     public function testSendMessage(): void
     {
-        $queueName = 'foo';
-        $messageAsJson = '{"foo": "bar"}';
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('getType')
+            ->willReturn(DestinationInterface::TYPE_QUEUE);
 
-        $this->connectionMock->expects($this->atLeastOnce())
-            ->method('channel')
-            ->willReturn($this->channelMock);
+        $this->producerMock->expects(self::atLeastOnce())
+            ->method('sendMessage')
+            ->with($this->destinationMock, $this->messageMock)
+            ->willReturn($this->producerMock);
 
-        $this->messageMapperMock->expects($this->atLeastOnce())
-            ->method('toJson')
-            ->with($this->messageMock)
-            ->willReturn($messageAsJson);
-
-        $this->channelMock->expects($this->atLeastOnce())
-            ->method('queue_declare')
-            ->with($queueName, false, true);
-
-        $this->channelMock->expects($this->atLeastOnce())
-            ->method('basic_publish')
-            ->with($this->isInstanceOf(AMQPMessage::class), '', $queueName);
-
-        $this->queueClient->sendMessage($queueName, $this->messageMock);
+        self::assertEquals(
+            $this->queueClient,
+            $this->queueClient->sendMessage($this->destinationMock, $this->messageMock)
+        );
     }
 
     /**
      * @return void
      */
-    public function testDestructWithClosedConnection(): void
+    public function testSendMessageWithNotExistingProducer(): void
     {
-        $this->connectionMock->expects($this->atLeastOnce())
-            ->method('isConnected')
-            ->willReturn(false);
+        try {
+            $this->destinationMock->expects(self::atLeastOnce())
+                ->method('getType')
+                ->willReturn(DestinationInterface::TYPE_FANOUT);
 
-        $this->connectionMock->expects($this->never())
-            ->method('close');
-
-        unset($this->queueClient);
+            $this->queueClient->sendMessage($this->destinationMock, $this->messageMock);
+            self::fail();
+        } catch (Exception $exception) {
+        }
     }
 
     /**
      * @return void
      */
-    public function testDestruct(): void
+    public function testSetConsumer(): void
     {
-        $this->connectionMock->expects($this->atLeastOnce())
-            ->method('isConnected')
-            ->willReturn(true);
+        /** @var \Jellyfish\Queue\ConsumerInterface|\PHPUnit\Framework\MockObject\MockObject $consumerMock */
+        $consumerMock = $this->getMockBuilder(ConsumerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->connectionMock->expects($this->atLeastOnce())
-            ->method('close');
+        self::assertEquals(
+            $this->queueClient,
+            $this->queueClient->setConsumer(DestinationInterface::TYPE_FANOUT, $consumerMock)
+        );
+    }
 
-        unset($this->queueClient);
+    /**
+     * @return void
+     */
+    public function testSetProducer(): void
+    {
+        /** @var \Jellyfish\Queue\ProducerInterface|\PHPUnit\Framework\MockObject\MockObject $producerMock */
+        $producerMock = $this->getMockBuilder(ProducerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        self::assertEquals(
+            $this->queueClient,
+            $this->queueClient->setProducer(DestinationInterface::TYPE_FANOUT, $producerMock)
+        );
     }
 }

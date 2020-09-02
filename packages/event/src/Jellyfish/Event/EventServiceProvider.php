@@ -6,6 +6,7 @@ namespace Jellyfish\Event;
 
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
+use Jellyfish\Queue\QueueServiceProvider;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -92,8 +93,8 @@ class EventServiceProvider implements ServiceProviderInterface
         if ($this->eventQueueProducer === null) {
             $this->eventQueueProducer = new EventQueueProducer(
                 $this->createEventMapper($container),
-                $this->createEventQueueNameGenerator(),
-                $container->offsetGet('queue_client')
+                $container->offsetGet(QueueServiceProvider::CONTAINER_KEY_QUEUE_CLIENT),
+                $container->offsetGet(QueueServiceProvider::CONTAINER_KEY_DESTINATION_FACTORY)
             );
         }
 
@@ -112,7 +113,8 @@ class EventServiceProvider implements ServiceProviderInterface
                 $container->offsetGet('process_factory'),
                 $this->createEventMapper($container),
                 $this->createEventQueueNameGenerator(),
-                $container->offsetGet('queue_client'),
+                $container->offsetGet(QueueServiceProvider::CONTAINER_KEY_QUEUE_CLIENT),
+                $container->offsetGet(QueueServiceProvider::CONTAINER_KEY_DESTINATION_FACTORY),
                 $container->offsetGet('root_dir')
             );
         }

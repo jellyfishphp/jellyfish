@@ -68,14 +68,7 @@ class EventDispatcher implements EventDispatcherInterface
      */
     protected function dispatchAsync(EventInterface $event): EventDispatcherInterface
     {
-        $listeners = $this->eventListenerProvider->getListenersByTypeAndEventName(
-            EventListenerInterface::TYPE_ASYNC,
-            $event->getName()
-        );
-
-        foreach ($listeners as $listener) {
-            $this->eventQueueProducer->enqueue($event, $listener);
-        }
+        $this->eventQueueProducer->enqueue($event);
 
         return $this;
     }
