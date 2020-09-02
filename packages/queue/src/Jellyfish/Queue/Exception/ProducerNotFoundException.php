@@ -2,6 +2,8 @@
 
 namespace Jellyfish\Queue\Exception;
 
-class ProducerNotFoundException extends \Exception
+use Exception;
+
+class ProducerNotFoundException extends Exception
 {
 }
