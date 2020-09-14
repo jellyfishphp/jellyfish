@@ -27,9 +27,12 @@ class SerializerServiceProvider implements ServiceProviderInterface
      */
     protected function registerPropertyNameConverterStrategyProvider(Container $container): SerializerServiceProvider
     {
-        $container->offsetSet('serializer_property_name_converter_strategy_provider', function () {
-            return new PropertyNameConverterStrategyProvider();
-        });
+        $container->offsetSet(
+            SerializerConstants::CONTAINER_KEY_PROPERTY_NAME_CONVERTER_STRATEGY_PROVIDER,
+            static function () {
+                return new PropertyNameConverterStrategyProvider();
+            }
+        );
 
         return $this;
     }

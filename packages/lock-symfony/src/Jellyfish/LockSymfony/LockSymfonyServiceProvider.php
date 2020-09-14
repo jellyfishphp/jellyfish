@@ -77,9 +77,16 @@ class LockSymfonyServiceProvider implements ServiceProviderInterface
 
         return new Client([
             'scheme' => 'tcp',
-            'host' => $config->get(LockConstants::REDIS_STORE_HOST, LockConstants::DEFAULT_REDIS_STORE_HOST),
-            'port' => $config->get(LockConstants::REDIS_STORE_PORT, LockConstants::DEFAULT_REDIS_STORE_PORT),
-            'database' => $config->get(LockConstants::REDIS_STORE_DB, LockConstants::DEFAULT_REDIS_STORE_DB),
+            'host' => $config->get(
+                LockSymfonyConstants::REDIS_STORE_HOST,
+                LockSymfonyConstants::DEFAULT_REDIS_STORE_HOST
+            ), 'port' => $config->get(
+                LockSymfonyConstants::REDIS_STORE_PORT,
+                LockSymfonyConstants::DEFAULT_REDIS_STORE_PORT
+            ), 'database' => $config->get(
+                LockSymfonyConstants::REDIS_STORE_DB,
+                LockSymfonyConstants::DEFAULT_REDIS_STORE_DB
+            ),
         ]);
     }
 

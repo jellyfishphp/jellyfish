@@ -6,16 +6,12 @@ namespace Jellyfish\Event;
 
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
-use Jellyfish\Queue\QueueServiceProvider;
+use Jellyfish\Queue\QueueConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 class EventServiceProvider implements ServiceProviderInterface
 {
-    public const CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS = 'default_event_error_handlers';
-    public const CONTAINER_KEY_EVENT_DISPATCHER = 'event_dispatcher';
-    public const CONTAINER_KEY_EVENT_FACTORY = 'event_factory';
-
     /**
      * @var \Jellyfish\Event\EventQueueNameGeneratorInterface|null
      */
@@ -93,8 +89,8 @@ class EventServiceProvider implements ServiceProviderInterface
         if ($this->eventQueueProducer === null) {
             $this->eventQueueProducer = new EventQueueProducer(
                 $this->createEventMapper($container),
-                $container->offsetGet(QueueServiceProvider::CONTAINER_KEY_QUEUE_CLIENT),
-                $container->offsetGet(QueueServiceProvider::CONTAINER_KEY_DESTINATION_FACTORY)
+                $container->offsetGet(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT),
+                $container->offsetGet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY)
             );
         }
 
@@ -113,8 +109,8 @@ class EventServiceProvider implements ServiceProviderInterface
                 $container->offsetGet('process_factory'),
                 $this->createEventMapper($container),
                 $this->createEventQueueNameGenerator(),
-                $container->offsetGet(QueueServiceProvider::CONTAINER_KEY_QUEUE_CLIENT),
-                $container->offsetGet(QueueServiceProvider::CONTAINER_KEY_DESTINATION_FACTORY),
+                $container->offsetGet(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT),
+                $container->offsetGet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY),
                 $container->offsetGet('root_dir')
             );
         }
@@ -146,7 +142,7 @@ class EventServiceProvider implements ServiceProviderInterface
      */
     protected function registerEventFactory(Container $container): EventServiceProvider
     {
-        $container->offsetSet(static::CONTAINER_KEY_EVENT_FACTORY, static function () {
+        $container->offsetSet(EventConstants::CONTAINER_KEY_EVENT_FACTORY, static function () {
             return new EventFactory();
         });
 
@@ -163,7 +159,7 @@ class EventServiceProvider implements ServiceProviderInterface
         $self = $this;
 
         $container->offsetSet(
-            static::CONTAINER_KEY_EVENT_DISPATCHER,
+            EventConstants::CONTAINER_KEY_EVENT_DISPATCHER,
             static function (Container $container) use ($self) {
                 return new EventDispatcher(
                     new EventListenerProvider(),
@@ -209,7 +205,7 @@ class EventServiceProvider implements ServiceProviderInterface
      */
     protected function registerDefaultEventErrorHandlers(Container $container): EventServiceProvider
     {
-        $container->offsetSet(static::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
+        $container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
             return [];
         });
 

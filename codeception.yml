@@ -1,7 +1,10 @@
 include:
   - packages/application/
+  - packages/cache/
+  - packages/cache-symfony/
   - packages/config/
   - packages/event/
+  - packages/event-cache/
   - packages/event-log/
   - packages/feed/
   - packages/finder/

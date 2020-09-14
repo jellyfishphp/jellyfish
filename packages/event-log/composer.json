@@ -9,7 +9,6 @@
     }
   ],
   "require": {
-    "jellyfish/config": "dev-master",
     "jellyfish/event": "dev-master",
     "jellyfish/log": "dev-master",
     "jellyfish/pimple": "dev-master"
