@@ -34,8 +34,6 @@ class JobFactoryTest extends Unit
     {
         parent::_before();
 
-        $this->dateTime = new DateTime();
-
         $this->cronExpressionFactoryMock = $this->getMockBuilder(CronExpressionFactoryInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
