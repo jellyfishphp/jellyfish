@@ -8,6 +8,8 @@ use Codeception\Test\Unit;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Process\ProcessInterface;
+use Jellyfish\Queue\DestinationFactoryInterface;
+use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\QueueClientInterface;
 
@@ -34,6 +36,16 @@ class EventQueueConsumerTest extends Unit
      * @var \Jellyfish\Queue\QueueClientInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $queueClientMock;
+
+    /**
+     * @var \Jellyfish\Queue\DestinationFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $destinationFactoryMock;
+
+    /**
+     * @var \Jellyfish\Queue\DestinationInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $destinationMock;
 
     /**
      * @var \Jellyfish\Queue\MessageInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -93,6 +105,14 @@ class EventQueueConsumerTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->destinationFactoryMock = $this->getMockBuilder(DestinationFactoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->destinationMock = $this->getMockBuilder(DestinationInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->messageMock = $this->getMockBuilder(MessageInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -114,6 +134,7 @@ class EventQueueConsumerTest extends Unit
             $this->eventMapperMock,
             $this->eventQueueNameGeneratorMock,
             $this->queueClientMock,
+            $this->destinationFactoryMock,
             '/'
         );
     }
@@ -123,17 +144,36 @@ class EventQueueConsumerTest extends Unit
      */
     public function testDequeue(): void
     {
-        $this->eventQueueNameGeneratorMock->expects($this->atLeastOnce())
+        $this->eventQueueNameGeneratorMock->expects(self::atLeastOnce())
             ->method('generate')
             ->with($this->eventName, $this->eventListenerIdentifier)
             ->willReturn($this->eventQueueName);
 
-        $this->queueClientMock->expects($this->atLeastOnce())
-            ->method('receiveMessage')
+        $this->destinationFactoryMock->expects(self::atLeastOnce())
+            ->method('create')
+            ->willReturn($this->destinationMock);
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('setName')
             ->with($this->eventQueueName)
+            ->willReturn($this->destinationMock);
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('setType')
+            ->with(DestinationInterface::TYPE_FANOUT)
+            ->willReturn($this->destinationMock);
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('setProperty')
+            ->with('bind', $this->eventName)
+            ->willReturn($this->destinationMock);
+
+        $this->queueClientMock->expects(self::atLeastOnce())
+            ->method('receiveMessage')
+            ->with($this->destinationMock)
             ->willReturn($this->messageMock);
 
-        $this->eventMapperMock->expects($this->atLeastOnce())
+        $this->eventMapperMock->expects(self::atLeastOnce())
             ->method('fromMessage')
             ->with($this->messageMock)
             ->willReturn($this->eventMock);
@@ -143,7 +183,7 @@ class EventQueueConsumerTest extends Unit
             $this->eventListenerIdentifier
         );
 
-        $this->assertEquals($this->eventMock, $event);
+        self::assertEquals($this->eventMock, $event);
     }
 
     /**
@@ -151,17 +191,36 @@ class EventQueueConsumerTest extends Unit
      */
     public function testDequeueFromEmptyQueue(): void
     {
-        $this->eventQueueNameGeneratorMock->expects($this->atLeastOnce())
+        $this->eventQueueNameGeneratorMock->expects(self::atLeastOnce())
             ->method('generate')
             ->with($this->eventName, $this->eventListenerIdentifier)
             ->willReturn($this->eventQueueName);
 
-        $this->queueClientMock->expects($this->atLeastOnce())
-            ->method('receiveMessage')
+        $this->destinationFactoryMock->expects(self::atLeastOnce())
+            ->method('create')
+            ->willReturn($this->destinationMock);
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('setName')
             ->with($this->eventQueueName)
+            ->willReturn($this->destinationMock);
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('setType')
+            ->with(DestinationInterface::TYPE_FANOUT)
+            ->willReturn($this->destinationMock);
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('setProperty')
+            ->with('bind', $this->eventName)
+            ->willReturn($this->destinationMock);
+
+        $this->queueClientMock->expects(self::atLeastOnce())
+            ->method('receiveMessage')
+            ->with($this->destinationMock)
             ->willReturn(null);
 
-        $this->eventMapperMock->expects($this->never())
+        $this->eventMapperMock->expects(self::never())
             ->method('fromMessage')
             ->with($this->messageMock)
             ->willReturn($this->eventMock);
@@ -171,7 +230,7 @@ class EventQueueConsumerTest extends Unit
             $this->eventListenerIdentifier
         );
 
-        $this->assertNull($event);
+        self::assertNull($event);
     }
 
     /**
@@ -186,17 +245,17 @@ class EventQueueConsumerTest extends Unit
             $this->eventListenerIdentifier
         ];
 
-        $this->eventQueueNameGeneratorMock->expects($this->atLeastOnce())
+        $this->eventQueueNameGeneratorMock->expects(self::atLeastOnce())
             ->method('generate')
             ->with($this->eventName, $this->eventListenerIdentifier)
             ->willReturn($this->eventQueueName);
 
-        $this->processFactoryMock->expects($this->atLeastOnce())
+        $this->processFactoryMock->expects(self::atLeastOnce())
             ->method('create')
             ->with($command)
             ->willReturn($this->processMock);
 
-        $this->processMock->expects($this->atLeastOnce())
+        $this->processMock->expects(self::atLeastOnce())
             ->method('start')
             ->willReturn($this->processMock);
 
@@ -205,7 +264,7 @@ class EventQueueConsumerTest extends Unit
             $this->eventListenerIdentifier
         );
 
-        $this->assertEquals($this->eventQueueConsumer, $result);
+        self::assertEquals($this->eventQueueConsumer, $result);
     }
 
     /**
@@ -216,17 +275,36 @@ class EventQueueConsumerTest extends Unit
         $chunkSize = 100;
         $messages = [$this->messageMock];
 
-        $this->eventQueueNameGeneratorMock->expects($this->atLeastOnce())
+        $this->eventQueueNameGeneratorMock->expects(self::atLeastOnce())
             ->method('generate')
             ->with($this->eventName, $this->eventListenerIdentifier)
             ->willReturn($this->eventQueueName);
 
-        $this->queueClientMock->expects($this->atLeastOnce())
+        $this->destinationFactoryMock->expects(self::atLeastOnce())
+            ->method('create')
+            ->willReturn($this->destinationMock);
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('setName')
+            ->with($this->eventQueueName)
+            ->willReturn($this->destinationMock);
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('setType')
+            ->with(DestinationInterface::TYPE_FANOUT)
+            ->willReturn($this->destinationMock);
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('setProperty')
+            ->with('bind', $this->eventName)
+            ->willReturn($this->destinationMock);
+
+        $this->queueClientMock->expects(self::atLeastOnce())
             ->method('receiveMessages')
-            ->with($this->eventQueueName, $chunkSize)
+            ->with($this->destinationMock, $chunkSize)
             ->willReturn($messages);
 
-        $this->eventMapperMock->expects($this->atLeastOnce())
+        $this->eventMapperMock->expects(self::atLeastOnce())
             ->method('fromMessage')
             ->with($this->messageMock)
             ->willReturn($this->eventMock);
@@ -237,7 +315,7 @@ class EventQueueConsumerTest extends Unit
             $chunkSize
         );
 
-        $this->assertCount(1, $events);
-        $this->assertEquals($this->eventMock, $events[0]);
+        self::assertCount(1, $events);
+        self::assertEquals($this->eventMock, $events[0]);
     }
 }

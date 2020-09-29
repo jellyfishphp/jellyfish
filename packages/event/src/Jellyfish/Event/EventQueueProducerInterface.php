@@ -8,12 +8,10 @@ interface EventQueueProducerInterface
 {
     /**
      * @param \Jellyfish\Event\EventInterface $event
-     * @param \Jellyfish\Event\EventListenerInterface $listener
      *
      * @return \Jellyfish\Event\EventQueueProducerInterface
      */
     public function enqueue(
-        EventInterface $event,
-        EventListenerInterface $listener
+        EventInterface $event
     ): EventQueueProducerInterface;
 }

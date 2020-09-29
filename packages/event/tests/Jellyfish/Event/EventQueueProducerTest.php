@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Jellyfish\Event;
 
 use Codeception\Test\Unit;
+use Jellyfish\Queue\DestinationFactoryInterface;
+use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\QueueClientInterface;
 
@@ -16,9 +18,14 @@ class EventQueueProducerTest extends Unit
     protected $eventMapperMock;
 
     /**
-     * @var \Jellyfish\Event\EventQueueNameGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\DestinationFactoryInterface
      */
-    protected $eventQueueNameGeneratorMock;
+    protected $destinationFactoryMock;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\DestinationInterface
+     */
+    protected $destinationMock;
 
     /**
      * @var \Jellyfish\Queue\QueueClientInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -57,11 +64,15 @@ class EventQueueProducerTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->eventQueueNameGeneratorMock = $this->getMockBuilder(EventQueueNameGeneratorInterface::class)
+        $this->queueClientMock = $this->getMockBuilder(QueueClientInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->queueClientMock = $this->getMockBuilder(QueueClientInterface::class)
+        $this->destinationFactoryMock = $this->getMockBuilder(DestinationFactoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->destinationMock = $this->getMockBuilder(DestinationInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -79,8 +90,8 @@ class EventQueueProducerTest extends Unit
 
         $this->eventQueueProducer = new EventQueueProducer(
             $this->eventMapperMock,
-            $this->eventQueueNameGeneratorMock,
-            $this->queueClientMock
+            $this->queueClientMock,
+            $this->destinationFactoryMock
         );
     }
 
@@ -90,34 +101,37 @@ class EventQueueProducerTest extends Unit
     public function testEnqueueEvent(): void
     {
         $eventName = 'test';
-        $listenerIdentifier = 'testListener';
-        $eventQueueName = sprintf('%s_%s', $eventName, $listenerIdentifier);
 
-        $this->eventListenerMock->expects($this->atLeastOnce())
-            ->method('getIdentifier')
-            ->willReturn($listenerIdentifier);
-
-        $this->eventQueueNameGeneratorMock->expects($this->atLeastOnce())
-            ->method('generate')
-            ->with($eventName, $listenerIdentifier)
-            ->willReturn($eventQueueName);
-
-        $this->eventMock->expects($this->atLeastOnce())
+        $this->eventMock->expects(self::atLeastOnce())
             ->method('getName')
             ->willReturn('test');
 
-        $this->eventMapperMock->expects($this->atLeastOnce())
+        $this->destinationFactoryMock->expects(self::atLeastOnce())
+            ->method('create')
+            ->willReturn($this->destinationMock);
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('setName')
+            ->with($eventName)
+            ->willReturn($this->destinationMock);
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('setType')
+            ->with(DestinationInterface::TYPE_FANOUT)
+            ->willReturn($this->destinationMock);
+
+        $this->eventMapperMock->expects(self::atLeastOnce())
             ->method('toMessage')
             ->with($this->eventMock)
             ->willReturn($this->messageMock);
 
-        $this->queueClientMock->expects($this->atLeastOnce())
+        $this->queueClientMock->expects(self::atLeastOnce())
             ->method('sendMessage')
-            ->with($eventQueueName, $this->messageMock);
+            ->with($this->destinationMock, $this->messageMock);
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->eventQueueProducer,
-            $this->eventQueueProducer->enqueue($this->eventMock, $this->eventListenerMock)
+            $this->eventQueueProducer->enqueue($this->eventMock)
         );
     }
 }

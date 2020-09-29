@@ -4,147 +4,119 @@ declare(strict_types=1);
 
 namespace Jellyfish\QueueRabbitMq;
 
+use Jellyfish\Queue\ConsumerInterface;
+use Jellyfish\Queue\DestinationInterface;
+use Jellyfish\Queue\Exception\ConsumerNotFoundException;
+use Jellyfish\Queue\Exception\ProducerNotFoundException;
 use Jellyfish\Queue\MessageInterface;
-use Jellyfish\Queue\MessageMapperInterface;
+use Jellyfish\Queue\ProducerInterface;
 use Jellyfish\Queue\QueueClientInterface;
-use PhpAmqpLib\Channel\AMQPChannel;
-use PhpAmqpLib\Connection\AbstractConnection;
-use PhpAmqpLib\Message\AMQPMessage;
+
+use function sprintf;
 
 class QueueClient implements QueueClientInterface
 {
     /**
-     * @var \PhpAmqpLib\Connection\AbstractConnection
+     * @var \Jellyfish\Queue\ConsumerInterface[]
      */
-    protected $connection;
+    protected $consumers;
+    
+    /**
+     * @var \Jellyfish\Queue\ProducerInterface[]
+     */
+    protected $producers;
 
     /**
-     * @var \Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface
-     */
-    protected $amqpMessageFactory;
-
-    /**
-     * @var \Jellyfish\Queue\MessageMapperInterface
-     */
-    protected $messageMapper;
-
-    /**
-     * @var \PhpAmqpLib\Channel\AMQPChannel|null
-     */
-    protected $channel;
-
-    /**
-     * @param \PhpAmqpLib\Connection\AbstractConnection $connection
-     * @param \Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface $amqpMessageFactory
-     * @param \Jellyfish\Queue\MessageMapperInterface $messageMapper
+     * @param \Jellyfish\Queue\ConsumerInterface[] $consumers
+     * @param \Jellyfish\Queue\ProducerInterface[] $producers
      */
     public function __construct(
-        AbstractConnection $connection,
-        AmqpMessageFactoryInterface $amqpMessageFactory,
-        MessageMapperInterface $messageMapper
+        array $consumers = [],
+        array $producers = []
     ) {
-        $this->connection = $connection;
-        $this->amqpMessageFactory = $amqpMessageFactory;
-        $this->messageMapper = $messageMapper;
+        $this->consumers = $consumers;
+        $this->producers = $producers;
     }
 
     /**
-     * @param string $queueName
+     * @param string $type
+     * @param \Jellyfish\Queue\ConsumerInterface $consumer
      *
-     * @return \Jellyfish\Queue\MessageInterface|null
+     * @return \Jellyfish\Queue\QueueClientInterface
      */
-    public function receiveMessage(string $queueName): ?MessageInterface
+    public function setConsumer(string $type, ConsumerInterface $consumer): QueueClientInterface
     {
-        $this->declareQueue($queueName);
+        $this->consumers[$type] = $consumer;
 
-        return $this->doReceiveMessage($queueName);
+        return $this;
     }
 
     /**
-     * @param string $queueName
+     * @param string $type
+     * @param \Jellyfish\Queue\ProducerInterface $producer
+     *
+     * @return \Jellyfish\Queue\QueueClientInterface
+     */
+    public function setProducer(string $type, ProducerInterface $producer): QueueClientInterface
+    {
+        $this->producers[$type] = $producer;
+
+        return $this;
+    }
+
+    /**
+     * @param \Jellyfish\Queue\DestinationInterface $destination
      *
      * @return \Jellyfish\Queue\MessageInterface|null
      */
-    protected function doReceiveMessage(string $queueName): ?MessageInterface
+    public function receiveMessage(DestinationInterface $destination): ?MessageInterface
     {
-        $messageAsJson = $this->getChannel()->basic_get($queueName, true);
-
-        if ($messageAsJson === null || !($messageAsJson instanceof AMQPMessage)) {
-            return null;
+        if (!isset($this->consumers[$destination->getType()])) {
+            throw new ConsumerNotFoundException(sprintf(
+                'There is no consumer for type "%s".',
+                $destination->getType()
+            ));
         }
 
-        return $this->messageMapper->fromJson($messageAsJson->getBody());
+        return $this->consumers[$destination->getType()]->receiveMessage($destination);
     }
 
+
     /**
-     * @param string $queueName
-     * @param int $count
+     * @param \Jellyfish\Queue\DestinationInterface $destination
+     * @param int $limit
      *
      * @return \Jellyfish\Queue\MessageInterface[]
      */
-    public function receiveMessages(string $queueName, int $count): array
+    public function receiveMessages(DestinationInterface $destination, int $limit): array
     {
-        $receivedMessages = [];
-        $this->declareQueue($queueName);
-
-        for ($i = 0; $i < $count; $i++) {
-            $receivedMessage = $this->doReceiveMessage($queueName);
-
-            if ($receivedMessage === null) {
-                return $receivedMessages;
-            }
-
-            $receivedMessages[] = $receivedMessage;
+        if (!isset($this->consumers[$destination->getType()])) {
+            throw new ConsumerNotFoundException(sprintf(
+                'There is no consumer for type "%s".',
+                $destination->getType()
+            ));
         }
 
-        return $receivedMessages;
+        return $this->consumers[$destination->getType()]->receiveMessages($destination, $limit);
     }
 
     /**
-     * @param string $queueName
+     * @param \Jellyfish\Queue\DestinationInterface $destination
      * @param \Jellyfish\Queue\MessageInterface $message
      *
      * @return \Jellyfish\Queue\QueueClientInterface
      */
-    public function sendMessage(string $queueName, MessageInterface $message): QueueClientInterface
+    public function sendMessage(DestinationInterface $destination, MessageInterface $message): QueueClientInterface
     {
-        $amqpMessageBody = $this->messageMapper->toJson($message);
-        $amqpMessage = $this->amqpMessageFactory->create($amqpMessageBody);
-
-        $this->declareQueue($queueName);
-        $this->getChannel()->basic_publish($amqpMessage, '', $queueName);
-
-        return $this;
-    }
-
-    /**
-     * @param string $queueName
-     *
-     * @return \Jellyfish\Queue\QueueClientInterface
-     */
-    protected function declareQueue(string $queueName): QueueClientInterface
-    {
-        $this->getChannel()->queue_declare($queueName, false, true);
-
-        return $this;
-    }
-
-    /**
-     * @return \PhpAmqpLib\Channel\AMQPChannel
-     */
-    protected function getChannel(): AMQPChannel
-    {
-        if ($this->channel === null) {
-            $this->channel = $this->connection->channel();
+        if (!isset($this->producers[$destination->getType()])) {
+            throw new ProducerNotFoundException(sprintf(
+                'There is no producer for type "%s".',
+                $destination->getType()
+            ));
         }
 
-        return $this->channel;
-    }
+        $this->producers[$destination->getType()]->sendMessage($destination, $message);
 
-    public function __destruct()
-    {
-        if ($this->connection->isConnected()) {
-            $this->connection->close();
-        }
+        return $this;
     }
 }

@@ -124,25 +124,11 @@ class EventDispatcherTest extends Unit
      */
     public function testDispatchAsyncListeners(): void
     {
-        $this->eventMock->expects($this->atLeastOnce())
-            ->method('getName')
-            ->willReturn($this->eventName);
-
-        $this->eventListenerProviderMock->expects($this->atLeastOnce())
-            ->method('getListenersByTypeAndEventName')
-            ->withConsecutive([
-                EventListenerInterface::TYPE_SYNC,
-                $this->eventName
-            ], [
-                EventListenerInterface::TYPE_ASYNC,
-                $this->eventName
-            ])->willReturnOnConsecutiveCalls([], [$this->eventListenerMock]);
-
-        $this->eventQueueProducerMock->expects($this->atLeastOnce())
+        $this->eventQueueProducerMock->expects(self::atLeastOnce())
             ->method('enqueue')
-            ->with($this->eventMock, $this->eventListenerMock);
+            ->with($this->eventMock);
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->eventDispatcher,
             $this->eventDispatcher->dispatch($this->eventMock)
         );
