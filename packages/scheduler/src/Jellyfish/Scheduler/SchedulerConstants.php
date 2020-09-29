@@ -6,6 +6,6 @@ namespace Jellyfish\Scheduler;
 
 interface SchedulerConstants
 {
-    public const SCHEDULER = 'scheduler';
-    public const JOB_FACTORY = 'job_factory';
+    public const CONTAINER_KEY_SCHEDULER = 'scheduler';
+    public const CONTAINER_KEY_JOB_FACTORY = 'job_factory';
 }

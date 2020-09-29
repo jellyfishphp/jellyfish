@@ -30,7 +30,7 @@ class SchedulerServiceProvider implements ServiceProviderInterface
      */
     protected function registerScheduler(Container $container): SchedulerServiceProvider
     {
-        $container->offsetSet(SchedulerConstants::SCHEDULER, function () {
+        $container->offsetSet(SchedulerConstants::CONTAINER_KEY_SCHEDULER, function () {
             return new Scheduler();
         });
 
@@ -44,9 +44,9 @@ class SchedulerServiceProvider implements ServiceProviderInterface
      */
     protected function registerCommands(Container $container): SchedulerServiceProvider
     {
-        $container->extend('commands', function (array $commands, Container $container) {
+        $container->extend('commands', static function (array $commands, Container $container) {
             $commands[] = new RunSchedulerCommand(
-                $container->offsetGet(SchedulerConstants::SCHEDULER),
+                $container->offsetGet(SchedulerConstants::CONTAINER_KEY_SCHEDULER),
                 $container->offsetGet('lock_factory'),
                 $container->offsetGet('logger')
             );
@@ -66,12 +66,12 @@ class SchedulerServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet(SchedulerConstants::JOB_FACTORY, function (Container $container) use ($self) {
+        $container->offsetSet(SchedulerConstants::CONTAINER_KEY_JOB_FACTORY, static function (Container $container) use ($self) {
             $processFactory = $self->getProcessFactory($container);
             if ($processFactory === null) {
                 return null;
             }
-            return new JobFactory($processFactory, $this->createCronExpressionFactory());
+            return new JobFactory($processFactory, $self->createCronExpressionFactory());
         });
 
         return $this;
