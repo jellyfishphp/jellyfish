@@ -55,7 +55,7 @@ class FanoutConsumer extends AbstractConsumer
         try {
             $backupConnection = clone $this->connection;
             $this->connection->createQueueAndBind($destination);
-            $backupConnection->getChannel()->close();
+            unset($backupConnection);
         } catch (\Exception $exception) {
             if ($exception->getCode() === 404) {
                 $this->connection = $backupConnection;
