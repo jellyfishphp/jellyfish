@@ -50,12 +50,22 @@ class FanoutConsumerTest extends Unit
     /**
      * @var string
      */
+    protected $propertyName;
+
+    /**
+     * @var string
+     */
     protected $json;
 
     /**
      * @var \Jellyfish\Queue\ConsumerInterface
      */
     protected $fanoutConsumer;
+
+    /**
+     * @var int
+     */
+    protected $count;
 
     /**
      * @return void
@@ -87,7 +97,9 @@ class FanoutConsumerTest extends Unit
             ->getMock();
 
         $this->queueName = 'Foo';
+        $this->propertyName = 'Bar';
         $this->json = '{...}';
+        $this->count = 0;
 
         $this->fanoutConsumer = new FanoutConsumer(
             $this->connectionMock,
@@ -246,6 +258,63 @@ class FanoutConsumerTest extends Unit
         self::assertEquals(
             $messageMocks,
             $this->fanoutConsumer->receiveMessages($this->destinationMock, 2)
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateQueueAndBind(): void
+    {
+        $self = $this;
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('getName')
+            ->willReturn($this->queueName);
+
+        $this->destinationMock->expects(self::atLeastOnce())
+            ->method('getProperty')
+            ->willReturn($this->propertyName);
+
+        $this->destinationMock->expects(self::exactly(1))
+            ->method('setName')
+            ->willReturn($this->destinationMock);
+
+        $this->connectionMock->expects(self::exactly(2))
+            ->method('createQueueAndBind')
+            ->with($this->destinationMock)
+            ->will($this->returnCallback(static function () use ($self) {
+                if ($self->count === 0) {
+                    $self->count++;
+                    throw new \Exception('test', 404);
+                }
+                return $self->connectionMock;
+            }));
+
+        $this->connectionMock->expects(self::atLeastOnce())
+            ->method('createExchange');
+
+        $this->connectionMock->expects(self::atLeastOnce())
+            ->method('getChannel')
+            ->willReturn($this->amqpChannelMock);
+
+        $this->amqpChannelMock->expects(self::atLeastOnce())
+            ->method('basic_get')
+            ->with($this->queueName, true)
+            ->willReturn($this->amqpMessageMock);
+
+        $this->amqpMessageMock->expects(self::atLeastOnce())
+            ->method('getBody')
+            ->willReturn($this->json);
+
+        $this->messageMapperMock->expects(self::atLeastOnce())
+            ->method('fromJson')
+            ->with($this->json)
+            ->willReturn($this->messageMock);
+
+        self::assertEquals(
+            $this->messageMock,
+            $this->fanoutConsumer->receiveMessage($this->destinationMock)
         );
     }
 }
