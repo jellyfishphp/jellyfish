@@ -25,7 +25,7 @@ class EventTest extends Unit
 
         $this->payload = new stdClass();
 
-        $this->event = new Event();
+        $this->event = new Event('294452fd-0ba8-481c-8cfd-832a68c2edc3');
     }
 
     /**

@@ -26,6 +26,8 @@ include:
   - packages/serializer/
   - packages/serializer-symfony/
   - packages/transfer/
+  - packages/uuid/
+  - packages/uuid-ramsey/
 
 settings:
   shuffle: true

@@ -22,6 +22,7 @@
     "phpdocumentor/reflection-docblock": "~4.3.2",
     "pimple/pimple": "~3.2.3",
     "predis/predis": "~1.1.1",
+    "ramsey/uuid": "~4.1.0",
     "symfony/cache": "~4.3.3",
     "symfony/console": "~4.3.3",
     "symfony/filesystem": "~4.3.3",
@@ -78,7 +79,9 @@
       "Jellyfish\\Scheduler\\": "packages/scheduler/src/Jellyfish/Scheduler",
       "Jellyfish\\Serializer\\": "packages/serializer/src/Jellyfish/Serializer",
       "Jellyfish\\SerializerSymfony\\": "packages/serializer-symfony/src/Jellyfish/SerializerSymfony",
-      "Jellyfish\\Transfer\\": "packages/transfer/src/Jellyfish/Transfer"
+      "Jellyfish\\Transfer\\": "packages/transfer/src/Jellyfish/Transfer",
+      "Jellyfish\\Uuid\\": "packages/uuid/src/Jellyfish/Uuid",
+      "Jellyfish\\UuidRamsey\\": "packages/uuid-ramsey/src/Jellyfish/UuidRamsey"
     }
   },
   "autoload-dev": {
@@ -107,7 +110,9 @@
       "Jellyfish\\Redis\\": "packages/redis/tests/Jellyfish/Redis",
       "Jellyfish\\Scheduler\\": "packages/scheduler/tests/Jellyfish/Scheduler",
       "Jellyfish\\SerializerSymfony\\": "packages/serializer-symfony/tests/Jellyfish/SerializerSymfony",
-      "Jellyfish\\Transfer\\": "packages/transfer/tests/Jellyfish/Transfer"
+      "Jellyfish\\Transfer\\": "packages/transfer/tests/Jellyfish/Transfer",
+      "Jellyfish\\Uuid\\": "packages/uuid/tests/Jellyfish/Uuid",
+      "Jellyfish\\UuidRamsey\\": "packages/uuid-ramsey/tests/Jellyfish/UuidRamsey"
     }
   }
 }

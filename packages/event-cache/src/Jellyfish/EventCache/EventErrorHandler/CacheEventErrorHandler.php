@@ -48,16 +48,11 @@ class CacheEventErrorHandler implements EventErrorHandlerInterface
         string $eventListenerIdentifier,
         EventInterface $event
     ): EventErrorHandlerInterface {
-        $json = $this->serializer->serialize($event, 'json');
-
-        $key = sprintf(
-            '%s:%s:%s',
-            $event->getName(),
-            $eventListenerIdentifier,
-            md5($json)
+        $this->cache->set(
+            $event->getId(),
+            $this->serializer->serialize($event, 'json'),
+            EventCacheConstants::LIFE_TIME
         );
-
-        $this->cache->set($key, $json, EventCacheConstants::LIFE_TIME);
 
         return $this;
     }

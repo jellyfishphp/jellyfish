@@ -35,6 +35,7 @@ class LogEventErrorHandler implements EventErrorHandlerInterface
         EventInterface $event
     ): EventErrorHandlerInterface {
         $context = [
+            'eventId' => $event->getId(),
             'eventListenerIdentifier' => $eventListenerIdentifier,
             'eventName' => $event->getName(),
             'eventMetaProperties' => $event->getMetaProperties(),

@@ -17,6 +17,8 @@ use Jellyfish\Queue\QueueClientInterface;
 use Jellyfish\Queue\QueueConstants;
 use Jellyfish\Queue\QueueServiceProvider;
 use Jellyfish\Serializer\SerializerInterface;
+use Jellyfish\Uuid\UuidConstants;
+use Jellyfish\Uuid\UuidGeneratorInterface;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
 
@@ -96,6 +98,12 @@ class EventServiceProviderTest extends Unit
 
         $this->container->offsetSet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY, static function () use ($self) {
             return $self->getMockBuilder(DestinationFactoryInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+        });
+
+        $this->container->offsetSet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR, static function () use ($self) {
+            return $self->getMockBuilder(UuidGeneratorInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });

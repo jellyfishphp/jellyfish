@@ -7,6 +7,7 @@ namespace Jellyfish\Event;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
 use Jellyfish\Queue\QueueConstants;
+use Jellyfish\Uuid\UuidConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -142,8 +143,8 @@ class EventServiceProvider implements ServiceProviderInterface
      */
     protected function registerEventFactory(Container $container): EventServiceProvider
     {
-        $container->offsetSet(EventConstants::CONTAINER_KEY_EVENT_FACTORY, static function () {
-            return new EventFactory();
+        $container->offsetSet(EventConstants::CONTAINER_KEY_EVENT_FACTORY, static function (Container $container) {
+            return new EventFactory($container->offsetGet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR));
         });
 
         return $this;

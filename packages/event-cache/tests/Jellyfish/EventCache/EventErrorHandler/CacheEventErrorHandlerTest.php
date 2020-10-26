@@ -80,17 +80,11 @@ class CacheEventErrorHandlerTest extends Unit
     public function testHandle(): void
     {
         $json = '{}';
-        $eventName = 'bar';
-        $key = sprintf(
-            '%s:%s:%s',
-            $eventName,
-            $this->eventListenerIdentifier,
-            md5($json)
-        );
+        $id = '97c2dcc3-bbcb-4890-bb50-a78f6bb748c9';
 
         $this->eventMock->expects(self::atLeastOnce())
-            ->method('getName')
-            ->willReturn($eventName);
+            ->method('getId')
+            ->willReturn($id);
 
         $this->serializerMock->expects(self::atLeastOnce())
             ->method('serialize')
@@ -99,7 +93,7 @@ class CacheEventErrorHandlerTest extends Unit
 
         $this->cacheMock->expects(self::atLeastOnce())
             ->method('set')
-            ->with($key, $json, EventCacheConstants::LIFE_TIME)
+            ->with($id, $json, EventCacheConstants::LIFE_TIME)
             ->willReturn($this->cacheMock);
 
         self::assertEquals(
