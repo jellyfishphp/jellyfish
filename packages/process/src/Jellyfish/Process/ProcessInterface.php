@@ -15,4 +15,9 @@ interface ProcessInterface
      * @return array
      */
     public function getCommand(): array;
+
+    /**
+     * @return bool
+     */
+    public function isRunning(): bool;
 }

@@ -27,7 +27,6 @@ class ProcessTest extends Unit
         parent::_before();
 
         $this->command = ['sleep', '5'];
-
         $this->symfonyProcess = new Process($this->command);
     }
 
@@ -54,5 +53,14 @@ class ProcessTest extends Unit
     public function testGetCommand(): void
     {
         $this->assertEquals($this->command, $this->symfonyProcess->getCommand());
+    }
+
+    /**
+     * @return void
+     */
+    public function testIsRunning(): void
+    {
+        $this->symfonyProcess->start();
+        $this->assertTrue($this->symfonyProcess->isRunning());
     }
 }
