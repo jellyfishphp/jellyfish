@@ -27,8 +27,6 @@ class UuidGenerator implements UuidGeneratorInterface
      */
     public function generate(): string
     {
-        $uuid = $this->uuidFactory->uuid4();
-
-        return $uuid->toString();
+        return $this->uuidFactory->uuid4()->toString();
     }
 }
