@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\QueueRabbitMq;
 
 use Jellyfish\Queue\DestinationInterface;
+use Jellyfish\Queue\QueueConstants;
 use Jellyfish\Queue\QueueServiceProvider;
 use PhpAmqpLib\Connection\AMQPLazyConnection;
 use Pimple\Container;
@@ -15,9 +16,6 @@ use Pimple\ServiceProviderInterface;
  */
 class QueueRabbitMqServiceProvider implements ServiceProviderInterface
 {
-    public const CONTAINER_KEY_CONNECTION = 'queue_rabbit_mq_connection';
-    public const CONTAINER_KEY_AMQP_MESSAGE_FACTORY = 'queue_rabbit_mq_amqp_message_factory';
-
     /**
      * @param \Pimple\Container $container
      *
@@ -39,7 +37,7 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
         $self = $this;
 
         $container->offsetSet(
-            static::CONTAINER_KEY_CONNECTION,
+            QueueRabbitMqConstants::CONTAINER_KEY_CONNECTION,
             static function (Container $container) use ($self) {
                 $lazyConnection = $self->createAmqpLazyConnection($container);
 
@@ -57,7 +55,7 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
      */
     protected function registerAmqpMessageFactory(Container $container): QueueRabbitMqServiceProvider
     {
-        $container->offsetSet(static::CONTAINER_KEY_AMQP_MESSAGE_FACTORY, static function () {
+        $container->offsetSet(QueueRabbitMqConstants::CONTAINER_KEY_AMQP_MESSAGE_FACTORY, static function () {
             return new AmqpMessageFactory();
         });
 
@@ -74,7 +72,7 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
         $self = $this;
 
         $container->offsetSet(
-            QueueServiceProvider::CONTAINER_KEY_QUEUE_CLIENT,
+            QueueConstants::CONTAINER_KEY_QUEUE_CLIENT,
             static function (Container $container) use ($self) {
                 return new QueueClient(
                     $self->createConsumers($container),
@@ -136,8 +134,8 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
      */
     protected function createConsumers(Container $container): array
     {
-        $connection = $container->offsetGet(static::CONTAINER_KEY_CONNECTION);
-        $messageMapper = $container->offsetGet(QueueServiceProvider::CONTAINER_KEY_MESSAGE_MAPPER);
+        $connection = $container->offsetGet(QueueRabbitMqConstants::CONTAINER_KEY_CONNECTION);
+        $messageMapper = $container->offsetGet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER);
 
         return [
             DestinationInterface::TYPE_QUEUE => new QueueConsumer($connection, $messageMapper),
@@ -152,9 +150,9 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
      */
     protected function createProducers(Container $container): array
     {
-        $connection = $container->offsetGet(static::CONTAINER_KEY_CONNECTION);
-        $messageMapper = $container->offsetGet(QueueServiceProvider::CONTAINER_KEY_MESSAGE_MAPPER);
-        $amqpMessageFactory = $container->offsetGet(static::CONTAINER_KEY_AMQP_MESSAGE_FACTORY);
+        $connection = $container->offsetGet(QueueRabbitMqConstants::CONTAINER_KEY_CONNECTION);
+        $messageMapper = $container->offsetGet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER);
+        $amqpMessageFactory = $container->offsetGet(QueueRabbitMqConstants::CONTAINER_KEY_AMQP_MESSAGE_FACTORY);
 
         return [
             DestinationInterface::TYPE_QUEUE => new QueueProducer($connection, $messageMapper, $amqpMessageFactory),

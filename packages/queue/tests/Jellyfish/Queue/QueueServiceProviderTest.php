@@ -54,13 +54,13 @@ class QueueServiceProviderTest extends Unit
     {
         $this->queueServiceProvider->register($this->container);
 
-        $messageMapper = $this->container->offsetGet(QueueServiceProvider::CONTAINER_KEY_MESSAGE_MAPPER);
+        $messageMapper = $this->container->offsetGet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER);
         self::assertInstanceOf(MessageMapper::class, $messageMapper);
 
-        $messageFactory = $this->container->offsetGet(QueueServiceProvider::CONTAINER_KEY_MESSAGE_FACTORY);
+        $messageFactory = $this->container->offsetGet(QueueConstants::CONTAINER_KEY_MESSAGE_FACTORY);
         self::assertInstanceOf(MessageFactory::class, $messageFactory);
 
-        $destinationFactory = $this->container->offsetGet(QueueServiceProvider::CONTAINER_KEY_DESTINATION_FACTORY);
+        $destinationFactory = $this->container->offsetGet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY);
         self::assertInstanceOf(DestinationFactory::class, $destinationFactory);
     }
 }

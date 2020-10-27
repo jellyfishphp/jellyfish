@@ -19,13 +19,22 @@ class EventTest extends Unit
      */
     protected $payload;
 
+    /**
+     * @var string
+     */
+    protected $uuid;
+
+    /**
+     * @return void
+     */
     protected function _before(): void
     {
         parent::_before();
 
         $this->payload = new stdClass();
+        $this->uuid = '294452fd-0ba8-481c-8cfd-832a68c2edc3';
 
-        $this->event = new Event();
+        $this->event = new Event($this->uuid);
     }
 
     /**
@@ -84,5 +93,13 @@ class EventTest extends Unit
     {
         $this->assertEquals($this->event, $this->event->setPayload($this->payload));
         $this->assertEquals($this->payload, $this->event->getPayload());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetId(): void
+    {
+        $this->assertEquals($this->uuid, $this->event->getId());
     }
 }

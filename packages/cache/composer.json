@@ -1,0 +1,31 @@
+{
+  "name": "jellyfish/cache",
+  "description": "Jellyfish cache bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Rose",
+      "email": "daniel-rose@gmx.de"
+    }
+  ],
+  "require-dev": {
+    "codeception/codeception": "~3.1.2",
+    "mikey179/vfsstream": "~1.6.7",
+    "php-coveralls/php-coveralls": "~2.1.0",
+    "phpmd/phpmd": "~2.7.0",
+    "phpstan/phpstan": "~0.12.0",
+    "roave/security-advisories": "dev-master",
+    "sebastian/phpcpd": "~4.1.0",
+    "squizlabs/php_codesniffer": "~3.5.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jellyfish\\Cache\\": "src/Jellyfish/Cache"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jellyfish\\Cache\\": "tests/Jellyfish/Cache"
+    }
+  }
+}

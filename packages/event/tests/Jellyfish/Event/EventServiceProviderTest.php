@@ -8,13 +8,17 @@ use Codeception\Test\Unit;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
 use Jellyfish\Lock\LockFactoryInterface;
+use Jellyfish\Log\LogConstants;
 use Jellyfish\Log\LogServiceProvider;
 use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Queue\DestinationFactoryInterface;
 use Jellyfish\Queue\MessageFactoryInterface;
 use Jellyfish\Queue\QueueClientInterface;
+use Jellyfish\Queue\QueueConstants;
 use Jellyfish\Queue\QueueServiceProvider;
 use Jellyfish\Serializer\SerializerInterface;
+use Jellyfish\Uuid\UuidConstants;
+use Jellyfish\Uuid\UuidGeneratorInterface;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
 
@@ -68,7 +72,7 @@ class EventServiceProviderTest extends Unit
                 ->getMock();
         });
 
-        $this->container->offsetSet(LogServiceProvider::CONTAINER_KEY_LOGGER, static function () use ($self) {
+        $this->container->offsetSet(LogConstants::CONTAINER_KEY_LOGGER, static function () use ($self) {
             return $self->getMockBuilder(LoggerInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -86,14 +90,20 @@ class EventServiceProviderTest extends Unit
                 ->getMock();
         });
 
-        $this->container->offsetSet(QueueServiceProvider::CONTAINER_KEY_QUEUE_CLIENT, static function () use ($self) {
+        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT, static function () use ($self) {
             return $self->getMockBuilder(QueueClientInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });
 
-        $this->container->offsetSet(QueueServiceProvider::CONTAINER_KEY_DESTINATION_FACTORY, static function () use ($self) {
+        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY, static function () use ($self) {
             return $self->getMockBuilder(DestinationFactoryInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+        });
+
+        $this->container->offsetSet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR, static function () use ($self) {
+            return $self->getMockBuilder(UuidGeneratorInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });
@@ -108,14 +118,14 @@ class EventServiceProviderTest extends Unit
     {
         $this->eventServiceProvider->register($this->container);
 
-        self::assertTrue($this->container->offsetExists(EventServiceProvider::CONTAINER_KEY_EVENT_FACTORY));
-        self::assertInstanceOf(EventFactory::class, $this->container->offsetGet(EventServiceProvider::CONTAINER_KEY_EVENT_FACTORY));
+        self::assertTrue($this->container->offsetExists(EventConstants::CONTAINER_KEY_EVENT_FACTORY));
+        self::assertInstanceOf(EventFactory::class, $this->container->offsetGet(EventConstants::CONTAINER_KEY_EVENT_FACTORY));
 
-        self::assertTrue($this->container->offsetExists(EventServiceProvider::CONTAINER_KEY_EVENT_DISPATCHER));
-        self::assertInstanceOf(EventDispatcher::class, $this->container->offsetGet(EventServiceProvider::CONTAINER_KEY_EVENT_DISPATCHER));
+        self::assertTrue($this->container->offsetExists(EventConstants::CONTAINER_KEY_EVENT_DISPATCHER));
+        self::assertInstanceOf(EventDispatcher::class, $this->container->offsetGet(EventConstants::CONTAINER_KEY_EVENT_DISPATCHER));
 
-        self::assertTrue($this->container->offsetExists(EventServiceProvider::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
-        self::assertIsArray($this->container->offsetGet(EventServiceProvider::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
+        self::assertTrue($this->container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
+        self::assertIsArray($this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
 
         self::assertTrue($this->container->offsetExists('commands'));
 

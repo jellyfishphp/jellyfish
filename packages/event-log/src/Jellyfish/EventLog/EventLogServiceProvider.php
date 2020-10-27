@@ -2,9 +2,9 @@
 
 namespace Jellyfish\EventLog;
 
-use Jellyfish\Event\EventServiceProvider;
+use Jellyfish\Event\EventConstants;
 use Jellyfish\EventLog\EventErrorHandler\LogEventErrorHandler;
-use Jellyfish\Log\LogServiceProvider;
+use Jellyfish\Log\LogConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -27,14 +27,14 @@ class EventLogServiceProvider implements ServiceProviderInterface
      */
     protected function registerEventErrorHandler(Container $container): EventLogServiceProvider
     {
-        if (!$container->offsetExists(EventServiceProvider::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)) {
+        if (!$container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)) {
             return $this;
         }
 
         $container->extend(
-            EventServiceProvider::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS,
+            EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS,
             static function (array $defaultEventErrorHandlers, Container $container) {
-                $logger = $container->offsetGet(LogServiceProvider::CONTAINER_KEY_LOGGER);
+                $logger = $container->offsetGet(LogConstants::CONTAINER_KEY_LOGGER);
 
                 $defaultEventErrorHandlers[] = new LogEventErrorHandler($logger);
 

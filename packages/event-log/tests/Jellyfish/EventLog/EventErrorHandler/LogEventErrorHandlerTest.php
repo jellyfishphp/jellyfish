@@ -63,12 +63,18 @@ class LogEventErrorHandlerTest extends Unit
     {
         $metaProperties = [];
         $eventName = 'bar';
+        $eventId = '97c2dcc3-bbcb-4890-bb50-a78f6bb748c9';
         $context = [
+            'eventId' => $eventId,
             'eventListenerIdentifier' => $this->eventListenerIdentifier,
             'eventName' => $eventName,
             'eventMetaProperties' => $metaProperties,
             'trace' => $this->exception->getTrace(),
         ];
+
+        $this->eventMock->expects(self::atLeastOnce())
+            ->method('getId')
+            ->willReturn($eventId);
 
         $this->eventMock->expects(self::atLeastOnce())
             ->method('getName')

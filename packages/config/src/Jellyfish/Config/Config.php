@@ -21,7 +21,7 @@ class Config implements ConfigInterface
     protected const CONFIG_FILE_SUFFIX = '.php';
 
     /**
-     * @var \ArrayObject|null
+     * @var \ArrayObject
      */
     protected $config;
 

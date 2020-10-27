@@ -20,7 +20,7 @@ class QueueClient implements QueueClientInterface
      * @var \Jellyfish\Queue\ConsumerInterface[]
      */
     protected $consumers;
-    
+
     /**
      * @var \Jellyfish\Queue\ProducerInterface[]
      */

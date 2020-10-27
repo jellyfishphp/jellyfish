@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\SerializerSymfony;
 
+use Jellyfish\Serializer\SerializerConstants;
 use Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverter;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -36,21 +37,28 @@ class SerializerSymfonyServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet('serializer', function (Container $container) use ($self) {
-            return new Serializer(
-                $self->createSymfonySerializer($container)
-            );
-        });
+        $container->offsetSet(
+            SerializerConstants::CONTAINER_KEY_SERIALIZER,
+            static function (Container $container) use ($self) {
+                return new Serializer(
+                    $self->createSymfonySerializer($container)
+                );
+            }
+        );
 
         return $this;
     }
 
     /**
+     * @param \Pimple\Container $container
+     *
      * @return \Symfony\Component\Serializer\SerializerInterface
      */
     protected function createSymfonySerializer(Container $container): SymfonySerializerInterface
     {
-        $strategyProvider = $container->offsetGet('serializer_property_name_converter_strategy_provider');
+        $strategyProvider = $container->offsetGet(
+            SerializerConstants::CONTAINER_KEY_PROPERTY_NAME_CONVERTER_STRATEGY_PROVIDER
+        );
 
         $normalizer = [
             new ObjectNormalizer(

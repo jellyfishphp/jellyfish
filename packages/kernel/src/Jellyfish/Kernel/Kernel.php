@@ -86,7 +86,7 @@ class Kernel implements KernelInterface
     }
 
     /**
-     * @return ArrayObject
+     * @return \ArrayObject
      */
     protected function buildServiceProviders(): ArrayObject
     {
