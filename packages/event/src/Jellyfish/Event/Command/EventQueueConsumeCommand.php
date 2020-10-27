@@ -28,12 +28,12 @@ class EventQueueConsumeCommand extends Command
     public const DESCRIPTION = 'Consume from event queue';
 
     /**
-     * @param \Jellyfish\Event\EventListenerProviderInterface $eventDispatcher
+     * @var \Jellyfish\Event\EventListenerProviderInterface $eventDispatcher
      */
     protected $eventDispatcher;
 
     /**
-     * @param \Jellyfish\Event\EventQueueConsumerInterface $eventQueueConsumer
+     * @var \Jellyfish\Event\EventQueueConsumerInterface $eventQueueConsumer
      */
     protected $eventQueueConsumer;
 

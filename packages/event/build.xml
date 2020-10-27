@@ -38,8 +38,8 @@
     <target name="phpstan">
         <exec executable="vendor/bin/phpstan">
             <arg value="analyse"/>
-            <arg value="--level"/>
-            <arg value="7"/>
+            <arg value="-c"/>
+            <arg value="phpstan.neon"/>
             <arg path="src/"/>
         </exec>
     </target>
