@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Jellyfish\QueueRabbitMq;
 
 use Codeception\Test\Unit;
+use Jellyfish\Config\ConfigConstants;
 use Jellyfish\Config\ConfigInterface;
 use Jellyfish\Config\ConfigServiceProvider;
 use Jellyfish\Queue\MessageMapperInterface;
+use Jellyfish\Queue\QueueConstants;
 use Jellyfish\Queue\QueueServiceProvider;
 use Jellyfish\Serializer\SerializerInterface;
 use Pimple\Container;
@@ -55,11 +57,11 @@ class QueueRabbitMqServiceProviderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->container->offsetSet(ConfigServiceProvider::CONTAINER_KEY_CONFIG, static function () use ($self) {
+        $this->container->offsetSet(ConfigConstants::CONTAINER_KEY_CONFIG, static function () use ($self) {
             return $self->configMock;
         });
 
-        $this->container->offsetSet(QueueServiceProvider::CONTAINER_KEY_MESSAGE_MAPPER, static function () use ($self) {
+        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER, static function () use ($self) {
             return $self->messageMapperMock;
         });
 
@@ -89,22 +91,22 @@ class QueueRabbitMqServiceProviderTest extends Unit
 
         $this->queueRabbitMqServiceProvider->register($this->container);
 
-        self::assertTrue($this->container->offsetExists(QueueRabbitMqServiceProvider::CONTAINER_KEY_CONNECTION));
+        self::assertTrue($this->container->offsetExists(QueueRabbitMqConstants::CONTAINER_KEY_CONNECTION));
         self::assertInstanceOf(
             ConnectionInterface::class,
-            $this->container->offsetGet(QueueRabbitMqServiceProvider::CONTAINER_KEY_CONNECTION)
+            $this->container->offsetGet(QueueRabbitMqConstants::CONTAINER_KEY_CONNECTION)
         );
 
-        self::assertTrue($this->container->offsetExists(QueueRabbitMqServiceProvider::CONTAINER_KEY_AMQP_MESSAGE_FACTORY));
+        self::assertTrue($this->container->offsetExists(QueueRabbitMqConstants::CONTAINER_KEY_AMQP_MESSAGE_FACTORY));
         self::assertInstanceOf(
             AmqpMessageFactory::class,
-            $this->container->offsetGet(QueueRabbitMqServiceProvider::CONTAINER_KEY_AMQP_MESSAGE_FACTORY)
+            $this->container->offsetGet(QueueRabbitMqConstants::CONTAINER_KEY_AMQP_MESSAGE_FACTORY)
         );
 
-        self::assertTrue($this->container->offsetExists(QueueServiceProvider::CONTAINER_KEY_QUEUE_CLIENT));
+        self::assertTrue($this->container->offsetExists(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT));
         self::assertInstanceOf(
             QueueClient::class,
-            $this->container->offsetGet(QueueServiceProvider::CONTAINER_KEY_QUEUE_CLIENT)
+            $this->container->offsetGet(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT)
         );
     }
 }

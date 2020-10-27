@@ -9,8 +9,6 @@ use Pimple\ServiceProviderInterface;
 
 class ConfigServiceProvider implements ServiceProviderInterface
 {
-    public const CONTAINER_KEY_CONFIG = 'config';
-
     /**
      * @param \Pimple\Container $pimple
      *
@@ -20,7 +18,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $pimple->offsetSet(static::CONTAINER_KEY_CONFIG, static function (Container $container) use ($self) {
+        $pimple->offsetSet(ConfigConstants::CONTAINER_KEY_CONFIG, static function (Container $container) use ($self) {
             return $self->createConfig($container);
         });
     }

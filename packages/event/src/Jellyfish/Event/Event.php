@@ -11,6 +11,11 @@ class Event implements EventInterface
     /**
      * @var string
      */
+    protected $id;
+
+    /**
+     * @var string
+     */
     protected $name;
 
     /**
@@ -23,9 +28,21 @@ class Event implements EventInterface
      */
     protected $metaProperties;
 
-    public function __construct()
+    /**
+     * @param string $id
+     */
+    public function __construct(string $id)
     {
         $this->metaProperties = [];
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     /**

@@ -15,11 +15,9 @@ class EventQueueWorkerStartCommand extends Command
     public const DESCRIPTION = 'Start event queue worker';
 
     /**
-     * @param \Jellyfish\Event\EventQueueWorkerInterface $eventQueueWorker
+     * @var \Jellyfish\Event\EventQueueWorkerInterface $eventQueueWorker
      */
     protected $eventQueueWorker;
-
-
 
     /**
      * @param \Jellyfish\Event\EventQueueWorkerInterface $eventQueueWorker

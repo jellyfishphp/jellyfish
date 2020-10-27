@@ -9,11 +9,6 @@ use Pimple\ServiceProviderInterface;
 
 class QueueServiceProvider implements ServiceProviderInterface
 {
-    public const CONTAINER_KEY_MESSAGE_FACTORY = 'message_factory';
-    public const CONTAINER_KEY_MESSAGE_MAPPER = 'message_mapper';
-    public const CONTAINER_KEY_DESTINATION_FACTORY = 'destination_factory';
-    public const CONTAINER_KEY_QUEUE_CLIENT = 'queue_client';
-
     /**
      * @param Container $container
      *
@@ -33,7 +28,7 @@ class QueueServiceProvider implements ServiceProviderInterface
      */
     protected function registerMessageFactory(Container $container): QueueServiceProvider
     {
-        $container->offsetSet(static::CONTAINER_KEY_MESSAGE_FACTORY, static function () {
+        $container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_FACTORY, static function () {
             return new MessageFactory();
         });
 
@@ -47,7 +42,7 @@ class QueueServiceProvider implements ServiceProviderInterface
      */
     protected function registerMessageMapper(Container $container): QueueServiceProvider
     {
-        $container->offsetSet(static::CONTAINER_KEY_MESSAGE_MAPPER, static function (Container $container) {
+        $container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER, static function (Container $container) {
             return new MessageMapper(
                 $container->offsetGet('serializer')
             );
@@ -58,7 +53,7 @@ class QueueServiceProvider implements ServiceProviderInterface
 
     protected function registerDestinationFactory(Container $container): QueueServiceProvider
     {
-        $container->offsetSet(static::CONTAINER_KEY_DESTINATION_FACTORY, static function () {
+        $container->offsetSet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY, static function () {
             return new DestinationFactory();
         });
 

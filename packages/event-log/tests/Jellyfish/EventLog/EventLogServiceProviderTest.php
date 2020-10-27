@@ -3,8 +3,10 @@
 namespace Jellyfish\EventLog;
 
 use Codeception\Test\Unit;
+use Jellyfish\Event\EventConstants;
 use Jellyfish\Event\EventServiceProvider;
 use Jellyfish\EventLog\EventErrorHandler\LogEventErrorHandler;
+use Jellyfish\Log\LogConstants;
 use Jellyfish\Log\LogServiceProvider;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
@@ -43,11 +45,11 @@ class EventLogServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet(EventServiceProvider::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
+        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
             return [];
         });
 
-        $this->container->offsetSet(LogServiceProvider::CONTAINER_KEY_LOGGER, static function () use ($self) {
+        $this->container->offsetSet(LogConstants::CONTAINER_KEY_LOGGER, static function () use ($self) {
             return $self->loggerMock;
         });
 
@@ -63,12 +65,12 @@ class EventLogServiceProviderTest extends Unit
 
         self::assertCount(
             1,
-            $this->container->offsetGet(EventServiceProvider::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)
+            $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)
         );
 
         self::assertInstanceOf(
             LogEventErrorHandler::class,
-            $this->container->offsetGet(EventServiceProvider::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)[0]
+            $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)[0]
         );
     }
 
@@ -77,15 +79,10 @@ class EventLogServiceProviderTest extends Unit
      */
     public function testRegisterWithoutPredefinedDefaultEventErrorHandlers(): void
     {
-        $this->container->offsetUnset(EventServiceProvider::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS);
+        $this->container->offsetUnset(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS);
 
         $this->eventLogServiceProvider->register($this->container);
 
-        self::assertInstanceOf(
-            LoggerInterface::class,
-            $this->container->offsetGet(LogServiceProvider::CONTAINER_KEY_LOGGER)
-        );
-
-        self::assertFalse($this->container->offsetExists(EventServiceProvider::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
+        self::assertFalse($this->container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
     }
 }

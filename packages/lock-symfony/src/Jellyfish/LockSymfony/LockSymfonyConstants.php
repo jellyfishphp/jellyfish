@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\LockSymfony;
 
-interface LockConstants
+interface LockSymfonyConstants
 {
     public const REDIS_STORE_HOST = 'REDIS_STORE_HOST';
     public const REDIS_STORE_PORT = 'REDIS_STORE_PORT';
