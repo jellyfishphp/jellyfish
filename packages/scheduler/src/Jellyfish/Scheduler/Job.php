@@ -79,4 +79,12 @@ class Job implements JobInterface
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isRunning(): bool
+    {
+        return $this->process->isRunning();
+    }
 }

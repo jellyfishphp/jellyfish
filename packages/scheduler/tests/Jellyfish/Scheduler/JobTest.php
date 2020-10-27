@@ -111,4 +111,16 @@ class JobTest extends Unit
 
         $this->assertEquals($this->job, $this->job->run());
     }
+
+    /**
+     * @return void
+     */
+    public function testIsRun(): void
+    {
+        $this->processMock->expects($this->atLeastOnce())
+            ->method('isRunning')
+            ->willReturn(true);
+
+        $this->assertTrue($this->job->isRunning());
+    }
 }

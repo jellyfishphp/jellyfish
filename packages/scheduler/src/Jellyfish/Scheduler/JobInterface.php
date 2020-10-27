@@ -25,4 +25,9 @@ interface JobInterface
      * @return \Jellyfish\Scheduler\JobInterface
      */
     public function run(?DateTime $dateTime = null): JobInterface;
+
+    /**
+     * @return bool
+     */
+    public function isRunning(): bool;
 }

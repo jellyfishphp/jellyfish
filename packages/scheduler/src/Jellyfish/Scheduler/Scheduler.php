@@ -14,11 +14,17 @@ class Scheduler implements SchedulerInterface
     protected $jobs;
 
     /**
+     * @var JobInterface[]
+     */
+    protected $runningJobs = [];
+
+    /**
      * Scheduler constructor
      */
     public function __construct()
     {
         $this->jobs = [];
+        $this->runningJobs = [];
     }
 
     /**
@@ -53,7 +59,17 @@ class Scheduler implements SchedulerInterface
         $dateTime = new DateTime();
 
         foreach ($this->jobs as $job) {
-            $job->run($dateTime);
+            $this->runningJobs[] = $job->run($dateTime);
+        }
+
+        while (count($this->runningJobs) !== 0) {
+            foreach ($this->runningJobs as $index => $runningJob) {
+                if ($runningJob->isRunning()) {
+                    continue;
+                }
+
+                unset($this->runningJobs[$index]);
+            }
         }
 
         return $this;

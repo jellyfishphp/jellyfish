@@ -33,7 +33,7 @@ class Process implements ProcessInterface
      */
     public function start(): ProcessInterface
     {
-        if ($this->process->isRunning()) {
+        if ($this->isRunning()) {
             return $this;
         }
 
@@ -48,5 +48,13 @@ class Process implements ProcessInterface
     public function getCommand(): array
     {
         return $this->command;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRunning(): bool
+    {
+        return $this->process->isRunning();
     }
 }
