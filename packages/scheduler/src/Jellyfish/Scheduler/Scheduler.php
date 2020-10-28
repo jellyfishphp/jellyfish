@@ -8,6 +8,8 @@ use DateTime;
 
 class Scheduler implements SchedulerInterface
 {
+    protected const DELAY_INTERVAL = 1000000;
+
     /**
      * @var JobInterface[]
      */
@@ -70,6 +72,8 @@ class Scheduler implements SchedulerInterface
 
                 unset($this->runningJobs[$index]);
             }
+
+            usleep(static::DELAY_INTERVAL);
         }
 
         return $this;
