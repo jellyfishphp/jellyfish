@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Jellyfish\Event;
 
 use Codeception\Test\Unit;
-use Jellyfish\Uuid\UuidGeneratorInterface;
+use Jellyfish\Uuid\UuidFacadeInterface;
 
 class EventFactoryTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Uuid\UuidGeneratorInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Uuid\UuidFacadeInterface
      */
-    protected $uuidGeneratorMock;
+    protected $uuidFacadeMock;
 
     /**
      * @var \Jellyfish\Event\EventFactoryInterface
@@ -26,11 +26,11 @@ class EventFactoryTest extends Unit
     {
         parent::_before();
 
-        $this->uuidGeneratorMock = $this->getMockBuilder(UuidGeneratorInterface::class)
+        $this->uuidFacadeMock = $this->getMockBuilder(UuidFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->eventFactory = new EventFactory($this->uuidGeneratorMock);
+        $this->eventFactory = new EventFactory($this->uuidFacadeMock);
     }
 
     /**
@@ -38,10 +38,10 @@ class EventFactoryTest extends Unit
      */
     public function testCreate(): void
     {
-        $this->uuidGeneratorMock->expects(self::atLeastOnce())
-            ->method('generate')
+        $this->uuidFacadeMock->expects(static::atLeastOnce())
+            ->method('generateUuid')
             ->willReturn('294452fd-0ba8-481c-8cfd-832a68c2edc3');
 
-        self::assertInstanceOf(Event::class, $this->eventFactory->create());
+        static::assertInstanceOf(Event::class, $this->eventFactory->create());
     }
 }

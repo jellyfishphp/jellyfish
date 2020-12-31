@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
-use Jellyfish\Uuid\UuidGeneratorInterface;
+use Jellyfish\Uuid\UuidFacadeInterface;
 
 class EventFactory implements EventFactoryInterface
 {
     /**
-     * @var \Jellyfish\Uuid\UuidGeneratorInterface
+     * @var \Jellyfish\Uuid\UuidFacadeInterface
      */
-    protected $uuidGenerator;
+    protected $uuidFacade;
 
     /**
-     * @param \Jellyfish\Uuid\UuidGeneratorInterface $uuidGenerator
+     * @param \Jellyfish\Uuid\UuidFacadeInterface $uuidFacade
      */
-    public function __construct(UuidGeneratorInterface $uuidGenerator)
+    public function __construct(UuidFacadeInterface $uuidFacade)
     {
-        $this->uuidGenerator = $uuidGenerator;
+        $this->uuidFacade = $uuidFacade;
     }
 
     /**
@@ -26,6 +26,6 @@ class EventFactory implements EventFactoryInterface
      */
     public function create(): EventInterface
     {
-        return new Event($this->uuidGenerator->generate());
+        return new Event($this->uuidFacade->generateUuid());
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\UuidRamsey;
 
 use Jellyfish\Uuid\UuidConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Ramsey\Uuid\UuidFactory;
 
 class UuidRamseyServiceProvider implements ServiceProviderInterface
 {
@@ -16,7 +17,7 @@ class UuidRamseyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container): void
     {
-        $this->registerUuidGenerator($container);
+        $this->registerUuidFacade($container);
     }
 
     /**
@@ -24,10 +25,10 @@ class UuidRamseyServiceProvider implements ServiceProviderInterface
      *
      * @return \Jellyfish\UuidRamsey\UuidRamseyServiceProvider
      */
-    protected function registerUuidGenerator(Container $container): UuidRamseyServiceProvider
+    protected function registerUuidFacade(Container $container): UuidRamseyServiceProvider
     {
-        $container->offsetSet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR, static function () {
-            return new UuidGenerator(new UuidFactory());
+        $container->offsetSet(UuidConstants::FACADE, static function () {
+            return new UuidRamseyFacade(new UuidRamseyFactory());
         });
 
         return $this;

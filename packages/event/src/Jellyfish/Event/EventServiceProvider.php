@@ -144,7 +144,7 @@ class EventServiceProvider implements ServiceProviderInterface
     protected function registerEventFactory(Container $container): EventServiceProvider
     {
         $container->offsetSet(EventConstants::CONTAINER_KEY_EVENT_FACTORY, static function (Container $container) {
-            return new EventFactory($container->offsetGet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR));
+            return new EventFactory($container->offsetGet(UuidConstants::FACADE));
         });
 
         return $this;

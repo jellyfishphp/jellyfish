@@ -18,6 +18,7 @@ use Jellyfish\Queue\QueueConstants;
 use Jellyfish\Queue\QueueServiceProvider;
 use Jellyfish\Serializer\SerializerInterface;
 use Jellyfish\Uuid\UuidConstants;
+use Jellyfish\Uuid\UuidFacadeInterface;
 use Jellyfish\Uuid\UuidGeneratorInterface;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
@@ -102,8 +103,8 @@ class EventServiceProviderTest extends Unit
                 ->getMock();
         });
 
-        $this->container->offsetSet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR, static function () use ($self) {
-            return $self->getMockBuilder(UuidGeneratorInterface::class)
+        $this->container->offsetSet(UuidConstants::FACADE, static function () use ($self) {
+            return $self->getMockBuilder(UuidFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });
@@ -118,21 +119,21 @@ class EventServiceProviderTest extends Unit
     {
         $this->eventServiceProvider->register($this->container);
 
-        self::assertTrue($this->container->offsetExists(EventConstants::CONTAINER_KEY_EVENT_FACTORY));
-        self::assertInstanceOf(EventFactory::class, $this->container->offsetGet(EventConstants::CONTAINER_KEY_EVENT_FACTORY));
+        static::assertTrue($this->container->offsetExists(EventConstants::CONTAINER_KEY_EVENT_FACTORY));
+        static::assertInstanceOf(EventFactory::class, $this->container->offsetGet(EventConstants::CONTAINER_KEY_EVENT_FACTORY));
 
-        self::assertTrue($this->container->offsetExists(EventConstants::CONTAINER_KEY_EVENT_DISPATCHER));
-        self::assertInstanceOf(EventDispatcher::class, $this->container->offsetGet(EventConstants::CONTAINER_KEY_EVENT_DISPATCHER));
+        static::assertTrue($this->container->offsetExists(EventConstants::CONTAINER_KEY_EVENT_DISPATCHER));
+        static::assertInstanceOf(EventDispatcher::class, $this->container->offsetGet(EventConstants::CONTAINER_KEY_EVENT_DISPATCHER));
 
-        self::assertTrue($this->container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
-        self::assertIsArray($this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
+        static::assertTrue($this->container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
+        static::assertIsArray($this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
 
-        self::assertTrue($this->container->offsetExists('commands'));
+        static::assertTrue($this->container->offsetExists('commands'));
 
         $commands = $this->container->offsetGet('commands');
 
-        self::assertCount(2, $commands);
-        self::assertInstanceOf(EventQueueConsumeCommand::class, $commands[0]);
-        self::assertInstanceOf(EventQueueWorkerStartCommand::class, $commands[1]);
+        static::assertCount(2, $commands);
+        static::assertInstanceOf(EventQueueConsumeCommand::class, $commands[0]);
+        static::assertInstanceOf(EventQueueWorkerStartCommand::class, $commands[1]);
     }
 }

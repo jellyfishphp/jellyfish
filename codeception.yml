@@ -12,6 +12,7 @@ include:
   - packages/filesystem/
   - packages/filesystem-symfony/
   - packages/http/
+  - packages/http-league/
   - packages/json-schema/
   - packages/json-schema-opis/
   - packages/kernel/

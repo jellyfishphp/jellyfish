@@ -1,6 +1,6 @@
 {
-  "name": "jellyfish/http",
-  "description": "Jellyfish http bundle",
+  "name": "jellyfish/http-league",
+  "description": "Jellyfish http league bundle",
   "license": "MIT",
   "authors": [
     {
@@ -9,7 +9,11 @@
     }
   ],
   "require": {
-    "psr/http-message": "^1.0"
+    "http-interop/http-factory-diactoros": "~1.0.0",
+    "jellyfish/http": "dev-master",
+    "jellyfish/pimple": "dev-master",
+    "league/route": "~4.3.1",
+    "zendframework/zend-httphandlerrunner": "~1.0.1"
   },
   "require-dev": {
     "codeception/codeception": "~3.1.2",
@@ -23,12 +27,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\Http\\": "src/Jellyfish/Http"
+      "Jellyfish\\HttpLeague\\": "src/Jellyfish/HttpLeague"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\Http\\": "../http-league/tests/Jellyfish/Http"
+      "Jellyfish\\HttpLeague\\": "tests/Jellyfish/HttpLeague"
     }
   }
 }
