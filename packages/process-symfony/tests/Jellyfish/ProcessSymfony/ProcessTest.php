@@ -6,18 +6,24 @@ namespace Jellyfish\ProcessSymfony;
 
 use Codeception\Test\Unit;
 use Jellyfish\Process\Exception\RuntimeException;
+use Symfony\Component\Process\Process as SymfonyProcess;
 
 class ProcessTest extends Unit
 {
     /**
-     * @var \Jellyfish\Process\ProcessInterface
-     */
-    protected $symfonyProcess;
-
-    /**
-     * @var array
+     * @var string[]
      */
     protected $command;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Process\Process
+     */
+    protected $symfonyProcessMock;
+
+    /**
+     * @var \Jellyfish\Process\ProcessInterface
+     */
+    protected $process;
 
     /**
      * @return void
@@ -27,7 +33,12 @@ class ProcessTest extends Unit
         parent::_before();
 
         $this->command = ['sleep', '5'];
-        $this->symfonyProcess = new Process($this->command);
+
+        $this->symfonyProcessMock = $this->getMockBuilder(SymfonyProcess::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->process = new Process($this->command, $this->symfonyProcessMock);
     }
 
     /**
@@ -35,7 +46,14 @@ class ProcessTest extends Unit
      */
     public function testStart(): void
     {
-        $this->assertInstanceOf(Process::class, $this->symfonyProcess->start());
+        $this->symfonyProcessMock->expects(static::atLeastOnce())
+            ->method('isRunning')
+            ->willReturn(false);
+
+        $this->symfonyProcessMock->expects(static::atLeastOnce())
+            ->method('start');
+
+        static::assertInstanceOf(Process::class, $this->process->start());
     }
 
     /**
@@ -43,8 +61,14 @@ class ProcessTest extends Unit
      */
     public function testStartStartedProcess(): void
     {
-        $this->assertInstanceOf(Process::class, $this->symfonyProcess->start());
-        $this->assertInstanceOf(Process::class, $this->symfonyProcess->start());
+        $this->symfonyProcessMock->expects(static::atLeastOnce())
+            ->method('isRunning')
+            ->willReturn(true);
+
+        $this->symfonyProcessMock->expects(static::never())
+            ->method('start');
+
+        static::assertInstanceOf(Process::class, $this->process->start());
     }
 
     /**
@@ -52,7 +76,7 @@ class ProcessTest extends Unit
      */
     public function testGetCommand(): void
     {
-        $this->assertEquals($this->command, $this->symfonyProcess->getCommand());
+        static::assertEquals($this->command, $this->process->getCommand());
     }
 
     /**
@@ -60,7 +84,10 @@ class ProcessTest extends Unit
      */
     public function testIsRunning(): void
     {
-        $this->symfonyProcess->start();
-        $this->assertTrue($this->symfonyProcess->isRunning());
+        $this->symfonyProcessMock->expects(static::atLeastOnce())
+            ->method('isRunning')
+            ->willReturn(true);
+
+        static::assertTrue($this->process->isRunning());
     }
 }

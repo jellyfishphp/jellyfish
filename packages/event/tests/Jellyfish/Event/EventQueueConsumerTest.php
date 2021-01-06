@@ -6,7 +6,7 @@ namespace Jellyfish\Event;
 
 use Codeception\Test\Unit;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
-use Jellyfish\Process\ProcessFactoryInterface;
+use Jellyfish\Process\ProcessFacadeInterface;
 use Jellyfish\Process\ProcessInterface;
 use Jellyfish\Queue\DestinationFactoryInterface;
 use Jellyfish\Queue\DestinationInterface;
@@ -18,9 +18,9 @@ use function sprintf;
 class EventQueueConsumerTest extends Unit
 {
     /**
-     * @var \Jellyfish\Process\ProcessFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Process\ProcessFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $processFactoryMock;
+    protected $processFacadeMock;
 
     /**
      * @var \Jellyfish\Event\EventMapperInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -89,7 +89,7 @@ class EventQueueConsumerTest extends Unit
     {
         parent::_before();
 
-        $this->processFactoryMock = $this->getMockBuilder(ProcessFactoryInterface::class)
+        $this->processFacadeMock = $this->getMockBuilder(ProcessFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -130,7 +130,7 @@ class EventQueueConsumerTest extends Unit
         $this->eventQueueName = sprintf('%s_%s', $this->eventName, $this->eventListenerIdentifier);
 
         $this->eventQueueConsumer = new EventQueueConsumer(
-            $this->processFactoryMock,
+            $this->processFacadeMock,
             $this->eventMapperMock,
             $this->eventQueueNameGeneratorMock,
             $this->queueClientMock,
@@ -250,8 +250,8 @@ class EventQueueConsumerTest extends Unit
             ->with($this->eventName, $this->eventListenerIdentifier)
             ->willReturn($this->eventQueueName);
 
-        $this->processFactoryMock->expects(self::atLeastOnce())
-            ->method('create')
+        $this->processFacadeMock->expects(self::atLeastOnce())
+            ->method('createProcess')
             ->with($command)
             ->willReturn($this->processMock);
 

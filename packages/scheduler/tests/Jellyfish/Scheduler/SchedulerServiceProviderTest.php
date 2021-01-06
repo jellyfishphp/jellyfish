@@ -6,6 +6,8 @@ namespace Jellyfish\Scheduler;
 
 use Codeception\Test\Unit;
 use Jellyfish\Lock\LockFactoryInterface;
+use Jellyfish\Process\ProcessConstants;
+use Jellyfish\Process\ProcessFacadeInterface;
 use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Scheduler\Command\RunCommand;
 use Jellyfish\Scheduler\Command\RunSchedulerCommand;
@@ -53,6 +55,12 @@ class SchedulerServiceProviderTest extends Unit
                 ->getMock();
         });
 
+        $this->container->offsetSet(ProcessConstants::FACADE, static function () use ($self) {
+            return $self->getMockBuilder(ProcessFacadeInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+        });
+
         $this->schedulerServiceProvider = new SchedulerServiceProvider();
     }
 
@@ -61,35 +69,13 @@ class SchedulerServiceProviderTest extends Unit
      */
     public function testRegister(): void
     {
-        $self = $this;
-        
-        $this->container->offsetSet('process_factory', static function () use ($self) {
-            return $self->getMockBuilder(ProcessFactoryInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
-
         $this->schedulerServiceProvider->register($this->container);
 
         $commands = $this->container->offsetGet('commands');
-        $this->assertCount(1, $commands);
-        $this->assertInstanceOf(RunSchedulerCommand::class, $commands[0]);
+        static::assertCount(1, $commands);
+        static::assertInstanceOf(RunSchedulerCommand::class, $commands[0]);
 
-        $scheduler = $this->container->offsetGet(SchedulerConstants::CONTAINER_KEY_SCHEDULER);
-        $this->assertInstanceOf(Scheduler::class, $scheduler);
-
-        $jobFactory = $this->container->offsetGet(SchedulerConstants::CONTAINER_KEY_JOB_FACTORY);
-        $this->assertInstanceOf(JobFactory::class, $jobFactory);
-    }
-
-    /**
-     * @return void
-     */
-    public function testRegisterProcessFactoryNotSet(): void
-    {
-        $this->schedulerServiceProvider->register($this->container);
-
-        $jobFactory = $this->container->offsetGet(SchedulerConstants::CONTAINER_KEY_JOB_FACTORY);
-        $this->assertNull($jobFactory);
+        $scheduler = $this->container->offsetGet(SchedulerConstants::FACADE);
+        static::assertInstanceOf(SchedulerFacade::class, $scheduler);
     }
 }

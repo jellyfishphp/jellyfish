@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\ProcessSymfony;
 
+use Jellyfish\Process\ProcessConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -16,7 +17,7 @@ class ProcessSymfonyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->registerProcessFactory($pimple);
+        $this->registerProcessFacade($pimple);
     }
 
     /**
@@ -24,10 +25,10 @@ class ProcessSymfonyServiceProvider implements ServiceProviderInterface
      *
      * @return \Jellyfish\ProcessSymfony\ProcessSymfonyServiceProvider
      */
-    protected function registerProcessFactory(Container $container): ProcessSymfonyServiceProvider
+    protected function registerProcessFacade(Container $container): ProcessSymfonyServiceProvider
     {
-        $container->offsetSet('process_factory', function () {
-            return new ProcessFactory();
+        $container->offsetSet(ProcessConstants::FACADE, static function () {
+            return new ProcessSymfonyFacade(new ProcessSymfonyFactory());
         });
 
         return $this;

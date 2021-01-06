@@ -6,6 +6,7 @@ namespace Jellyfish\Event;
 
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
+use Jellyfish\Process\ProcessConstants;
 use Jellyfish\Queue\QueueConstants;
 use Jellyfish\Uuid\UuidConstants;
 use Pimple\Container;
@@ -107,7 +108,7 @@ class EventServiceProvider implements ServiceProviderInterface
     {
         if ($this->eventQueueConsumer === null) {
             $this->eventQueueConsumer = new EventQueueConsumer(
-                $container->offsetGet('process_factory'),
+                $container->offsetGet(ProcessConstants::FACADE),
                 $this->createEventMapper($container),
                 $this->createEventQueueNameGenerator(),
                 $container->offsetGet(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT),

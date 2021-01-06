@@ -10,6 +10,8 @@ use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Log\LogConstants;
 use Jellyfish\Log\LogServiceProvider;
+use Jellyfish\Process\ProcessConstants;
+use Jellyfish\Process\ProcessFacadeInterface;
 use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Queue\DestinationFactoryInterface;
 use Jellyfish\Queue\MessageFactoryInterface;
@@ -85,8 +87,8 @@ class EventServiceProviderTest extends Unit
                 ->getMock();
         });
 
-        $this->container->offsetSet('process_factory', static function () use ($self) {
-            return $self->getMockBuilder(ProcessFactoryInterface::class)
+        $this->container->offsetSet(ProcessConstants::FACADE, static function () use ($self) {
+            return $self->getMockBuilder(ProcessFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });

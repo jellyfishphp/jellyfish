@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\Event;
 
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
-use Jellyfish\Process\ProcessFactoryInterface;
+use Jellyfish\Process\ProcessFacadeInterface;
 use Jellyfish\Queue\DestinationFactoryInterface;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\QueueClientInterface;
@@ -16,9 +16,9 @@ use function sprintf;
 class EventQueueConsumer implements EventQueueConsumerInterface
 {
     /**
-     * @var \Jellyfish\Process\ProcessFactoryInterface
+     * @var \Jellyfish\Process\ProcessFacadeInterface
      */
-    protected $processFactory;
+    protected $processFacade;
 
     /**
      * @var \Jellyfish\Event\EventMapperInterface
@@ -51,7 +51,7 @@ class EventQueueConsumer implements EventQueueConsumerInterface
     protected $destinationFactory;
 
     /**
-     * @param \Jellyfish\Process\ProcessFactoryInterface $processFactory
+     * @param \Jellyfish\Process\ProcessFacadeInterface $processFacade
      * @param \Jellyfish\Event\EventMapperInterface $eventMapper
      * @param \Jellyfish\Event\EventQueueNameGeneratorInterface $eventQueueNameGenerator
      * @param \Jellyfish\Queue\QueueClientInterface $queueClient
@@ -59,14 +59,14 @@ class EventQueueConsumer implements EventQueueConsumerInterface
      * @param string $rootDir
      */
     public function __construct(
-        ProcessFactoryInterface $processFactory,
+        ProcessFacadeInterface $processFacade,
         EventMapperInterface $eventMapper,
         EventQueueNameGeneratorInterface $eventQueueNameGenerator,
         QueueClientInterface $queueClient,
         DestinationFactoryInterface $destinationFactory,
         string $rootDir
     ) {
-        $this->processFactory = $processFactory;
+        $this->processFacade = $processFacade;
         $this->eventMapper = $eventMapper;
         $this->eventQueueNameGenerator = $eventQueueNameGenerator;
         $this->queueClient = $queueClient;
@@ -87,7 +87,7 @@ class EventQueueConsumer implements EventQueueConsumerInterface
 
         if (!array_key_exists($eventQueueName, $this->processList)) {
             $command = [$this->pathToConsole, EventQueueConsumeCommand::NAME, $eventName, $listenerIdentifier];
-            $this->processList[$eventQueueName] = $this->processFactory->create($command);
+            $this->processList[$eventQueueName] = $this->processFacade->createProcess($command);
         }
 
         $process = $this->processList[$eventQueueName];
