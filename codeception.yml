@@ -3,6 +3,7 @@ include:
   - packages/cache/
   - packages/cache-symfony/
   - packages/config/
+  - packages/console/
   - packages/event/
   - packages/event-cache/
   - packages/event-log/

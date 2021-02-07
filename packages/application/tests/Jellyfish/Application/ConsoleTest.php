@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Jellyfish\Application;
 
 use Codeception\Test\Unit;
+use Jellyfish\Console\ConsoleConstants;
+use Jellyfish\Console\ConsoleFacade;
+use Jellyfish\Console\ConsoleFacadeInterface;
 use Jellyfish\Kernel\KernelInterface;
 use Pimple\Container;
 use stdClass;
@@ -12,11 +15,6 @@ use Symfony\Component\Console\Command\Command;
 
 class ConsoleTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Application\Console
-     */
-    protected $console;
-
     /**
      * @var \Jellyfish\Kernel\KernelInterface|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -28,6 +26,16 @@ class ConsoleTest extends Unit
     protected $containerMock;
 
     /**
+     * @var \Jellyfish\Console\ConsoleFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $consoleFacadeMock;
+
+    /**
+     * @var \Jellyfish\Application\Console
+     */
+    protected $console;
+
+    /**
      * @return void
      *
      * @throws \Exception
@@ -36,17 +44,17 @@ class ConsoleTest extends Unit
     {
         parent::_before();
 
-        $this->containerMock = $this->getMockBuilder(Container::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->kernelMock = $this->getMockBuilder(KernelInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->kernelMock->expects($this->atLeastOnce())
-            ->method('getContainer')
-            ->willReturn($this->containerMock);
+        $this->containerMock = $this->getMockBuilder(Container::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->consoleFacadeMock = $this->getMockBuilder(ConsoleFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->console = new Console($this->kernelMock);
     }
@@ -58,36 +66,20 @@ class ConsoleTest extends Unit
      */
     public function testAllWithoutAdditionalDefaultCommands(): void
     {
-        $this->containerMock->expects($this->atLeastOnce())
-            ->method('offsetExists')
-            ->with('commands')
-            ->willReturn(false);
+        $this->kernelMock->expects(static::atLeastOnce())
+            ->method('getContainer')
+            ->willReturn($this->containerMock);
 
-        $this->containerMock->expects($this->never())
+        $this->containerMock->expects(static::atLeastOnce())
             ->method('offsetGet')
-            ->with('commands');
+            ->with(ConsoleConstants::FACADE)
+            ->willReturn($this->consoleFacadeMock);
 
-        $this->assertCount(2, $this->console->all());
-    }
+        $this->consoleFacadeMock->expects(static::atLeastOnce())
+            ->method('getCommands')
+            ->willReturn([]);
 
-    /**
-     * @return void
-     *
-     * @throws \Exception
-     */
-    public function testAllWithEmptyAdditionalDefaultCommands(): void
-    {
-        $this->containerMock->expects($this->atLeastOnce())
-            ->method('offsetExists')
-            ->with('commands')
-            ->willReturn(true);
-
-        $this->containerMock->expects($this->atLeastOnce())
-            ->method('offsetGet')
-            ->with('commands')
-            ->willReturn(0);
-
-        $this->assertCount(2, $this->console->all());
+        static::assertCount(2, $this->console->all());
     }
 
     /**
@@ -97,16 +89,19 @@ class ConsoleTest extends Unit
      */
     public function testAll(): void
     {
-        $this->containerMock->expects($this->atLeastOnce())
-            ->method('offsetExists')
-            ->with('commands')
-            ->willReturn(true);
+        $this->kernelMock->expects(static::atLeastOnce())
+            ->method('getContainer')
+            ->willReturn($this->containerMock);
 
-        $this->containerMock->expects($this->atLeastOnce())
+        $this->containerMock->expects(static::atLeastOnce())
             ->method('offsetGet')
-            ->with('commands')
+            ->with(ConsoleConstants::FACADE)
+            ->willReturn($this->consoleFacadeMock);
+
+        $this->consoleFacadeMock->expects(static::atLeastOnce())
+            ->method('getCommands')
             ->willReturn([new Command('foo:bar'), new stdClass()]);
 
-        $this->assertCount(3, $this->console->all());
+        static::assertCount(3, $this->console->all());
     }
 }
