@@ -4,6 +4,7 @@ namespace Jellyfish\EventCache;
 
 use Codeception\Test\Unit;
 use Jellyfish\Cache\CacheConstants;
+use Jellyfish\Cache\CacheFacadeInterface;
 use Jellyfish\Cache\CacheInterface;
 use Jellyfish\Event\EventConstants;
 use Jellyfish\Event\EventServiceProvider;
@@ -22,9 +23,9 @@ class EventCacheServiceProviderTest extends Unit
     protected $serializerMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Cache\CacheInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Cache\CacheFacadeInterface
      */
-    protected $cacheMock;
+    protected $cacheFacadeMock;
 
     /**
      * @var \Pimple\Container
@@ -51,7 +52,7 @@ class EventCacheServiceProviderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->cacheMock = $this->getMockBuilder(CacheInterface::class)
+        $this->cacheFacadeMock = $this->getMockBuilder(CacheFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -61,8 +62,8 @@ class EventCacheServiceProviderTest extends Unit
             return [];
         });
 
-        $this->container->offsetSet(CacheConstants::CONTAINER_KEY_CACHE, static function () use ($self) {
-            return $self->cacheMock;
+        $this->container->offsetSet(CacheConstants::FACADE, static function () use ($self) {
+            return $self->cacheFacadeMock;
         });
 
         $this->container->offsetSet(SerializerConstants::CONTAINER_KEY_SERIALIZER, static function () use ($self) {

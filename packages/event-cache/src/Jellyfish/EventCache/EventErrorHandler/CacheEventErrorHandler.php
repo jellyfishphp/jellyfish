@@ -2,21 +2,19 @@
 
 namespace Jellyfish\EventCache\EventErrorHandler;
 
-use Jellyfish\Cache\CacheInterface;
+use Jellyfish\Cache\CacheFacadeInterface;
 use Jellyfish\Event\EventErrorHandlerInterface;
 use Jellyfish\Event\EventInterface;
 use Jellyfish\EventCache\EventCacheConstants;
 use Jellyfish\Serializer\SerializerInterface;
 use Throwable;
 
-use function sprintf;
-
 class CacheEventErrorHandler implements EventErrorHandlerInterface
 {
     /**
-     * @var \Jellyfish\Cache\CacheInterface
+     * @var \Jellyfish\Cache\CacheFacadeInterface
      */
-    protected $cache;
+    protected $cacheFacade;
 
     /**
      * @var \Jellyfish\Serializer\SerializerInterface
@@ -24,22 +22,22 @@ class CacheEventErrorHandler implements EventErrorHandlerInterface
     protected $serializer;
 
     /**
-     * @param \Jellyfish\Cache\CacheInterface $cache
+     * @param \Jellyfish\Cache\CacheFacadeInterface $cacheFacade
      * @param \Jellyfish\Serializer\SerializerInterface $serializer
      */
     public function __construct(
-        CacheInterface $cache,
+        CacheFacadeInterface $cacheFacade,
         SerializerInterface $serializer
     ) {
-        $this->cache = $cache;
+        $this->cacheFacade = $cacheFacade;
         $this->serializer = $serializer;
     }
 
 
     /**
+     * @param \Throwable $throwable
      * @param string $eventListenerIdentifier
      * @param \Jellyfish\Event\EventInterface $event
-     * @param \Throwable $throwable
      *
      * @return \Jellyfish\Event\EventErrorHandlerInterface
      */
@@ -48,7 +46,7 @@ class CacheEventErrorHandler implements EventErrorHandlerInterface
         string $eventListenerIdentifier,
         EventInterface $event
     ): EventErrorHandlerInterface {
-        $this->cache->set(
+        $this->cacheFacade->set(
             $event->getId(),
             $this->serializer->serialize($event, 'json'),
             EventCacheConstants::LIFE_TIME

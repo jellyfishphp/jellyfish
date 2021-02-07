@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\QueueRabbitMq;
 
+use Jellyfish\Config\ConfigConstants;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\QueueConstants;
 use Jellyfish\Queue\QueueServiceProvider;
@@ -91,29 +92,30 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
      */
     protected function createAmqpLazyConnection(Container $container): AMQPLazyConnection
     {
-        $config = $container->offsetGet('config');
+        /** @var \Jellyfish\Config\ConfigFacadeInterface $configFacade */
+        $configFacade = $container->offsetGet(ConfigConstants::FACADE);
 
-        $rabbitMqHost = $config->get(
+        $rabbitMqHost = $configFacade->get(
             QueueRabbitMqConstants::RABBIT_MQ_HOST,
             QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST
         );
 
-        $rabbitMqPort = $config->get(
+        $rabbitMqPort = $configFacade->get(
             QueueRabbitMqConstants::RABBIT_MQ_PORT,
             QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PORT
         );
 
-        $rabbitMqUser = $config->get(
+        $rabbitMqUser = $configFacade->get(
             QueueRabbitMqConstants::RABBIT_MQ_USER,
             QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_USER
         );
 
-        $rabbitMqPassword = $config->get(
+        $rabbitMqPassword = $configFacade->get(
             QueueRabbitMqConstants::RABBIT_MQ_PASSWORD,
             QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PASSWORD
         );
 
-        $rabbitMqVhost = $config->get(
+        $rabbitMqVhost = $configFacade->get(
             QueueRabbitMqConstants::RABBIT_MQ_VHOST,
             QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_VHOST
         );

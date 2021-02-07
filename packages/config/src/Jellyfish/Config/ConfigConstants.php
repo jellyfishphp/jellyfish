@@ -4,5 +4,5 @@ namespace Jellyfish\Config;
 
 interface ConfigConstants
 {
-    public const CONTAINER_KEY_CONFIG = 'config';
+    public const FACADE = 'facade_config';
 }

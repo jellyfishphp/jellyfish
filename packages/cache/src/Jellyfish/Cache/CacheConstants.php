@@ -4,5 +4,5 @@ namespace Jellyfish\Cache;
 
 interface CacheConstants
 {
-    public const CONTAINER_KEY_CACHE = 'cache';
+    public const FACADE = 'facade_cache';
 }

@@ -20,4 +20,4 @@ coverage:
   include:
     - src/*
   exclude:
-    - src/Jellyfish/CacheSymfony/CacheSymfonyServiceProvider.php
+    - src/Jellyfish/CacheSymfony/CacheSymfonyFactory.php

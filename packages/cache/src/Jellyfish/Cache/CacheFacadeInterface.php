@@ -2,7 +2,7 @@
 
 namespace Jellyfish\Cache;
 
-interface CacheInterface
+interface CacheFacadeInterface
 {
     /**
      * @param string $key
@@ -16,9 +16,9 @@ interface CacheInterface
      * @param string $value
      * @param int|null $lifeTime
      *
-     * @return \Jellyfish\Cache\CacheInterface
+     * @return \Jellyfish\Cache\CacheFacadeInterface
      *
      * @throws \Jellyfish\Cache\Exception\InvalidLifeTimeException
      */
-    public function set(string $key, string $value, ?int $lifeTime = null): CacheInterface;
+    public function set(string $key, string $value, ?int $lifeTime = null): CacheFacadeInterface;
 }

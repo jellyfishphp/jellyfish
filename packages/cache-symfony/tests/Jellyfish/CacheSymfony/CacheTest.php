@@ -20,7 +20,7 @@ class CacheTest extends Unit
     protected $cacheItemMock;
 
     /**
-     * @var \Jellyfish\Cache\CacheInterface
+     * @var \Jellyfish\CacheSymfony\CacheInterface
      */
     protected $cache;
 

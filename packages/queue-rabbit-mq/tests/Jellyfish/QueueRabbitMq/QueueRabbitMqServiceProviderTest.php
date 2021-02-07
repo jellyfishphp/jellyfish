@@ -6,6 +6,7 @@ namespace Jellyfish\QueueRabbitMq;
 
 use Codeception\Test\Unit;
 use Jellyfish\Config\ConfigConstants;
+use Jellyfish\Config\ConfigFacadeInterface;
 use Jellyfish\Config\ConfigInterface;
 use Jellyfish\Config\ConfigServiceProvider;
 use Jellyfish\Queue\MessageMapperInterface;
@@ -17,9 +18,9 @@ use Pimple\Container;
 class QueueRabbitMqServiceProviderTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Config\ConfigInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Config\ConfigFacadeInterface
      */
-    protected $configMock;
+    protected $configFacadeMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\MessageMapperInterface
@@ -49,7 +50,7 @@ class QueueRabbitMqServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->configMock = $this->getMockBuilder(ConfigInterface::class)
+        $this->configFacadeMock = $this->getMockBuilder(ConfigFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -57,8 +58,8 @@ class QueueRabbitMqServiceProviderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->container->offsetSet(ConfigConstants::CONTAINER_KEY_CONFIG, static function () use ($self) {
-            return $self->configMock;
+        $this->container->offsetSet(ConfigConstants::FACADE, static function () use ($self) {
+            return $self->configFacadeMock;
         });
 
         $this->container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER, static function () use ($self) {
@@ -73,7 +74,7 @@ class QueueRabbitMqServiceProviderTest extends Unit
      */
     public function testRegister(): void
     {
-        $this->configMock->expects(self::atLeastOnce())
+        $this->configFacadeMock->expects(self::atLeastOnce())
             ->method('get')
             ->withConsecutive(
                 [QueueRabbitMqConstants::RABBIT_MQ_HOST, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST],

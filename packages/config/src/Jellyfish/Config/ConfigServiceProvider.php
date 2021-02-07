@@ -10,31 +10,31 @@ use Pimple\ServiceProviderInterface;
 class ConfigServiceProvider implements ServiceProviderInterface
 {
     /**
-     * @param \Pimple\Container $pimple
+     * @param \Pimple\Container $container
      *
      * @return void
      */
-    public function register(Container $pimple): void
+    public function register(Container $container): void
     {
-        $self = $this;
-
-        $pimple->offsetSet(ConfigConstants::CONTAINER_KEY_CONFIG, static function (Container $container) use ($self) {
-            return $self->createConfig($container);
-        });
+        $this->registerConfigFacade($container);
     }
 
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Jellyfish\Config\ConfigInterface
-     *
-     * @throws \Exception
+     * @return \Jellyfish\Config\ConfigServiceProvider
      */
-    protected function createConfig(Container $container): ConfigInterface
+    public function registerConfigFacade(Container $container): ConfigServiceProvider
     {
-        $appDir = $container->offsetGet('app_dir');
-        $environment = $container->offsetGet('environment');
+        $container->offsetSet(ConfigConstants::FACADE, static function (Container $container) {
+            $appDir = $container->offsetGet('app_dir');
+            $environment = $container->offsetGet('environment');
 
-        return new Config($appDir, $environment);
+            return new ConfigFacade(
+                new ConfigFactory($appDir, $environment)
+            );
+        });
+
+        return $this;
     }
 }
