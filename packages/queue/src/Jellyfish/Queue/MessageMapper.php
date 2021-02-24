@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Queue;
 
-use Jellyfish\Serializer\SerializerInterface;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 
 class MessageMapper implements MessageMapperInterface
 {
@@ -14,17 +14,17 @@ class MessageMapper implements MessageMapperInterface
     protected $messageFactory;
 
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface
+     * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializer;
+    protected $serializerFacade;
 
     /**
-     * @param \Jellyfish\Serializer\SerializerInterface $serializer
+     * @param \Jellyfish\Serializer\SerializerFacadeInterface $serializerFacade
      */
     public function __construct(
-        SerializerInterface $serializer
+        SerializerFacadeInterface $serializerFacade
     ) {
-        $this->serializer = $serializer;
+        $this->serializerFacade = $serializerFacade;
     }
 
 
@@ -36,7 +36,7 @@ class MessageMapper implements MessageMapperInterface
     public function fromJson(string $json): MessageInterface
     {
         /** @var \Jellyfish\Queue\MessageInterface $message */
-        $message = $this->serializer->deserialize($json, Message::class, 'json');
+        $message = $this->serializerFacade->deserialize($json, Message::class, 'json');
 
         return $message;
     }
@@ -48,6 +48,6 @@ class MessageMapper implements MessageMapperInterface
      */
     public function toJson(MessageInterface $message): string
     {
-        return $this->serializer->serialize($message, 'json');
+        return $this->serializerFacade->serialize($message, 'json');
     }
 }

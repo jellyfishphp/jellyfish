@@ -56,10 +56,6 @@ class KernelTest extends Unit
 
         $this->assertTrue($container->offsetExists('environment'));
         $this->assertEquals('development', $container->offsetGet('environment'));
-
-        $this->assertTrue($container->offsetExists('commands'));
-        $this->assertIsArray($container->offsetGet('commands'));
-        $this->assertCount(0, $container->offsetGet('commands'));
     }
 
     /**

@@ -11,7 +11,7 @@ use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventQueueConsumerInterface;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockTrait;
-use Psr\Log\LoggerInterface;
+use Jellyfish\Log\LogFacadeInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,28 +38,28 @@ class EventQueueConsumeCommand extends Command
     protected $eventQueueConsumer;
 
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var \Jellyfish\Log\LogFacadeInterface
      */
-    protected $logger;
+    protected $logFacade;
 
     /**
      * @param \Jellyfish\Event\EventListenerProviderInterface $eventDispatcher
      * @param \Jellyfish\Event\EventQueueConsumerInterface $eventQueueConsumer
      * @param \Jellyfish\Lock\LockFactoryInterface $lockFactory
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Jellyfish\Log\LogFacadeInterface $logFacade
      */
     public function __construct(
         EventListenerProviderInterface $eventDispatcher,
         EventQueueConsumerInterface $eventQueueConsumer,
         LockFactoryInterface $lockFactory,
-        LoggerInterface $logger
+        LogFacadeInterface $logFacade
     ) {
         parent::__construct();
 
         $this->eventDispatcher = $eventDispatcher;
         $this->eventQueueConsumer = $eventQueueConsumer;
         $this->lockFactory = $lockFactory;
-        $this->logger = $logger;
+        $this->logFacade = $logFacade;
     }
 
     /**
@@ -102,7 +102,7 @@ class EventQueueConsumeCommand extends Command
         try {
             $result = $this->executeLockablePart($eventName, $listenerIdentifier);
         } catch (Throwable $e) {
-            $this->logger->error((string)$e);
+            $this->logFacade->error((string)$e);
         } finally {
             $this->release();
         }

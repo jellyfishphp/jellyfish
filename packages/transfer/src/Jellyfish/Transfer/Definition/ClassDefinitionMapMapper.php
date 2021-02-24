@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Definition;
 
-use Jellyfish\Serializer\SerializerInterface;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 
 use function sprintf;
 
@@ -14,17 +14,17 @@ class ClassDefinitionMapMapper implements ClassDefinitionMapMapperInterface
     protected const FORMAT = 'json';
 
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface
+     * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializer;
+    protected $serializerFacade;
 
     /**
-     * @param \Jellyfish\Serializer\SerializerInterface $serializer
+     * @param \Jellyfish\Serializer\SerializerFacadeInterface $serializerFacade
      */
     public function __construct(
-        SerializerInterface $serializer
+        SerializerFacadeInterface $serializerFacade
     ) {
-        $this->serializer = $serializer;
+        $this->serializerFacade = $serializerFacade;
     }
 
     /**
@@ -35,7 +35,7 @@ class ClassDefinitionMapMapper implements ClassDefinitionMapMapperInterface
     public function from(string $data): array
     {
         /** @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface[] $classDefinitions */
-        $classDefinitions = $this->serializer->deserialize($data, static::TYPE, static::FORMAT);
+        $classDefinitions = $this->serializerFacade->deserialize($data, static::TYPE, static::FORMAT);
         $classDefinitionMap = [];
 
         foreach ($classDefinitions as $classDefinition) {

@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Jellyfish\Queue;
 
 use Codeception\Test\Unit;
+use Jellyfish\Serializer\SerializerConstants;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 use Jellyfish\Serializer\SerializerInterface;
 use Pimple\Container;
 
 class QueueServiceProviderTest extends Unit
 {
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Serializer\SerializerFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $serializerMock;
+    protected $serializerFacadeMock;
 
     /**
      * @var \Pimple\Container;
@@ -38,8 +40,8 @@ class QueueServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet('serializer', static function () use ($self) {
-            return $self->getMockBuilder(SerializerInterface::class)
+        $this->container->offsetSet(SerializerConstants::FACADE, static function () use ($self) {
+            return $self->getMockBuilder(SerializerFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });

@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
+use Jellyfish\Console\ConsoleConstants;
+use Jellyfish\Console\ConsoleFacadeInterface;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
+use Jellyfish\Log\LogConstants;
 use Jellyfish\Process\ProcessConstants;
 use Jellyfish\Queue\QueueConstants;
+use Jellyfish\Serializer\SerializerConstants;
 use Jellyfish\Uuid\UuidConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -74,7 +78,7 @@ class EventServiceProvider implements ServiceProviderInterface
             $this->eventMapper = new EventMapper(
                 $container->offsetGet('event_factory'),
                 $container->offsetGet('message_factory'),
-                $container->offsetGet('serializer')
+                $container->offsetGet(SerializerConstants::FACADE)
             );
         }
 
@@ -182,20 +186,27 @@ class EventServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->extend('commands', static function (array $commands, Container $container) use ($self) {
-            $commands[] = new EventQueueConsumeCommand(
-                $container->offsetGet('event_dispatcher')->getEventListenerProvider(),
-                $self->createEventQueueConsumer($container),
-                $container->offsetGet('lock_factory'),
-                $container->offsetGet('logger')
-            );
+        $container->extend(
+            ConsoleConstants::FACADE,
+            static function (ConsoleFacadeInterface $consoleFacade, Container $container) use ($self) {
+                $consoleFacade->addCommand(
+                    new EventQueueConsumeCommand(
+                        $container->offsetGet('event_dispatcher')->getEventListenerProvider(),
+                        $self->createEventQueueConsumer($container),
+                        $container->offsetGet('lock_factory'),
+                        $container->offsetGet(LogConstants::FACADE)
+                    )
+                );
 
-            $commands[] = new EventQueueWorkerStartCommand(
-                $self->createEventQueueWorker($container)
-            );
+                $consoleFacade->addCommand(
+                    new EventQueueWorkerStartCommand(
+                        $self->createEventQueueWorker($container)
+                    )
+                );
 
-            return $commands;
-        });
+                return $consoleFacade;
+            }
+        );
 
         return $this;
     }

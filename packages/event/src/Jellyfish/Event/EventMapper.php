@@ -8,7 +8,7 @@ use ArrayObject;
 use Jellyfish\Event\Exception\MappingException;
 use Jellyfish\Queue\MessageFactoryInterface;
 use Jellyfish\Queue\MessageInterface;
-use Jellyfish\Serializer\SerializerInterface;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 
 use function get_class;
 
@@ -25,23 +25,23 @@ class EventMapper implements EventMapperInterface
     protected $messageFactory;
 
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface
+     * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializer;
+    protected $serializerFacade;
 
     /**
      * @param \Jellyfish\Event\EventFactoryInterface $eventFactory
      * @param \Jellyfish\Queue\MessageFactoryInterface $messageFactory
-     * @param \Jellyfish\Serializer\SerializerInterface $serializer
+     * @param \Jellyfish\Serializer\SerializerFacadeInterface $serializerFacade
      */
     public function __construct(
         EventFactoryInterface $eventFactory,
         MessageFactoryInterface $messageFactory,
-        SerializerInterface $serializer
+        SerializerFacadeInterface $serializerFacade
     ) {
         $this->messageFactory = $messageFactory;
         $this->eventFactory = $eventFactory;
-        $this->serializer = $serializer;
+        $this->serializerFacade = $serializerFacade;
     }
 
     /**
@@ -60,7 +60,7 @@ class EventMapper implements EventMapperInterface
             throw new MappingException('Could not map message to event.');
         }
 
-        $payload = $this->serializer->deserialize($message->getBody(), $type, 'json');
+        $payload = $this->serializerFacade->deserialize($message->getBody(), $type, 'json');
         $metaProperties = $this->mapHeadersToMetaProperties($message->getHeaders());
 
         return $this->eventFactory->create()
@@ -82,7 +82,7 @@ class EventMapper implements EventMapperInterface
             ->setHeaders($metaProperties)
             ->setHeader('event_name', $event->getName())
             ->setHeader('body_type', get_class($payload))
-            ->setBody($this->serializer->serialize($payload, 'json'));
+            ->setBody($this->serializerFacade->serialize($payload, 'json'));
 
         if (!($payload instanceof ArrayObject)) {
             return $message;

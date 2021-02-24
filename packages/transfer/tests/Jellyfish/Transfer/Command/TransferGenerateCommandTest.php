@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Jellyfish\Transfer\Command;
 
 use Codeception\Test\Unit;
+use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Transfer\TransferCleanerInterface;
 use Jellyfish\Transfer\TransferGeneratorInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TransferGenerateCommandTest extends Unit
 {
     /**
-     * @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Log\LogFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $loggerMock;
+    protected $logFacadeMock;
 
     /**
      * @var \Jellyfish\Transfer\TransferGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -50,7 +50,7 @@ class TransferGenerateCommandTest extends Unit
     {
         parent::_before();
 
-        $this->loggerMock = $this->getMockBuilder(LoggerInterface::class)
+        $this->logFacadeMock = $this->getMockBuilder(LogFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -73,7 +73,7 @@ class TransferGenerateCommandTest extends Unit
         $this->transferGenerateCommand = new TransferGenerateCommand(
             $this->transferGeneratorMock,
             $this->transferCleanerMock,
-            $this->loggerMock
+            $this->logFacadeMock
         );
     }
 
@@ -82,7 +82,7 @@ class TransferGenerateCommandTest extends Unit
      */
     public function testGetName(): void
     {
-        $this->assertEquals(TransferGenerateCommand::NAME, $this->transferGenerateCommand->getName());
+        static::assertEquals(TransferGenerateCommand::NAME, $this->transferGenerateCommand->getName());
     }
 
     /**
@@ -90,7 +90,7 @@ class TransferGenerateCommandTest extends Unit
      */
     public function testGetDescription(): void
     {
-        $this->assertEquals(TransferGenerateCommand::DESCRIPTION, $this->transferGenerateCommand->getDescription());
+        static::assertEquals(TransferGenerateCommand::DESCRIPTION, $this->transferGenerateCommand->getDescription());
     }
 
     /**
@@ -100,16 +100,16 @@ class TransferGenerateCommandTest extends Unit
      */
     public function testRun(): void
     {
-        $this->transferCleanerMock->expects($this->atLeastOnce())
+        $this->transferCleanerMock->expects(static::atLeastOnce())
             ->method('clean')
             ->willReturn($this->transferCleanerMock);
 
-        $this->transferGeneratorMock->expects($this->atLeastOnce())
+        $this->transferGeneratorMock->expects(static::atLeastOnce())
             ->method('generate')
             ->willReturn($this->transferGeneratorMock);
 
         $exitCode = $this->transferGenerateCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        static::assertEquals(0, $exitCode);
     }
 }

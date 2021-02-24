@@ -4,19 +4,17 @@ namespace Jellyfish\EventLog;
 
 use Codeception\Test\Unit;
 use Jellyfish\Event\EventConstants;
-use Jellyfish\Event\EventServiceProvider;
 use Jellyfish\EventLog\EventErrorHandler\LogEventErrorHandler;
 use Jellyfish\Log\LogConstants;
-use Jellyfish\Log\LogServiceProvider;
+use Jellyfish\Log\LogFacadeInterface;
 use Pimple\Container;
-use Psr\Log\LoggerInterface;
 
 class EventLogServiceProviderTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Log\LogFacadeInterface
      */
-    protected $loggerMock;
+    protected $logFacadeMock;
 
     /**
      * @var \Pimple\Container
@@ -39,7 +37,7 @@ class EventLogServiceProviderTest extends Unit
 
         $self = $this;
 
-        $this->loggerMock = $this->getMockBuilder(LoggerInterface::class)
+        $this->logFacadeMock = $this->getMockBuilder(LogFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -49,8 +47,8 @@ class EventLogServiceProviderTest extends Unit
             return [];
         });
 
-        $this->container->offsetSet(LogConstants::CONTAINER_KEY_LOGGER, static function () use ($self) {
-            return $self->loggerMock;
+        $this->container->offsetSet(LogConstants::FACADE, static function () use ($self) {
+            return $self->logFacadeMock;
         });
 
         $this->eventLogServiceProvider = new EventLogServiceProvider();
@@ -63,12 +61,12 @@ class EventLogServiceProviderTest extends Unit
     {
         $this->eventLogServiceProvider->register($this->container);
 
-        self::assertCount(
+        static::assertCount(
             1,
             $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)
         );
 
-        self::assertInstanceOf(
+        static::assertInstanceOf(
             LogEventErrorHandler::class,
             $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)[0]
         );
@@ -83,6 +81,6 @@ class EventLogServiceProviderTest extends Unit
 
         $this->eventLogServiceProvider->register($this->container);
 
-        self::assertFalse($this->container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
+        static::assertFalse($this->container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
     }
 }

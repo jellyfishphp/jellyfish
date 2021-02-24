@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\Queue;
 
 use Codeception\Test\Unit;
-use Jellyfish\Serializer\SerializerInterface;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 
 class MessageMapperTest extends Unit
 {
@@ -15,9 +15,9 @@ class MessageMapperTest extends Unit
     protected $messageFactoryMock;
 
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Serializer\SerializerFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $serializerMock;
+    protected $serializerFacadeMock;
 
     /**
      * @var \Jellyfish\Queue\MessageInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -41,7 +41,7 @@ class MessageMapperTest extends Unit
     {
         parent::_before();
 
-        $this->serializerMock = $this->getMockBuilder(SerializerInterface::class)
+        $this->serializerFacadeMock = $this->getMockBuilder(SerializerFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -51,7 +51,7 @@ class MessageMapperTest extends Unit
 
         $this->json = '{"headeres":{"test":"Test"},"body":"Test"}';
 
-        $this->messageMapper = new MessageMapper($this->serializerMock);
+        $this->messageMapper = new MessageMapper($this->serializerFacadeMock);
     }
 
     /**
@@ -59,7 +59,7 @@ class MessageMapperTest extends Unit
      */
     public function testFromJson(): void
     {
-        $this->serializerMock->expects($this->atLeastOnce())
+        $this->serializerFacadeMock->expects($this->atLeastOnce())
             ->method('deserialize')
             ->with($this->json, Message::class, 'json')
             ->willReturn($this->messageMock);
@@ -72,7 +72,7 @@ class MessageMapperTest extends Unit
      */
     public function testToJson(): void
     {
-        $this->serializerMock->expects($this->atLeastOnce())
+        $this->serializerFacadeMock->expects($this->atLeastOnce())
             ->method('serialize')
             ->with($this->messageMock, 'json')
             ->willReturn($this->json);

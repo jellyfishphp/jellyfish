@@ -5,16 +5,12 @@ declare(strict_types=1);
 namespace Jellyfish\SerializerSymfony;
 
 use Codeception\Test\Unit;
-use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface;
+use Jellyfish\Serializer\SerializerConstants;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 use Pimple\Container;
 
 class SerializerServiceProviderTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface
-     */
-    protected $propertyNameConverterStrategyProviderMock;
-
     /**
      * @var \Pimple\Container
      */
@@ -32,26 +28,22 @@ class SerializerServiceProviderTest extends Unit
     {
         parent::_before();
 
-        $this->propertyNameConverterStrategyProviderMock = $this->getMockBuilder(PropertyNameConverterStrategyProviderInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->container = new Container();
-
-        $self = $this;
-
-        $this->container->offsetSet('serializer_property_name_converter_strategy_provider', function () use ($self) {
-            return $self->propertyNameConverterStrategyProviderMock;
-        });
 
         $this->serializerSymfonyServiceProvider = new SerializerSymfonyServiceProvider();
     }
 
+    /**
+     * @return void
+     */
     public function testRegister(): void
     {
         $this->serializerSymfonyServiceProvider->register($this->container);
 
-        $this->assertTrue($this->container->offsetExists('serializer'));
-        $this->assertInstanceOf(Serializer::class, $this->container->offsetGet('serializer'));
+        static::assertTrue($this->container->offsetExists(SerializerConstants::FACADE));
+        static::assertInstanceOf(
+            SerializerFacadeInterface::class,
+            $this->container->offsetGet(SerializerConstants::FACADE)
+        );
     }
 }

@@ -37,7 +37,7 @@ class EventCacheServiceProvider implements ServiceProviderInterface
             static function (array $defaultEventErrorHandlers, Container $container) {
                 $defaultEventErrorHandlers[] = new CacheEventErrorHandler(
                     $container->offsetGet(CacheConstants::FACADE),
-                    $container->offsetGet(SerializerConstants::CONTAINER_KEY_SERIALIZER)
+                    $container->offsetGet(SerializerConstants::FACADE)
                 );
 
                 return $defaultEventErrorHandlers;

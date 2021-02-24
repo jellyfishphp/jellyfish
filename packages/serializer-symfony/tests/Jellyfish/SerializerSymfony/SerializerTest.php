@@ -17,7 +17,7 @@ class SerializerTest extends Unit
     protected $symfonySerializerMock;
 
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface
+     * @var \Jellyfish\SerializerSymfony\SerializerInterface
      */
     protected $serializer;
 
@@ -44,12 +44,12 @@ class SerializerTest extends Unit
         $arrayObjectItem = new stdClass();
         $objectToSerialize = new ArrayObject([$arrayObjectItem]);
 
-        $this->symfonySerializerMock->expects($this->atLeastOnce())
+        $this->symfonySerializerMock->expects(static::atLeastOnce())
             ->method('serialize')
             ->with([$arrayObjectItem], 'json', ['skip_null_values' => true])
             ->willReturn($expectedJson);
 
-        $this->assertEquals($expectedJson, $this->serializer->serialize($objectToSerialize, 'json'));
+        static::assertEquals($expectedJson, $this->serializer->serialize($objectToSerialize, 'json'));
     }
 
     /**
@@ -60,12 +60,12 @@ class SerializerTest extends Unit
         $expectedJson = '{}';
         $objectToSerialize = new stdClass();
 
-        $this->symfonySerializerMock->expects($this->atLeastOnce())
+        $this->symfonySerializerMock->expects(static::atLeastOnce())
             ->method('serialize')
             ->with($objectToSerialize, 'json', ['skip_null_values' => true])
             ->willReturn($expectedJson);
 
-        $this->assertEquals($expectedJson, $this->serializer->serialize($objectToSerialize, 'json'));
+        static::assertEquals($expectedJson, $this->serializer->serialize($objectToSerialize, 'json'));
     }
 
     /**
@@ -77,12 +77,12 @@ class SerializerTest extends Unit
         $deserializedArray = [$deserializedArrayItem];
         $jsonToDeserialize = '[{}]';
 
-        $this->symfonySerializerMock->expects($this->atLeastOnce())
+        $this->symfonySerializerMock->expects(static::atLeastOnce())
             ->method('deserialize')
             ->with($jsonToDeserialize, 'stdClass[]', 'json')
             ->willReturn($deserializedArray);
 
-        $this->assertEquals(
+        static::assertEquals(
             new ArrayObject($deserializedArray),
             $this->serializer->deserialize($jsonToDeserialize, 'stdClass[]', 'json')
         );
@@ -96,12 +96,12 @@ class SerializerTest extends Unit
         $deserializedObject = new stdClass();
         $jsonToDeserialize = '{}';
 
-        $this->symfonySerializerMock->expects($this->atLeastOnce())
+        $this->symfonySerializerMock->expects(static::atLeastOnce())
             ->method('deserialize')
             ->with($jsonToDeserialize, 'stdClass', 'json')
             ->willReturn($deserializedObject);
 
-        $this->assertEquals(
+        static::assertEquals(
             $deserializedObject,
             $this->serializer->deserialize($jsonToDeserialize, 'stdClass', 'json')
         );

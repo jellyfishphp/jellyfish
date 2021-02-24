@@ -10,7 +10,7 @@ use Jellyfish\Event\Exception\MappingException;
 use Jellyfish\Event\Fixtures\Payload;
 use Jellyfish\Queue\MessageFactoryInterface;
 use Jellyfish\Queue\MessageInterface;
-use Jellyfish\Serializer\SerializerInterface;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 
 class EventMapperTest extends Unit
 {
@@ -40,9 +40,9 @@ class EventMapperTest extends Unit
     protected $messageMock;
 
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Serializer\SerializerFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $serializerMock;
+    protected $serializerFacadeMock;
 
     /**
      * @return void
@@ -67,11 +67,11 @@ class EventMapperTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->serializerMock = $this->getMockBuilder(SerializerInterface::class)
+        $this->serializerFacadeMock = $this->getMockBuilder(SerializerFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->eventMapper = new EventMapper($this->eventFactoryMock, $this->messageFactoryMock, $this->serializerMock);
+        $this->eventMapper = new EventMapper($this->eventFactoryMock, $this->messageFactoryMock, $this->serializerFacadeMock);
     }
 
     /**
@@ -110,7 +110,7 @@ class EventMapperTest extends Unit
             ->method('create')
             ->willReturn($this->eventMock);
 
-        $this->serializerMock->expects($this->atLeastOnce())
+        $this->serializerFacadeMock->expects($this->atLeastOnce())
             ->method('deserialize')
             ->with($body, $headers['body_type'], 'json')
             ->willReturn($payload);
@@ -154,7 +154,7 @@ class EventMapperTest extends Unit
         $this->eventFactoryMock->expects($this->never())
             ->method('create');
 
-        $this->serializerMock->expects($this->never())
+        $this->serializerFacadeMock->expects($this->never())
             ->method('deserialize');
 
         $this->eventMock->expects($this->never())
@@ -206,7 +206,7 @@ class EventMapperTest extends Unit
             ->method('create')
             ->willReturn($this->eventMock);
 
-        $this->serializerMock->expects($this->atLeastOnce())
+        $this->serializerFacadeMock->expects($this->atLeastOnce())
             ->method('deserialize')
             ->with($body, $headers['body_type'], 'json')
             ->willReturn($payload);
@@ -251,7 +251,7 @@ class EventMapperTest extends Unit
             ->method('getMetaProperties')
             ->willReturn([]);
 
-        $this->serializerMock->expects($this->atLeastOnce())
+        $this->serializerFacadeMock->expects($this->atLeastOnce())
             ->method('serialize')
             ->with($payload, 'json')
             ->willReturn('[]');
@@ -323,7 +323,7 @@ class EventMapperTest extends Unit
                 ['body_type', 'Jellyfish\Event\Fixtures\Payload[]']
             )->willReturnOnConsecutiveCalls($this->messageMock, $this->messageMock, $this->messageMock);
 
-        $this->serializerMock->expects($this->atLeastOnce())
+        $this->serializerFacadeMock->expects($this->atLeastOnce())
             ->method('serialize')
             ->with($payload, 'json')
             ->willReturn($body);
@@ -375,7 +375,7 @@ class EventMapperTest extends Unit
             ->withConsecutive(['event_name', $eventName], ['body_type', Payload::class])
             ->willReturnOnConsecutiveCalls($this->messageMock, $this->messageMock);
 
-        $this->serializerMock->expects($this->atLeastOnce())
+        $this->serializerFacadeMock->expects($this->atLeastOnce())
             ->method('serialize')
             ->with($payload, 'json')
             ->willReturn($body);

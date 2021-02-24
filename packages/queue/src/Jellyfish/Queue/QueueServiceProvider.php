@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Queue;
 
+use Jellyfish\Serializer\SerializerConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -44,7 +45,7 @@ class QueueServiceProvider implements ServiceProviderInterface
     {
         $container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER, static function (Container $container) {
             return new MessageMapper(
-                $container->offsetGet('serializer')
+                $container->offsetGet(SerializerConstants::FACADE)
             );
         });
 

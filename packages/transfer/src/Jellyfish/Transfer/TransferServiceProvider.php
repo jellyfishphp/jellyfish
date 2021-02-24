@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Jellyfish\Transfer;
 
 use ArrayObject;
+use Jellyfish\Console\ConsoleConstants;
+use Jellyfish\Console\ConsoleFacadeInterface;
+use Jellyfish\Log\LogConstants;
+use Jellyfish\Serializer\SerializerConstants;
 use Jellyfish\Transfer\Command\TransferGenerateCommand;
 use Jellyfish\Transfer\Definition\ClassDefinitionMapLoader;
 use Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface;
@@ -50,15 +54,20 @@ class TransferServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->extend('commands', function (array $commands, Container $container) use ($self) {
-            $commands[] = new TransferGenerateCommand(
-                $self->createTransferGenerator($container),
-                $self->createTransferCleaner($container),
-                $container->offsetGet('logger')
-            );
+        $container->extend(
+            ConsoleConstants::FACADE,
+            static function (ConsoleFacadeInterface $consoleFacade, Container $container) use ($self) {
+                $consoleFacade->addCommand(
+                    new TransferGenerateCommand(
+                        $self->createTransferGenerator($container),
+                        $self->createTransferCleaner($container),
+                        $container->offsetGet(LogConstants::FACADE)
+                    )
+                );
 
-            return $commands;
-        });
+                return $consoleFacade;
+            }
+        );
 
         return $this;
     }
@@ -112,7 +121,7 @@ class TransferServiceProvider implements ServiceProviderInterface
      */
     protected function createClassDefinitionMapMapper(Container $container): ClassDefinitionMapMapperInterface
     {
-        return new ClassDefinitionMapMapper($container->offsetGet('serializer'));
+        return new ClassDefinitionMapMapper($container->offsetGet(SerializerConstants::FACADE));
     }
 
     /**

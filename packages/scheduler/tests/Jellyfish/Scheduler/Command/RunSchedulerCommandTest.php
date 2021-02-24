@@ -8,9 +8,8 @@ use Codeception\Test\Unit;
 use Exception;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockInterface;
+use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Scheduler\SchedulerFacadeInterface;
-use Jellyfish\Scheduler\SchedulerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -42,9 +41,9 @@ class RunSchedulerCommandTest extends Unit
     protected $lockMock;
 
     /**
-     * @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Log\LogFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $loggerMock;
+    protected $logFacadeMock;
 
     /**
      * @var \Jellyfish\Scheduler\Command\RunSchedulerCommand
@@ -83,7 +82,7 @@ class RunSchedulerCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->loggerMock = $this->getMockBuilder(LoggerInterface::class)
+        $this->logFacadeMock = $this->getMockBuilder(LogFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -92,7 +91,7 @@ class RunSchedulerCommandTest extends Unit
         $this->runSchedulerCommand = new RunSchedulerCommand(
             $this->schedulerFacadeMock,
             $this->lockFactoryMock,
-            $this->loggerMock
+            $this->logFacadeMock
         );
     }
 
@@ -135,7 +134,7 @@ class RunSchedulerCommandTest extends Unit
             ->method('release')
             ->willReturn($this->lockMock);
 
-        $this->loggerMock->expects(static::never())
+        $this->logFacadeMock->expects(static::never())
             ->method('error');
 
         $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
@@ -166,7 +165,7 @@ class RunSchedulerCommandTest extends Unit
             ->method('release')
             ->willReturn($this->lockMock);
 
-        $this->loggerMock->expects(static::never())
+        $this->logFacadeMock->expects(static::never())
             ->method('error');
 
         $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
@@ -196,7 +195,7 @@ class RunSchedulerCommandTest extends Unit
             ->method('runScheduler')
             ->willThrowException(new Exception($exceptionMessage));
 
-        $this->loggerMock->expects(static::atLeastOnce())
+        $this->logFacadeMock->expects(static::atLeastOnce())
             ->method('error')
             ->with($exceptionMessage);
 

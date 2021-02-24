@@ -5,22 +5,18 @@ namespace Jellyfish\EventCache;
 use Codeception\Test\Unit;
 use Jellyfish\Cache\CacheConstants;
 use Jellyfish\Cache\CacheFacadeInterface;
-use Jellyfish\Cache\CacheInterface;
 use Jellyfish\Event\EventConstants;
-use Jellyfish\Event\EventServiceProvider;
 use Jellyfish\EventCache\EventErrorHandler\CacheEventErrorHandler;
-use Jellyfish\Log\LogServiceProvider;
 use Jellyfish\Serializer\SerializerConstants;
-use Jellyfish\Serializer\SerializerInterface;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 use Pimple\Container;
-use Psr\Log\LoggerInterface;
 
 class EventCacheServiceProviderTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Serializer\SerializerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializerMock;
+    protected $serializerFacadeMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Cache\CacheFacadeInterface
@@ -48,7 +44,7 @@ class EventCacheServiceProviderTest extends Unit
 
         $self = $this;
 
-        $this->serializerMock = $this->getMockBuilder(SerializerInterface::class)
+        $this->serializerFacadeMock = $this->getMockBuilder(SerializerFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -66,8 +62,8 @@ class EventCacheServiceProviderTest extends Unit
             return $self->cacheFacadeMock;
         });
 
-        $this->container->offsetSet(SerializerConstants::CONTAINER_KEY_SERIALIZER, static function () use ($self) {
-            return $self->serializerMock;
+        $this->container->offsetSet(SerializerConstants::FACADE, static function () use ($self) {
+            return $self->serializerFacadeMock;
         });
 
         $this->eventCacheServiceProvider = new EventCacheServiceProvider();

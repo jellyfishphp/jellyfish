@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jellyfish\Serializer\NameConverter;
+namespace Jellyfish\SerializerSymfony\NameConverter;
+
+use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface;
 
 interface PropertyNameConverterStrategyProviderInterface
 {
@@ -10,9 +12,9 @@ interface PropertyNameConverterStrategyProviderInterface
      * @param string $propertyNameConverterStrategyKey
      * @param \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface $propertyNameConverterStrategy
      *
-     * @return \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface
+     * @return \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProviderInterface
      */
-    public function addStrategy(
+    public function add(
         string $propertyNameConverterStrategyKey,
         PropertyNameConverterStrategyInterface $propertyNameConverterStrategy
     ): PropertyNameConverterStrategyProviderInterface;
@@ -20,28 +22,28 @@ interface PropertyNameConverterStrategyProviderInterface
     /**
      * @param string $propertyNameConverterStrategyKey
      *
-     * @return \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface
+     * @return \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProviderInterface
      */
-    public function removeStrategy(
+    public function remove(
         string $propertyNameConverterStrategyKey
     ): PropertyNameConverterStrategyProviderInterface;
 
     /**
      * @return \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface[]
      */
-    public function getAllStrategies(): array;
+    public function getAll(): array;
 
     /**
      * @param string $propertyNameConverterStrategyKey
      *
      * @return bool
      */
-    public function hasStrategy(string $propertyNameConverterStrategyKey): bool;
+    public function has(string $propertyNameConverterStrategyKey): bool;
 
     /**
      * @param string $propertyNameConverterStrategyKey
      *
      * @return \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface|null
      */
-    public function getStrategy(string $propertyNameConverterStrategyKey): ?PropertyNameConverterStrategyInterface;
+    public function get(string $propertyNameConverterStrategyKey): ?PropertyNameConverterStrategyInterface;
 }

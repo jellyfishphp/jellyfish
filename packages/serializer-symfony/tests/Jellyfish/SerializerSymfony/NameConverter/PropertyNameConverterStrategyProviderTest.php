@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jellyfish\Serializer\NameConverter;
+namespace Jellyfish\SerializerSymfony\NameConverter;
 
 use Codeception\Test\Unit;
+use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface;
 
 class PropertyNameConverterStrategyProviderTest extends Unit
 {
@@ -19,7 +20,7 @@ class PropertyNameConverterStrategyProviderTest extends Unit
     protected $propertyNameConverterStrategyKey;
 
     /**
-     * @var \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProvider
+     * @var \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProvider
      */
     protected $propertyNameConverterStrategyProvider;
 
@@ -44,26 +45,26 @@ class PropertyNameConverterStrategyProviderTest extends Unit
      */
     public function testAddAndRemoveStrategy(): void
     {
-        $this->assertEquals(
+        static::assertEquals(
             $this->propertyNameConverterStrategyProvider,
-            $this->propertyNameConverterStrategyProvider->addStrategy(
+            $this->propertyNameConverterStrategyProvider->add(
                 $this->propertyNameConverterStrategyKey,
                 $this->propertyNameConverterStrategyMock
             )
         );
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->propertyNameConverterStrategyProvider,
-            $this->propertyNameConverterStrategyProvider->removeStrategy(
+            $this->propertyNameConverterStrategyProvider->remove(
                 $this->propertyNameConverterStrategyKey
             )
         );
 
-        $hasStrategy = $this->propertyNameConverterStrategyProvider->hasStrategy(
+        $hasStrategy = $this->propertyNameConverterStrategyProvider->has(
             $this->propertyNameConverterStrategyKey
         );
 
-        $this->assertFalse($hasStrategy);
+        static::assertFalse($hasStrategy);
     }
 
     /**
@@ -71,11 +72,11 @@ class PropertyNameConverterStrategyProviderTest extends Unit
      */
     public function testHasStrategy(): void
     {
-        $hasStrategy = $this->propertyNameConverterStrategyProvider->hasStrategy(
+        $hasStrategy = $this->propertyNameConverterStrategyProvider->has(
             $this->propertyNameConverterStrategyKey
         );
 
-        $this->assertFalse($hasStrategy);
+        static::assertFalse($hasStrategy);
     }
 
     /**
@@ -83,11 +84,11 @@ class PropertyNameConverterStrategyProviderTest extends Unit
      */
     public function testGetNonExistingStrategy(): void
     {
-        $strategy = $this->propertyNameConverterStrategyProvider->getStrategy(
+        $strategy = $this->propertyNameConverterStrategyProvider->get(
             $this->propertyNameConverterStrategyKey
         );
 
-        $this->assertNull($strategy);
+        static::assertNull($strategy);
     }
 
     /**
@@ -95,11 +96,11 @@ class PropertyNameConverterStrategyProviderTest extends Unit
      */
     public function testRemoveNonExistingStrategy(): void
     {
-        $result = $this->propertyNameConverterStrategyProvider->removeStrategy(
+        $result = $this->propertyNameConverterStrategyProvider->remove(
             $this->propertyNameConverterStrategyKey
         );
 
-        $this->assertEquals($this->propertyNameConverterStrategyProvider, $result);
+        static::assertEquals($this->propertyNameConverterStrategyProvider, $result);
     }
 
     /**
@@ -107,19 +108,19 @@ class PropertyNameConverterStrategyProviderTest extends Unit
      */
     public function testAddAndGetStrategy(): void
     {
-        $this->assertEquals(
+        static::assertEquals(
             $this->propertyNameConverterStrategyProvider,
-            $this->propertyNameConverterStrategyProvider->addStrategy(
+            $this->propertyNameConverterStrategyProvider->add(
                 $this->propertyNameConverterStrategyKey,
                 $this->propertyNameConverterStrategyMock
             )
         );
 
-        $strategy = $this->propertyNameConverterStrategyProvider->getStrategy(
+        $strategy = $this->propertyNameConverterStrategyProvider->get(
             $this->propertyNameConverterStrategyKey
         );
 
-        $this->assertEquals($this->propertyNameConverterStrategyMock, $strategy);
+        static::assertEquals($this->propertyNameConverterStrategyMock, $strategy);
     }
 
     /**
@@ -127,9 +128,9 @@ class PropertyNameConverterStrategyProviderTest extends Unit
      */
     public function testGetAllStrategies(): void
     {
-        $strategies = $this->propertyNameConverterStrategyProvider->getAllStrategies();
+        $strategies = $this->propertyNameConverterStrategyProvider->getAll();
 
-        $this->assertIsArray($strategies);
-        $this->assertCount(0, $strategies);
+        static::assertIsArray($strategies);
+        static::assertCount(0, $strategies);
     }
 }

@@ -34,9 +34,10 @@ class EventLogServiceProvider implements ServiceProviderInterface
         $container->extend(
             EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS,
             static function (array $defaultEventErrorHandlers, Container $container) {
-                $logger = $container->offsetGet(LogConstants::CONTAINER_KEY_LOGGER);
+                /** @var \Jellyfish\Log\LogFacadeInterface $logFacade */
+                $logFacade = $container->offsetGet(LogConstants::FACADE);
 
-                $defaultEventErrorHandlers[] = new LogEventErrorHandler($logger);
+                $defaultEventErrorHandlers[] = new LogEventErrorHandler($logFacade);
 
                 return $defaultEventErrorHandlers;
             }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jellyfish\Serializer;
+namespace Jellyfish\SerializerSymfony;
 
 interface SerializerInterface
 {

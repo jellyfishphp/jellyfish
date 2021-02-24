@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Command;
 
+use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Transfer\TransferCleanerInterface;
 use Jellyfish\Transfer\TransferGeneratorInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,9 +17,9 @@ class TransferGenerateCommand extends Command
     public const DESCRIPTION = 'Generate transfer classes and factories';
 
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var \Jellyfish\Log\LogFacadeInterface
      */
-    protected $logger;
+    protected $logFacade;
 
     /**
      * @var \Jellyfish\Transfer\TransferGeneratorInterface
@@ -34,16 +34,16 @@ class TransferGenerateCommand extends Command
     /**
      * @param \Jellyfish\Transfer\TransferGeneratorInterface $transferGenerator
      * @param \Jellyfish\Transfer\TransferCleanerInterface $transferCleaner
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Jellyfish\Log\LogFacadeInterface $logFacade
      */
     public function __construct(
         TransferGeneratorInterface $transferGenerator,
         TransferCleanerInterface $transferCleaner,
-        LoggerInterface $logger
+        LogFacadeInterface $logFacade
     ) {
         $this->transferGenerator = $transferGenerator;
         $this->transferCleaner = $transferCleaner;
-        $this->logger = $logger;
+        $this->logFacade = $logFacade;
 
         parent::__construct();
     }

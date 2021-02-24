@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jellyfish\Scheduler;
 
+use Jellyfish\Console\ConsoleConstants;
+use Jellyfish\Console\ConsoleFacadeInterface;
+use Jellyfish\Log\LogConstants;
 use Jellyfish\Process\ProcessConstants;
 use Jellyfish\Scheduler\Command\RunSchedulerCommand;
 use Pimple\Container;
@@ -45,15 +48,20 @@ class SchedulerServiceProvider implements ServiceProviderInterface
      */
     protected function registerCommands(Container $container): SchedulerServiceProvider
     {
-        $container->extend('commands', static function (array $commands, Container $container) {
-            $commands[] = new RunSchedulerCommand(
-                $container->offsetGet(SchedulerConstants::FACADE),
-                $container->offsetGet('lock_factory'),
-                $container->offsetGet('logger')
-            );
+        $container->extend(
+            ConsoleConstants::FACADE,
+            static function (ConsoleFacadeInterface $consoleFacade, Container $container) {
+                $consoleFacade->addCommand(
+                    new RunSchedulerCommand(
+                        $container->offsetGet(SchedulerConstants::FACADE),
+                        $container->offsetGet('lock_factory'),
+                        $container->offsetGet(LogConstants::FACADE)
+                    )
+                );
 
-            return $commands;
-        });
+                return $consoleFacade;
+            }
+        );
 
         return $this;
     }

@@ -70,10 +70,7 @@ class Kernel implements KernelInterface
         $container = new Container([
             'root_dir' => $this->rootDir,
             'app_dir' => $this->appDir,
-            'environment' => $this->environment,
-            'commands' => function () {
-                return [];
-            }
+            'environment' => $this->environment
         ]);
 
         $serviceProviders = $this->buildServiceProviders();

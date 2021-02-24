@@ -5,21 +5,26 @@ declare(strict_types=1);
 namespace Jellyfish\Transfer;
 
 use Codeception\Test\Unit;
+use Jellyfish\Console\ConsoleConstants;
+use Jellyfish\Console\ConsoleFacadeInterface;
 use Jellyfish\Filesystem\FilesystemInterface;
 use Jellyfish\Finder\FinderFactoryInterface;
-use Jellyfish\Serializer\SerializerInterface;
+use Jellyfish\Log\LogConstants;
+use Jellyfish\Log\LogFacadeInterface;
+use Jellyfish\Serializer\SerializerConstants;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 use Jellyfish\Transfer\Command\TransferGenerateCommand;
 use org\bovigo\vfs\vfsStream;
 use Pimple\Container;
-use Psr\Log\LoggerInterface;
 use stdClass;
+use Symfony\Component\Console\Command\Command;
 
 class TransferServiceProviderTest extends Unit
 {
     /**
-     * @var \Jellyfish\Transfer\TransferServiceProvider
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Console\ConsoleFacadeInterface
      */
-    protected $transferServiceProvider;
+    protected $consoleFacadeMock;
 
     /**
      * @var \Pimple\Container
@@ -27,11 +32,20 @@ class TransferServiceProviderTest extends Unit
     protected $container;
 
     /**
+     * @var \Jellyfish\Transfer\TransferServiceProvider
+     */
+    protected $transferServiceProvider;
+
+    /**
      * @return void
      */
     protected function _before(): void
     {
         parent::_before();
+
+        $this->consoleFacadeMock = $this->getMockBuilder(ConsoleFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $rootDir = vfsStream::setup('root', null, [
             'src' => [
@@ -51,12 +65,12 @@ class TransferServiceProviderTest extends Unit
 
         $this->container->offsetSet('root_dir', $rootDir);
 
-        $this->container->offsetSet('commands', function () {
-            return [];
+        $this->container->offsetSet(ConsoleConstants::FACADE, function () use ($self) {
+            return $self->consoleFacadeMock;
         });
 
-        $this->container->offsetSet('serializer', function () use ($self) {
-            return $self->getMockBuilder(SerializerInterface::class)
+        $this->container->offsetSet(SerializerConstants::FACADE, function () use ($self) {
+            return $self->getMockBuilder(SerializerFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });
@@ -73,8 +87,8 @@ class TransferServiceProviderTest extends Unit
                 ->getMock();
         });
 
-        $this->container->offsetSet('logger', function () use ($self) {
-            return $self->getMockBuilder(LoggerInterface::class)
+        $this->container->offsetSet(LogConstants::FACADE, function () use ($self) {
+            return $self->getMockBuilder(LogFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });
@@ -87,19 +101,26 @@ class TransferServiceProviderTest extends Unit
      */
     public function testRegister(): void
     {
+        $this->consoleFacadeMock->expects(static::atLeastOnce())
+            ->method('addCommand')
+            ->with(
+                static::callback(static function (Command $command) {
+                        return $command instanceof TransferGenerateCommand;
+                })
+            )->willReturn($this->consoleFacadeMock);
+
         $this->transferServiceProvider->register($this->container);
 
-        $this->assertTrue($this->container->offsetExists('commands'));
+        static::assertTrue($this->container->offsetExists(ConsoleConstants::FACADE));
+        static::assertInstanceOf(
+            ConsoleFacadeInterface::class,
+            $this->container->offsetGet(ConsoleConstants::FACADE)
+        );
 
-        $commands = $this->container->offsetGet('commands');
-
-        $this->assertCount(1, $commands);
-        $this->assertInstanceOf(TransferGenerateCommand::class, $commands[0]);
-
-        $this->assertTrue($this->container->offsetExists('generated_transfer_test_factory'));
+        static::assertTrue($this->container->offsetExists('generated_transfer_test_factory'));
 
         $testFactory = $this->container->offsetGet('generated_transfer_test_factory');
 
-        $this->assertInstanceOf(stdClass::class, $testFactory);
+        static::assertInstanceOf(stdClass::class, $testFactory);
     }
 }

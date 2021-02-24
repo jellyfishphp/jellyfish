@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jellyfish\Serializer\NameConverter;
+namespace Jellyfish\SerializerSymfony\NameConverter;
+
+use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface;
 
 class PropertyNameConverterStrategyProvider implements PropertyNameConverterStrategyProviderInterface
 {
@@ -15,9 +17,9 @@ class PropertyNameConverterStrategyProvider implements PropertyNameConverterStra
      * @param string $propertyNameConverterStrategyKey
      * @param \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface $propertyNameConverterStrategy
      *
-     * @return \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface
+     * @return \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProviderInterface
      */
-    public function addStrategy(
+    public function add(
         string $propertyNameConverterStrategyKey,
         PropertyNameConverterStrategyInterface $propertyNameConverterStrategy
     ): PropertyNameConverterStrategyProviderInterface {
@@ -29,12 +31,12 @@ class PropertyNameConverterStrategyProvider implements PropertyNameConverterStra
     /**
      * @param string $propertyNameConverterStrategyKey
      *
-     * @return \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface
+     * @return \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProviderInterface
      */
-    public function removeStrategy(
+    public function remove(
         string $propertyNameConverterStrategyKey
     ): PropertyNameConverterStrategyProviderInterface {
-        if (!$this->hasStrategy($propertyNameConverterStrategyKey)) {
+        if (!$this->has($propertyNameConverterStrategyKey)) {
             return $this;
         }
 
@@ -46,7 +48,7 @@ class PropertyNameConverterStrategyProvider implements PropertyNameConverterStra
     /**
      * @return \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface[]
      */
-    public function getAllStrategies(): array
+    public function getAll(): array
     {
         return $this->propertyNameConverterStrategyList;
     }
@@ -56,7 +58,7 @@ class PropertyNameConverterStrategyProvider implements PropertyNameConverterStra
      *
      * @return bool
      */
-    public function hasStrategy(string $propertyNameConverterStrategyKey): bool
+    public function has(string $propertyNameConverterStrategyKey): bool
     {
         return array_key_exists($propertyNameConverterStrategyKey, $this->propertyNameConverterStrategyList);
     }
@@ -66,9 +68,9 @@ class PropertyNameConverterStrategyProvider implements PropertyNameConverterStra
      *
      * @return \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface|null
      */
-    public function getStrategy(string $propertyNameConverterStrategyKey): ?PropertyNameConverterStrategyInterface
+    public function get(string $propertyNameConverterStrategyKey): ?PropertyNameConverterStrategyInterface
     {
-        if (!$this->hasStrategy($propertyNameConverterStrategyKey)) {
+        if (!$this->has($propertyNameConverterStrategyKey)) {
             return null;
         }
 

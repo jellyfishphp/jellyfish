@@ -25,7 +25,7 @@ class SerializerSymfonyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->registerSerializer($pimple);
+        $this->registerSerializerFacade($pimple);
     }
 
     /**
@@ -33,51 +33,14 @@ class SerializerSymfonyServiceProvider implements ServiceProviderInterface
      *
      * @return \Jellyfish\SerializerSymfony\SerializerSymfonyServiceProvider
      */
-    protected function registerSerializer(Container $container): SerializerSymfonyServiceProvider
+    protected function registerSerializerFacade(Container $container): SerializerSymfonyServiceProvider
     {
-        $self = $this;
-
-        $container->offsetSet(
-            SerializerConstants::CONTAINER_KEY_SERIALIZER,
-            static function (Container $container) use ($self) {
-                return new Serializer(
-                    $self->createSymfonySerializer($container)
-                );
-            }
-        );
+        $container->offsetSet(SerializerConstants::FACADE, static function () {
+            return new SerializerSymfonyFacade(
+                new SerializerSymfonyFactory()
+            );
+        });
 
         return $this;
-    }
-
-    /**
-     * @param \Pimple\Container $container
-     *
-     * @return \Symfony\Component\Serializer\SerializerInterface
-     */
-    protected function createSymfonySerializer(Container $container): SymfonySerializerInterface
-    {
-        $strategyProvider = $container->offsetGet(
-            SerializerConstants::CONTAINER_KEY_PROPERTY_NAME_CONVERTER_STRATEGY_PROVIDER
-        );
-
-        $normalizer = [
-            new ObjectNormalizer(
-                null,
-                new PropertyNameConverter($strategyProvider),
-                null,
-                new PhpDocExtractor()
-            ),
-            new ArrayDenormalizer()
-        ];
-
-        $encoders = [
-            new JsonEncoder(),
-            new XmlEncoder()
-        ];
-
-        return new SymfonySerializer(
-            $normalizer,
-            $encoders
-        );
     }
 }
