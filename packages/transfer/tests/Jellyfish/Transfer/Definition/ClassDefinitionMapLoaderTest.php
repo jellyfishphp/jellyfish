@@ -6,7 +6,7 @@ namespace Jellyfish\Transfer\Definition;
 
 use Codeception\Test\Unit;
 use Iterator;
-use Jellyfish\Filesystem\FilesystemInterface;
+use Jellyfish\Filesystem\FilesystemFacadeInterface;
 use SplFileInfo;
 use stdClass;
 
@@ -23,9 +23,9 @@ class ClassDefinitionMapLoaderTest extends Unit
     protected $definitionFinderMock;
 
     /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Filesystem\FilesystemFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $filesystemMock;
+    protected $filesystemFacadeMock;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMapperInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -68,7 +68,7 @@ class ClassDefinitionMapLoaderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->filesystemMock = $this->getMockBuilder(FilesystemInterface::class)
+        $this->filesystemFacadeMock = $this->getMockBuilder(FilesystemFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -100,7 +100,7 @@ class ClassDefinitionMapLoaderTest extends Unit
 
         $this->classDefinitionMapLoader = new ClassDefinitionMapLoader(
             $this->definitionFinderMock,
-            $this->filesystemMock,
+            $this->filesystemFacadeMock,
             $this->classDefinitionMapMapperMock,
             $this->classDefinitionMapMergerMock
         );
@@ -113,44 +113,44 @@ class ClassDefinitionMapLoaderTest extends Unit
     {
         $realPath = codecept_data_dir('test.transfer.json');
 
-        $this->definitionFinderMock->expects($this->atLeastOnce())
+        $this->definitionFinderMock->expects(static::atLeastOnce())
             ->method('find')
             ->willReturn($this->iteratorMock);
 
-        $this->iteratorMock->expects($this->once())
+        $this->iteratorMock->expects(static::once())
             ->method('rewind');
 
-        $this->iteratorMock->expects($this->exactly(2))
+        $this->iteratorMock->expects(static::exactly(2))
             ->method('next');
 
-        $this->iteratorMock->expects($this->exactly(3))
+        $this->iteratorMock->expects(static::exactly(3))
             ->method('valid')
             ->willReturnOnConsecutiveCalls(true, true, false);
 
-        $this->iteratorMock->expects($this->exactly(2))
+        $this->iteratorMock->expects(static::exactly(2))
             ->method('current')
             ->willReturnOnConsecutiveCalls($this->splFileInfoMock, $this->stdClassMock);
 
-        $this->splFileInfoMock->expects($this->atLeastOnce())
+        $this->splFileInfoMock->expects(static::atLeastOnce())
             ->method('getRealPath')
             ->willReturn($realPath);
 
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('readFromFile')
             ->with($realPath)
             ->willReturn(\file_get_contents($realPath));
 
-        $this->classDefinitionMapMapperMock->expects($this->atLeastOnce())
+        $this->classDefinitionMapMapperMock->expects(static::atLeastOnce())
             ->method('from')
             ->willReturn($this->classDefinitionMapMock);
 
-        $this->classDefinitionMapMergerMock->expects($this->atLeastOnce())
+        $this->classDefinitionMapMergerMock->expects(static::atLeastOnce())
             ->method('merge')
             ->with([], $this->classDefinitionMapMock)
             ->willReturn($this->classDefinitionMapMock);
 
         $classDefinitionMap = $this->classDefinitionMapLoader->load();
 
-        $this->assertEquals($this->classDefinitionMapMock, $classDefinitionMap);
+        static::assertEquals($this->classDefinitionMapMock, $classDefinitionMap);
     }
 }

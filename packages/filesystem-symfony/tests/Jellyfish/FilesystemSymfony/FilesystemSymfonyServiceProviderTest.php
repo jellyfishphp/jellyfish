@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Jellyfish\FilesystemSymfony;
 
 use Codeception\Test\Unit;
+use Jellyfish\Filesystem\FilesystemConstants;
+use Jellyfish\Filesystem\FilesystemFacadeInterface;
 use Pimple\Container;
 
 class FilesystemSymfonyServiceProviderTest extends Unit
@@ -38,6 +40,9 @@ class FilesystemSymfonyServiceProviderTest extends Unit
     {
         $this->filesystemSymfonyServiceProvider->register($this->container);
 
-        $this->assertInstanceOf(Filesystem::class, $this->container->offsetGet('filesystem'));
+        static::assertInstanceOf(
+            FilesystemFacadeInterface::class,
+            $this->container->offsetGet(FilesystemConstants::FACADE)
+        );
     }
 }

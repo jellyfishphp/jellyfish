@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Definition;
 
+use function preg_match;
+
 class ClassPropertyDefinition implements ClassPropertyDefinitionInterface
 {
     /**
@@ -166,7 +168,7 @@ class ClassPropertyDefinition implements ClassPropertyDefinitionInterface
      */
     public function isPrimitive(): bool
     {
-        return \preg_match('/^(int|float|string|bool(ean)?)$/', $this->type) === 1;
+        return preg_match('/^(int|float|string|bool(ean)?)$/', $this->type) === 1;
     }
 
     /**

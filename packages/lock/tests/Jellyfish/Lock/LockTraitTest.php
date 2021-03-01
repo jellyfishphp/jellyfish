@@ -11,9 +11,9 @@ class LockTraitTest extends Unit
     use LockTrait;
 
     /**
-     * @var \Jellyfish\Lock\LockFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Lock\LockFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $lockFactoryMock;
+    protected $lockFacadeMock;
 
     /**
      * @var \Jellyfish\Lock\LockInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -27,14 +27,12 @@ class LockTraitTest extends Unit
 
     /**
      * @return void
-     *
-     * @throws \ReflectionException
      */
     protected function _before(): void
     {
         parent::_before();
 
-        $this->lockFactoryMock = $this->getMockBuilder(LockFactoryInterface::class)
+        $this->lockFacadeMock = $this->getMockBuilder(LockFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -48,7 +46,7 @@ class LockTraitTest extends Unit
      */
     public function testAcquireAndReleaseWithNullLockFactory(): void
     {
-        $this->assertTrue($this->acquire($this->identifierParts));
+        static::assertTrue($this->acquire($this->identifierParts));
         $this->release();
     }
 
@@ -57,22 +55,22 @@ class LockTraitTest extends Unit
      */
     public function testAcquireAndReleaseWithLockFactory(): void
     {
-        $this->lockFactory = $this->lockFactoryMock;
-        $this->lockFactoryMock->expects($this->atLeastOnce())
-            ->method('create')
+        $this->lockFacade = $this->lockFacadeMock;
+
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->identifierParts)
             ->willReturn($this->lockMock);
 
-
-        $this->lockMock->expects($this->atLeastOnce())
+        $this->lockMock->expects(static::atLeastOnce())
             ->method('acquire')
             ->willReturn(true);
 
-        $this->lockMock->expects($this->atLeastOnce())
+        $this->lockMock->expects(static::atLeastOnce())
             ->method('release')
             ->willReturn($this->lockMock);
 
-        $this->assertTrue($this->acquire($this->identifierParts));
+        static::assertTrue($this->acquire($this->identifierParts));
         $this->release();
     }
 
@@ -81,17 +79,18 @@ class LockTraitTest extends Unit
      */
     public function testAcquireWithLockFactoryAndLockedStatus(): void
     {
-        $this->lockFactory = $this->lockFactoryMock;
-        $this->lockFactoryMock->expects($this->atLeastOnce())
-            ->method('create')
+        $this->lockFacade = $this->lockFacadeMock;
+
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->identifierParts)
             ->willReturn($this->lockMock);
 
 
-        $this->lockMock->expects($this->atLeastOnce())
+        $this->lockMock->expects(static::atLeastOnce())
             ->method('acquire')
             ->willReturn(false);
 
-        $this->assertFalse($this->acquire($this->identifierParts));
+        static::assertFalse($this->acquire($this->identifierParts));
     }
 }

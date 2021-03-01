@@ -6,6 +6,7 @@ namespace Jellyfish\Scheduler;
 
 use Jellyfish\Console\ConsoleConstants;
 use Jellyfish\Console\ConsoleFacadeInterface;
+use Jellyfish\Lock\LockConstants;
 use Jellyfish\Log\LogConstants;
 use Jellyfish\Process\ProcessConstants;
 use Jellyfish\Scheduler\Command\RunSchedulerCommand;
@@ -15,14 +16,14 @@ use Pimple\ServiceProviderInterface;
 class SchedulerServiceProvider implements ServiceProviderInterface
 {
     /**
-     * @param \Pimple\Container $pimple
+     * @param \Pimple\Container $container
      *
      * @return void
      */
-    public function register(Container $pimple): void
+    public function register(Container $container): void
     {
-        $this->registerSchedulerFacade($pimple)
-            ->registerCommands($pimple);
+        $this->registerSchedulerFacade($container)
+            ->registerCommands($container);
     }
 
     /**
@@ -54,7 +55,7 @@ class SchedulerServiceProvider implements ServiceProviderInterface
                 $consoleFacade->addCommand(
                     new RunSchedulerCommand(
                         $container->offsetGet(SchedulerConstants::FACADE),
-                        $container->offsetGet('lock_factory'),
+                        $container->offsetGet(LockConstants::FACADE),
                         $container->offsetGet(LogConstants::FACADE)
                     )
                 );

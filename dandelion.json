@@ -1,0 +1,149 @@
+{
+    "repositories": {
+        "application": {
+            "path": "packages/application",
+            "version": "1.0.0"
+        },
+        "cache": {
+            "path": "packages/cache",
+            "version": "1.0.0"
+        },
+        "cache-symfony": {
+            "path": "packages/cache-symfony",
+            "version": "1.0.0"
+        },
+        "config": {
+            "path": "packages/config",
+            "version": "1.0.0"
+        },
+        "console": {
+            "path": "packages/console",
+            "version": "1.0.0"
+        },
+        "event": {
+            "path": "packages/event",
+            "version": "1.0.0"
+        },
+        "event-cache": {
+            "path": "packages/event-cache",
+            "version": "1.0.0"
+        },
+        "event-log": {
+            "path": "packages/event-log",
+            "version": "1.0.0"
+        },
+        "filesystem": {
+            "path": "packages/filesystem",
+            "version": "1.0.0"
+        },
+        "filesystem-symfony": {
+            "path": "packages/filesystem-symfony",
+            "version": "1.0.0"
+        },
+        "finder": {
+            "path": "packages/finder",
+            "version": "1.0.0"
+        },
+        "finder-symfony": {
+            "path": "packages/finder-symfony",
+            "version": "1.0.0"
+        },
+        "guzzle": {
+            "path": "packages/guzzle",
+            "version": "1.0.0"
+        },
+        "http": {
+            "path": "packages/http",
+            "version": "1.0.0"
+        },
+        "http-league": {
+            "path": "packages/http-league",
+            "version": "1.0.0"
+        },
+        "json-schema": {
+            "path": "packages/json-schema",
+            "version": "1.0.0"
+        },
+        "json-schema-opis": {
+            "path": "packages/json-schema-opis",
+            "version": "1.0.0"
+        },
+        "kernel": {
+            "path": "packages/kernel",
+            "version": "1.0.0"
+        },
+        "lock": {
+            "path": "packages/lock",
+            "version": "1.0.0"
+        },
+        "lock-symfony": {
+            "path": "packages/lock-symfony",
+            "version": "1.0.0"
+        },
+        "log": {
+            "path": "packages/log",
+            "version": "1.0.0"
+        },
+        "pimple": {
+            "path": "packages/pimple",
+            "version": "1.0.0"
+        },
+        "predis": {
+            "path": "packages/predis",
+            "version": "1.0.0"
+        },
+        "process": {
+            "path": "packages/process",
+            "version": "1.0.0"
+        },
+        "process-symfony": {
+            "path": "packages/process-symfony",
+            "version": "1.0.0"
+        },
+        "queue": {
+            "path": "packages/queue",
+            "version": "1.0.0"
+        },
+        "queue-rabbit-mq": {
+            "path": "packages/queue-rabbit-mq",
+            "version": "1.0.0"
+        },
+        "scheduler": {
+            "path": "packages/scheduler",
+            "version": "1.0.0"
+        },
+        "serializer": {
+            "path": "packages/serializer",
+            "version": "1.0.0"
+        },
+        "serializer-symfony": {
+            "path": "packages/serializer-symfony",
+            "version": "1.0.0"
+        },
+        "transfer": {
+            "path": "packages/transfer",
+            "version": "1.0.0"
+        },
+        "twig": {
+            "path": "packages/twig",
+            "version": "1.0.0"
+        },
+        "uuid": {
+            "path": "packages/uuid",
+            "version": "1.0.0"
+        },
+        "uuid-ramsey": {
+            "path": "packages/uuid-ramsey",
+            "version": "1.0.0"
+        }
+    },
+    "vcs": {
+        "owner": {
+            "type": "organisation",
+            "name": "jellyfishphp"
+        },
+        "token": "<GITHUB_TOKEN>"
+    },
+    "pathToTempDirectory": "/home/dandelion/project/tmp/",
+    "pathToSplitshLite": "/usr/local/bin/splitsh-lite"
+}

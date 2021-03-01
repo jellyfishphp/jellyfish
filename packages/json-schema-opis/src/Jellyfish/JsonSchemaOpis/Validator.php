@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Jellyfish\JsonSchemaOpis;
 
-use Jellyfish\JsonSchema\ValidatorInterface;
 use Opis\JsonSchema\ISchema as OpisSchemaInterface;
 use Opis\JsonSchema\IValidator as OpisValidatorInterface;
+
+use function json_decode;
 
 class Validator implements ValidatorInterface
 {
@@ -39,7 +40,7 @@ class Validator implements ValidatorInterface
      */
     public function validate(string $json): bool
     {
-        $result = $this->opisValidator->schemaValidation(\json_decode($json), $this->opisSchema);
+        $result = $this->opisValidator->schemaValidation(json_decode($json), $this->opisSchema);
 
         return $result->isValid();
     }

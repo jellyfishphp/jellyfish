@@ -42,7 +42,7 @@ class FilesystemTest extends Unit
     {
         $pathToCreate = '/path/to/generate';
 
-        $this->symfonyFilesystemMock->expects($this->atLeastOnce())
+        $this->symfonyFilesystemMock->expects(static::atLeastOnce())
             ->method('mkdir')
             ->with($pathToCreate);
 
@@ -57,7 +57,7 @@ class FilesystemTest extends Unit
     {
         $fileToRemove = '/path/to/file.ext';
 
-        $this->symfonyFilesystemMock->expects($this->atLeastOnce())
+        $this->symfonyFilesystemMock->expects(static::atLeastOnce())
             ->method('remove')
             ->with($fileToRemove);
 
@@ -72,13 +72,13 @@ class FilesystemTest extends Unit
     {
         $pathToExistingFile = '/path/to/existing-file.ext';
 
-        $this->symfonyFilesystemMock->expects($this->atLeastOnce())
+        $this->symfonyFilesystemMock->expects(static::atLeastOnce())
             ->method('exists')
             ->with($pathToExistingFile)
             ->willReturn(true);
 
 
-        $this->assertTrue($this->filesystem->exists($pathToExistingFile));
+        static::assertTrue($this->filesystem->exists($pathToExistingFile));
     }
 
     /**
@@ -93,8 +93,8 @@ class FilesystemTest extends Unit
 
         $this->filesystem->appendToFile($pathToFile, $content);
 
-        $this->assertFileExists($pathToFile);
-        $this->assertEquals($currentContent . $content, \file_get_contents($pathToFile));
+        static::assertFileExists($pathToFile);
+        static::assertEquals($currentContent . $content, \file_get_contents($pathToFile));
     }
 
     /**
@@ -108,9 +108,9 @@ class FilesystemTest extends Unit
 
         try {
             $this->filesystem->appendToFile($pathToFile, $content);
-            $this->fail();
+            static::fail();
         } catch (IOException $e) {
-            $this->assertFileNotExists($pathToFile);
+            static::assertFileNotExists($pathToFile);
         }
     }
 
@@ -125,9 +125,9 @@ class FilesystemTest extends Unit
 
         try {
             $this->filesystem->writeToFile($pathToFile, $content);
-            $this->fail();
+            static::fail();
         } catch (IOException $e) {
-            $this->assertFileNotExists($pathToFile);
+            static::assertFileNotExists($pathToFile);
         }
     }
 
@@ -142,8 +142,8 @@ class FilesystemTest extends Unit
 
         $this->filesystem->writeToFile($pathToFile, $content);
 
-        $this->assertFileExists($pathToFile);
-        $this->assertEquals($content, \file_get_contents($pathToFile));
+        static::assertFileExists($pathToFile);
+        static::assertEquals($content, \file_get_contents($pathToFile));
     }
 
     /**
@@ -156,7 +156,7 @@ class FilesystemTest extends Unit
         $content = 'Lorem ipsum';
         @\file_put_contents($pathToNonExistingFile, $content);
 
-        $this->assertEquals($content, $this->filesystem->readFromFile($pathToNonExistingFile));
+        static::assertEquals($content, $this->filesystem->readFromFile($pathToNonExistingFile));
     }
 
     /**
@@ -169,7 +169,7 @@ class FilesystemTest extends Unit
 
         try {
             $this->filesystem->readFromFile($pathToNonExistingFile);
-            $this->fail();
+            static::fail();
         } catch (IOException $e) {
         }
     }

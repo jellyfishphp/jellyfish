@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace Jellyfish\Event\Command;
 
 use Codeception\Test\Unit;
-use Jellyfish\Event\EventQueueWorkerInterface;
+use Jellyfish\Event\EventFacadeInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class EventQueueWorkerStartCommandTest extends Unit
 {
+    /**
+     * @var \Jellyfish\Event\EventFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $eventFacadeMock;
+
     /**
      * @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -20,11 +25,6 @@ class EventQueueWorkerStartCommandTest extends Unit
      * @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $outputMock;
-
-    /**
-     * @var \Jellyfish\Event\EventQueueWorkerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventQueueWorkerMock;
 
     /**
      * @var \Jellyfish\Event\Command\EventQueueWorkerStartCommand
@@ -46,11 +46,11 @@ class EventQueueWorkerStartCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->eventQueueWorkerMock = $this->getMockBuilder(EventQueueWorkerInterface::class)
+        $this->eventFacadeMock = $this->getMockBuilder(EventFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->eventQueueWorkerStartCommand = new EventQueueWorkerStartCommand($this->eventQueueWorkerMock);
+        $this->eventQueueWorkerStartCommand = new EventQueueWorkerStartCommand($this->eventFacadeMock);
     }
 
     /**
@@ -58,7 +58,7 @@ class EventQueueWorkerStartCommandTest extends Unit
      */
     public function testGetName(): void
     {
-        $this->assertEquals(EventQueueWorkerStartCommand::NAME, $this->eventQueueWorkerStartCommand->getName());
+        static::assertEquals(EventQueueWorkerStartCommand::NAME, $this->eventQueueWorkerStartCommand->getName());
     }
 
     /**
@@ -66,7 +66,7 @@ class EventQueueWorkerStartCommandTest extends Unit
      */
     public function testGetDescription(): void
     {
-        $this->assertEquals(
+        static::assertEquals(
             EventQueueWorkerStartCommand::DESCRIPTION,
             $this->eventQueueWorkerStartCommand->getDescription()
         );
@@ -79,9 +79,11 @@ class EventQueueWorkerStartCommandTest extends Unit
      */
     public function testRun(): void
     {
-        $this->eventQueueWorkerMock->expects($this->atLeastOnce())
-            ->method('start');
+        $this->eventFacadeMock->expects(self::atLeastOnce())
+            ->method('startEventQueueWorker');
+
         $exitCode = $this->eventQueueWorkerStartCommand->run($this->inputMock, $this->outputMock);
-        $this->assertEquals(0, $exitCode);
+
+        static::assertEquals(0, $exitCode);
     }
 }

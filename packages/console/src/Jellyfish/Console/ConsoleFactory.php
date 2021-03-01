@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Console;
 
 use ArrayObject;
@@ -14,7 +16,8 @@ class ConsoleFactory
     /**
      * @return \ArrayObject
      */
-    public function getCommandList(): ArrayObject {
+    public function getCommandList(): ArrayObject
+    {
         if ($this->commandList === null) {
             $this->commandList = new ArrayObject();
         }

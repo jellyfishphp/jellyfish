@@ -27,6 +27,6 @@ class ProcessSymfonyFactoryTest extends Unit
      */
     public function testCreateProcess(): void
     {
-        self::assertInstanceOf(Process::class, $this->processSymfonyFactory->createProcess(['ls', '-la']));
+        static::assertInstanceOf(Process::class, $this->processSymfonyFactory->createProcess(['ls', '-la']));
     }
 }

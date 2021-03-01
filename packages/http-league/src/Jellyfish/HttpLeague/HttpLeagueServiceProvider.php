@@ -24,7 +24,7 @@ class HttpLeagueServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container): void
     {
-        $this->registerFacade($container);
+        $this->registerHttpFacade($container);
     }
 
     /**
@@ -32,7 +32,7 @@ class HttpLeagueServiceProvider implements ServiceProviderInterface
      *
      * @return \Pimple\Container
      */
-    protected function registerFacade(Container $container): Container
+    protected function registerHttpFacade(Container $container): Container
     {
         $container->offsetSet(HttpConstants::FACADE, static function () {
             $httpLeagueFactory = new HttpLeagueFactory();

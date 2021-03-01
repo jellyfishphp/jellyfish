@@ -31,6 +31,7 @@ class FanoutConsumer extends AbstractConsumer
     public function receiveMessages(DestinationInterface $destination, int $limit): array
     {
         $receivedMessages = [];
+
         $this->createExchange($destination);
         $this->connection->createQueueAndBind($destination);
 
@@ -48,14 +49,14 @@ class FanoutConsumer extends AbstractConsumer
     }
 
     /**
-     * @param  \Jellyfish\Queue\DestinationInterface  $destination
+     * @param \Jellyfish\Queue\DestinationInterface $destination
      *
-     * @return void
+     * @return \Jellyfish\QueueRabbitMq\FanoutConsumer
      */
-    protected function createExchange(DestinationInterface $destination): void
+    protected function createExchange(DestinationInterface $destination): FanoutConsumer
     {
-        $exchange = clone $destination;
-        $exchange->setName($destination->getProperty('bind'));
-        $this->connection->createExchange($exchange);
+        $this->connection->createExchange($destination);
+
+        return $this;
     }
 }

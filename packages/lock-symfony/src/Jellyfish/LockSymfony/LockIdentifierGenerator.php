@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jellyfish\LockSymfony;
 
-use Jellyfish\Lock\LockIdentifierGeneratorInterface;
-
 use function implode;
 use function sha1;
 use function sprintf;
@@ -15,7 +13,7 @@ class LockIdentifierGenerator implements LockIdentifierGeneratorInterface
     protected const IDENTIFIER_PREFIX = 'lock';
 
     /**
-     * @param array $identifierParts
+     * @param string[] $identifierParts
      *
      * @return string
      */

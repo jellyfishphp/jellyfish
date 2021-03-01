@@ -6,8 +6,6 @@ namespace Jellyfish\QueueRabbitMq;
 
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
-use Jellyfish\Queue\MessageMapperInterface;
-use Jellyfish\Queue\ProducerInterface;
 
 class QueueProducer implements ProducerInterface
 {
@@ -17,7 +15,7 @@ class QueueProducer implements ProducerInterface
     protected $connection;
 
     /**
-     * @var \Jellyfish\Queue\MessageMapperInterface
+     * @var \Jellyfish\QueueRabbitMq\MessageMapperInterface
      */
     protected $messageMapper;
 
@@ -28,7 +26,7 @@ class QueueProducer implements ProducerInterface
 
     /**
      * @param \Jellyfish\QueueRabbitMq\ConnectionInterface $connection
-     * @param \Jellyfish\Queue\MessageMapperInterface $messageMapper
+     * @param \Jellyfish\QueueRabbitMq\MessageMapperInterface $messageMapper
      * @param \Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface $amqpMessageFactory
      */
     public function __construct(
@@ -45,7 +43,7 @@ class QueueProducer implements ProducerInterface
      * @param \Jellyfish\Queue\DestinationInterface $destination
      * @param \Jellyfish\Queue\MessageInterface $message
      *
-     * @return \Jellyfish\Queue\ProducerInterface
+     * @return \Jellyfish\QueueRabbitMq\ProducerInterface
      */
     public function sendMessage(DestinationInterface $destination, MessageInterface $message): ProducerInterface
     {

@@ -7,7 +7,6 @@ suites:
 settings:
   shuffle: true
   lint: true
-  bootstrap: _bootstrap.php
 
 paths:
   tests: tests
@@ -19,3 +18,5 @@ coverage:
   enabled: true
   include:
     - src/*
+
+bootstrap: _bootstrap.php

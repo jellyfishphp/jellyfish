@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\HttpLeague;
 
 use Codeception\Test\Unit;
 use Jellyfish\Http\ControllerInterface;
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use League\Route\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
 
 class HttpLeagueFacadeTest extends Unit
 {

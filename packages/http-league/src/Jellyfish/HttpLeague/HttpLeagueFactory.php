@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\HttpLeague;
 
 use Http\Factory\Diactoros\ResponseFactory;
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
+use Laminas\HttpHandlerRunner\Emitter\SapiStreamEmitter;
 use League\Route\Router;
 use League\Route\Strategy\JsonStrategy;
 use League\Route\Strategy\StrategyInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\ServerRequestFactory;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
-use Zend\HttpHandlerRunner\Emitter\SapiStreamEmitter;
 
 class HttpLeagueFactory
 {
@@ -25,7 +27,7 @@ class HttpLeagueFactory
     protected $router;
 
     /**
-     * @var \Zend\HttpHandlerRunner\Emitter\EmitterInterface
+     * @var \Laminas\HttpHandlerRunner\Emitter\EmitterInterface
      */
     protected $emitter;
 
@@ -73,7 +75,7 @@ class HttpLeagueFactory
     }
 
     /**
-     * @return \Zend\HttpHandlerRunner\Emitter\EmitterInterface
+     * @return \Laminas\HttpHandlerRunner\Emitter\EmitterInterface
      */
     public function createEmitter(): EmitterInterface
     {

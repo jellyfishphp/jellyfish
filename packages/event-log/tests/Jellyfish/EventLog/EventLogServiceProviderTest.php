@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\EventLog;
 
 use Codeception\Test\Unit;
 use Jellyfish\Event\EventConstants;
+use Jellyfish\Event\EventErrorHandlerInterface;
+use Jellyfish\Event\EventFacadeInterface;
 use Jellyfish\EventLog\EventErrorHandler\LogEventErrorHandler;
 use Jellyfish\Log\LogConstants;
 use Jellyfish\Log\LogFacadeInterface;
@@ -11,6 +15,11 @@ use Pimple\Container;
 
 class EventLogServiceProviderTest extends Unit
 {
+    /**
+     * @var \Jellyfish\Event\EventFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $eventFacadeMock;
+
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Log\LogFacadeInterface
      */
@@ -35,20 +44,22 @@ class EventLogServiceProviderTest extends Unit
     {
         parent::_before();
 
-        $self = $this;
-
-        $this->logFacadeMock = $this->getMockBuilder(LogFacadeInterface::class)
+        $this->eventFacadeMock = $this->getMockBuilder(EventFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
+        $self = $this;
+
         $this->container = new Container();
 
-        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
-            return [];
+        $this->container->offsetSet(EventConstants::FACADE, static function () use ($self) {
+            return $self->eventFacadeMock;
         });
 
         $this->container->offsetSet(LogConstants::FACADE, static function () use ($self) {
-            return $self->logFacadeMock;
+            return $self->getMockBuilder(LogFacadeInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock();
         });
 
         $this->eventLogServiceProvider = new EventLogServiceProvider();
@@ -59,28 +70,22 @@ class EventLogServiceProviderTest extends Unit
      */
     public function testRegister(): void
     {
+        $this->eventFacadeMock->expects(static::atLeastOnce())
+            ->method('addDefaultEventErrorHandler')
+            ->with(
+                static::callback(
+                    static function (EventErrorHandlerInterface $eventErrorHandler) {
+                        return $eventErrorHandler instanceof LogEventErrorHandler;
+                    }
+                )
+            )->willReturn($this->eventFacadeMock);
+
         $this->eventLogServiceProvider->register($this->container);
 
-        static::assertCount(
-            1,
-            $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)
-        );
-
+        static::assertTrue($this->container->offsetExists(EventConstants::FACADE));
         static::assertInstanceOf(
-            LogEventErrorHandler::class,
-            $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)[0]
+            EventFacadeInterface::class,
+            $this->container->offsetGet(EventConstants::FACADE)
         );
-    }
-
-    /**
-     * @return void
-     */
-    public function testRegisterWithoutPredefinedDefaultEventErrorHandlers(): void
-    {
-        $this->container->offsetUnset(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS);
-
-        $this->eventLogServiceProvider->register($this->container);
-
-        static::assertFalse($this->container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
     }
 }

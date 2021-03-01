@@ -1,3 +1,0 @@
-coverage_clover: output/coverage.xml
-json_path: output/coveralls-upload.json
-service_name: travis-ci

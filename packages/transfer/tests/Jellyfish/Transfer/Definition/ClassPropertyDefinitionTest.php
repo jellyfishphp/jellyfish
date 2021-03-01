@@ -30,7 +30,7 @@ class ClassPropertyDefinitionTest extends Unit
     {
         $name = 'sku';
         $this->classPropertyDefinition->setName($name);
-        $this->assertEquals($name, $this->classPropertyDefinition->getName());
+        static::assertEquals($name, $this->classPropertyDefinition->getName());
     }
 
     /**
@@ -40,7 +40,7 @@ class ClassPropertyDefinitionTest extends Unit
     {
         $type = 'string';
         $this->classPropertyDefinition->setType($type);
-        $this->assertEquals($type, $this->classPropertyDefinition->getType());
+        static::assertEquals($type, $this->classPropertyDefinition->getType());
     }
 
     /**
@@ -49,7 +49,7 @@ class ClassPropertyDefinitionTest extends Unit
     public function testSetAndIsArray(): void
     {
         $this->classPropertyDefinition->setIsArray(null);
-        $this->assertFalse($this->classPropertyDefinition->isArray());
+        static::assertFalse($this->classPropertyDefinition->isArray());
     }
 
     /**
@@ -58,7 +58,7 @@ class ClassPropertyDefinitionTest extends Unit
     public function testIsPrimitiveWithObjectType(): void
     {
         $this->classPropertyDefinition->setType('Customer');
-        $this->assertFalse($this->classPropertyDefinition->isPrimitive());
+        static::assertFalse($this->classPropertyDefinition->isPrimitive());
     }
 
     /**
@@ -67,7 +67,7 @@ class ClassPropertyDefinitionTest extends Unit
     public function testIsPrimitiveWithStringType(): void
     {
         $this->classPropertyDefinition->setType('string');
-        $this->assertTrue($this->classPropertyDefinition->isPrimitive());
+        static::assertTrue($this->classPropertyDefinition->isPrimitive());
     }
 
     /**
@@ -77,7 +77,7 @@ class ClassPropertyDefinitionTest extends Unit
     {
         $typeAlias = 'Alias';
         $this->classPropertyDefinition->setTypeAlias($typeAlias);
-        $this->assertEquals($typeAlias, $this->classPropertyDefinition->getTypeAlias());
+        static::assertEquals($typeAlias, $this->classPropertyDefinition->getTypeAlias());
     }
 
     /**
@@ -87,7 +87,7 @@ class ClassPropertyDefinitionTest extends Unit
     {
         $typeNamespace = 'Catalog';
         $this->classPropertyDefinition->setTypeNamespace($typeNamespace);
-        $this->assertEquals($typeNamespace, $this->classPropertyDefinition->getTypeNamespace());
+        static::assertEquals($typeNamespace, $this->classPropertyDefinition->getTypeNamespace());
     }
 
     /**
@@ -97,7 +97,7 @@ class ClassPropertyDefinitionTest extends Unit
     {
         $singular = 'product';
         $this->classPropertyDefinition->setSingular($singular);
-        $this->assertEquals($singular, $this->classPropertyDefinition->getSingular());
+        static::assertEquals($singular, $this->classPropertyDefinition->getSingular());
     }
 
     /**
@@ -106,6 +106,6 @@ class ClassPropertyDefinitionTest extends Unit
     public function testSetAndIsNullable(): void
     {
         $this->classPropertyDefinition->setIsNullable(true);
-        $this->assertTrue($this->classPropertyDefinition->isNullable());
+        static::assertTrue($this->classPropertyDefinition->isNullable());
     }
 }

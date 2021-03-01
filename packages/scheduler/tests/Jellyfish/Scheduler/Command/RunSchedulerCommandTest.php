@@ -6,6 +6,7 @@ namespace Jellyfish\Scheduler\Command;
 
 use Codeception\Test\Unit;
 use Exception;
+use Jellyfish\Lock\LockFacadeInterface;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockInterface;
 use Jellyfish\Log\LogFacadeInterface;
@@ -31,9 +32,9 @@ class RunSchedulerCommandTest extends Unit
     protected $schedulerFacadeMock;
 
     /**
-     * @var \Jellyfish\Lock\LockFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Lock\LockFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $lockFactoryMock;
+    protected $lockFacadeMock;
 
     /**
      * @var \Jellyfish\Lock\LockInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -74,7 +75,7 @@ class RunSchedulerCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->lockFactoryMock = $this->getMockBuilder(LockFactoryInterface::class)
+        $this->lockFacadeMock = $this->getMockBuilder(LockFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -90,7 +91,7 @@ class RunSchedulerCommandTest extends Unit
 
         $this->runSchedulerCommand = new RunSchedulerCommand(
             $this->schedulerFacadeMock,
-            $this->lockFactoryMock,
+            $this->lockFacadeMock,
             $this->logFacadeMock
         );
     }
@@ -118,8 +119,8 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testRun(): void
     {
-        $this->lockFactoryMock->expects(static::atLeastOnce())
-            ->method('create')
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
@@ -149,8 +150,8 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testRunWithLockedStatus(): void
     {
-        $this->lockFactoryMock->expects(static::atLeastOnce())
-            ->method('create')
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
@@ -182,8 +183,8 @@ class RunSchedulerCommandTest extends Unit
     {
         $exceptionMessage = 'Test exception';
 
-        $this->lockFactoryMock->expects(static::atLeastOnce())
-            ->method('create')
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 

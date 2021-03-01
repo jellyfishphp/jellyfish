@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\CacheSymfony;
 
 use Codeception\Test\Unit;

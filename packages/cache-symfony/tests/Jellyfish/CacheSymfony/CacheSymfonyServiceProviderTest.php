@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\CacheSymfony;
 
 use Codeception\Test\Unit;
@@ -54,8 +56,8 @@ class CacheSymfonyServiceProviderTest extends Unit
     public function testRegister(): void {
         $this->cacheSymfonyServiceProvider->register($this->container);
 
-        self::assertTrue($this->container->offsetExists(CacheConstants::FACADE));
-        self::assertInstanceOf(
+        static::assertTrue($this->container->offsetExists(CacheConstants::FACADE));
+        static::assertInstanceOf(
             CacheFacadeInterface::class,
             $this->container->offsetGet(CacheConstants::FACADE)
         );

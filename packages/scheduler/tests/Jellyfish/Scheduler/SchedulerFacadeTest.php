@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Scheduler;
 
 use Codeception\Test\Unit;
-use phpDocumentor\Reflection\Types\Static_;
 
 class SchedulerFacadeTest extends Unit
 {

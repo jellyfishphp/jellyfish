@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\HttpLeague;
 
 use Codeception\Test\Unit;
+use Laminas\HttpHandlerRunner\Emitter\SapiStreamEmitter;
 use League\Route\Router;
 use Zend\Diactoros\ServerRequest;
-use Zend\HttpHandlerRunner\Emitter\SapiStreamEmitter;
 
 class HttpLeagueFactoryTest extends Unit
 {

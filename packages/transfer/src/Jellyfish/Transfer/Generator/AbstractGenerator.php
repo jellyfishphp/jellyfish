@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Generator;
 
-use Jellyfish\Filesystem\FilesystemInterface;
+use Jellyfish\Filesystem\FilesystemFacadeInterface;
 use Twig\Environment;
 
 abstract class AbstractGenerator
@@ -12,9 +12,9 @@ abstract class AbstractGenerator
     protected const FILE_EXTENSION = '.php';
 
     /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface
+     * @var \Jellyfish\Filesystem\FilesystemFacadeInterface
      */
-    protected $filesystem;
+    protected $filesystemFacade;
 
     /**
      * @var \Twig\Environment
@@ -27,18 +27,18 @@ abstract class AbstractGenerator
     protected $targetDirectory;
 
     /**
-     * @param \Jellyfish\Filesystem\FilesystemInterface $filesystem
+     * @param \Jellyfish\Filesystem\FilesystemFacadeInterface $filesystemFacade
      * @param \Twig\Environment $twig
      * @param string $targetDirectory
      */
     public function __construct(
-        FilesystemInterface $filesystem,
+        FilesystemFacadeInterface $filesystemFacade,
         Environment $twig,
         string $targetDirectory
     ) {
         $this->twig = $twig;
         $this->targetDirectory = $targetDirectory;
-        $this->filesystem = $filesystem;
+        $this->filesystemFacade = $filesystemFacade;
     }
 
     /**
@@ -48,11 +48,11 @@ abstract class AbstractGenerator
      */
     protected function createDirectories(string $path): AbstractGenerator
     {
-        if ($this->filesystem->exists($path)) {
+        if ($this->filesystemFacade->exists($path)) {
             return $this;
         }
 
-        $this->filesystem->mkdir($path, 0775);
+        $this->filesystemFacade->mkdir($path, 0775);
 
         return $this;
     }

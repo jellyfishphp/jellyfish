@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\Serializer;
 
 use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface;
@@ -60,5 +62,7 @@ interface SerializerFacadeInterface
      *
      * @return \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface|null
      */
-    public function getPropertyNameConverterStrategy(string $propertyNameConverterStrategyKey): ?PropertyNameConverterStrategyInterface;
+    public function getPropertyNameConverterStrategy(
+        string $propertyNameConverterStrategyKey
+    ): ?PropertyNameConverterStrategyInterface;
 }

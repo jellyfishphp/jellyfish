@@ -71,11 +71,11 @@ class EventDispatcherTest extends Unit
      */
     public function testDispatchWithoutListeners(): void
     {
-        $this->eventMock->expects($this->atLeastOnce())
+        $this->eventMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn($this->eventName);
 
-        $this->eventListenerProviderMock->expects($this->atLeastOnce())
+        $this->eventListenerProviderMock->expects(static::atLeastOnce())
             ->method('getListenersByTypeAndEventName')
             ->withConsecutive([
                 EventListenerInterface::TYPE_SYNC,
@@ -87,7 +87,7 @@ class EventDispatcherTest extends Unit
 
         $result = $this->eventDispatcher->dispatch($this->eventMock);
 
-        $this->assertEquals($this->eventDispatcher, $result);
+        static::assertEquals($this->eventDispatcher, $result);
     }
 
     /**
@@ -95,11 +95,11 @@ class EventDispatcherTest extends Unit
      */
     public function testDispatchSyncListeners(): void
     {
-        $this->eventMock->expects($this->atLeastOnce())
+        $this->eventMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn($this->eventName);
 
-        $this->eventListenerProviderMock->expects($this->atLeastOnce())
+        $this->eventListenerProviderMock->expects(static::atLeastOnce())
             ->method('getListenersByTypeAndEventName')
             ->withConsecutive([
                 EventListenerInterface::TYPE_SYNC,
@@ -109,11 +109,11 @@ class EventDispatcherTest extends Unit
                 $this->eventName
             ])->willReturnOnConsecutiveCalls([$this->eventListenerMock], []);
 
-        $this->eventListenerMock->expects($this->atLeastOnce())
+        $this->eventListenerMock->expects(static::atLeastOnce())
             ->method('handle')
             ->with($this->eventMock);
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->eventDispatcher,
             $this->eventDispatcher->dispatch($this->eventMock)
         );
@@ -139,7 +139,7 @@ class EventDispatcherTest extends Unit
      */
     public function testGetEventListenerProvider(): void
     {
-        $this->assertEquals(
+        static::assertEquals(
             $this->eventListenerProviderMock,
             $this->eventDispatcher->getEventListenerProvider()
         );

@@ -6,9 +6,8 @@ namespace Jellyfish\Event;
 
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Process\ProcessFacadeInterface;
-use Jellyfish\Queue\DestinationFactoryInterface;
 use Jellyfish\Queue\DestinationInterface;
-use Jellyfish\Queue\QueueClientInterface;
+use Jellyfish\Queue\QueueFacadeInterface;
 
 use function array_key_exists;
 use function sprintf;
@@ -31,9 +30,9 @@ class EventQueueConsumer implements EventQueueConsumerInterface
     protected $eventQueueNameGenerator;
 
     /**
-     * @var \Jellyfish\Queue\QueueClientInterface
+     * @var \Jellyfish\Queue\QueueFacadeInterface
      */
-    protected $queueClient;
+    protected $queueFacade;
 
     /**
      * @var \Jellyfish\Process\ProcessInterface[]
@@ -46,31 +45,23 @@ class EventQueueConsumer implements EventQueueConsumerInterface
     protected $pathToConsole;
 
     /**
-     * @var \Jellyfish\Queue\DestinationFactoryInterface
-     */
-    protected $destinationFactory;
-
-    /**
      * @param \Jellyfish\Process\ProcessFacadeInterface $processFacade
      * @param \Jellyfish\Event\EventMapperInterface $eventMapper
      * @param \Jellyfish\Event\EventQueueNameGeneratorInterface $eventQueueNameGenerator
-     * @param \Jellyfish\Queue\QueueClientInterface $queueClient
-     * @param \Jellyfish\Queue\DestinationFactoryInterface $destinationFactory
+     * @param \Jellyfish\Queue\QueueFacadeInterface $queueFacade
      * @param string $rootDir
      */
     public function __construct(
         ProcessFacadeInterface $processFacade,
         EventMapperInterface $eventMapper,
         EventQueueNameGeneratorInterface $eventQueueNameGenerator,
-        QueueClientInterface $queueClient,
-        DestinationFactoryInterface $destinationFactory,
+        QueueFacadeInterface $queueFacade,
         string $rootDir
     ) {
         $this->processFacade = $processFacade;
         $this->eventMapper = $eventMapper;
         $this->eventQueueNameGenerator = $eventQueueNameGenerator;
-        $this->queueClient = $queueClient;
-        $this->destinationFactory = $destinationFactory;
+        $this->queueFacade = $queueFacade;
         $this->processList = [];
         $this->pathToConsole = sprintf('%svendor/bin/console', $rootDir);
     }
@@ -106,12 +97,12 @@ class EventQueueConsumer implements EventQueueConsumerInterface
     {
         $eventQueueName = $this->eventQueueNameGenerator->generate($eventName, $listenerIdentifier);
 
-        $destination = $this->destinationFactory->create()
+        $destination = $this->queueFacade->createDestination()
             ->setName($eventQueueName)
             ->setType(DestinationInterface::TYPE_FANOUT)
             ->setProperty('bind', $eventName);
 
-        $message = $this->queueClient->receiveMessage($destination);
+        $message = $this->queueFacade->receiveMessage($destination);
 
         if ($message === null) {
             return null;
@@ -131,12 +122,12 @@ class EventQueueConsumer implements EventQueueConsumerInterface
     {
         $eventQueueName = $this->eventQueueNameGenerator->generate($eventName, $listenerIdentifier);
 
-        $destination = $this->destinationFactory->create()
+        $destination = $this->queueFacade->createDestination()
             ->setName($eventQueueName)
             ->setType(DestinationInterface::TYPE_FANOUT)
             ->setProperty('bind', $eventName);
 
-        $messages = $this->queueClient->receiveMessages($destination, $chunkSize);
+        $messages = $this->queueFacade->receiveMessages($destination, $chunkSize);
 
         $events = [];
 

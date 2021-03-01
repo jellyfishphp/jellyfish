@@ -1,16 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\CacheSymfony;
 
 use Jellyfish\Cache\CacheConstants;
 use Jellyfish\Config\ConfigConstants;
-use Jellyfish\Config\ConfigServiceProvider;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Predis\Client;
-use Predis\ClientInterface;
-use Symfony\Component\Cache\Adapter\AbstractAdapter;
-use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 class CacheSymfonyServiceProvider implements ServiceProviderInterface
 {

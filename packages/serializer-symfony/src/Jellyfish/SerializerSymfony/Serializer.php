@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jellyfish\SerializerSymfony;
 
 use ArrayObject;
-use Jellyfish\SerializerSymfony\SerializerInterface;
 use Symfony\Component\Serializer\SerializerInterface as SymfonySerializerInterface;
 
 use function is_array;

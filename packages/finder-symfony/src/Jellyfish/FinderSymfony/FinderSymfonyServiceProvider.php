@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\FinderSymfony;
 
+use Jellyfish\Finder\FinderConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -16,7 +17,7 @@ class FinderSymfonyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->registerFinderFactory($pimple);
+        $this->registerFinderFacade($pimple);
     }
 
     /**
@@ -24,10 +25,10 @@ class FinderSymfonyServiceProvider implements ServiceProviderInterface
      *
      * @return \Jellyfish\FinderSymfony\FinderSymfonyServiceProvider
      */
-    protected function registerFinderFactory(Container $container): FinderSymfonyServiceProvider
+    protected function registerFinderFacade(Container $container): FinderSymfonyServiceProvider
     {
-        $container->offsetSet('finder_factory', function () {
-            return new FinderFactory();
+        $container->offsetSet(FinderConstants::FACADE, function () {
+            return new FinderSymfonyFacade(new FinderSymfonyFactory());
         });
 
         return $this;

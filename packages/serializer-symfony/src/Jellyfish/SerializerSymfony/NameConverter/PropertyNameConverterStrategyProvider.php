@@ -6,6 +6,8 @@ namespace Jellyfish\SerializerSymfony\NameConverter;
 
 use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface;
 
+use function array_key_exists;
+
 class PropertyNameConverterStrategyProvider implements PropertyNameConverterStrategyProviderInterface
 {
     /**

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Jellyfish\FilesystemSymfony;
 
-use Jellyfish\Filesystem\FilesystemInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
+
+use function file_get_contents;
+use function file_put_contents;
+use function sprintf;
 
 class Filesystem implements FilesystemInterface
 {
@@ -27,7 +30,7 @@ class Filesystem implements FilesystemInterface
      * @param string $path
      * @param int $mode
      *
-     * @return \Jellyfish\Filesystem\FilesystemInterface
+     * @return \Jellyfish\FilesystemSymfony\FilesystemInterface
      */
     public function mkdir(string $path, int $mode = 0777): FilesystemInterface
     {
@@ -39,7 +42,7 @@ class Filesystem implements FilesystemInterface
     /**
      * @param string $path
      *
-     * @return \Jellyfish\Filesystem\FilesystemInterface
+     * @return \Jellyfish\FilesystemSymfony\FilesystemInterface
      */
     public function remove(string $path): FilesystemInterface
     {
@@ -62,11 +65,11 @@ class Filesystem implements FilesystemInterface
      * @param string $pathToFile
      * @param string $content
      *
-     * @return \Jellyfish\Filesystem\FilesystemInterface
+     * @return \Jellyfish\FilesystemSymfony\FilesystemInterface
      */
     public function appendToFile(string $pathToFile, string $content): FilesystemInterface
     {
-        if (false === @\file_put_contents($pathToFile, $content, FILE_APPEND)) {
+        if (false === @file_put_contents($pathToFile, $content, FILE_APPEND)) {
             throw new IOException(sprintf('Failed to write file "%s".', $pathToFile), 0, null, $pathToFile);
         }
 
@@ -77,11 +80,11 @@ class Filesystem implements FilesystemInterface
      * @param string $pathToFile
      * @param string $content
      *
-     * @return \Jellyfish\Filesystem\FilesystemInterface
+     * @return \Jellyfish\FilesystemSymfony\FilesystemInterface
      */
     public function writeToFile(string $pathToFile, string $content): FilesystemInterface
     {
-        if (false === @\file_put_contents($pathToFile, $content)) {
+        if (false === @file_put_contents($pathToFile, $content)) {
             throw new IOException(sprintf('Failed to write file "%s".', $pathToFile), 0, null, $pathToFile);
         }
 
@@ -95,7 +98,7 @@ class Filesystem implements FilesystemInterface
      */
     public function readFromFile(string $pathToFile): string
     {
-        $fileContent = @\file_get_contents($pathToFile);
+        $fileContent = @file_get_contents($pathToFile);
 
         if (false === $fileContent) {
             throw new IOException(sprintf('Failed to read file "%s".', $pathToFile), 0, null, $pathToFile);

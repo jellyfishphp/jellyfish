@@ -6,6 +6,8 @@ namespace Jellyfish\Scheduler;
 
 use DateTime;
 
+use function count;
+
 class Scheduler implements SchedulerInterface
 {
     /**

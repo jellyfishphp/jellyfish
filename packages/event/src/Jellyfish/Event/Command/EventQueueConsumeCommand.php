@@ -6,10 +6,9 @@ namespace Jellyfish\Event\Command;
 
 use InvalidArgumentException;
 use Jellyfish\Event\EventBulkListenerInterface;
+use Jellyfish\Event\EventFacadeInterface;
 use Jellyfish\Event\EventListenerInterface;
-use Jellyfish\Event\EventListenerProviderInterface;
-use Jellyfish\Event\EventQueueConsumerInterface;
-use Jellyfish\Lock\LockFactoryInterface;
+use Jellyfish\Lock\LockFacadeInterface;
 use Jellyfish\Lock\LockTrait;
 use Jellyfish\Log\LogFacadeInterface;
 use Symfony\Component\Console\Command\Command;
@@ -28,14 +27,9 @@ class EventQueueConsumeCommand extends Command
     public const DESCRIPTION = 'Consume from event queue';
 
     /**
-     * @var \Jellyfish\Event\EventListenerProviderInterface $eventDispatcher
+     * @var \Jellyfish\Event\EventFacadeInterface
      */
-    protected $eventDispatcher;
-
-    /**
-     * @var \Jellyfish\Event\EventQueueConsumerInterface $eventQueueConsumer
-     */
-    protected $eventQueueConsumer;
+    protected $eventFacade;
 
     /**
      * @var \Jellyfish\Log\LogFacadeInterface
@@ -43,22 +37,19 @@ class EventQueueConsumeCommand extends Command
     protected $logFacade;
 
     /**
-     * @param \Jellyfish\Event\EventListenerProviderInterface $eventDispatcher
-     * @param \Jellyfish\Event\EventQueueConsumerInterface $eventQueueConsumer
-     * @param \Jellyfish\Lock\LockFactoryInterface $lockFactory
+     * @param \Jellyfish\Event\EventFacadeInterface $eventFacade
+     * @param \Jellyfish\Lock\LockFacadeInterface $lockFacade
      * @param \Jellyfish\Log\LogFacadeInterface $logFacade
      */
     public function __construct(
-        EventListenerProviderInterface $eventDispatcher,
-        EventQueueConsumerInterface $eventQueueConsumer,
-        LockFactoryInterface $lockFactory,
+        EventFacadeInterface $eventFacade,
+        LockFacadeInterface $lockFacade,
         LogFacadeInterface $logFacade
     ) {
         parent::__construct();
 
-        $this->eventDispatcher = $eventDispatcher;
-        $this->eventQueueConsumer = $eventQueueConsumer;
-        $this->lockFactory = $lockFactory;
+        $this->eventFacade = $eventFacade;
+        $this->lockFacade = $lockFacade;
         $this->logFacade = $logFacade;
     }
 
@@ -80,9 +71,9 @@ class EventQueueConsumeCommand extends Command
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return int|null
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $eventName = $input->getArgument('eventName');
         $listenerIdentifier = $input->getArgument('listenerIdentifier');
@@ -94,10 +85,10 @@ class EventQueueConsumeCommand extends Command
         $lockIdentifierParts = [static::NAME, $eventName, $listenerIdentifier];
 
         if (!$this->acquire($lockIdentifierParts)) {
-            return null;
+            return 0;
         }
 
-        $result = null;
+        $result = 0;
 
         try {
             $result = $this->executeLockablePart($eventName, $listenerIdentifier);
@@ -114,34 +105,34 @@ class EventQueueConsumeCommand extends Command
      * @param string $eventName
      * @param string $listenerIdentifier
      *
-     * @return int|null
+     * @return int
      */
-    protected function executeLockablePart(string $eventName, string $listenerIdentifier): ?int
+    protected function executeLockablePart(string $eventName, string $listenerIdentifier): int
     {
-        $listener = $this->eventDispatcher
-            ->getListener(EventListenerInterface::TYPE_ASYNC, $eventName, $listenerIdentifier);
+        $listener = $this->eventFacade
+            ->getEventListener(EventListenerInterface::TYPE_ASYNC, $eventName, $listenerIdentifier);
 
         if ($listener === null) {
-            return null;
+            return 0;
         }
 
         if ($listener instanceof EventBulkListenerInterface) {
-            $events = $this->eventQueueConsumer
-                ->dequeueBulk($eventName, $listenerIdentifier, $listener->getChunkSize());
+            $events = $this->eventFacade
+                ->dequeueEventBulk($eventName, $listenerIdentifier, $listener->getChunkSize());
 
             $listener->handleBulk($events);
 
-            return null;
+            return 0;
         }
 
-        $event = $this->eventQueueConsumer->dequeue($eventName, $listenerIdentifier);
+        $event = $this->eventFacade->dequeueEvent($eventName, $listenerIdentifier);
 
         if ($event === null) {
-            return null;
+            return 0;
         }
 
         $listener->handle($event);
 
-        return null;
+        return 0;
     }
 }

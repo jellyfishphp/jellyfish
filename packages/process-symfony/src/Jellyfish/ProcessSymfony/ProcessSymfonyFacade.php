@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\ProcessSymfony;
 
 use Jellyfish\Process\ProcessFacadeInterface;
@@ -19,7 +21,6 @@ class ProcessSymfonyFacade implements ProcessFacadeInterface
     {
         $this->factory = $factory;
     }
-
 
     /**
      * @param string[] $command

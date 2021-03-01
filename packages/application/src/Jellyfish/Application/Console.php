@@ -10,7 +10,6 @@ use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
 
 use function count;
-use function is_array;
 
 class Console extends BaseApplication
 {

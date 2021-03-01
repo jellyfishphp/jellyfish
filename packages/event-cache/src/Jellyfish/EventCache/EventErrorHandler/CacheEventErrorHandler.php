@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\EventCache\EventErrorHandler;
 
 use Jellyfish\Cache\CacheFacadeInterface;
@@ -7,7 +9,6 @@ use Jellyfish\Event\EventErrorHandlerInterface;
 use Jellyfish\Event\EventInterface;
 use Jellyfish\EventCache\EventCacheConstants;
 use Jellyfish\Serializer\SerializerFacadeInterface;
-use Jellyfish\Serializer\SerializerInterface;
 use Throwable;
 
 class CacheEventErrorHandler implements EventErrorHandlerInterface

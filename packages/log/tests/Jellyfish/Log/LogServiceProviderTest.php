@@ -50,10 +50,6 @@ class LogServiceProviderTest extends Unit
             return $self->configFacadeMock;
         });
 
-        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
-            return [];
-        });
-
         $this->logServiceProvider = new LogServiceProvider();
     }
 

@@ -9,14 +9,13 @@ use Jellyfish\Console\ConsoleConstants;
 use Jellyfish\Console\ConsoleFacadeInterface;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
-use Jellyfish\Lock\LockFactoryInterface;
+use Jellyfish\Lock\LockConstants;
+use Jellyfish\Lock\LockFacadeInterface;
 use Jellyfish\Log\LogConstants;
 use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Process\ProcessConstants;
 use Jellyfish\Process\ProcessFacadeInterface;
-use Jellyfish\Queue\DestinationFactoryInterface;
-use Jellyfish\Queue\MessageFactoryInterface;
-use Jellyfish\Queue\QueueClientInterface;
+use Jellyfish\Queue\QueueFacadeInterface;
 use Jellyfish\Queue\QueueConstants;
 use Jellyfish\Serializer\SerializerConstants;
 use Jellyfish\Serializer\SerializerFacadeInterface;
@@ -73,8 +72,8 @@ class EventServiceProviderTest extends Unit
                 ->getMock();
         });
 
-        $this->container->offsetSet('lock_factory', static function () use ($self) {
-            return $self->getMockBuilder(LockFactoryInterface::class)
+        $this->container->offsetSet(LockConstants::FACADE, static function () use ($self) {
+            return $self->getMockBuilder(LockFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });
@@ -85,26 +84,14 @@ class EventServiceProviderTest extends Unit
                 ->getMock();
         });
 
-        $this->container->offsetSet('message_factory', static function () use ($self) {
-            return $self->getMockBuilder(MessageFactoryInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
-
         $this->container->offsetSet(ProcessConstants::FACADE, static function () use ($self) {
             return $self->getMockBuilder(ProcessFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });
 
-        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT, static function () use ($self) {
-            return $self->getMockBuilder(QueueClientInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
-
-        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY, static function () use ($self) {
-            return $self->getMockBuilder(DestinationFactoryInterface::class)
+        $this->container->offsetSet(QueueConstants::FACADE, static function () use ($self) {
+            return $self->getMockBuilder(QueueFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });
@@ -140,23 +127,10 @@ class EventServiceProviderTest extends Unit
 
         $this->eventServiceProvider->register($this->container);
 
-        static::assertTrue($this->container->offsetExists(EventConstants::CONTAINER_KEY_EVENT_FACTORY));
+        static::assertTrue($this->container->offsetExists(EventConstants::FACADE));
         static::assertInstanceOf(
-            EventFactory::class,
-            $this->container->offsetGet(EventConstants::CONTAINER_KEY_EVENT_FACTORY)
-        );
-
-        static::assertTrue($this->container->offsetExists(EventConstants::CONTAINER_KEY_EVENT_DISPATCHER));
-        static::assertInstanceOf(
-            EventDispatcher::class,
-            $this->container->offsetGet(EventConstants::CONTAINER_KEY_EVENT_DISPATCHER)
-        );
-
-        static::assertTrue(
-            $this->container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)
-        );
-        static::assertIsArray(
-            $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)
+            EventFacadeInterface::class,
+            $this->container->offsetGet(EventConstants::FACADE)
         );
 
         static::assertTrue($this->container->offsetExists(ConsoleConstants::FACADE));

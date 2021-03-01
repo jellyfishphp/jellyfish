@@ -6,8 +6,8 @@ namespace Jellyfish\Event;
 
 use ArrayObject;
 use Jellyfish\Event\Exception\MappingException;
-use Jellyfish\Queue\MessageFactoryInterface;
 use Jellyfish\Queue\MessageInterface;
+use Jellyfish\Queue\QueueFacadeInterface;
 use Jellyfish\Serializer\SerializerFacadeInterface;
 
 use function get_class;
@@ -15,14 +15,14 @@ use function get_class;
 class EventMapper implements EventMapperInterface
 {
     /**
-     * @var \Jellyfish\Event\EventFactoryInterface
+     * @var \Jellyfish\Event\EventFactory
      */
     protected $eventFactory;
 
     /**
-     * @var \Jellyfish\Queue\MessageFactoryInterface
+     * @var \Jellyfish\Queue\QueueFacadeInterface
      */
-    protected $messageFactory;
+    protected $queueFacade;
 
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface
@@ -30,17 +30,17 @@ class EventMapper implements EventMapperInterface
     protected $serializerFacade;
 
     /**
-     * @param \Jellyfish\Event\EventFactoryInterface $eventFactory
-     * @param \Jellyfish\Queue\MessageFactoryInterface $messageFactory
+     * @param \Jellyfish\Event\EventFactory $eventFactory
+     * @param \Jellyfish\Queue\QueueFacadeInterface $queueFacade
      * @param \Jellyfish\Serializer\SerializerFacadeInterface $serializerFacade
      */
     public function __construct(
-        EventFactoryInterface $eventFactory,
-        MessageFactoryInterface $messageFactory,
+        EventFactory $eventFactory,
+        QueueFacadeInterface $queueFacade,
         SerializerFacadeInterface $serializerFacade
     ) {
-        $this->messageFactory = $messageFactory;
         $this->eventFactory = $eventFactory;
+        $this->queueFacade = $queueFacade;
         $this->serializerFacade = $serializerFacade;
     }
 
@@ -63,7 +63,7 @@ class EventMapper implements EventMapperInterface
         $payload = $this->serializerFacade->deserialize($message->getBody(), $type, 'json');
         $metaProperties = $this->mapHeadersToMetaProperties($message->getHeaders());
 
-        return $this->eventFactory->create()
+        return $this->eventFactory->createEvent()
             ->setName($eventName)
             ->setPayload($payload)
             ->setMetaProperties($metaProperties);
@@ -78,7 +78,7 @@ class EventMapper implements EventMapperInterface
         $payload = $event->getPayload();
         $metaProperties = $event->getMetaProperties();
 
-        $message = $this->messageFactory->create()
+        $message = $this->queueFacade->createMessage()
             ->setHeaders($metaProperties)
             ->setHeader('event_name', $event->getName())
             ->setHeader('body_type', get_class($payload))

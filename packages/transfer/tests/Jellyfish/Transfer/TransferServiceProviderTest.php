@@ -7,16 +7,16 @@ namespace Jellyfish\Transfer;
 use Codeception\Test\Unit;
 use Jellyfish\Console\ConsoleConstants;
 use Jellyfish\Console\ConsoleFacadeInterface;
-use Jellyfish\Filesystem\FilesystemInterface;
-use Jellyfish\Finder\FinderFactoryInterface;
+use Jellyfish\Filesystem\FilesystemConstants;
+use Jellyfish\Filesystem\FilesystemFacadeInterface;
+use Jellyfish\Finder\FinderConstants;
+use Jellyfish\Finder\FinderFacadeInterface;
 use Jellyfish\Log\LogConstants;
 use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Serializer\SerializerConstants;
 use Jellyfish\Serializer\SerializerFacadeInterface;
 use Jellyfish\Transfer\Command\TransferGenerateCommand;
-use org\bovigo\vfs\vfsStream;
 use Pimple\Container;
-use stdClass;
 use Symfony\Component\Console\Command\Command;
 
 class TransferServiceProviderTest extends Unit
@@ -47,23 +47,11 @@ class TransferServiceProviderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $rootDir = vfsStream::setup('root', null, [
-            'src' => [
-                'Generated' => [
-                    'Transfer' => [
-                        'factory-registry.php' => file_get_contents(codecept_data_dir('factory-registry.php'))
-                    ]
-                ]
-            ]
-        ])->url();
-
-        $rootDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-
         $self = $this;
 
         $this->container = new Container();
 
-        $this->container->offsetSet('root_dir', $rootDir);
+        $this->container->offsetSet('root_dir', DIRECTORY_SEPARATOR);
 
         $this->container->offsetSet(ConsoleConstants::FACADE, function () use ($self) {
             return $self->consoleFacadeMock;
@@ -75,14 +63,14 @@ class TransferServiceProviderTest extends Unit
                 ->getMock();
         });
 
-        $this->container->offsetSet('finder_factory', function () use ($self) {
-            return $self->getMockBuilder(FinderFactoryInterface::class)
+        $this->container->offsetSet(FinderConstants::FACADE, function () use ($self) {
+            return $self->getMockBuilder(FinderFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });
 
-        $this->container->offsetSet('filesystem', function () use ($self) {
-            return $self->getMockBuilder(FilesystemInterface::class)
+        $this->container->offsetSet(FilesystemConstants::FACADE, function () use ($self) {
+            return $self->getMockBuilder(FilesystemFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });
@@ -117,10 +105,10 @@ class TransferServiceProviderTest extends Unit
             $this->container->offsetGet(ConsoleConstants::FACADE)
         );
 
-        static::assertTrue($this->container->offsetExists('generated_transfer_test_factory'));
-
-        $testFactory = $this->container->offsetGet('generated_transfer_test_factory');
-
-        static::assertInstanceOf(stdClass::class, $testFactory);
+        static::assertTrue($this->container->offsetExists(TransferConstants::FACADE));
+        static::assertInstanceOf(
+            TransferFacadeInterface::class,
+            $this->container->offsetGet(TransferConstants::FACADE)
+        );
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\EventLog\EventErrorHandler;
 
 use Codeception\Test\Unit;

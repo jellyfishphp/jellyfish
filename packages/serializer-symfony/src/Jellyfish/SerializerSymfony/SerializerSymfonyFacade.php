@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\SerializerSymfony;
 
 use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface;
@@ -99,8 +101,9 @@ class SerializerSymfonyFacade implements SerializerFacadeInterface
      *
      * @return \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface|null
      */
-    public function getPropertyNameConverterStrategy(string $propertyNameConverterStrategyKey): ?PropertyNameConverterStrategyInterface
-    {
+    public function getPropertyNameConverterStrategy(
+        string $propertyNameConverterStrategyKey
+    ): ?PropertyNameConverterStrategyInterface {
         return $this->factory->getPropertyNameConverterStrategyProvider()
             ->get($propertyNameConverterStrategyKey);
     }

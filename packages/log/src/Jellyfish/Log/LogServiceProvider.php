@@ -20,7 +20,7 @@ class LogServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container): void
     {
-        $this->registerLogger($container);
+        $this->registerLogFacade($container);
     }
 
     /**
@@ -28,7 +28,7 @@ class LogServiceProvider implements ServiceProviderInterface
      *
      * @return \Jellyfish\Log\LogServiceProvider
      */
-    protected function registerLogger(Container $container): LogServiceProvider
+    protected function registerLogFacade(Container $container): LogServiceProvider
     {
         $self = $this;
 

@@ -8,10 +8,12 @@ use Codeception\Test\Unit;
 use Exception;
 use InvalidArgumentException;
 use Jellyfish\Event\EventBulkListenerInterface;
+use Jellyfish\Event\EventFacadeInterface;
 use Jellyfish\Event\EventInterface;
 use Jellyfish\Event\EventListenerInterface;
 use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventQueueConsumerInterface;
+use Jellyfish\Lock\LockFacadeInterface;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockInterface;
 use Jellyfish\Log\LogFacadeInterface;
@@ -31,14 +33,9 @@ class EventQueueConsumeCommandTest extends Unit
     protected $outputMock;
 
     /**
-     * @var \Jellyfish\Event\EventListenerProviderInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Event\EventFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $eventListenerProviderMock;
-
-    /**
-     * @var \Jellyfish\Event\EventQueueConsumerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventQueueConsumerMock;
+    protected $eventFacadeMock;
 
     /**
      * @var \Jellyfish\Event\EventInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -56,9 +53,9 @@ class EventQueueConsumeCommandTest extends Unit
     protected $eventListenerMock;
 
     /**
-     * @var \Jellyfish\Lock\LockFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Lock\LockFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $lockFactoryMock;
+    protected $lockFacadeMock;
 
     /**
      * @var \Jellyfish\Lock\LockInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -105,11 +102,7 @@ class EventQueueConsumeCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->eventListenerProviderMock = $this->getMockBuilder(EventListenerProviderInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->eventQueueConsumerMock = $this->getMockBuilder(EventQueueConsumerInterface::class)
+        $this->eventFacadeMock = $this->getMockBuilder(EventFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -126,7 +119,7 @@ class EventQueueConsumeCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->lockFactoryMock = $this->getMockBuilder(LockFactoryInterface::class)
+        $this->lockFacadeMock = $this->getMockBuilder(LockFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -143,9 +136,8 @@ class EventQueueConsumeCommandTest extends Unit
         $this->lockIdentifierParts = [EventQueueConsumeCommand::NAME, $this->eventName, $this->listenerIdentifier];
 
         $this->eventQueueConsumeCommand = new EventQueueConsumeCommand(
-            $this->eventListenerProviderMock,
-            $this->eventQueueConsumerMock,
-            $this->lockFactoryMock,
+            $this->eventFacadeMock,
+            $this->lockFacadeMock,
             $this->logFacadeMock
         );
     }
@@ -178,8 +170,8 @@ class EventQueueConsumeCommandTest extends Unit
             ->withConsecutive(['eventName'], ['listenerIdentifier'])
             ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
 
-        $this->lockFactoryMock->expects(static::atLeastOnce())
-            ->method('create')
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
@@ -204,8 +196,8 @@ class EventQueueConsumeCommandTest extends Unit
             ->withConsecutive(['eventName'], ['listenerIdentifier'])
             ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
 
-        $this->lockFactoryMock->expects(static::atLeastOnce())
-            ->method('create')
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
@@ -213,13 +205,13 @@ class EventQueueConsumeCommandTest extends Unit
             ->method('acquire')
             ->willReturn(true);
 
-        $this->eventListenerProviderMock->expects(static::atLeastOnce())
-            ->method('getListener')
+        $this->eventFacadeMock->expects(static::atLeastOnce())
+            ->method('getEventListener')
             ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventListenerMock);
 
-        $this->eventQueueConsumerMock->expects(static::atLeastOnce())
-            ->method('dequeue')
+        $this->eventFacadeMock->expects(static::atLeastOnce())
+            ->method('dequeueEvent')
             ->with($this->eventName, $this->listenerIdentifier)
             ->willReturn(null);
 
@@ -244,8 +236,8 @@ class EventQueueConsumeCommandTest extends Unit
             ->withConsecutive(['eventName'], ['listenerIdentifier'])
             ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
 
-        $this->lockFactoryMock->expects(static::atLeastOnce())
-            ->method('create')
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
@@ -253,16 +245,16 @@ class EventQueueConsumeCommandTest extends Unit
             ->method('acquire')
             ->willReturn(true);
 
-        $this->eventListenerProviderMock->expects(static::atLeastOnce())
-            ->method('getListener')
+        $this->eventFacadeMock->expects(static::atLeastOnce())
+            ->method('getEventListener')
             ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
             ->willReturn(null);
 
-        $this->eventQueueConsumerMock->expects(static::never())
-            ->method('dequeue');
+        $this->eventFacadeMock->expects(static::never())
+            ->method('dequeueEvent');
 
-        $this->eventQueueConsumerMock->expects(static::never())
-            ->method('dequeueBulk');
+        $this->eventFacadeMock->expects(static::never())
+            ->method('dequeueEventBulk');
 
         $this->lockMock->expects(static::atLeastOnce())
             ->method('release')
@@ -285,8 +277,8 @@ class EventQueueConsumeCommandTest extends Unit
             ->withConsecutive(['eventName'], ['listenerIdentifier'])
             ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
 
-        $this->lockFactoryMock->expects(static::atLeastOnce())
-            ->method('create')
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
@@ -294,13 +286,13 @@ class EventQueueConsumeCommandTest extends Unit
             ->method('acquire')
             ->willReturn(true);
 
-        $this->eventListenerProviderMock->expects(static::atLeastOnce())
-            ->method('getListener')
+        $this->eventFacadeMock->expects(static::atLeastOnce())
+            ->method('getEventListener')
             ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventListenerMock);
 
-        $this->eventQueueConsumerMock->expects(static::atLeastOnce())
-            ->method('dequeue')
+        $this->eventFacadeMock->expects(static::atLeastOnce())
+            ->method('dequeueEvent')
             ->with($this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventMock);
 
@@ -335,8 +327,8 @@ class EventQueueConsumeCommandTest extends Unit
             ->withConsecutive(['eventName'], ['listenerIdentifier'])
             ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
 
-        $this->lockFactoryMock->expects(static::atLeastOnce())
-            ->method('create')
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
@@ -344,8 +336,8 @@ class EventQueueConsumeCommandTest extends Unit
             ->method('acquire')
             ->willReturn(true);
 
-        $this->eventListenerProviderMock->expects(static::atLeastOnce())
-            ->method('getListener')
+        $this->eventFacadeMock->expects(static::atLeastOnce())
+            ->method('getEventListener')
             ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventBulkListenerMock);
 
@@ -353,8 +345,8 @@ class EventQueueConsumeCommandTest extends Unit
             ->method('getChunkSize')
             ->willReturn($chunkSize);
 
-        $this->eventQueueConsumerMock->expects(static::atLeastOnce())
-            ->method('dequeueBulk')
+        $this->eventFacadeMock->expects(static::atLeastOnce())
+            ->method('dequeueEventBulk')
             ->with($this->eventName, $this->listenerIdentifier, $chunkSize)
             ->willReturn($events);
 
@@ -389,8 +381,8 @@ class EventQueueConsumeCommandTest extends Unit
             ->withConsecutive(['eventName'], ['listenerIdentifier'])
             ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
 
-        $this->lockFactoryMock->expects(static::atLeastOnce())
-            ->method('create')
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
@@ -398,13 +390,13 @@ class EventQueueConsumeCommandTest extends Unit
             ->method('acquire')
             ->willReturn(true);
 
-        $this->eventQueueConsumerMock->expects(static::atLeastOnce())
-            ->method('dequeue')
+        $this->eventFacadeMock->expects(static::atLeastOnce())
+            ->method('dequeueEvent')
             ->with($this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventMock);
 
-        $this->eventListenerProviderMock->expects(static::atLeastOnce())
-            ->method('getListener')
+        $this->eventFacadeMock->expects(static::atLeastOnce())
+            ->method('getEventListener')
             ->with(EventListenerInterface::TYPE_ASYNC, $this->eventName, $this->listenerIdentifier)
             ->willReturn($this->eventListenerMock);
 
@@ -437,17 +429,17 @@ class EventQueueConsumeCommandTest extends Unit
             ->withConsecutive(['eventName'], ['listenerIdentifier'])
             ->willReturnOnConsecutiveCalls(null, $this->listenerIdentifier);
 
-        $this->lockFactoryMock->expects(static::never())
-            ->method('create');
+        $this->lockFacadeMock->expects(static::never())
+            ->method('createLock');
 
         $this->lockMock->expects(static::never())
             ->method('acquire');
 
-        $this->eventListenerProviderMock->expects(static::never())
-            ->method('getListener');
+        $this->eventFacadeMock->expects(static::never())
+            ->method('getEventListener');
 
-        $this->eventQueueConsumerMock->expects(static::never())
-            ->method('dequeue');
+        $this->eventFacadeMock->expects(static::never())
+            ->method('dequeueEvent');
 
         $this->logFacadeMock->expects(static::never())
             ->method('error');

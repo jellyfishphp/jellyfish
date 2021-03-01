@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Jellyfish\JsonSchemaOpis;
 
 use Codeception\Test\Unit;
+use Jellyfish\JsonSchema\JsonSchemaConstants;
+use Jellyfish\JsonSchema\JsonSchemaFacadeInterface;
 use Pimple\Container;
 
 class JsonSchemaOpisServiceProviderTest extends Unit
@@ -18,11 +20,6 @@ class JsonSchemaOpisServiceProviderTest extends Unit
      * @var \Pimple\Container
      */
     protected $container;
-
-    /**
-     * @var \Jellyfish\Config\ConfigInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $configMock;
 
     /**
      * @return void
@@ -45,10 +42,10 @@ class JsonSchemaOpisServiceProviderTest extends Unit
     {
         $this->jsonSchemaOpisServiceProvider->register($this->container);
 
-        $this->assertTrue($this->container->offsetExists('json_schema_validator_factory'));
-        $this->assertInstanceOf(
-            ValidatorFactory::class,
-            $this->container->offsetGet('json_schema_validator_factory')
+        static::assertTrue($this->container->offsetExists(JsonSchemaConstants::FACADE));
+        static::assertInstanceOf(
+            JsonSchemaFacadeInterface::class,
+            $this->container->offsetGet(JsonSchemaConstants::FACADE)
         );
     }
 }

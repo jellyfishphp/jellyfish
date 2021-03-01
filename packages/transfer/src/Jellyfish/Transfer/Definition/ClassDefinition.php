@@ -6,13 +6,16 @@ namespace Jellyfish\Transfer\Definition;
 
 use RuntimeException;
 
+use function array_key_exists;
+use function preg_replace;
+use function sha1;
 use function sprintf;
+use function str_replace;
+use function strtolower;
 
 class ClassDefinition implements ClassDefinitionInterface
 {
     public const NAMESPACE_PREFIX = 'Generated\\Transfer';
-    public const NAMESPACE_SEPARATOR = '\\';
-    public const FACTORY_NAME_SUFFIX = 'Factory';
 
     protected const PATTERN_ID = '/(?<=\\w)(?=[A-Z])/';
     protected const REPLACEMENT_ID = '_$1';
@@ -44,14 +47,14 @@ class ClassDefinition implements ClassDefinitionInterface
         }
 
         $id .= $this->name;
-        $id = \str_replace('\\', '', $id);
-        $id = @\preg_replace(static::PATTERN_ID, static::REPLACEMENT_ID, $id);
+        $id = str_replace('\\', '', $id);
+        $id = @preg_replace(static::PATTERN_ID, static::REPLACEMENT_ID, $id);
 
         if ($id === null) {
             throw new RuntimeException('Could not perform a regular expression search and replace.');
         }
 
-        return \strtolower($id);
+        return strtolower($id);
     }
 
     /**
@@ -115,7 +118,7 @@ class ClassDefinition implements ClassDefinitionInterface
             }
 
             $useStatement = $this->createUseStatement($property);
-            $useStatementKey = \sha1($useStatement);
+            $useStatementKey = sha1($useStatement);
 
             if (array_key_exists($useStatementKey, $useStatements)) {
                 continue;

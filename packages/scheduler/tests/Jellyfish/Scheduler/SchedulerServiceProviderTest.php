@@ -7,13 +7,13 @@ namespace Jellyfish\Scheduler;
 use Codeception\Test\Unit;
 use Jellyfish\Console\ConsoleConstants;
 use Jellyfish\Console\ConsoleFacadeInterface;
-use Jellyfish\Lock\LockFactoryInterface;
+use Jellyfish\Lock\LockConstants;
+use Jellyfish\Lock\LockFacadeInterface;
 use Jellyfish\Log\LogConstants;
 use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Process\ProcessConstants;
 use Jellyfish\Process\ProcessFacadeInterface;
 use Jellyfish\Scheduler\Command\RunSchedulerCommand;
-use Jellyfish\Transfer\Command\TransferGenerateCommand;
 use Pimple\Container;
 use Symfony\Component\Console\Command\Command;
 
@@ -51,12 +51,12 @@ class SchedulerServiceProviderTest extends Unit
 
         $self = $this;
 
-        $this->container->offsetSet(ConsoleConstants::FACADE, function () use ($self) {
+        $this->container->offsetSet(ConsoleConstants::FACADE, static function () use ($self) {
             return $self->consoleFacadeMock;
         });
 
-        $this->container->offsetSet('lock_factory', static function () use ($self) {
-            return $self->getMockBuilder(LockFactoryInterface::class)
+        $this->container->offsetSet(LockConstants::FACADE, static function () use ($self) {
+            return $self->getMockBuilder(LockFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });

@@ -28,7 +28,7 @@ class MessageTest extends Unit
      */
     public function testGetHeaders(): void
     {
-        $this->assertCount(0, $this->message->getHeaders());
+        static::assertCount(0, $this->message->getHeaders());
     }
 
     /**
@@ -43,8 +43,8 @@ class MessageTest extends Unit
         $this->message->setHeaders($headers);
         $actualHeaders = $this->message->getHeaders();
 
-        $this->assertCount(1, $actualHeaders);
-        $this->assertEquals($headers, $actualHeaders);
+        static::assertCount(1, $actualHeaders);
+        static::assertEquals($headers, $actualHeaders);
     }
 
     /**
@@ -54,7 +54,7 @@ class MessageTest extends Unit
     {
         $body = 'Test';
         $this->message->setBody($body);
-        $this->assertEquals($body, $this->message->getBody());
+        static::assertEquals($body, $this->message->getBody());
     }
 
     /**
@@ -66,7 +66,7 @@ class MessageTest extends Unit
         $headerValue = 'test';
 
         $this->message->setHeader($headerKey, $headerValue);
-        $this->assertEquals($headerValue, $this->message->getHeader($headerKey));
+        static::assertEquals($headerValue, $this->message->getHeader($headerKey));
     }
 
     /**
@@ -76,6 +76,6 @@ class MessageTest extends Unit
     {
         $headerKey = 'test';
 
-        $this->assertNull($this->message->getHeader($headerKey));
+        static::assertNull($this->message->getHeader($headerKey));
     }
 }

@@ -6,6 +6,9 @@ namespace Jellyfish\Transfer\Generator;
 
 use Jellyfish\Transfer\Definition\ClassDefinitionInterface;
 
+use function explode;
+use function implode;
+
 abstract class AbstractClassGenerator extends AbstractGenerator implements ClassGeneratorInterface
 {
     /**
@@ -27,7 +30,7 @@ abstract class AbstractClassGenerator extends AbstractGenerator implements Class
 
         $this->createDirectories($pathToFile);
 
-        $this->filesystem->writeToFile($pathToFile . $file, $fileContent);
+        $this->filesystemFacade->writeToFile($pathToFile . $file, $fileContent);
 
         return $this;
     }
@@ -52,8 +55,8 @@ abstract class AbstractClassGenerator extends AbstractGenerator implements Class
             return $this->targetDirectory;
         }
 
-        $namespaceParts = \explode('\\', $namespace);
+        $namespaceParts = explode('\\', $namespace);
 
-        return $this->targetDirectory . \implode(DIRECTORY_SEPARATOR, $namespaceParts) . DIRECTORY_SEPARATOR;
+        return $this->targetDirectory . implode(DIRECTORY_SEPARATOR, $namespaceParts) . DIRECTORY_SEPARATOR;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Scheduler\Command;
 
+use Jellyfish\Lock\LockFacadeInterface;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockTrait;
 use Jellyfish\Log\LogFacadeInterface;
@@ -32,18 +33,18 @@ class RunSchedulerCommand extends Command
 
     /**
      * @param \Jellyfish\Scheduler\SchedulerFacadeInterface $schedulerFacade
-     * @param \Jellyfish\Lock\LockFactoryInterface $lockFactory
+     * @param \Jellyfish\Lock\LockFacadeInterface $lockFacade
      * @param \Jellyfish\Log\LogFacadeInterface $logFacade
      */
     public function __construct(
         SchedulerFacadeInterface $schedulerFacade,
-        LockFactoryInterface $lockFactory,
+        LockFacadeInterface $lockFacade,
         LogFacadeInterface $logFacade
     ) {
         parent::__construct();
 
         $this->schedulerFacade = $schedulerFacade;
-        $this->lockFactory = $lockFactory;
+        $this->lockFacade = $lockFacade;
         $this->logFacade = $logFacade;
     }
 
@@ -62,14 +63,14 @@ class RunSchedulerCommand extends Command
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return int|null
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $lockIdentifierParts = [static::NAME];
 
         if (!$this->acquire($lockIdentifierParts)) {
-            return null;
+            return 0;
         }
 
         try {
@@ -80,6 +81,6 @@ class RunSchedulerCommand extends Command
             $this->release();
         }
 
-        return null;
+        return 0;
     }
 }
