@@ -18,6 +18,8 @@ jobs:
               run: make prepare-dandelion-config GITHUB_TOKEN=$RELEASE_BOT_GITHUB_TOKEN
             - name: Chown dandelion:dandelion
               run: sudo chown 1000:1000 -R .
+            - name: Init split repositoires
+              run: make init-split-repos
             - name: Split monorepo
               run: make split BRANCH=${GITHUB_REF#refs/heads/}
             - name: Chown dandelion:dandelion

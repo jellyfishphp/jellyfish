@@ -24,6 +24,10 @@ codeception:
 prepare-dandelion-config:
 	sed -i "s/<GITHUB_TOKEN>/$(GITHUB_TOKEN)/" $(BASE_DIRECTORY)/dandelion.json
 
+.PHONY: init-split-repos
+init-split-repos:
+	docker run -i -v $(BASE_DIRECTORY):/home/dandelion/project -w /home/dandelion/project dandelionphp/dandelion:2.0.0 dandelion split-repository:init:all
+
 .PHONY: split
 split:
 	docker run -i -v $(BASE_DIRECTORY):/home/dandelion/project -w /home/dandelion/project dandelionphp/dandelion:2.0.0 dandelion split:all $(BRANCH)
