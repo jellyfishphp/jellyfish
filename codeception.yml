@@ -3,15 +3,16 @@ include:
   - packages/cache/
   - packages/cache-symfony/
   - packages/config/
+  - packages/console/
   - packages/event/
   - packages/event-cache/
   - packages/event-log/
-  - packages/feed/
   - packages/finder/
   - packages/finder-symfony/
   - packages/filesystem/
   - packages/filesystem-symfony/
   - packages/http/
+  - packages/http-league/
   - packages/json-schema/
   - packages/json-schema-opis/
   - packages/kernel/

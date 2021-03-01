@@ -6,12 +6,11 @@ namespace Jellyfish\SerializerSymfony\NameConverter;
 
 use Codeception\Test\Unit;
 use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface;
-use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface;
 
 class PropertyNameConverterTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProviderInterface
      */
     protected $propertyNameConverterStrategyProviderMock;
 
@@ -74,24 +73,23 @@ class PropertyNameConverterTest extends Unit
     {
         $expectedPropertyName = 'convertedProperty';
 
-        $this->propertyNameConverterStrategyProviderMock->expects($this->atLeastOnce())
-            ->method('getAllStrategies')
+        $this->propertyNameConverterStrategyProviderMock->expects(static::atLeastOnce())
+            ->method('getAll')
             ->willReturn($this->propertyNameConverterStrategyMocks);
 
-        $this->propertyNameConverterStrategyMocks[0]->expects($this->atLeastOnce())
+        $this->propertyNameConverterStrategyMocks[0]->expects(static::atLeastOnce())
             ->method('convertAfterNormalize')
             ->with($this->propertyName, $this->class, $this->format)
             ->willReturn(null);
 
-        $this->propertyNameConverterStrategyMocks[1]->expects($this->atLeastOnce())
+        $this->propertyNameConverterStrategyMocks[1]->expects(static::atLeastOnce())
             ->method('convertAfterNormalize')
             ->with($this->propertyName, $this->class, $this->format)
             ->willReturn($expectedPropertyName);
 
-        $actualPropertyName = $this->propertyNameConverter
-            ->normalize($this->propertyName, $this->class, $this->format);
+        $actualPropertyName = $this->propertyNameConverter->normalize($this->propertyName, $this->class, $this->format);
 
-        $this->assertEquals($expectedPropertyName, $actualPropertyName);
+        static::assertEquals($expectedPropertyName, $actualPropertyName);
     }
 
     /**
@@ -101,24 +99,23 @@ class PropertyNameConverterTest extends Unit
     {
         $expectedPropertyName = $this->propertyName;
 
-        $this->propertyNameConverterStrategyProviderMock->expects($this->atLeastOnce())
-            ->method('getAllStrategies')
+        $this->propertyNameConverterStrategyProviderMock->expects(static::atLeastOnce())
+            ->method('getAll')
             ->willReturn($this->propertyNameConverterStrategyMocks);
 
-        $this->propertyNameConverterStrategyMocks[0]->expects($this->atLeastOnce())
+        $this->propertyNameConverterStrategyMocks[0]->expects(static::atLeastOnce())
             ->method('convertAfterNormalize')
             ->with($this->propertyName, $this->class, $this->format)
             ->willReturn(null);
 
-        $this->propertyNameConverterStrategyMocks[1]->expects($this->atLeastOnce())
+        $this->propertyNameConverterStrategyMocks[1]->expects(static::atLeastOnce())
             ->method('convertAfterNormalize')
             ->with($this->propertyName, $this->class, $this->format)
             ->willReturn(null);
 
-        $actualPropertyName = $this->propertyNameConverter
-            ->normalize($this->propertyName, $this->class, $this->format);
+        $actualPropertyName = $this->propertyNameConverter->normalize($this->propertyName, $this->class, $this->format);
 
-        $this->assertEquals($expectedPropertyName, $actualPropertyName);
+        static::assertEquals($expectedPropertyName, $actualPropertyName);
     }
 
     /**
@@ -128,24 +125,27 @@ class PropertyNameConverterTest extends Unit
     {
         $expectedPropertyName = 'convertedProperty';
 
-        $this->propertyNameConverterStrategyProviderMock->expects($this->atLeastOnce())
-            ->method('getAllStrategies')
+        $this->propertyNameConverterStrategyProviderMock->expects(static::atLeastOnce())
+            ->method('getAll')
             ->willReturn($this->propertyNameConverterStrategyMocks);
 
-        $this->propertyNameConverterStrategyMocks[0]->expects($this->atLeastOnce())
+        $this->propertyNameConverterStrategyMocks[0]->expects(static::atLeastOnce())
             ->method('convertAfterDenormalize')
             ->with($this->propertyName, $this->class, $this->format)
             ->willReturn(null);
 
-        $this->propertyNameConverterStrategyMocks[1]->expects($this->atLeastOnce())
+        $this->propertyNameConverterStrategyMocks[1]->expects(static::atLeastOnce())
             ->method('convertAfterDenormalize')
             ->with($this->propertyName, $this->class, $this->format)
             ->willReturn($expectedPropertyName);
 
-        $actualPropertyName = $this->propertyNameConverter
-            ->denormalize($this->propertyName, $this->class, $this->format);
+        $actualPropertyName = $this->propertyNameConverter->denormalize(
+            $this->propertyName,
+            $this->class,
+            $this->format
+        );
 
-        $this->assertEquals($expectedPropertyName, $actualPropertyName);
+        static::assertEquals($expectedPropertyName, $actualPropertyName);
     }
 
     /**
@@ -155,23 +155,26 @@ class PropertyNameConverterTest extends Unit
     {
         $expectedPropertyName = $this->propertyName;
 
-        $this->propertyNameConverterStrategyProviderMock->expects($this->atLeastOnce())
-            ->method('getAllStrategies')
+        $this->propertyNameConverterStrategyProviderMock->expects(static::atLeastOnce())
+            ->method('getAll')
             ->willReturn($this->propertyNameConverterStrategyMocks);
 
-        $this->propertyNameConverterStrategyMocks[0]->expects($this->atLeastOnce())
+        $this->propertyNameConverterStrategyMocks[0]->expects(static::atLeastOnce())
             ->method('convertAfterDenormalize')
             ->with($this->propertyName, $this->class, $this->format)
             ->willReturn(null);
 
-        $this->propertyNameConverterStrategyMocks[1]->expects($this->atLeastOnce())
+        $this->propertyNameConverterStrategyMocks[1]->expects(static::atLeastOnce())
             ->method('convertAfterDenormalize')
             ->with($this->propertyName, $this->class, $this->format)
             ->willReturn(null);
 
-        $actualPropertyName = $this->propertyNameConverter
-            ->denormalize($this->propertyName, $this->class, $this->format);
+        $actualPropertyName = $this->propertyNameConverter->denormalize(
+            $this->propertyName,
+            $this->class,
+            $this->format
+        );
 
-        $this->assertEquals($expectedPropertyName, $actualPropertyName);
+        static::assertEquals($expectedPropertyName, $actualPropertyName);
     }
 }

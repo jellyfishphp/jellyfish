@@ -9,6 +9,8 @@ use Opis\JsonSchema\ISchema as OpisSchemaInterface;
 use Opis\JsonSchema\IValidator as OpisValidatorInterface;
 use Opis\JsonSchema\ValidationResult as OpisValidationResult;
 
+use function json_decode;
+
 class ValidatorTest extends Unit
 {
     /**
@@ -27,7 +29,7 @@ class ValidatorTest extends Unit
     protected $opisValidationResult;
 
     /**
-     * @var \Jellyfish\JsonSchema\ValidatorInterface
+     * @var \Jellyfish\JsonSchemaOpis\ValidatorInterface
      */
     protected $validator;
 
@@ -60,11 +62,11 @@ class ValidatorTest extends Unit
     {
         $json = '{"name", "test"}';
 
-        $this->opisValidatorMock->expects($this->atLeastOnce())
+        $this->opisValidatorMock->expects(static::atLeastOnce())
             ->method('schemaValidation')
-            ->with(\json_decode($json), $this->opisSchemaMock)
+            ->with(json_decode($json), $this->opisSchemaMock)
             ->willReturn($this->opisValidationResult);
 
-        $this->assertTrue($this->validator->validate($json));
+        static::assertTrue($this->validator->validate($json));
     }
 }

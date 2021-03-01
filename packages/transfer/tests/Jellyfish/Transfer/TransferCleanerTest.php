@@ -6,8 +6,8 @@ namespace Jellyfish\Transfer;
 
 use Codeception\Test\Unit;
 use Iterator;
-use Jellyfish\Filesystem\FilesystemInterface;
-use Jellyfish\Finder\FinderFactoryInterface;
+use Jellyfish\Filesystem\FilesystemFacadeInterface;
+use Jellyfish\Finder\FinderFacadeInterface;
 use Jellyfish\Finder\FinderInterface;
 use SplFileInfo;
 use stdClass;
@@ -25,14 +25,14 @@ class TransferCleanerTest extends Unit
     protected $targetDirectory;
 
     /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Filesystem\FilesystemFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $filesystemMock;
+    protected $filesystemFacadeMock;
 
     /**
-     * @var \Jellyfish\Finder\FinderFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Finder\FinderFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $finderFactoryMock;
+    protected $finderFacadeMock;
 
     /**
      * @return void
@@ -41,19 +41,19 @@ class TransferCleanerTest extends Unit
     {
         parent::_before();
 
-        $this->filesystemMock = $this->getMockBuilder(FilesystemInterface::class)
+        $this->filesystemFacadeMock = $this->getMockBuilder(FilesystemFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->finderFactoryMock = $this->getMockBuilder(FinderFactoryInterface::class)
+        $this->finderFacadeMock = $this->getMockBuilder(FinderFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->targetDirectory = '/root/src/Generated/Transfer/';
 
         $this->transferCleaner = new TransferCleaner(
-            $this->finderFactoryMock,
-            $this->filesystemMock,
+            $this->finderFacadeMock,
+            $this->filesystemFacadeMock,
             $this->targetDirectory
         );
     }
@@ -93,93 +93,93 @@ class TransferCleanerTest extends Unit
                 ->getMock(),
         ];
 
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('exists')
             ->with($this->targetDirectory)
             ->willReturn(true);
 
-        $this->finderFactoryMock->expects($this->atLeastOnce())
-            ->method('create')
+        $this->finderFacadeMock->expects(static::atLeastOnce())
+            ->method('createFinder')
             ->willReturnOnConsecutiveCalls($finderMocks[0], $finderMocks[1]);
 
-        $finderMocks[0]->expects($this->atLeastOnce())
+        $finderMocks[0]->expects(static::atLeastOnce())
             ->method('in')
-            ->with($this->targetDirectory)
+            ->with([$this->targetDirectory])
             ->willReturn($finderMocks[0]);
 
-        $finderMocks[0]->expects($this->atLeastOnce())
+        $finderMocks[0]->expects(static::atLeastOnce())
             ->method('depth')
             ->with(0)
             ->willReturn($finderMocks[0]);
 
-        $finderMocks[0]->expects($this->atLeastOnce())
+        $finderMocks[0]->expects(static::atLeastOnce())
             ->method('getIterator')
             ->willReturn($iteratorMocks[0]);
 
-        $iteratorMocks[0]->expects($this->atLeastOnce())
+        $iteratorMocks[0]->expects(static::atLeastOnce())
             ->method('rewind');
 
-        $iteratorMocks[0]->expects($this->atLeastOnce())
+        $iteratorMocks[0]->expects(static::atLeastOnce())
             ->method('valid')
             ->willReturnOnConsecutiveCalls(true, true, false);
 
-        $iteratorMocks[0]->expects($this->atLeastOnce())
+        $iteratorMocks[0]->expects(static::atLeastOnce())
             ->method('current')
             ->willReturnOnConsecutiveCalls($splFileInfoMocks[0], $splFileInfoMocks[1]);
 
-        $splFileInfoMocks[0]->expects($this->atLeastOnce())
+        $splFileInfoMocks[0]->expects(static::atLeastOnce())
             ->method('isDir')
             ->willReturn(true);
 
-        $splFileInfoMocks[0]->expects($this->atLeastOnce())
+        $splFileInfoMocks[0]->expects(static::atLeastOnce())
             ->method('getRealPath')
             ->willReturn($this->targetDirectory . 'Product');
 
-        $splFileInfoMocks[1]->expects($this->atLeastOnce())
+        $splFileInfoMocks[1]->expects(static::atLeastOnce())
             ->method('getRealPath')
             ->willReturn($this->targetDirectory . 'factory-registry.php');
 
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('remove')
             ->withConsecutive(
                 [$this->targetDirectory . 'Product/AttributeTransfer.php'],
                 [$this->targetDirectory . 'Product']
-            )->willReturn($this->filesystemMock);
+            )->willReturn($this->filesystemFacadeMock);
 
-        $finderMocks[1]->expects($this->atLeastOnce())
+        $finderMocks[1]->expects(static::atLeastOnce())
             ->method('in')
-            ->with($this->targetDirectory . 'Product')
+            ->with([$this->targetDirectory . 'Product'])
             ->willReturn($finderMocks[1]);
 
-        $finderMocks[1]->expects($this->atLeastOnce())
+        $finderMocks[1]->expects(static::atLeastOnce())
             ->method('depth')
             ->with(0)
             ->willReturn($finderMocks[1]);
 
-        $finderMocks[1]->expects($this->atLeastOnce())
+        $finderMocks[1]->expects(static::atLeastOnce())
             ->method('getIterator')
             ->willReturn($iteratorMocks[1]);
 
-        $iteratorMocks[1]->expects($this->atLeastOnce())
+        $iteratorMocks[1]->expects(static::atLeastOnce())
             ->method('rewind');
 
-        $iteratorMocks[1]->expects($this->atLeastOnce())
+        $iteratorMocks[1]->expects(static::atLeastOnce())
             ->method('valid')
             ->willReturnOnConsecutiveCalls(true, false);
 
-        $iteratorMocks[1]->expects($this->atLeastOnce())
+        $iteratorMocks[1]->expects(static::atLeastOnce())
             ->method('current')
             ->willReturn($splFileInfoMocks[2]);
 
-        $splFileInfoMocks[2]->expects($this->atLeastOnce())
+        $splFileInfoMocks[2]->expects(static::atLeastOnce())
             ->method('isDir')
             ->willReturn(false);
 
-        $splFileInfoMocks[2]->expects($this->atLeastOnce())
+        $splFileInfoMocks[2]->expects(static::atLeastOnce())
             ->method('getRealPath')
             ->willReturn($this->targetDirectory . 'Product/AttributeTransfer.php');
 
-        $this->assertEquals($this->transferCleaner, $this->transferCleaner->clean());
+        static::assertEquals($this->transferCleaner, $this->transferCleaner->clean());
     }
 
     /**
@@ -187,7 +187,7 @@ class TransferCleanerTest extends Unit
      */
     public function testCleanWithInvalidIteratorElement(): void
     {
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('exists')
             ->with($this->targetDirectory)
             ->willReturn(true);
@@ -204,40 +204,40 @@ class TransferCleanerTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->finderFactoryMock->expects($this->atLeastOnce())
-            ->method('create')
+        $this->finderFacadeMock->expects(static::atLeastOnce())
+            ->method('createFinder')
             ->willReturn($finderMock);
 
-        $finderMock->expects($this->atLeastOnce())
+        $finderMock->expects(static::atLeastOnce())
             ->method('in')
-            ->with($this->targetDirectory)
+            ->with([$this->targetDirectory])
             ->willReturn($finderMock);
 
-        $finderMock->expects($this->atLeastOnce())
+        $finderMock->expects(static::atLeastOnce())
             ->method('depth')
             ->with(0)
             ->willReturn($finderMock);
 
-        $finderMock->expects($this->atLeastOnce())
+        $finderMock->expects(static::atLeastOnce())
             ->method('getIterator')
             ->willReturn($iteratorMock);
 
-        $iteratorMock->expects($this->atLeastOnce())
+        $iteratorMock->expects(static::atLeastOnce())
             ->method('rewind');
 
-        $iteratorMock->expects($this->atLeastOnce())
+        $iteratorMock->expects(static::atLeastOnce())
             ->method('valid')
             ->willReturnOnConsecutiveCalls(true, false);
 
-        $iteratorMock->expects($this->atLeastOnce())
+        $iteratorMock->expects(static::atLeastOnce())
             ->method('current')
             ->willReturn($stdClassMock);
 
-        $this->filesystemMock->expects($this->never())
+        $this->filesystemFacadeMock->expects(static::never())
             ->method('remove')
-            ->willReturn($this->filesystemMock);
-        
-        $this->assertEquals($this->transferCleaner, $this->transferCleaner->clean());
+            ->willReturn($this->filesystemFacadeMock);
+
+        static::assertEquals($this->transferCleaner, $this->transferCleaner->clean());
     }
 
     /**
@@ -245,14 +245,14 @@ class TransferCleanerTest extends Unit
      */
     public function testCleanWithNonExistingTargetDirectory(): void
     {
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('exists')
             ->with($this->targetDirectory)
             ->willReturn(false);
 
-        $this->finderFactoryMock->expects($this->never())
-            ->method('create');
+        $this->finderFacadeMock->expects(static::never())
+            ->method('createFinder');
 
-        $this->assertEquals($this->transferCleaner, $this->transferCleaner->clean());
+        static::assertEquals($this->transferCleaner, $this->transferCleaner->clean());
     }
 }

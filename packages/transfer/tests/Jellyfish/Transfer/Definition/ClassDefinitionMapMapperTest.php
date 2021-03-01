@@ -6,7 +6,7 @@ namespace Jellyfish\Transfer\Definition;
 
 use ArrayObject;
 use Codeception\Test\Unit;
-use Jellyfish\Serializer\SerializerInterface;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 
 class ClassDefinitionMapMapperTest extends Unit
 {
@@ -16,9 +16,9 @@ class ClassDefinitionMapMapperTest extends Unit
     protected $classDefinitionMapMapper;
 
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Serializer\SerializerFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $serializerMock;
+    protected $serializerFacadeMock;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinition[]|\PHPUnit\Framework\MockObject\MockObject[]
@@ -37,7 +37,7 @@ class ClassDefinitionMapMapperTest extends Unit
     {
         parent::_before();
 
-        $this->serializerMock = $this->getMockBuilder(SerializerInterface::class)
+        $this->serializerFacadeMock = $this->getMockBuilder(SerializerFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -53,7 +53,7 @@ class ClassDefinitionMapMapperTest extends Unit
                 ->getMock()
         ];
 
-        $this->classDefinitionMapMapper = new ClassDefinitionMapMapper($this->serializerMock);
+        $this->classDefinitionMapMapper = new ClassDefinitionMapMapper($this->serializerFacadeMock);
     }
 
     /**
@@ -63,34 +63,34 @@ class ClassDefinitionMapMapperTest extends Unit
     {
         $json = '[{...}]';
 
-        $this->serializerMock->expects($this->atLeastOnce())
+        $this->serializerFacadeMock->expects(static::atLeastOnce())
             ->method('deserialize')
             ->with($json, ClassDefinition::class . '[]', 'json')
             ->willReturn($this->classDefinitionMocks);
 
-        $this->classDefinitionMocks[0]->expects($this->atLeastOnce())
+        $this->classDefinitionMocks[0]->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn('Product');
 
-        $this->classDefinitionMocks[0]->expects($this->atLeastOnce())
+        $this->classDefinitionMocks[0]->expects(static::atLeastOnce())
             ->method('getNamespace')
             ->willReturn(null);
 
-        $this->classDefinitionMocks[0]->expects($this->atLeastOnce())
+        $this->classDefinitionMocks[0]->expects(static::atLeastOnce())
             ->method('getProperties')
             ->willReturn($this->classPropertyDefinitionMocks);
 
-        $this->classPropertyDefinitionMocks[0]->expects($this->atLeastOnce())
+        $this->classPropertyDefinitionMocks[0]->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn('sku');
 
-        $this->classDefinitionMocks[0]->expects($this->atLeastOnce())
+        $this->classDefinitionMocks[0]->expects(static::atLeastOnce())
             ->method('setProperties')
             ->with(['sku' => $this->classPropertyDefinitionMocks[0]]);
 
         $classDefinitionMap = $this->classDefinitionMapMapper->from($json);
 
-        $this->assertEquals(['Product' => $this->classDefinitionMocks[0]], $classDefinitionMap);
+        static::assertEquals(['Product' => $this->classDefinitionMocks[0]], $classDefinitionMap);
     }
 
     /**
@@ -100,33 +100,33 @@ class ClassDefinitionMapMapperTest extends Unit
     {
         $json = '[{...}]';
 
-        $this->serializerMock->expects($this->atLeastOnce())
+        $this->serializerFacadeMock->expects(static::atLeastOnce())
             ->method('deserialize')
             ->with($json, ClassDefinition::class . '[]', 'json')
             ->willReturn($this->classDefinitionMocks);
 
-        $this->classDefinitionMocks[0]->expects($this->atLeastOnce())
+        $this->classDefinitionMocks[0]->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn('Product');
 
-        $this->classDefinitionMocks[0]->expects($this->atLeastOnce())
+        $this->classDefinitionMocks[0]->expects(static::atLeastOnce())
             ->method('getNamespace')
             ->willReturn('Catalog');
 
-        $this->classDefinitionMocks[0]->expects($this->atLeastOnce())
+        $this->classDefinitionMocks[0]->expects(static::atLeastOnce())
             ->method('getProperties')
             ->willReturn($this->classPropertyDefinitionMocks);
 
-        $this->classPropertyDefinitionMocks[0]->expects($this->atLeastOnce())
+        $this->classPropertyDefinitionMocks[0]->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn('sku');
 
-        $this->classDefinitionMocks[0]->expects($this->atLeastOnce())
+        $this->classDefinitionMocks[0]->expects(static::atLeastOnce())
             ->method('setProperties')
             ->with(['sku' => $this->classPropertyDefinitionMocks[0]]);
 
         $classDefinitionMap = $this->classDefinitionMapMapper->from($json);
 
-        $this->assertEquals(['Catalog\\Product' => $this->classDefinitionMocks[0]], $classDefinitionMap);
+        static::assertEquals(['Catalog\\Product' => $this->classDefinitionMocks[0]], $classDefinitionMap);
     }
 }

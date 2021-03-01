@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Jellyfish\Scheduler\Command;
 
+use Jellyfish\Lock\LockFacadeInterface;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockTrait;
-use Jellyfish\Scheduler\SchedulerInterface;
-use Psr\Log\LoggerInterface;
+use Jellyfish\Log\LogFacadeInterface;
+use Jellyfish\Scheduler\SchedulerFacadeInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,30 +22,30 @@ class RunSchedulerCommand extends Command
     public const DESCRIPTION = 'Run scheduler.';
 
     /**
-     * @var \Jellyfish\Scheduler\SchedulerInterface
+     * @var \Jellyfish\Scheduler\SchedulerFacadeInterface
      */
-    protected $scheduler;
+    protected $schedulerFacade;
 
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var \Jellyfish\Log\LogFacadeInterface
      */
-    protected $logger;
+    protected $logFacade;
 
     /**
-     * @param \Jellyfish\Scheduler\SchedulerInterface $scheduler
-     * @param \Jellyfish\Lock\LockFactoryInterface $lockFactory
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Jellyfish\Scheduler\SchedulerFacadeInterface $schedulerFacade
+     * @param \Jellyfish\Lock\LockFacadeInterface $lockFacade
+     * @param \Jellyfish\Log\LogFacadeInterface $logFacade
      */
     public function __construct(
-        SchedulerInterface $scheduler,
-        LockFactoryInterface $lockFactory,
-        LoggerInterface $logger
+        SchedulerFacadeInterface $schedulerFacade,
+        LockFacadeInterface $lockFacade,
+        LogFacadeInterface $logFacade
     ) {
         parent::__construct();
 
-        $this->scheduler = $scheduler;
-        $this->lockFactory = $lockFactory;
-        $this->logger = $logger;
+        $this->schedulerFacade = $schedulerFacade;
+        $this->lockFacade = $lockFacade;
+        $this->logFacade = $logFacade;
     }
 
     /**
@@ -62,24 +63,24 @@ class RunSchedulerCommand extends Command
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return int|null
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $lockIdentifierParts = [static::NAME];
 
         if (!$this->acquire($lockIdentifierParts)) {
-            return null;
+            return 0;
         }
 
         try {
-            $this->scheduler->run();
+            $this->schedulerFacade->runScheduler();
         } catch (Throwable $e) {
-            $this->logger->error($e->getMessage());
+            $this->logFacade->error($e->getMessage());
         } finally {
             $this->release();
         }
 
-        return null;
+        return 0;
     }
 }

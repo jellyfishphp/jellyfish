@@ -33,7 +33,7 @@ class ClassDefinitionTest extends Unit
     {
         $this->classDefinition->setName('Product');
 
-        $this->assertEquals('generated_transfer_product', $this->classDefinition->getId());
+        static::assertEquals('generated_transfer_product', $this->classDefinition->getId());
     }
 
     /**
@@ -41,7 +41,7 @@ class ClassDefinitionTest extends Unit
      */
     public function testGetIdWithInvalidPattern(): void
     {
-        $extendedClassDefinition = new class() extends ClassDefinition
+        $extendedClassDefinition = new class () extends ClassDefinition
         {
             protected const PATTERN_ID = '';
         };
@@ -51,7 +51,7 @@ class ClassDefinitionTest extends Unit
 
         try {
             $extendedClassDefinition->getId();
-            $this->fail();
+            static::fail();
         } catch (RuntimeException $e) {
         }
     }
@@ -64,7 +64,7 @@ class ClassDefinitionTest extends Unit
         $this->classDefinition->setName('Product')
             ->setNamespace('Catalog');
 
-        $this->assertEquals('generated_transfer_catalog_product', $this->classDefinition->getId());
+        static::assertEquals('generated_transfer_catalog_product', $this->classDefinition->getId());
     }
 
     /**
@@ -73,8 +73,8 @@ class ClassDefinitionTest extends Unit
     public function testSetAndGetName(): void
     {
         $name = 'Product';
-        $this->assertEquals($this->classDefinition, $this->classDefinition->setName($name));
-        $this->assertEquals($name, $this->classDefinition->getName());
+        static::assertEquals($this->classDefinition, $this->classDefinition->setName($name));
+        static::assertEquals($name, $this->classDefinition->getName());
     }
 
     /**
@@ -83,8 +83,8 @@ class ClassDefinitionTest extends Unit
     public function testSetAndGetNamespace(): void
     {
         $namespace = 'Catalog';
-        $this->assertEquals($this->classDefinition, $this->classDefinition->setNamespace($namespace));
-        $this->assertEquals($namespace, $this->classDefinition->getNamespace());
+        static::assertEquals($this->classDefinition, $this->classDefinition->setNamespace($namespace));
+        static::assertEquals($namespace, $this->classDefinition->getNamespace());
     }
 
     /**
@@ -95,8 +95,8 @@ class ClassDefinitionTest extends Unit
         $namespace = 'Lorem';
         $expectedNamespaceStatement = sprintf('namespace %s\\%s;', ClassDefinition::NAMESPACE_PREFIX, $namespace);
 
-        $this->assertEquals($this->classDefinition, $this->classDefinition->setNamespace($namespace));
-        $this->assertEquals($expectedNamespaceStatement, $this->classDefinition->getNamespaceStatement());
+        static::assertEquals($this->classDefinition, $this->classDefinition->setNamespace($namespace));
+        static::assertEquals($expectedNamespaceStatement, $this->classDefinition->getNamespaceStatement());
     }
 
     /**
@@ -119,62 +119,62 @@ class ClassDefinitionTest extends Unit
                 ->getMock()
         ];
 
-        $this->assertEquals($this->classDefinition, $this->classDefinition->setNamespace('Lorem'));
-        $this->assertEquals($this->classDefinition, $this->classDefinition->setProperties($propertyMocks));
+        static::assertEquals($this->classDefinition, $this->classDefinition->setNamespace('Lorem'));
+        static::assertEquals($this->classDefinition, $this->classDefinition->setProperties($propertyMocks));
 
-        $propertyMocks[0]->expects($this->atLeastOnce())
+        $propertyMocks[0]->expects(static::atLeastOnce())
             ->method('isPrimitive')
             ->willReturn(true);
 
-        $propertyMocks[1]->expects($this->atLeastOnce())
+        $propertyMocks[1]->expects(static::atLeastOnce())
             ->method('isPrimitive')
             ->willReturn(false);
 
-        $propertyMocks[1]->expects($this->atLeastOnce())
+        $propertyMocks[1]->expects(static::atLeastOnce())
             ->method('getTypeNamespace')
             ->willReturn('Ipsum');
 
-        $propertyMocks[1]->expects($this->atLeastOnce())
+        $propertyMocks[1]->expects(static::atLeastOnce())
             ->method('getTypeAlias')
             ->willReturn(null);
 
-        $propertyMocks[1]->expects($this->atLeastOnce())
+        $propertyMocks[1]->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn('A');
 
-        $propertyMocks[2]->expects($this->atLeastOnce())
+        $propertyMocks[2]->expects(static::atLeastOnce())
             ->method('isPrimitive')
             ->willReturn(false);
 
-        $propertyMocks[2]->expects($this->atLeastOnce())
+        $propertyMocks[2]->expects(static::atLeastOnce())
             ->method('getTypeNamespace')
             ->willReturn('Ipsum');
 
-        $propertyMocks[2]->expects($this->atLeastOnce())
+        $propertyMocks[2]->expects(static::atLeastOnce())
             ->method('getTypeAlias')
             ->willReturn(null);
 
-        $propertyMocks[2]->expects($this->atLeastOnce())
+        $propertyMocks[2]->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn('A');
 
-        $propertyMocks[3]->expects($this->atLeastOnce())
+        $propertyMocks[3]->expects(static::atLeastOnce())
             ->method('isPrimitive')
             ->willReturn(false);
 
-        $propertyMocks[3]->expects($this->atLeastOnce())
+        $propertyMocks[3]->expects(static::atLeastOnce())
             ->method('getTypeNamespace')
             ->willReturn('Lorem');
 
-        $propertyMocks[3]->expects($this->atLeastOnce())
+        $propertyMocks[3]->expects(static::atLeastOnce())
             ->method('getTypeAlias')
             ->willReturn('LoremA');
 
-        $propertyMocks[3]->expects($this->atLeastOnce())
+        $propertyMocks[3]->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn('A');
 
-        $this->assertCount(2, $this->classDefinition->getUseStatements());
+        static::assertCount(2, $this->classDefinition->getUseStatements());
     }
 
     /**
@@ -191,11 +191,11 @@ class ClassDefinitionTest extends Unit
                 ->getMock()
         ];
 
-        $this->assertEquals($this->classDefinition, $this->classDefinition->setProperties($propertyMocks));
+        static::assertEquals($this->classDefinition, $this->classDefinition->setProperties($propertyMocks));
 
         $properties = $this->classDefinition->getProperties();
 
-        $this->assertCount(count($propertyMocks), $properties);
-        $this->assertEquals($propertyMocks, $properties);
+        static::assertCount(count($propertyMocks), $properties);
+        static::assertEquals($propertyMocks, $properties);
     }
 }

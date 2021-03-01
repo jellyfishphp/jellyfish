@@ -1,29 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\EventCache\EventErrorHandler;
 
 use Codeception\Test\Unit;
 use Exception;
-use Jellyfish\Cache\CacheInterface;
+use Jellyfish\Cache\CacheFacadeInterface;
 use Jellyfish\Event\EventInterface;
 use Jellyfish\EventCache\EventCacheConstants;
-use Jellyfish\EventLog\EventErrorHandler\LogEventErrorHandler;
-use Jellyfish\Serializer\SerializerInterface;
-use Psr\Log\LoggerInterface;
-
-use function sprintf;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 
 class CacheEventErrorHandlerTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Serializer\SerializerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializerMock;
+    protected $serializerFacadeMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Cache\CacheInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Cache\CacheFacadeInterface
      */
-    protected $cacheMock;
+    protected $cacheFacadeMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Event\EventInterface
@@ -52,11 +50,11 @@ class CacheEventErrorHandlerTest extends Unit
     {
         parent::_before();
 
-        $this->serializerMock = $this->getMockBuilder(SerializerInterface::class)
+        $this->serializerFacadeMock = $this->getMockBuilder(SerializerFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->cacheMock = $this->getMockBuilder(CacheInterface::class)
+        $this->cacheFacadeMock = $this->getMockBuilder(CacheFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -69,8 +67,8 @@ class CacheEventErrorHandlerTest extends Unit
         $this->eventListenerIdentifier = 'foo';
 
         $this->cacheEventErrorHandler = new CacheEventErrorHandler(
-            $this->cacheMock,
-            $this->serializerMock
+            $this->cacheFacadeMock,
+            $this->serializerFacadeMock
         );
     }
 
@@ -86,15 +84,15 @@ class CacheEventErrorHandlerTest extends Unit
             ->method('getId')
             ->willReturn($id);
 
-        $this->serializerMock->expects(self::atLeastOnce())
+        $this->serializerFacadeMock->expects(self::atLeastOnce())
             ->method('serialize')
             ->with($this->eventMock, 'json')
             ->willReturn($json);
 
-        $this->cacheMock->expects(self::atLeastOnce())
+        $this->cacheFacadeMock->expects(self::atLeastOnce())
             ->method('set')
             ->with($id, $json, EventCacheConstants::LIFE_TIME)
-            ->willReturn($this->cacheMock);
+            ->willReturn($this->cacheFacadeMock);
 
         self::assertEquals(
             $this->cacheEventErrorHandler,

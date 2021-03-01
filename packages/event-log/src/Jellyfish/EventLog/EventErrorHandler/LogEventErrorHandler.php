@@ -1,25 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\EventLog\EventErrorHandler;
 
 use Jellyfish\Event\EventErrorHandlerInterface;
 use Jellyfish\Event\EventInterface;
-use Psr\Log\LoggerInterface;
+use Jellyfish\Log\LogFacadeInterface;
 use Throwable;
 
 class LogEventErrorHandler implements EventErrorHandlerInterface
 {
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var \Jellyfish\Log\LogFacadeInterface
      */
-    protected $logger;
+    protected $logFacade;
 
     /**
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Jellyfish\Log\LogFacadeInterface $logFacade
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LogFacadeInterface $logFacade)
     {
-        $this->logger = $logger;
+        $this->logFacade = $logFacade;
     }
 
     /**
@@ -42,7 +44,7 @@ class LogEventErrorHandler implements EventErrorHandlerInterface
             'trace' => $throwable->getTrace()
         ];
 
-        $this->logger->error($throwable->getMessage(), $context);
+        $this->logFacade->error($throwable->getMessage(), $context);
 
         return $this;
     }

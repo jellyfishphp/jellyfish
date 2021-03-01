@@ -6,6 +6,8 @@ namespace Jellyfish\Scheduler;
 
 use DateTime;
 
+use function count;
+
 class Scheduler implements SchedulerInterface
 {
     protected const DELAY_INTERVAL = 1000000;

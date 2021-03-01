@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event\Command;
 
-use Jellyfish\Event\EventQueueWorkerInterface;
+use Jellyfish\Event\EventFacadeInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,19 +15,19 @@ class EventQueueWorkerStartCommand extends Command
     public const DESCRIPTION = 'Start event queue worker';
 
     /**
-     * @var \Jellyfish\Event\EventQueueWorkerInterface $eventQueueWorker
+     * @var \Jellyfish\Event\EventFacadeInterface
      */
-    protected $eventQueueWorker;
+    protected $eventFacade;
 
     /**
-     * @param \Jellyfish\Event\EventQueueWorkerInterface $eventQueueWorker
+     * @param \Jellyfish\Event\EventFacadeInterface $eventFacade
      */
     public function __construct(
-        EventQueueWorkerInterface $eventQueueWorker
+        EventFacadeInterface $eventFacade
     ) {
         parent::__construct();
 
-        $this->eventQueueWorker = $eventQueueWorker;
+        $this->eventFacade = $eventFacade;
     }
 
     /**
@@ -45,12 +45,12 @@ class EventQueueWorkerStartCommand extends Command
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return int|null
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->eventQueueWorker->start();
+        $this->eventFacade->startEventQueueWorker();
 
-        return null;
+        return 0;
     }
 }

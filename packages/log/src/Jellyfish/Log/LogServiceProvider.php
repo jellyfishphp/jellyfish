@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jellyfish\Log;
 
-use Monolog\Handler\AbstractProcessingHandler;
+use Jellyfish\Config\ConfigConstants;
+use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -20,7 +20,7 @@ class LogServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container): void
     {
-        $this->registerLogger($container);
+        $this->registerLogFacade($container);
     }
 
     /**
@@ -28,17 +28,16 @@ class LogServiceProvider implements ServiceProviderInterface
      *
      * @return \Jellyfish\Log\LogServiceProvider
      */
-    protected function registerLogger(Container $container): LogServiceProvider
+    protected function registerLogFacade(Container $container): LogServiceProvider
     {
         $self = $this;
 
-        $container->offsetSet(LogConstants::CONTAINER_KEY_LOGGER, static function (Container $container) use ($self) {
-            $logger = new Logger('jellyfish');
+        $container->offsetSet(LogConstants::FACADE, static function (Container $container) use ($self) {
+            $logFactory = new LogFactory();
 
-            $logger->pushHandler($self->createStreamHandler($container));
-            $logger->pushHandler($self->createRotatingFileHandler($container));
-
-            return $logger;
+            return (new LogFacade($logFactory))
+                ->addHandler($self->createStreamHandler($container))
+                ->addHandler($self->createRotatingFileHandler($container));
         });
 
         return $this;
@@ -51,26 +50,35 @@ class LogServiceProvider implements ServiceProviderInterface
      *
      * @throws \Exception
      */
-    protected function createStreamHandler(Container $container): AbstractProcessingHandler
+    protected function createStreamHandler(Container $container): HandlerInterface
     {
-        $logLevel = $container->offsetGet('config')
-            ->get(LogConstants::LOG_LEVEL, (string) LogConstants::DEFAULT_LOG_LEVEL);
+        /** @var \Jellyfish\Config\ConfigFacadeInterface $configFacade */
+        $configFacade = $container->offsetGet(ConfigConstants::FACADE);
 
-        return new StreamHandler('php://stdout', (int) $logLevel);
+        return new StreamHandler(
+            'php://stdout',
+            $configFacade->get(LogConstants::LOG_LEVEL, LogConstants::DEFAULT_LOG_LEVEL)
+        );
     }
 
     /**
      * @param \Pimple\Container $container
      *
      * @return \Monolog\Handler\AbstractProcessingHandler
+     *
+     * @throws \Exception
      */
-    protected function createRotatingFileHandler(Container $container): AbstractProcessingHandler
+    protected function createRotatingFileHandler(Container $container): HandlerInterface
     {
-        $logLevel = $container->offsetGet('config')
-            ->get(LogConstants::LOG_LEVEL, (string) LogConstants::DEFAULT_LOG_LEVEL);
+        /** @var \Jellyfish\Config\ConfigFacadeInterface $configFacade */
+        $configFacade = $container->offsetGet(ConfigConstants::FACADE);
 
         $filename = $container->offsetGet('root_dir') . 'var/log/jellyfish.log';
 
-        return new RotatingFileHandler($filename, 0, (int) $logLevel);
+        return new RotatingFileHandler(
+            $filename,
+            0,
+            $configFacade->get(LogConstants::LOG_LEVEL, LogConstants::DEFAULT_LOG_LEVEL)
+        );
     }
 }

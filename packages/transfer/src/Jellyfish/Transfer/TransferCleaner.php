@@ -4,42 +4,42 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer;
 
-use Jellyfish\Filesystem\FilesystemInterface;
-use Jellyfish\Finder\FinderFactoryInterface;
+use Jellyfish\Filesystem\FilesystemFacadeInterface;
+use Jellyfish\Finder\FinderFacadeInterface;
 use SplFileInfo;
+
+use function is_string;
 
 class TransferCleaner implements TransferCleanerInterface
 {
-    protected const EXCLUDED_FILE = 'factory-registry.php';
-
     /**
      * @var string
      */
     protected $targetDirectory;
 
     /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface
+     * @var \Jellyfish\Filesystem\FilesystemFacadeInterface
      */
-    protected $filesystem;
+    protected $filesystemFacade;
 
     /**
-     * @var \Jellyfish\Finder\FinderFactoryInterface
+     * @var \Jellyfish\Finder\FinderFacadeInterface
      */
-    protected $finderFactory;
+    protected $finderFacade;
 
     /**
-     * @param \Jellyfish\Finder\FinderFactoryInterface $finderFactory
-     * @param \Jellyfish\Filesystem\FilesystemInterface $filesystem
+     * @param \Jellyfish\Finder\FinderFacadeInterface $finderFacade
+     * @param \Jellyfish\Filesystem\FilesystemFacadeInterface $filesystemFacade
      * @param string $targetDirectory
      */
     public function __construct(
-        FinderFactoryInterface $finderFactory,
-        FilesystemInterface $filesystem,
+        FinderFacadeInterface $finderFacade,
+        FilesystemFacadeInterface $filesystemFacade,
         string $targetDirectory
     ) {
-        $this->finderFactory = $finderFactory;
+        $this->finderFacade = $finderFacade;
         $this->targetDirectory = $targetDirectory;
-        $this->filesystem = $filesystem;
+        $this->filesystemFacade = $filesystemFacade;
     }
 
     /**
@@ -59,7 +59,7 @@ class TransferCleaner implements TransferCleanerInterface
      */
     protected function canClean(): bool
     {
-        return $this->filesystem->exists($this->targetDirectory);
+        return $this->filesystemFacade->exists($this->targetDirectory);
     }
 
     /**
@@ -69,9 +69,11 @@ class TransferCleaner implements TransferCleanerInterface
      */
     protected function cleanDirectory(string $directory): TransferCleanerInterface
     {
-        $finder = $this->finderFactory->create();
+        $finder = $this->finderFacade->createFinder();
 
-        $iterator = $finder->in($directory)->depth(0)->getIterator();
+        $iterator = $finder->in([$directory])
+            ->depth(0)
+            ->getIterator();
 
         foreach ($iterator as $item) {
             if (!($item instanceof SplFileInfo) || !is_string($item->getRealPath())) {
@@ -80,29 +82,13 @@ class TransferCleaner implements TransferCleanerInterface
 
             $itemRealPath = $item->getRealPath();
 
-            if (!$this->canRemove($itemRealPath)) {
-                continue;
-            }
-
             if ($item->isDir()) {
                 $this->cleanDirectory($itemRealPath);
             }
 
-            $this->filesystem->remove($itemRealPath);
+            $this->filesystemFacade->remove($itemRealPath);
         }
 
         return $this;
-    }
-
-    /**
-     * @param string $realPathOfItem
-     *
-     * @return bool
-     */
-    protected function canRemove(string $realPathOfItem): bool
-    {
-        $realPathOfFactoryRegistry = $this->targetDirectory . static::EXCLUDED_FILE;
-
-        return $realPathOfFactoryRegistry !== $realPathOfItem;
     }
 }

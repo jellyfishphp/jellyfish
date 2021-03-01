@@ -35,11 +35,11 @@ class SchedulerTest extends Unit
      */
     public function testQueueJobAndGetQueuedJobs(): void
     {
-        $this->assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));
+        static::assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));
 
         $queuedJobs = $this->scheduler->getQueuedJobs();
-        $this->assertCount(1, $queuedJobs);
-        $this->assertEquals($this->jobMock, $queuedJobs[0]);
+        static::assertCount(1, $queuedJobs);
+        static::assertEquals($this->jobMock, $queuedJobs[0]);
     }
 
     /**
@@ -49,22 +49,18 @@ class SchedulerTest extends Unit
      */
     public function testQueueJobAndRun(): void
     {
-        $this->assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));
+        static::assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));
 
-        $this->jobMock->expects($this->atLeastOnce())
+        $this->jobMock->expects(static::atLeastOnce())
             ->method('run')
             ->withAnyParameters()
-            ->willReturn($this->jobMock); // TODO: only DateTime
+            ->willReturn($this->jobMock);
 
-        $this->jobMock->expects($this->at(1))
+        $this->jobMock->expects(static::atLeastOnce())
             ->method('isRunning')
-            ->willReturn(true);
+            ->willReturnOnConsecutiveCalls(true, false);
 
-        $this->jobMock->expects($this->at(2))
-            ->method('isRunning')
-            ->willReturn(false);
-
-        $this->assertEquals($this->scheduler, $this->scheduler->run());
+        static::assertEquals($this->scheduler, $this->scheduler->run());
     }
 
     /**
@@ -74,10 +70,10 @@ class SchedulerTest extends Unit
      */
     public function testGetQueuedJobsAfterQueueJobAndClearJobs(): void
     {
-        $this->assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));
-        $this->assertEquals($this->scheduler, $this->scheduler->clearJobs());
+        static::assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));
+        static::assertEquals($this->scheduler, $this->scheduler->clearJobs());
 
         $queuedJobs = $this->scheduler->getQueuedJobs();
-        $this->assertCount(0, $queuedJobs);
+        static::assertCount(0, $queuedJobs);
     }
 }

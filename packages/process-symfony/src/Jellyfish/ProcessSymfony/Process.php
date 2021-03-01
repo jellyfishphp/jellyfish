@@ -10,7 +10,7 @@ use Symfony\Component\Process\Process as SymfonyProcess;
 class Process implements ProcessInterface
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected $command;
 
@@ -20,12 +20,13 @@ class Process implements ProcessInterface
     protected $process;
 
     /**
-     * @param array $command
+     * @param string[] $command
+     * @param \Symfony\Component\Process\Process $process
      */
-    public function __construct(array $command)
+    public function __construct(array $command, SymfonyProcess $process)
     {
         $this->command = $command;
-        $this->process = new SymfonyProcess($command);
+        $this->process = $process;
     }
 
     /**
@@ -43,7 +44,7 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getCommand(): array
     {

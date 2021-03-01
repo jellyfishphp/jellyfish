@@ -58,11 +58,11 @@ class JobTest extends Unit
     {
         $expectedCommand = ['ls', '-la'];
 
-        $this->processMock->expects($this->atLeastOnce())
+        $this->processMock->expects(static::atLeastOnce())
             ->method('getCommand')
             ->willReturn($expectedCommand);
 
-        $this->assertEquals($expectedCommand, $this->job->getCommand());
+        static::assertEquals($expectedCommand, $this->job->getCommand());
     }
 
     /**
@@ -70,7 +70,7 @@ class JobTest extends Unit
      */
     public function testGetCronExpression(): void
     {
-        $this->assertEquals($this->cronExpressionMock, $this->job->getCronExpression());
+        static::assertEquals($this->cronExpressionMock, $this->job->getCronExpression());
     }
 
     /**
@@ -78,12 +78,12 @@ class JobTest extends Unit
      */
     public function testRun(): void
     {
-        $this->cronExpressionMock->expects($this->atLeastOnce())
+        $this->cronExpressionMock->expects(static::atLeastOnce())
             ->method('isDue')
             ->with($this->dateTime)
             ->willReturn(true);
 
-        $this->assertEquals($this->job, $this->job->run($this->dateTime));
+        static::assertEquals($this->job, $this->job->run($this->dateTime));
     }
 
     /**
@@ -91,12 +91,12 @@ class JobTest extends Unit
      */
     public function testRunWithoutDueDateTime(): void
     {
-        $this->cronExpressionMock->expects($this->atLeastOnce())
+        $this->cronExpressionMock->expects(static::atLeastOnce())
             ->method('isDue')
             ->with($this->dateTime)
             ->willReturn(false);
 
-        $this->assertEquals($this->job, $this->job->run($this->dateTime));
+        static::assertEquals($this->job, $this->job->run($this->dateTime));
     }
 
     /**
@@ -104,12 +104,12 @@ class JobTest extends Unit
      */
     public function testRunWithoutDateTime(): void
     {
-        $this->cronExpressionMock->expects($this->atLeastOnce())
+        $this->cronExpressionMock->expects(static::atLeastOnce())
             ->method('isDue')
             ->withAnyParameters()
             ->willReturn(true);
 
-        $this->assertEquals($this->job, $this->job->run());
+        static::assertEquals($this->job, $this->job->run());
     }
 
     /**
@@ -117,10 +117,10 @@ class JobTest extends Unit
      */
     public function testIsRun(): void
     {
-        $this->processMock->expects($this->atLeastOnce())
+        $this->processMock->expects(static::atLeastOnce())
             ->method('isRunning')
             ->willReturn(true);
 
-        $this->assertTrue($this->job->isRunning());
+        static::assertTrue($this->job->isRunning());
     }
 }

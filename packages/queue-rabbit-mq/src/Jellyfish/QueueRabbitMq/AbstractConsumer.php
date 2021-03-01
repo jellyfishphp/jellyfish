@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Jellyfish\QueueRabbitMq;
 
-use Jellyfish\Queue\ConsumerInterface;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
-use Jellyfish\Queue\MessageMapperInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 
 abstract class AbstractConsumer implements ConsumerInterface
@@ -18,13 +16,13 @@ abstract class AbstractConsumer implements ConsumerInterface
     protected $connection;
 
     /**
-     * @var \Jellyfish\Queue\MessageMapperInterface
+     * @var \Jellyfish\QueueRabbitMq\MessageMapperInterface
      */
     protected $messageMapper;
 
     /**
      * @param \Jellyfish\QueueRabbitMq\ConnectionInterface $connection
-     * @param \Jellyfish\Queue\MessageMapperInterface $messageMapper
+     * @param \Jellyfish\QueueRabbitMq\MessageMapperInterface $messageMapper
      */
     public function __construct(
         ConnectionInterface $connection,

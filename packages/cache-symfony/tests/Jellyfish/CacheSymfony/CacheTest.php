@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\CacheSymfony;
 
 use Codeception\Test\Unit;
@@ -20,7 +22,7 @@ class CacheTest extends Unit
     protected $cacheItemMock;
 
     /**
-     * @var \Jellyfish\Cache\CacheInterface
+     * @var \Jellyfish\CacheSymfony\CacheInterface
      */
     protected $cache;
 
@@ -50,20 +52,20 @@ class CacheTest extends Unit
         $key = 'key';
         $value = '{}';
 
-        $this->cacheAdapterMock->expects(self::atLeastOnce())
+        $this->cacheAdapterMock->expects(static::atLeastOnce())
             ->method('getItem')
             ->with($key)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheItemMock->expects(self::atLeastOnce())
+        $this->cacheItemMock->expects(static::atLeastOnce())
             ->method('isHit')
             ->willReturn(true);
 
-        $this->cacheItemMock->expects(self::atLeastOnce())
+        $this->cacheItemMock->expects(static::atLeastOnce())
             ->method('get')
             ->willReturn($value);
 
-        self::assertEquals(
+        static::assertEquals(
             $value,
             $this->cache->get($key)
         );
@@ -76,16 +78,16 @@ class CacheTest extends Unit
     {
         $key = 'key';
 
-        $this->cacheAdapterMock->expects(self::atLeastOnce())
+        $this->cacheAdapterMock->expects(static::atLeastOnce())
             ->method('getItem')
             ->with($key)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheItemMock->expects(self::atLeastOnce())
+        $this->cacheItemMock->expects(static::atLeastOnce())
             ->method('isHit')
             ->willReturn(false);
 
-        self::assertEquals(
+        static::assertEquals(
             null,
             $this->cache->get($key)
         );
@@ -100,26 +102,26 @@ class CacheTest extends Unit
         $value = '{}';
         $lifeTime = null;
 
-        $this->cacheAdapterMock->expects(self::atLeastOnce())
+        $this->cacheAdapterMock->expects(static::atLeastOnce())
             ->method('getItem')
             ->with($key)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheItemMock->expects(self::atLeastOnce())
+        $this->cacheItemMock->expects(static::atLeastOnce())
             ->method('set')
             ->with($value)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheItemMock->expects(self::atLeastOnce())
+        $this->cacheItemMock->expects(static::atLeastOnce())
             ->method('expiresAfter')
             ->with($lifeTime)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheAdapterMock->expects(self::atLeastOnce())
+        $this->cacheAdapterMock->expects(static::atLeastOnce())
             ->method('save')
             ->with($this->cacheItemMock);
 
-        self::assertEquals(
+        static::assertEquals(
             $this->cache,
             $this->cache->set($key, $value, $lifeTime)
         );
@@ -134,28 +136,28 @@ class CacheTest extends Unit
         $value = '{}';
         $lifeTime = 0;
 
-        $this->cacheAdapterMock->expects(self::never())
+        $this->cacheAdapterMock->expects(static::never())
             ->method('getItem')
             ->with($key)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheItemMock->expects(self::never())
+        $this->cacheItemMock->expects(static::never())
             ->method('set')
             ->with($value)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheItemMock->expects(self::never())
+        $this->cacheItemMock->expects(static::never())
             ->method('expiresAfter')
             ->with($lifeTime)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheAdapterMock->expects(self::never())
+        $this->cacheAdapterMock->expects(static::never())
             ->method('save')
             ->with($this->cacheItemMock);
 
         try {
             $this->cache->set($key, $value, $lifeTime);
-            self::fail();
+            static::fail();
         } catch (Exception $exception) {
         }
     }

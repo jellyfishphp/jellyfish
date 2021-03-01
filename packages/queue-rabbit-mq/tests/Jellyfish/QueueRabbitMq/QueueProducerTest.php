@@ -7,7 +7,6 @@ namespace Jellyfish\QueueRabbitMq;
 use Codeception\Test\Unit;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
-use Jellyfish\Queue\MessageMapperInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -19,7 +18,7 @@ class QueueProducerTest extends Unit
     protected $connectionMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\MessageMapperInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\QueueRabbitMq\MessageMapperInterface
      */
     protected $messageMapperMock;
 
@@ -59,7 +58,7 @@ class QueueProducerTest extends Unit
     protected $json;
 
     /**
-     * @var \Jellyfish\Queue\ProducerInterface
+     * @var \Jellyfish\QueueRabbitMq\ProducerInterface
      */
     protected $queueProducer;
 
@@ -111,34 +110,34 @@ class QueueProducerTest extends Unit
      */
     public function testSendMessage(): void
     {
-        $this->messageMapperMock->expects(self::atLeastOnce())
+        $this->messageMapperMock->expects(static::atLeastOnce())
             ->method('toJson')
             ->with($this->messageMock)
             ->willReturn($this->json);
 
-        $this->amqpMessageFactoryMock->expects(self::atLeastOnce())
+        $this->amqpMessageFactoryMock->expects(static::atLeastOnce())
             ->method('create')
             ->with($this->json)
             ->willReturn($this->amqpMessageMock);
 
-        $this->connectionMock->expects(self::atLeastOnce())
+        $this->connectionMock->expects(static::atLeastOnce())
             ->method('createQueue')
             ->with($this->destinationMock)
             ->willReturn($this->connectionMock);
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn($this->queueName);
 
-        $this->connectionMock->expects(self::atLeastOnce())
+        $this->connectionMock->expects(static::atLeastOnce())
             ->method('getChannel')
             ->willReturn($this->amqpChannelMock);
 
-        $this->amqpChannelMock->expects(self::atLeastOnce())
+        $this->amqpChannelMock->expects(static::atLeastOnce())
             ->method('basic_publish')
             ->with($this->amqpMessageMock, '', $this->queueName);
 
-        self::assertEquals(
+        static::assertEquals(
             $this->queueProducer,
             $this->queueProducer->sendMessage($this->destinationMock, $this->messageMock)
         );

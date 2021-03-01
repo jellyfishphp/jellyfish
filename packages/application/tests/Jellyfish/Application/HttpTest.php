@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Jellyfish\Application;
 
 use Codeception\Test\Unit;
+use Jellyfish\Http\HttpConstants;
+use Jellyfish\Http\HttpFacadeInterface;
 use Jellyfish\Kernel\KernelInterface;
 use League\Route\Router;
 use Pimple\Container;
@@ -15,11 +17,6 @@ use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
 class HttpTest extends Unit
 {
     /**
-     * @var \Jellyfish\Application\Http
-     */
-    protected $http;
-
-    /**
      * @var \Jellyfish\Kernel\KernelInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $kernelMock;
@@ -28,6 +25,11 @@ class HttpTest extends Unit
      * @var \Pimple\Container|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $containerMock;
+
+    /**
+     * @var \Jellyfish\Http\HttpFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $httpFacadeMock;
 
     /**
      * @var \Psr\Http\Message\ServerRequestInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -40,14 +42,9 @@ class HttpTest extends Unit
     protected $responseMock;
 
     /**
-     * @var \League\Route\Router|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Application\Http
      */
-    protected $routerMock;
-
-    /**
-     * @var \Zend\HttpHandlerRunner\Emitter\EmitterInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $emitterMock;
+    protected $http;
 
     /**
      * @return void
@@ -58,19 +55,7 @@ class HttpTest extends Unit
     {
         parent::_before();
 
-        $this->requestMock = $this->getMockBuilder(ServerRequestInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->responseMock = $this->getMockBuilder(ResponseInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->routerMock = $this->getMockBuilder(Router::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->emitterMock = $this->getMockBuilder(EmitterInterface::class)
+        $this->kernelMock = $this->getMockBuilder(KernelInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -78,7 +63,15 @@ class HttpTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->kernelMock = $this->getMockBuilder(KernelInterface::class)
+        $this->httpFacadeMock = $this->getMockBuilder(HttpFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->requestMock = $this->getMockBuilder(ServerRequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->responseMock = $this->getMockBuilder(ResponseInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -92,24 +85,28 @@ class HttpTest extends Unit
      */
     public function testRun(): void
     {
-        $this->kernelMock->expects($this->atLeastOnce())
+        $this->kernelMock->expects(static::atLeastOnce())
             ->method('getContainer')
             ->willReturn($this->containerMock);
 
-        $this->containerMock->expects($this->atLeastOnce())
+        $this->containerMock->expects(static::atLeastOnce())
             ->method('offsetGet')
-            ->withConsecutive(['request'], ['router'], ['emitter'])
-            ->willReturnOnConsecutiveCalls($this->requestMock, $this->routerMock, $this->emitterMock);
+            ->with(HttpConstants::FACADE)
+            ->willReturn($this->httpFacadeMock);
 
-        $this->routerMock->expects($this->atLeastOnce())
+        $this->httpFacadeMock->expects(static::atLeastOnce())
+            ->method('getCurrentRequest')
+            ->willReturn($this->requestMock);
+
+        $this->httpFacadeMock->expects(static::atLeastOnce())
             ->method('dispatch')
             ->with($this->requestMock)
             ->willReturn($this->responseMock);
 
-        $this->emitterMock->expects($this->atLeastOnce())
+        $this->httpFacadeMock->expects(static::atLeastOnce())
             ->method('emit')
-            ->with($this->responseMock);
-
+            ->with($this->responseMock)
+            ->willReturn(true);
 
         $this->http->run();
     }

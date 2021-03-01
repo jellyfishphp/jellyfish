@@ -8,6 +8,7 @@ use Jellyfish\Event\Exception\NotSupportedMethodException;
 use Jellyfish\Event\Exception\NotSupportedTypeException;
 use Throwable;
 
+use function get_class;
 use function sprintf;
 
 abstract class AbstractEventBulkListener extends AbstractEventListener implements EventBulkListenerInterface

@@ -7,7 +7,6 @@ suites:
 settings:
   shuffle: true
   lint: true
-  bootstrap: _bootstrap.php
 
 paths:
   tests: tests
@@ -20,4 +19,6 @@ coverage:
   include:
     - src/*
   exclude:
-    - src/Jellyfish/CacheSymfony/CacheSymfonyServiceProvider.php
+    - src/Jellyfish/CacheSymfony/CacheSymfonyFactory.php
+
+bootstrap: _bootstrap.php

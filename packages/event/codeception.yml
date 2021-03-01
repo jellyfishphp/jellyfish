@@ -7,7 +7,6 @@ suites:
 settings:
   shuffle: true
   lint: true
-  bootstrap: _bootstrap.php
 
 paths:
   tests: tests
@@ -21,3 +20,5 @@ coverage:
     - src/*
   exclude:
     - src/Jellyfish/Event/EventQueueWorker.php
+
+bootstrap: _bootstrap.php

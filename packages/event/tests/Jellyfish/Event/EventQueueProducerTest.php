@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Jellyfish\Event;
 
 use Codeception\Test\Unit;
-use Jellyfish\Queue\DestinationFactoryInterface;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
-use Jellyfish\Queue\QueueClientInterface;
+use Jellyfish\Queue\QueueFacadeInterface;
 
 class EventQueueProducerTest extends Unit
 {
@@ -18,19 +17,14 @@ class EventQueueProducerTest extends Unit
     protected $eventMapperMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\DestinationFactoryInterface
-     */
-    protected $destinationFactoryMock;
-
-    /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\DestinationInterface
      */
     protected $destinationMock;
 
     /**
-     * @var \Jellyfish\Queue\QueueClientInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\QueueFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $queueClientMock;
+    protected $queueFacadeMock;
 
     /**
      * @var \Jellyfish\Event\EventInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -64,11 +58,7 @@ class EventQueueProducerTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->queueClientMock = $this->getMockBuilder(QueueClientInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->destinationFactoryMock = $this->getMockBuilder(DestinationFactoryInterface::class)
+        $this->queueFacadeMock = $this->getMockBuilder(QueueFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -90,8 +80,7 @@ class EventQueueProducerTest extends Unit
 
         $this->eventQueueProducer = new EventQueueProducer(
             $this->eventMapperMock,
-            $this->queueClientMock,
-            $this->destinationFactoryMock
+            $this->queueFacadeMock
         );
     }
 
@@ -102,34 +91,34 @@ class EventQueueProducerTest extends Unit
     {
         $eventName = 'test';
 
-        $this->eventMock->expects(self::atLeastOnce())
+        $this->eventMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn('test');
 
-        $this->destinationFactoryMock->expects(self::atLeastOnce())
-            ->method('create')
+        $this->queueFacadeMock->expects(static::atLeastOnce())
+            ->method('createDestination')
             ->willReturn($this->destinationMock);
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('setName')
             ->with($eventName)
             ->willReturn($this->destinationMock);
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('setType')
             ->with(DestinationInterface::TYPE_FANOUT)
             ->willReturn($this->destinationMock);
 
-        $this->eventMapperMock->expects(self::atLeastOnce())
+        $this->eventMapperMock->expects(static::atLeastOnce())
             ->method('toMessage')
             ->with($this->eventMock)
             ->willReturn($this->messageMock);
 
-        $this->queueClientMock->expects(self::atLeastOnce())
+        $this->queueFacadeMock->expects(static::atLeastOnce())
             ->method('sendMessage')
             ->with($this->destinationMock, $this->messageMock);
 
-        self::assertEquals(
+        static::assertEquals(
             $this->eventQueueProducer,
             $this->eventQueueProducer->enqueue($this->eventMock)
         );

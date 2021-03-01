@@ -7,7 +7,6 @@ namespace Jellyfish\QueueRabbitMq;
 use Codeception\Test\Unit;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
-use Jellyfish\Queue\MessageMapperInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -18,7 +17,7 @@ class QueueConsumerTest extends Unit
      */
     protected $connectionMock;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\MessageMapperInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\QueueRabbitMq\MessageMapperInterface
      */
     protected $messageMapperMock;
 
@@ -53,7 +52,7 @@ class QueueConsumerTest extends Unit
     protected $json;
 
     /**
-     * @var \Jellyfish\Queue\ConsumerInterface
+     * @var \Jellyfish\QueueRabbitMq\ConsumerInterface
      */
     protected $queueConsumer;
 
@@ -100,34 +99,34 @@ class QueueConsumerTest extends Unit
      */
     public function testReceiveMessage(): void
     {
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn($this->queueName);
 
-        $this->connectionMock->expects(self::atLeastOnce())
+        $this->connectionMock->expects(static::atLeastOnce())
             ->method('createQueue')
             ->with($this->destinationMock)
             ->willReturn($this->connectionMock);
 
-        $this->connectionMock->expects(self::atLeastOnce())
+        $this->connectionMock->expects(static::atLeastOnce())
             ->method('getChannel')
             ->willReturn($this->amqpChannelMock);
 
-        $this->amqpChannelMock->expects(self::atLeastOnce())
+        $this->amqpChannelMock->expects(static::atLeastOnce())
             ->method('basic_get')
             ->with($this->queueName, true)
             ->willReturn($this->amqpMessageMock);
 
-        $this->amqpMessageMock->expects(self::atLeastOnce())
+        $this->amqpMessageMock->expects(static::atLeastOnce())
             ->method('getBody')
             ->willReturn($this->json);
 
-        $this->messageMapperMock->expects(self::atLeastOnce())
+        $this->messageMapperMock->expects(static::atLeastOnce())
             ->method('fromJson')
             ->with($this->json)
             ->willReturn($this->messageMock);
 
-        self::assertEquals(
+        static::assertEquals(
             $this->messageMock,
             $this->queueConsumer->receiveMessage($this->destinationMock)
         );
@@ -138,32 +137,32 @@ class QueueConsumerTest extends Unit
      */
     public function testReceiveMessageFromEmptyQueue(): void
     {
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn($this->queueName);
 
-        $this->connectionMock->expects(self::atLeastOnce())
+        $this->connectionMock->expects(static::atLeastOnce())
             ->method('createQueue')
             ->with($this->destinationMock)
             ->willReturn($this->connectionMock);
 
-        $this->connectionMock->expects(self::atLeastOnce())
+        $this->connectionMock->expects(static::atLeastOnce())
             ->method('getChannel')
             ->willReturn($this->amqpChannelMock);
 
-        $this->amqpChannelMock->expects(self::atLeastOnce())
+        $this->amqpChannelMock->expects(static::atLeastOnce())
             ->method('basic_get')
             ->with($this->queueName, true)
             ->willReturn(null);
 
-        $this->amqpMessageMock->expects(self::never())
+        $this->amqpMessageMock->expects(static::never())
             ->method('getBody');
 
-        $this->messageMapperMock->expects(self::never())
+        $this->messageMapperMock->expects(static::never())
             ->method('fromJson')
-            ->with(self::anything());
+            ->with(static::anything());
 
-        self::assertEquals(
+        static::assertEquals(
             null,
             $this->queueConsumer->receiveMessage($this->destinationMock)
         );
@@ -176,34 +175,34 @@ class QueueConsumerTest extends Unit
     {
         $messageMocks = [$this->messageMock];
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn($this->queueName);
 
-        $this->connectionMock->expects(self::atLeastOnce())
+        $this->connectionMock->expects(static::atLeastOnce())
             ->method('createQueue')
             ->with($this->destinationMock)
             ->willReturn($this->connectionMock);
 
-        $this->connectionMock->expects(self::atLeastOnce())
+        $this->connectionMock->expects(static::atLeastOnce())
             ->method('getChannel')
             ->willReturn($this->amqpChannelMock);
 
-        $this->amqpChannelMock->expects(self::atLeastOnce())
+        $this->amqpChannelMock->expects(static::atLeastOnce())
             ->method('basic_get')
             ->with($this->queueName, true)
             ->willReturnOnConsecutiveCalls($this->amqpMessageMock, null);
 
-        $this->amqpMessageMock->expects(self::atLeastOnce())
+        $this->amqpMessageMock->expects(static::atLeastOnce())
             ->method('getBody')
             ->willReturn($this->json);
 
-        $this->messageMapperMock->expects(self::atLeastOnce())
+        $this->messageMapperMock->expects(static::atLeastOnce())
             ->method('fromJson')
             ->with($this->json)
             ->willReturn($this->messageMock);
 
-        self::assertEquals(
+        static::assertEquals(
             $messageMocks,
             $this->queueConsumer->receiveMessages($this->destinationMock, 1)
         );
@@ -216,34 +215,34 @@ class QueueConsumerTest extends Unit
     {
         $messageMocks = [$this->messageMock];
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn($this->queueName);
 
-        $this->connectionMock->expects(self::atLeastOnce())
+        $this->connectionMock->expects(static::atLeastOnce())
             ->method('createQueue')
             ->with($this->destinationMock)
             ->willReturn($this->connectionMock);
 
-        $this->connectionMock->expects(self::atLeastOnce())
+        $this->connectionMock->expects(static::atLeastOnce())
             ->method('getChannel')
             ->willReturn($this->amqpChannelMock);
 
-        $this->amqpChannelMock->expects(self::atLeastOnce())
+        $this->amqpChannelMock->expects(static::atLeastOnce())
             ->method('basic_get')
             ->with($this->queueName, true)
             ->willReturnOnConsecutiveCalls($this->amqpMessageMock, null);
 
-        $this->amqpMessageMock->expects(self::once())
+        $this->amqpMessageMock->expects(static::once())
             ->method('getBody')
             ->willReturn($this->json);
 
-        $this->messageMapperMock->expects(self::once())
+        $this->messageMapperMock->expects(static::once())
             ->method('fromJson')
             ->with($this->json)
             ->willReturn($this->messageMock);
 
-        self::assertEquals(
+        static::assertEquals(
             $messageMocks,
             $this->queueConsumer->receiveMessages($this->destinationMock, 2)
         );

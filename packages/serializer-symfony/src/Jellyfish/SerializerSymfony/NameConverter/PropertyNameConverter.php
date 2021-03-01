@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Jellyfish\SerializerSymfony\NameConverter;
 
-use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface;
-
 class PropertyNameConverter implements PropertyNameConverterInterface
 {
     /**
-     * @var \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface
+     * @var \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProviderInterface
      */
     protected $strategyProvider;
 
     /**
-     * @param \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface $strategyProvider
+     * @param \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProviderInterface $strategyProvider
      */
     public function __construct(PropertyNameConverterStrategyProviderInterface $strategyProvider)
     {
@@ -30,7 +28,7 @@ class PropertyNameConverter implements PropertyNameConverterInterface
      */
     public function normalize($propertyName, ?string $class = null, ?string $format = null): string
     {
-        foreach ($this->strategyProvider->getAllStrategies() as $strategy) {
+        foreach ($this->strategyProvider->getAll() as $strategy) {
             $convertedPropertyName = $strategy->convertAfterNormalize($propertyName, $class, $format);
 
             if ($convertedPropertyName !== null) {
@@ -50,7 +48,7 @@ class PropertyNameConverter implements PropertyNameConverterInterface
      */
     public function denormalize($propertyName, ?string $class = null, ?string $format = null): string
     {
-        foreach ($this->strategyProvider->getAllStrategies() as $strategy) {
+        foreach ($this->strategyProvider->getAll() as $strategy) {
             $convertedPropertyName = $strategy->convertAfterDenormalize($propertyName, $class, $format);
 
             if ($convertedPropertyName !== null) {

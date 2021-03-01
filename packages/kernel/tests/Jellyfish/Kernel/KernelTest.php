@@ -8,6 +8,10 @@ use Codeception\Test\Unit;
 use Jellyfish\Kernel\Exception\EnvVarNotSetException;
 use org\bovigo\vfs\vfsStream;
 
+use function file_get_contents;
+use function putenv;
+use function unlink;
+
 class KernelTest extends Unit
 {
     /**
@@ -36,30 +40,26 @@ class KernelTest extends Unit
      */
     public function testGetContainer(): void
     {
-        \putenv('APPLICATION_ENV=development');
+        putenv('APPLICATION_ENV=development');
 
         $kernel = new Kernel($this->rootDir);
 
         $container = $kernel->getContainer();
 
-        $this->assertTrue($container->offsetExists('key'));
-        $this->assertEquals('value', $container->offsetGet('key'));
+        static::assertTrue($container->offsetExists('key'));
+        static::assertEquals('value', $container->offsetGet('key'));
 
-        $this->assertTrue($container->offsetExists('root_dir'));
-        $this->assertEquals($this->rootDir . DIRECTORY_SEPARATOR, $container->offsetGet('root_dir'));
+        static::assertTrue($container->offsetExists('root_dir'));
+        static::assertEquals($this->rootDir . DIRECTORY_SEPARATOR, $container->offsetGet('root_dir'));
 
-        $this->assertTrue($container->offsetExists('app_dir'));
-        $this->assertEquals(
+        static::assertTrue($container->offsetExists('app_dir'));
+        static::assertEquals(
             $this->rootDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR,
             $container->offsetGet('app_dir')
         );
 
-        $this->assertTrue($container->offsetExists('environment'));
-        $this->assertEquals('development', $container->offsetGet('environment'));
-
-        $this->assertTrue($container->offsetExists('commands'));
-        $this->assertIsArray($container->offsetGet('commands'));
-        $this->assertCount(0, $container->offsetGet('commands'));
+        static::assertTrue($container->offsetExists('environment'));
+        static::assertEquals('development', $container->offsetGet('environment'));
     }
 
     /**
@@ -69,15 +69,15 @@ class KernelTest extends Unit
      */
     public function testGetContainerWithEmptyAppDir(): void
     {
-        \putenv('APPLICATION_ENV=development');
+        putenv('APPLICATION_ENV=development');
 
-        \unlink($this->rootDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'service_providers.php');
+        unlink($this->rootDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'service_providers.php');
 
         $kernel = new Kernel($this->rootDir);
 
         $container = $kernel->getContainer();
 
-        $this->assertFalse($container->offsetExists('key'));
+        static::assertFalse($container->offsetExists('key'));
     }
 
     /**
@@ -85,11 +85,11 @@ class KernelTest extends Unit
      */
     public function testInitKernelWithUnsetEnvVar(): void
     {
-        \putenv('APPLICATION_ENV');
+        putenv('APPLICATION_ENV');
 
         try {
             new Kernel($this->rootDir);
-            $this->fail();
+            static::fail();
         } catch (EnvVarNotSetException $e) {
         }
     }

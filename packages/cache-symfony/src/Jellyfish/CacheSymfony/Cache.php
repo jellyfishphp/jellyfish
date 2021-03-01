@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\CacheSymfony;
 
-use Jellyfish\Cache\CacheInterface;
 use Jellyfish\Cache\Exception\InvalidLifeTimeException;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 
@@ -20,7 +21,6 @@ class Cache implements CacheInterface
     {
         $this->cacheAdapter = $cacheAdapter;
     }
-
 
     /**
      * @param string $key
@@ -43,7 +43,7 @@ class Cache implements CacheInterface
      * @param string $value
      * @param int|null $lifeTime
      *
-     * @return \Jellyfish\Cache\CacheInterface
+     * @return \Jellyfish\CacheSymfony\CacheInterface
      *
      * @throws \Jellyfish\Cache\Exception\InvalidLifeTimeException
      */

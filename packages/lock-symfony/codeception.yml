@@ -7,7 +7,6 @@ suites:
 settings:
   shuffle: true
   lint: true
-  bootstrap: _bootstrap.php
 
 paths:
   tests: tests
@@ -20,4 +19,6 @@ coverage:
   include:
     - src/*
   exclude:
-    - src/Jellyfish/LockSymfony/LockSymfonyServiceProvider.php
+    - src/Jellyfish/LockSymfony/LockSymfonyFactory.php
+
+bootstrap: _bootstrap.php

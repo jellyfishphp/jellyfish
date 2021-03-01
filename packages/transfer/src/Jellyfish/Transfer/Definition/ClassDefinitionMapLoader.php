@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Definition;
 
-use Jellyfish\Filesystem\FilesystemInterface;
+use Jellyfish\Filesystem\FilesystemFacadeInterface;
 use SplFileInfo;
+
+use function is_string;
 
 class ClassDefinitionMapLoader implements ClassDefinitionMapLoaderInterface
 {
@@ -15,9 +17,9 @@ class ClassDefinitionMapLoader implements ClassDefinitionMapLoaderInterface
     protected $definitionFinder;
 
     /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface
+     * @var \Jellyfish\Filesystem\FilesystemFacadeInterface
      */
-    protected $filesystem;
+    protected $filesystemFacade;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMapperInterface
@@ -31,20 +33,20 @@ class ClassDefinitionMapLoader implements ClassDefinitionMapLoaderInterface
 
     /**
      * @param \Jellyfish\Transfer\Definition\DefinitionFinderInterface $definitionFinder
-     * @param \Jellyfish\Filesystem\FilesystemInterface $filesystem
+     * @param \Jellyfish\Filesystem\FilesystemFacadeInterface $filesystemFacade
      * @param \Jellyfish\Transfer\Definition\ClassDefinitionMapMapperInterface $classDefinitionMapMapper
      * @param \Jellyfish\Transfer\Definition\ClassDefinitionMapMergerInterface $classDefinitionMapMerger
      */
     public function __construct(
         DefinitionFinderInterface $definitionFinder,
-        FilesystemInterface $filesystem,
+        FilesystemFacadeInterface $filesystemFacade,
         ClassDefinitionMapMapperInterface $classDefinitionMapMapper,
         ClassDefinitionMapMergerInterface $classDefinitionMapMerger
     ) {
         $this->definitionFinder = $definitionFinder;
         $this->classDefinitionMapMapper = $classDefinitionMapMapper;
         $this->classDefinitionMapMerger = $classDefinitionMapMerger;
-        $this->filesystem = $filesystem;
+        $this->filesystemFacade = $filesystemFacade;
     }
 
     /**
@@ -59,7 +61,7 @@ class ClassDefinitionMapLoader implements ClassDefinitionMapLoaderInterface
                 continue;
             }
 
-            $definitionFileContent = $this->filesystem->readFromFile($definitionFile->getRealPath());
+            $definitionFileContent = $this->filesystemFacade->readFromFile($definitionFile->getRealPath());
 
             $currentClassDefinitionMap = $this->classDefinitionMapMapper->from($definitionFileContent);
 

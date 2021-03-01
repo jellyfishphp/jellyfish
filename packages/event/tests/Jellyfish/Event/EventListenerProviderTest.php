@@ -45,20 +45,20 @@ class EventListenerProviderTest extends Unit
      */
     public function testAddAndRemoveListener(): void
     {
-        $this->eventListenerMock->expects($this->atLeastOnce())
+        $this->eventListenerMock->expects(static::atLeastOnce())
             ->method('getIdentifier')
             ->willReturn('testListener');
 
-        $this->eventListenerMock->expects($this->atLeastOnce())
+        $this->eventListenerMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(EventListenerInterface::TYPE_ASYNC);
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->eventListenerProvider,
             $this->eventListenerProvider->addListener($this->eventName, $this->eventListenerMock)
         );
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->eventListenerProvider,
             $this->eventListenerProvider->removeListener($this->eventName, $this->eventListenerMock)
         );
@@ -69,7 +69,7 @@ class EventListenerProviderTest extends Unit
             'testListener'
         );
 
-        $this->assertFalse($hasListener);
+        static::assertFalse($hasListener);
     }
 
     /**
@@ -83,7 +83,7 @@ class EventListenerProviderTest extends Unit
             'testListener'
         );
 
-        $this->assertFalse($hasListener);
+        static::assertFalse($hasListener);
     }
 
     /**
@@ -97,7 +97,7 @@ class EventListenerProviderTest extends Unit
             'testListener'
         );
 
-        $this->assertNull($listener);
+        static::assertNull($listener);
     }
 
     /**
@@ -105,11 +105,11 @@ class EventListenerProviderTest extends Unit
      */
     public function testRemoveNonExistingListener(): void
     {
-        $this->eventListenerMock->expects($this->atLeastOnce())
+        $this->eventListenerMock->expects(static::atLeastOnce())
             ->method('getIdentifier')
             ->willReturn('testListener');
 
-        $this->eventListenerMock->expects($this->atLeastOnce())
+        $this->eventListenerMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(EventListenerInterface::TYPE_ASYNC);
 
@@ -118,7 +118,7 @@ class EventListenerProviderTest extends Unit
             $this->eventListenerMock
         );
 
-        $this->assertEquals($this->eventListenerProvider, $result);
+        static::assertEquals($this->eventListenerProvider, $result);
     }
 
     /**
@@ -126,15 +126,15 @@ class EventListenerProviderTest extends Unit
      */
     public function testAddAndGetListener(): void
     {
-        $this->eventListenerMock->expects($this->atLeastOnce())
+        $this->eventListenerMock->expects(static::atLeastOnce())
             ->method('getIdentifier')
             ->willReturn('testListener');
 
-        $this->eventListenerMock->expects($this->atLeastOnce())
+        $this->eventListenerMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(EventListenerInterface::TYPE_ASYNC);
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->eventListenerProvider,
             $this->eventListenerProvider->addListener($this->eventName, $this->eventListenerMock)
         );
@@ -145,7 +145,7 @@ class EventListenerProviderTest extends Unit
             'testListener'
         );
 
-        $this->assertEquals($this->eventListenerMock, $listener);
+        static::assertEquals($this->eventListenerMock, $listener);
     }
 
     /**
@@ -155,9 +155,9 @@ class EventListenerProviderTest extends Unit
     {
         $listeners = $this->eventListenerProvider->getAllListeners();
 
-        $this->assertIsArray($listeners);
-        $this->assertArrayHasKey(EventListenerInterface::TYPE_ASYNC, $listeners);
-        $this->assertArrayHasKey(EventListenerInterface::TYPE_SYNC, $listeners);
+        static::assertIsArray($listeners);
+        static::assertArrayHasKey(EventListenerInterface::TYPE_ASYNC, $listeners);
+        static::assertArrayHasKey(EventListenerInterface::TYPE_SYNC, $listeners);
     }
 
     /**
@@ -167,8 +167,8 @@ class EventListenerProviderTest extends Unit
     {
         $listeners = $this->eventListenerProvider->getListenersByType(EventListenerInterface::TYPE_ASYNC);
 
-        $this->assertIsArray($listeners);
-        $this->assertCount(0, $listeners);
+        static::assertIsArray($listeners);
+        static::assertCount(0, $listeners);
     }
 
     /**
@@ -178,7 +178,7 @@ class EventListenerProviderTest extends Unit
     {
         try {
             $this->eventListenerProvider->getListenersByType('x');
-            $this->fail();
+            static::fail();
         } catch (NotSupportedTypeException $e) {
         }
     }
@@ -188,15 +188,15 @@ class EventListenerProviderTest extends Unit
      */
     public function testGetListenersByTypeAndEventName(): void
     {
-        $this->eventListenerMock->expects($this->atLeastOnce())
+        $this->eventListenerMock->expects(static::atLeastOnce())
             ->method('getIdentifier')
             ->willReturn('testListener');
 
-        $this->eventListenerMock->expects($this->atLeastOnce())
+        $this->eventListenerMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(EventListenerInterface::TYPE_ASYNC);
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->eventListenerProvider,
             $this->eventListenerProvider->addListener($this->eventName, $this->eventListenerMock)
         );
@@ -206,8 +206,8 @@ class EventListenerProviderTest extends Unit
             $this->eventName
         );
 
-        $this->assertIsArray($listeners);
-        $this->assertCount(1, $listeners);
+        static::assertIsArray($listeners);
+        static::assertCount(1, $listeners);
     }
 
     /**
@@ -220,7 +220,7 @@ class EventListenerProviderTest extends Unit
             $this->eventName
         );
 
-        $this->assertIsArray($listeners);
-        $this->assertCount(0, $listeners);
+        static::assertIsArray($listeners);
+        static::assertCount(0, $listeners);
     }
 }

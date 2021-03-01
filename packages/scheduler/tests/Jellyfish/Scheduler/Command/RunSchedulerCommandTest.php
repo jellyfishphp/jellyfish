@@ -6,10 +6,11 @@ namespace Jellyfish\Scheduler\Command;
 
 use Codeception\Test\Unit;
 use Exception;
+use Jellyfish\Lock\LockFacadeInterface;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockInterface;
-use Jellyfish\Scheduler\SchedulerInterface;
-use Psr\Log\LoggerInterface;
+use Jellyfish\Log\LogFacadeInterface;
+use Jellyfish\Scheduler\SchedulerFacadeInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -26,14 +27,14 @@ class RunSchedulerCommandTest extends Unit
     protected $outputMock;
 
     /**
-     * @var \Jellyfish\Scheduler\SchedulerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Scheduler\SchedulerFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $schedulerMock;
+    protected $schedulerFacadeMock;
 
     /**
-     * @var \Jellyfish\Lock\LockFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Lock\LockFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $lockFactoryMock;
+    protected $lockFacadeMock;
 
     /**
      * @var \Jellyfish\Lock\LockInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -41,9 +42,9 @@ class RunSchedulerCommandTest extends Unit
     protected $lockMock;
 
     /**
-     * @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Log\LogFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $loggerMock;
+    protected $logFacadeMock;
 
     /**
      * @var \Jellyfish\Scheduler\Command\RunSchedulerCommand
@@ -70,11 +71,11 @@ class RunSchedulerCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->schedulerMock = $this->getMockBuilder(SchedulerInterface::class)
+        $this->schedulerFacadeMock = $this->getMockBuilder(SchedulerFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->lockFactoryMock = $this->getMockBuilder(LockFactoryInterface::class)
+        $this->lockFacadeMock = $this->getMockBuilder(LockFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -82,16 +83,16 @@ class RunSchedulerCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->loggerMock = $this->getMockBuilder(LoggerInterface::class)
+        $this->logFacadeMock = $this->getMockBuilder(LogFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->lockIdentifierParts = [RunSchedulerCommand::NAME];
 
         $this->runSchedulerCommand = new RunSchedulerCommand(
-            $this->schedulerMock,
-            $this->lockFactoryMock,
-            $this->loggerMock
+            $this->schedulerFacadeMock,
+            $this->lockFacadeMock,
+            $this->logFacadeMock
         );
     }
 
@@ -100,7 +101,7 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testGetName(): void
     {
-        $this->assertEquals(RunSchedulerCommand::NAME, $this->runSchedulerCommand->getName());
+        static::assertEquals(RunSchedulerCommand::NAME, $this->runSchedulerCommand->getName());
     }
 
     /**
@@ -108,7 +109,7 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testGetDescription(): void
     {
-        $this->assertEquals(RunSchedulerCommand::DESCRIPTION, $this->runSchedulerCommand->getDescription());
+        static::assertEquals(RunSchedulerCommand::DESCRIPTION, $this->runSchedulerCommand->getDescription());
     }
 
     /**
@@ -118,28 +119,28 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testRun(): void
     {
-        $this->lockFactoryMock->expects($this->atLeastOnce())
-            ->method('create')
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
-        $this->lockMock->expects($this->atLeastOnce())
+        $this->lockMock->expects(static::atLeastOnce())
             ->method('acquire')
             ->willReturn(true);
 
-        $this->schedulerMock->expects($this->atLeastOnce())
-            ->method('run');
+        $this->schedulerFacadeMock->expects(static::atLeastOnce())
+            ->method('runScheduler');
 
-        $this->lockMock->expects($this->atLeastOnce())
+        $this->lockMock->expects(static::atLeastOnce())
             ->method('release')
             ->willReturn($this->lockMock);
 
-        $this->loggerMock->expects($this->never())
+        $this->logFacadeMock->expects(static::never())
             ->method('error');
 
         $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        static::assertEquals(0, $exitCode);
     }
 
     /**
@@ -149,28 +150,28 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testRunWithLockedStatus(): void
     {
-        $this->lockFactoryMock->expects($this->atLeastOnce())
-            ->method('create')
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
-        $this->lockMock->expects($this->atLeastOnce())
+        $this->lockMock->expects(static::atLeastOnce())
             ->method('acquire')
             ->willReturn(false);
 
-        $this->schedulerMock->expects($this->never())
-            ->method('run');
+        $this->schedulerFacadeMock->expects(static::never())
+            ->method('runScheduler');
 
-        $this->lockMock->expects($this->never())
+        $this->lockMock->expects(static::never())
             ->method('release')
             ->willReturn($this->lockMock);
 
-        $this->loggerMock->expects($this->never())
+        $this->logFacadeMock->expects(static::never())
             ->method('error');
 
         $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        static::assertEquals(0, $exitCode);
     }
 
     /**
@@ -182,29 +183,29 @@ class RunSchedulerCommandTest extends Unit
     {
         $exceptionMessage = 'Test exception';
 
-        $this->lockFactoryMock->expects($this->atLeastOnce())
-            ->method('create')
+        $this->lockFacadeMock->expects(static::atLeastOnce())
+            ->method('createLock')
             ->with($this->lockIdentifierParts, 360.0)
             ->willReturn($this->lockMock);
 
-        $this->lockMock->expects($this->atLeastOnce())
+        $this->lockMock->expects(static::atLeastOnce())
             ->method('acquire')
             ->willReturn(true);
 
-        $this->schedulerMock->expects($this->atLeastOnce())
-            ->method('run')
+        $this->schedulerFacadeMock->expects(static::atLeastOnce())
+            ->method('runScheduler')
             ->willThrowException(new Exception($exceptionMessage));
 
-        $this->loggerMock->expects($this->atLeastOnce())
+        $this->logFacadeMock->expects(static::atLeastOnce())
             ->method('error')
             ->with($exceptionMessage);
 
-        $this->lockMock->expects($this->atLeastOnce())
+        $this->lockMock->expects(static::atLeastOnce())
             ->method('release')
             ->willReturn($this->lockMock);
 
         $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        static::assertEquals(0, $exitCode);
     }
 }

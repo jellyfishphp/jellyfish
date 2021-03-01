@@ -5,15 +5,25 @@ declare(strict_types=1);
 namespace Jellyfish\Scheduler;
 
 use Codeception\Test\Unit;
-use Jellyfish\Lock\LockFactoryInterface;
-use Jellyfish\Process\ProcessFactoryInterface;
-use Jellyfish\Scheduler\Command\RunCommand;
+use Jellyfish\Console\ConsoleConstants;
+use Jellyfish\Console\ConsoleFacadeInterface;
+use Jellyfish\Lock\LockConstants;
+use Jellyfish\Lock\LockFacadeInterface;
+use Jellyfish\Log\LogConstants;
+use Jellyfish\Log\LogFacadeInterface;
+use Jellyfish\Process\ProcessConstants;
+use Jellyfish\Process\ProcessFacadeInterface;
 use Jellyfish\Scheduler\Command\RunSchedulerCommand;
 use Pimple\Container;
-use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Command\Command;
 
 class SchedulerServiceProviderTest extends Unit
 {
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Console\ConsoleFacadeInterface
+     */
+    protected $consoleFacadeMock;
+
     /**
      * @var \Pimple\Container;
      */
@@ -33,22 +43,32 @@ class SchedulerServiceProviderTest extends Unit
     {
         parent::_before();
 
-        $self = $this;
+        $this->consoleFacadeMock = $this->getMockBuilder(ConsoleFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->container = new Container();
 
-        $this->container->offsetSet('commands', static function () {
-            return [];
+        $self = $this;
+
+        $this->container->offsetSet(ConsoleConstants::FACADE, static function () use ($self) {
+            return $self->consoleFacadeMock;
         });
 
-        $this->container->offsetSet('lock_factory', static function () use ($self) {
-            return $self->getMockBuilder(LockFactoryInterface::class)
+        $this->container->offsetSet(LockConstants::FACADE, static function () use ($self) {
+            return $self->getMockBuilder(LockFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });
 
-        $this->container->offsetSet('logger', static function () use ($self) {
-            return $self->getMockBuilder(LoggerInterface::class)
+        $this->container->offsetSet(LogConstants::FACADE, static function () use ($self) {
+            return $self->getMockBuilder(LogFacadeInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+        });
+
+        $this->container->offsetSet(ProcessConstants::FACADE, static function () use ($self) {
+            return $self->getMockBuilder(ProcessFacadeInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
         });
@@ -61,35 +81,23 @@ class SchedulerServiceProviderTest extends Unit
      */
     public function testRegister(): void
     {
-        $self = $this;
-        
-        $this->container->offsetSet('process_factory', static function () use ($self) {
-            return $self->getMockBuilder(ProcessFactoryInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->consoleFacadeMock->expects(static::atLeastOnce())
+            ->method('addCommand')
+            ->with(
+                static::callback(static function (Command $command) {
+                    return $command instanceof RunSchedulerCommand;
+                })
+            )->willReturn($this->consoleFacadeMock);
 
         $this->schedulerServiceProvider->register($this->container);
 
-        $commands = $this->container->offsetGet('commands');
-        $this->assertCount(1, $commands);
-        $this->assertInstanceOf(RunSchedulerCommand::class, $commands[0]);
+        static::assertTrue($this->container->offsetExists(ConsoleConstants::FACADE));
+        static::assertInstanceOf(
+            ConsoleFacadeInterface::class,
+            $this->container->offsetGet(ConsoleConstants::FACADE)
+        );
 
-        $scheduler = $this->container->offsetGet(SchedulerConstants::CONTAINER_KEY_SCHEDULER);
-        $this->assertInstanceOf(Scheduler::class, $scheduler);
-
-        $jobFactory = $this->container->offsetGet(SchedulerConstants::CONTAINER_KEY_JOB_FACTORY);
-        $this->assertInstanceOf(JobFactory::class, $jobFactory);
-    }
-
-    /**
-     * @return void
-     */
-    public function testRegisterProcessFactoryNotSet(): void
-    {
-        $this->schedulerServiceProvider->register($this->container);
-
-        $jobFactory = $this->container->offsetGet(SchedulerConstants::CONTAINER_KEY_JOB_FACTORY);
-        $this->assertNull($jobFactory);
+        $scheduler = $this->container->offsetGet(SchedulerConstants::FACADE);
+        static::assertInstanceOf(SchedulerFacade::class, $scheduler);
     }
 }

@@ -13,7 +13,7 @@ use function sprintf;
 class LockIdentifierGeneratorTest extends Unit
 {
     /**
-     * @var \Jellyfish\Lock\LockIdentifierGeneratorInterface
+     * @var \Jellyfish\LockSymfony\LockIdentifierGeneratorInterface
      */
     protected $lockIdentifierGenerator;
 

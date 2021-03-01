@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace Jellyfish\Log;
 
 use Codeception\Test\Unit;
-use Jellyfish\Config\ConfigInterface;
+use Jellyfish\Config\ConfigConstants;
+use Jellyfish\Config\ConfigFacadeInterface;
 use Jellyfish\Event\EventConstants;
-use Jellyfish\Event\EventServiceProvider;
-use Monolog\Logger;
 use Pimple\Container;
-use Psr\Log\LoggerInterface;
 
 class LogServiceProviderTest extends Unit
 {
@@ -25,9 +23,9 @@ class LogServiceProviderTest extends Unit
     protected $container;
 
     /**
-     * @var \Jellyfish\Config\ConfigInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Config\ConfigFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $configMock;
+    protected $configFacadeMock;
 
     /**
      * @return void
@@ -40,7 +38,7 @@ class LogServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->configMock = $this->getMockBuilder(ConfigInterface::class)
+        $this->configFacadeMock = $this->getMockBuilder(ConfigFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -48,12 +46,8 @@ class LogServiceProviderTest extends Unit
 
         $this->container->offsetSet('root_dir', DIRECTORY_SEPARATOR);
 
-        $this->container->offsetSet('config', static function () use ($self) {
-            return $self->configMock;
-        });
-
-        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
-            return [];
+        $this->container->offsetSet(ConfigConstants::FACADE, static function () use ($self) {
+            return $self->configFacadeMock;
         });
 
         $this->logServiceProvider = new LogServiceProvider();
@@ -64,16 +58,16 @@ class LogServiceProviderTest extends Unit
      */
     public function testRegister(): void
     {
-        $this->configMock->expects(self::atLeastOnce())
+        $this->configFacadeMock->expects(self::atLeastOnce())
             ->method('get')
-            ->with(LogConstants::LOG_LEVEL, (string) LogConstants::DEFAULT_LOG_LEVEL)
-            ->willReturn((string) Logger::DEBUG);
+            ->with(LogConstants::LOG_LEVEL, LogConstants::DEFAULT_LOG_LEVEL)
+            ->willReturn(LogConstants::LOG_LEVEL_DEBUG);
 
         $this->logServiceProvider->register($this->container);
 
         self::assertInstanceOf(
-            LoggerInterface::class,
-            $this->container->offsetGet(LogConstants::CONTAINER_KEY_LOGGER)
+            LogFacadeInterface::class,
+            $this->container->offsetGet(LogConstants::FACADE)
         );
     }
 }

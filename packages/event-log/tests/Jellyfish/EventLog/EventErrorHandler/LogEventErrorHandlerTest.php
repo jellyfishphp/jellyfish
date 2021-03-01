@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\EventLog\EventErrorHandler;
 
 use Codeception\Test\Unit;
 use Exception;
 use Jellyfish\Event\EventInterface;
-use Psr\Log\LoggerInterface;
+use Jellyfish\Log\LogFacadeInterface;
 
 class LogEventErrorHandlerTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Log\LogFacadeInterface
      */
-    protected $loggerMock;
+    protected $logFacadeMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Event\EventInterface
@@ -41,7 +43,7 @@ class LogEventErrorHandlerTest extends Unit
     {
         parent::_before();
 
-        $this->loggerMock = $this->getMockBuilder(LoggerInterface::class)
+        $this->logFacadeMock = $this->getMockBuilder(LogFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -53,7 +55,7 @@ class LogEventErrorHandlerTest extends Unit
 
         $this->eventListenerIdentifier = 'foo';
 
-        $this->logEventErrorHandler = new LogEventErrorHandler($this->loggerMock);
+        $this->logEventErrorHandler = new LogEventErrorHandler($this->logFacadeMock);
     }
 
     /**
@@ -72,23 +74,23 @@ class LogEventErrorHandlerTest extends Unit
             'trace' => $this->exception->getTrace(),
         ];
 
-        $this->eventMock->expects(self::atLeastOnce())
+        $this->eventMock->expects(static::atLeastOnce())
             ->method('getId')
             ->willReturn($eventId);
 
-        $this->eventMock->expects(self::atLeastOnce())
+        $this->eventMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn($eventName);
 
-        $this->eventMock->expects(self::atLeastOnce())
+        $this->eventMock->expects(static::atLeastOnce())
             ->method('getMetaProperties')
             ->willReturn($metaProperties);
 
-        $this->loggerMock->expects(self::atLeastOnce())
+        $this->logFacadeMock->expects(static::atLeastOnce())
             ->method('error')
             ->with($this->exception->getMessage(), $context);
 
-        self::assertEquals(
+        static::assertEquals(
             $this->logEventErrorHandler,
             $this->logEventErrorHandler->handle($this->exception, $this->eventListenerIdentifier, $this->eventMock)
         );

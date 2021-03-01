@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jellyfish\FilesystemSymfony;
 
+use Jellyfish\Filesystem\FilesystemConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 
 class FilesystemSymfonyServiceProvider implements ServiceProviderInterface
 {
@@ -17,7 +17,7 @@ class FilesystemSymfonyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->registerFilesystem($pimple);
+        $this->registerFilesystemFacade($pimple);
     }
 
     /**
@@ -25,12 +25,12 @@ class FilesystemSymfonyServiceProvider implements ServiceProviderInterface
      *
      * @return \Jellyfish\FilesystemSymfony\FilesystemSymfonyServiceProvider
      */
-    protected function registerFilesystem(Container $container): FilesystemSymfonyServiceProvider
+    protected function registerFilesystemFacade(Container $container): FilesystemSymfonyServiceProvider
     {
-        $container->offsetSet('filesystem', function () {
-            $symfonyFilesystem = new SymfonyFilesystem();
-
-            return new Filesystem($symfonyFilesystem);
+        $container->offsetSet(FilesystemConstants::FACADE, static function () {
+            return new FilesystemSymfonyFacade(
+                new FilesystemSymfonyFactory()
+            );
         });
 
         return $this;

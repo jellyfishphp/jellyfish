@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
-use Jellyfish\Queue\DestinationFactoryInterface;
 use Jellyfish\Queue\DestinationInterface;
-use Jellyfish\Queue\QueueClientInterface;
+use Jellyfish\Queue\QueueFacadeInterface;
 
 class EventQueueProducer implements EventQueueProducerInterface
 {
@@ -16,28 +15,20 @@ class EventQueueProducer implements EventQueueProducerInterface
     protected $eventMapper;
 
     /**
-     * @var \Jellyfish\Queue\QueueClientInterface
+     * @var \Jellyfish\Queue\QueueFacadeInterface
      */
-    protected $queueClient;
-
-    /**
-     * @var \Jellyfish\Queue\DestinationFactoryInterface
-     */
-    protected $destinationFactory;
+    protected $queueFacade;
 
     /**
      * @param \Jellyfish\Event\EventMapperInterface $eventMapper
-     * @param \Jellyfish\Queue\QueueClientInterface $queueClient
-     * @param \Jellyfish\Queue\DestinationFactoryInterface $destinationFactory
+     * @param \Jellyfish\Queue\QueueFacadeInterface $queueFacade
      */
     public function __construct(
         EventMapperInterface $eventMapper,
-        QueueClientInterface $queueClient,
-        DestinationFactoryInterface $destinationFactory
+        QueueFacadeInterface $queueFacade
     ) {
         $this->eventMapper = $eventMapper;
-        $this->queueClient = $queueClient;
-        $this->destinationFactory = $destinationFactory;
+        $this->queueFacade = $queueFacade;
     }
 
     /**
@@ -48,13 +39,13 @@ class EventQueueProducer implements EventQueueProducerInterface
     public function enqueue(
         EventInterface $event
     ): EventQueueProducerInterface {
-        $destination = $this->destinationFactory->create()
+        $destination = $this->queueFacade->createDestination()
             ->setName($event->getName())
             ->setType(DestinationInterface::TYPE_FANOUT);
 
         $message = $this->eventMapper->toMessage($event);
 
-        $this->queueClient->sendMessage($destination, $message);
+        $this->queueFacade->sendMessage($destination, $message);
 
         return $this;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\FinderSymfony;
 
 use Codeception\Test\Unit;
+use Jellyfish\Finder\FinderConstants;
 use Pimple\Container;
 
 class FinderSymfonyServiceProviderTest extends Unit
@@ -38,6 +39,9 @@ class FinderSymfonyServiceProviderTest extends Unit
     {
         $this->finderSymfonyServiceProvider->register($this->container);
 
-        $this->assertInstanceOf(FinderFactory::class, $this->container->offsetGet('finder_factory'));
+        static::assertInstanceOf(
+            FinderSymfonyFacade::class,
+            $this->container->offsetGet(FinderConstants::FACADE)
+        );
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\UuidRamsey;
 
 use Codeception\Test\Unit;
@@ -48,14 +50,14 @@ class UuidGeneratorTest extends Unit
     {
         $uuid4 = 'c470aa7e-0e14-4fa4-83bb-2e95c85fe1f7';
 
-        $this->uuidFactoryMock->expects(self::atLeastOnce())
+        $this->uuidFactoryMock->expects(static::atLeastOnce())
             ->method('uuid4')
             ->willReturn($this->uuidMock);
 
-        $this->uuidMock->expects(self::atLeastOnce())
+        $this->uuidMock->expects(static::atLeastOnce())
             ->method('toString')
             ->willReturn($uuid4);
 
-        self::assertEquals($uuid4, $this->uuidGenerator->generate());
+        static::assertEquals($uuid4, $this->uuidGenerator->generate());
     }
 }

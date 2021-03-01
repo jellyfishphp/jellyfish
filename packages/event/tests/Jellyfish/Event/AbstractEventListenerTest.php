@@ -49,12 +49,12 @@ class AbstractEventListenerTest extends Unit
     {
         $errorHandlers = [$this->errorHandlerMock];
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->abstractEventListenerMock,
             $this->abstractEventListenerMock->setErrorHandlers($errorHandlers)
         );
 
-        $this->assertEquals(
+        static::assertEquals(
             $errorHandlers,
             $this->abstractEventListenerMock->getErrorHandlers()
         );
@@ -67,12 +67,12 @@ class AbstractEventListenerTest extends Unit
      */
     public function testHandle(): void
     {
-        $this->abstractEventListenerMock->expects($this->atLeastOnce())
+        $this->abstractEventListenerMock->expects(static::atLeastOnce())
             ->method('doHandle')
             ->with($this->eventMock)
             ->willReturn($this->abstractEventListenerMock);
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->abstractEventListenerMock,
             $this->abstractEventListenerMock->handle($this->eventMock)
         );
@@ -85,14 +85,14 @@ class AbstractEventListenerTest extends Unit
      */
     public function testHandleWithUnhandledError(): void
     {
-        $this->abstractEventListenerMock->expects($this->atLeastOnce())
+        $this->abstractEventListenerMock->expects(static::atLeastOnce())
             ->method('doHandle')
             ->with($this->eventMock)
             ->willThrowException(new Exception('Lorem ipsum'));
 
         try {
             $this->abstractEventListenerMock->handle($this->eventMock);
-            $this->fail();
+            static::fail();
         } catch (Exception $e) {
         }
     }
@@ -109,21 +109,21 @@ class AbstractEventListenerTest extends Unit
 
         $this->abstractEventListenerMock->addErrorHandler($this->errorHandlerMock);
 
-        $this->abstractEventListenerMock->expects($this->atLeastOnce())
+        $this->abstractEventListenerMock->expects(static::atLeastOnce())
             ->method('doHandle')
             ->with($this->eventMock)
             ->willThrowException($exception);
 
-        $this->abstractEventListenerMock->expects($this->atLeastOnce())
+        $this->abstractEventListenerMock->expects(static::atLeastOnce())
             ->method('getIdentifier')
             ->willReturn($identifier);
 
-        $this->errorHandlerMock->expects($this->atLeastOnce())
+        $this->errorHandlerMock->expects(static::atLeastOnce())
             ->method('handle')
             ->with($exception, $identifier, $this->eventMock)
             ->willReturn($this->errorHandlerMock);
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->abstractEventListenerMock,
             $this->abstractEventListenerMock->handle($this->eventMock)
         );

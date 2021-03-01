@@ -1,45 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\EventCache\EventErrorHandler;
 
-use Jellyfish\Cache\CacheInterface;
+use Jellyfish\Cache\CacheFacadeInterface;
 use Jellyfish\Event\EventErrorHandlerInterface;
 use Jellyfish\Event\EventInterface;
 use Jellyfish\EventCache\EventCacheConstants;
-use Jellyfish\Serializer\SerializerInterface;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 use Throwable;
-
-use function sprintf;
 
 class CacheEventErrorHandler implements EventErrorHandlerInterface
 {
     /**
-     * @var \Jellyfish\Cache\CacheInterface
+     * @var \Jellyfish\Cache\CacheFacadeInterface
      */
-    protected $cache;
+    protected $cacheFacade;
 
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface
+     * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializer;
+    protected $serializerFacade;
 
     /**
-     * @param \Jellyfish\Cache\CacheInterface $cache
-     * @param \Jellyfish\Serializer\SerializerInterface $serializer
+     * @param \Jellyfish\Cache\CacheFacadeInterface $cacheFacade
+     * @param \Jellyfish\Serializer\SerializerFacadeInterface $serializerFacade
      */
     public function __construct(
-        CacheInterface $cache,
-        SerializerInterface $serializer
+        CacheFacadeInterface $cacheFacade,
+        SerializerFacadeInterface $serializerFacade
     ) {
-        $this->cache = $cache;
-        $this->serializer = $serializer;
+        $this->cacheFacade = $cacheFacade;
+        $this->serializerFacade = $serializerFacade;
     }
 
 
     /**
+     * @param \Throwable $throwable
      * @param string $eventListenerIdentifier
      * @param \Jellyfish\Event\EventInterface $event
-     * @param \Throwable $throwable
      *
      * @return \Jellyfish\Event\EventErrorHandlerInterface
      */
@@ -48,9 +48,9 @@ class CacheEventErrorHandler implements EventErrorHandlerInterface
         string $eventListenerIdentifier,
         EventInterface $event
     ): EventErrorHandlerInterface {
-        $this->cache->set(
+        $this->cacheFacade->set(
             $event->getId(),
-            $this->serializer->serialize($event, 'json'),
+            $this->serializerFacade->serialize($event, 'json'),
             EventCacheConstants::LIFE_TIME
         );
 

@@ -6,7 +6,7 @@ namespace Jellyfish\Transfer\Definition;
 
 use Codeception\Test\Unit;
 use Iterator;
-use Jellyfish\Finder\FinderFactoryInterface;
+use Jellyfish\Finder\FinderFacadeInterface;
 use Jellyfish\Finder\FinderInterface;
 
 class DefinitionFinderTest extends Unit
@@ -22,9 +22,9 @@ class DefinitionFinderTest extends Unit
     protected $rootDir;
 
     /**
-     * @var \Jellyfish\Finder\FinderFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Finder\FinderFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $finderFactoryMock;
+    protected $finderFacadeMock;
 
     /**
      * @var \Jellyfish\Finder\FinderInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -43,7 +43,7 @@ class DefinitionFinderTest extends Unit
     {
         parent::_before();
 
-        $this->finderFactoryMock = $this->getMockBuilder(FinderFactoryInterface::class)
+        $this->finderFacadeMock = $this->getMockBuilder(FinderFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -57,7 +57,7 @@ class DefinitionFinderTest extends Unit
 
         $this->rootDir = '/';
 
-        $this->definitionFinder = new DefinitionFinder($this->finderFactoryMock, $this->rootDir);
+        $this->definitionFinder = new DefinitionFinder($this->finderFacadeMock, $this->rootDir);
     }
 
     /**
@@ -65,26 +65,26 @@ class DefinitionFinderTest extends Unit
      */
     public function testFind(): void
     {
-        $this->finderFactoryMock->expects($this->atLeastOnce())
-            ->method('create')
+        $this->finderFacadeMock->expects(static::atLeastOnce())
+            ->method('createFinder')
             ->willReturn($this->finderMock);
 
-        $this->finderMock->expects($this->atLeastOnce())
+        $this->finderMock->expects(static::atLeastOnce())
             ->method('in')
-            ->with('{,vendor/*/*/}src/*/*/Transfer/')
+            ->with(['src/*/*/Transfer/', 'vendor/*/*/src/*/*/Transfer/'])
             ->willReturn($this->finderMock);
 
-        $this->finderMock->expects($this->atLeastOnce())
+        $this->finderMock->expects(static::atLeastOnce())
             ->method('name')
             ->with('*.transfer.json')
             ->willReturn($this->finderMock);
 
-        $this->finderMock->expects($this->atLeastOnce())
+        $this->finderMock->expects(static::atLeastOnce())
             ->method('getIterator')
             ->willReturn($this->iteratorMock);
 
         $iterator = $this->definitionFinder->find();
 
-        $this->assertEquals($this->iteratorMock, $iterator);
+        static::assertEquals($this->iteratorMock, $iterator);
     }
 }

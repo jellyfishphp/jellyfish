@@ -1,0 +1,25 @@
+name: Release
+
+on:
+    - workflow_dispatch
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Git clone
+                run: git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git .
+            -   name: Git checkout
+                run: git checkout -B ${GITHUB_REF#refs/heads/}
+            -   name: Create tmp directory
+                run: mkdir tmp
+            -   name: Prepare config
+                env:
+                    RELEASE_BOT_GITHUB_TOKEN: ${{ secrets.RELEASE_BOT_GITHUB_TOKEN }}
+                run: make prepare-dandelion-config GITHUB_TOKEN=$RELEASE_BOT_GITHUB_TOKEN
+            -   name: Chown dandelion:dandelion
+                run: sudo chown 1000:1000 -R .
+            -   name: Release split repos
+                run: make release BRANCH=${GITHUB_REF#refs/heads/}
+            -   name: Chown dandelion:dandelion
+                run: sudo chown $(id -u):$(id -g) -R .

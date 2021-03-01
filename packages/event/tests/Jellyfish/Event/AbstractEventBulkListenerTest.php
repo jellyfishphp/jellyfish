@@ -49,7 +49,7 @@ class AbstractEventBulkListenerTest extends Unit
     {
         try {
             $this->abstractEventBulkListenerMock->handle($this->eventMock);
-            $this->fail();
+            static::fail();
         } catch (NotSupportedMethodException $exception) {
         }
     }
@@ -61,17 +61,17 @@ class AbstractEventBulkListenerTest extends Unit
     {
         $events = [$this->eventMock];
 
-        $this->abstractEventBulkListenerMock->expects($this->atLeastOnce())
+        $this->abstractEventBulkListenerMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(EventListenerInterface::TYPE_SYNC);
 
-        $this->abstractEventBulkListenerMock->expects($this->never())
+        $this->abstractEventBulkListenerMock->expects(static::never())
             ->method('doHandle')
             ->with($this->eventMock);
 
         try {
             $this->abstractEventBulkListenerMock->handleBulk($events);
-            $this->fail();
+            static::fail();
         } catch (NotSupportedTypeException $exception) {
         }
     }
@@ -84,18 +84,18 @@ class AbstractEventBulkListenerTest extends Unit
         $events = [$this->eventMock];
         $exception = new Exception();
 
-        $this->abstractEventBulkListenerMock->expects($this->atLeastOnce())
+        $this->abstractEventBulkListenerMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(EventListenerInterface::TYPE_ASYNC);
 
-        $this->abstractEventBulkListenerMock->expects($this->atLeastOnce())
+        $this->abstractEventBulkListenerMock->expects(static::atLeastOnce())
             ->method('doHandle')
             ->with($this->eventMock)
             ->willThrowException($exception);
 
         try {
             $this->abstractEventBulkListenerMock->handleBulk($events);
-            $this->fail();
+            static::fail();
         } catch (Exception $e) {
         }
     }
@@ -111,25 +111,25 @@ class AbstractEventBulkListenerTest extends Unit
 
         $this->abstractEventBulkListenerMock->addErrorHandler($this->errorHandlerMock);
 
-        $this->abstractEventBulkListenerMock->expects($this->atLeastOnce())
+        $this->abstractEventBulkListenerMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(EventListenerInterface::TYPE_ASYNC);
 
-        $this->abstractEventBulkListenerMock->expects($this->atLeastOnce())
+        $this->abstractEventBulkListenerMock->expects(static::atLeastOnce())
             ->method('doHandle')
             ->with($this->eventMock)
             ->willThrowException($exception);
 
-        $this->abstractEventBulkListenerMock->expects($this->atLeastOnce())
+        $this->abstractEventBulkListenerMock->expects(static::atLeastOnce())
             ->method('getIdentifier')
             ->willReturn($identifier);
 
-        $this->errorHandlerMock->expects($this->atLeastOnce())
+        $this->errorHandlerMock->expects(static::atLeastOnce())
             ->method('handle')
             ->with($exception, $identifier, $this->eventMock)
             ->willReturn($this->errorHandlerMock);
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->abstractEventBulkListenerMock,
             $this->abstractEventBulkListenerMock->handleBulk($events)
         );
@@ -142,12 +142,12 @@ class AbstractEventBulkListenerTest extends Unit
     {
         $events = [$this->eventMock];
 
-        $this->abstractEventBulkListenerMock->expects($this->atLeastOnce())
+        $this->abstractEventBulkListenerMock->expects(static::atLeastOnce())
             ->method('doHandle')
             ->with($this->eventMock)
             ->willReturn($this->abstractEventBulkListenerMock);
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->abstractEventBulkListenerMock,
             $this->abstractEventBulkListenerMock->handleBulk($events)
         );

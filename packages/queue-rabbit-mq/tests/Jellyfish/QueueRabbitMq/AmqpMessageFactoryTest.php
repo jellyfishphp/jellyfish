@@ -31,8 +31,8 @@ class AmqpMessageFactoryTest extends Unit
 
         $amqpMessage = $this->amqpMessageFactory->create($body);
 
-        $this->assertEquals($body, $amqpMessage->getBody());
-        $this->assertArrayHasKey('delivery_mode', $amqpMessage->get_properties());
-        $this->assertEquals(AMQPMessage::DELIVERY_MODE_PERSISTENT, $amqpMessage->get_properties()['delivery_mode']);
+        static::assertEquals($body, $amqpMessage->getBody());
+        static::assertArrayHasKey('delivery_mode', $amqpMessage->get_properties());
+        static::assertEquals(AMQPMessage::DELIVERY_MODE_PERSISTENT, $amqpMessage->get_properties()['delivery_mode']);
     }
 }

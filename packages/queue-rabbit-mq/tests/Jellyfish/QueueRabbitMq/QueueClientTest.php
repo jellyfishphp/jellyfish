@@ -6,25 +6,18 @@ namespace Jellyfish\QueueRabbitMq;
 
 use Codeception\Test\Unit;
 use Exception;
-use Jellyfish\Queue\ConsumerInterface;
-use Jellyfish\Queue\Destination;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
-use Jellyfish\Queue\MessageMapperInterface;
-use Jellyfish\Queue\ProducerInterface;
-use PhpAmqpLib\Channel\AMQPChannel;
-use PhpAmqpLib\Connection\AbstractConnection;
-use PhpAmqpLib\Message\AMQPMessage;
 
 class QueueClientTest extends Unit
 {
     /**
-     * @var \Jellyfish\Queue\ConsumerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\QueueRabbitMq\ConsumerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $consumerMock;
 
     /**
-     * @var \Jellyfish\Queue\ProducerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\QueueRabbitMq\ProducerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $producerMock;
 
@@ -39,7 +32,7 @@ class QueueClientTest extends Unit
     protected $messageMock;
 
     /**
-     * @var \Jellyfish\Queue\QueueClientInterface
+     * @var \Jellyfish\QueueRabbitMq\QueueClientInterface
      */
     protected $queueClient;
 
@@ -75,16 +68,16 @@ class QueueClientTest extends Unit
      */
     public function testReceiveMessage(): void
     {
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(DestinationInterface::TYPE_QUEUE);
 
-        $this->consumerMock->expects(self::atLeastOnce())
+        $this->consumerMock->expects(static::atLeastOnce())
             ->method('receiveMessage')
             ->with($this->destinationMock)
             ->willReturn($this->messageMock);
 
-        self::assertEquals($this->messageMock, $this->queueClient->receiveMessage($this->destinationMock));
+        static::assertEquals($this->messageMock, $this->queueClient->receiveMessage($this->destinationMock));
     }
 
     /**
@@ -92,16 +85,16 @@ class QueueClientTest extends Unit
      */
     public function testReceiveMessageFromEmptyDestination(): void
     {
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(DestinationInterface::TYPE_QUEUE);
 
-        $this->consumerMock->expects(self::atLeastOnce())
+        $this->consumerMock->expects(static::atLeastOnce())
             ->method('receiveMessage')
             ->with($this->destinationMock)
             ->willReturn(null);
 
-        self::assertEquals(null, $this->queueClient->receiveMessage($this->destinationMock));
+        static::assertEquals(null, $this->queueClient->receiveMessage($this->destinationMock));
     }
 
     /**
@@ -109,13 +102,13 @@ class QueueClientTest extends Unit
      */
     public function testReceiveMessageWithNotExistingConsumer(): void
     {
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(DestinationInterface::TYPE_FANOUT);
 
         try {
             $this->queueClient->receiveMessage($this->destinationMock);
-            self::fail();
+            static::fail();
         } catch (Exception $exception) {
         }
     }
@@ -129,16 +122,16 @@ class QueueClientTest extends Unit
             $this->messageMock
         ];
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(DestinationInterface::TYPE_QUEUE);
 
-        $this->consumerMock->expects(self::atLeastOnce())
+        $this->consumerMock->expects(static::atLeastOnce())
             ->method('receiveMessages')
             ->with($this->destinationMock)
             ->willReturn($messages);
 
-        self::assertEquals($messages, $this->queueClient->receiveMessages($this->destinationMock, 10));
+        static::assertEquals($messages, $this->queueClient->receiveMessages($this->destinationMock, 10));
     }
 
     /**
@@ -146,16 +139,16 @@ class QueueClientTest extends Unit
      */
     public function testReceiveMessagesFromEmptyDestination(): void
     {
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(DestinationInterface::TYPE_QUEUE);
 
-        $this->consumerMock->expects(self::atLeastOnce())
+        $this->consumerMock->expects(static::atLeastOnce())
             ->method('receiveMessages')
             ->with($this->destinationMock)
             ->willReturn([]);
 
-        self::assertEquals([], $this->queueClient->receiveMessages($this->destinationMock, 10));
+        static::assertEquals([], $this->queueClient->receiveMessages($this->destinationMock, 10));
     }
 
     /**
@@ -163,13 +156,13 @@ class QueueClientTest extends Unit
      */
     public function testReceiveMessagesWithNotExistingConsumer(): void
     {
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(DestinationInterface::TYPE_FANOUT);
 
         try {
             $this->queueClient->receiveMessages($this->destinationMock, 10);
-            self::fail();
+            static::fail();
         } catch (Exception $exception) {
         }
     }
@@ -179,16 +172,16 @@ class QueueClientTest extends Unit
      */
     public function testSendMessage(): void
     {
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects(static::atLeastOnce())
             ->method('getType')
             ->willReturn(DestinationInterface::TYPE_QUEUE);
 
-        $this->producerMock->expects(self::atLeastOnce())
+        $this->producerMock->expects(static::atLeastOnce())
             ->method('sendMessage')
             ->with($this->destinationMock, $this->messageMock)
             ->willReturn($this->producerMock);
 
-        self::assertEquals(
+        static::assertEquals(
             $this->queueClient,
             $this->queueClient->sendMessage($this->destinationMock, $this->messageMock)
         );
@@ -200,12 +193,12 @@ class QueueClientTest extends Unit
     public function testSendMessageWithNotExistingProducer(): void
     {
         try {
-            $this->destinationMock->expects(self::atLeastOnce())
+            $this->destinationMock->expects(static::atLeastOnce())
                 ->method('getType')
                 ->willReturn(DestinationInterface::TYPE_FANOUT);
 
             $this->queueClient->sendMessage($this->destinationMock, $this->messageMock);
-            self::fail();
+            static::fail();
         } catch (Exception $exception) {
         }
     }
@@ -215,12 +208,12 @@ class QueueClientTest extends Unit
      */
     public function testSetConsumer(): void
     {
-        /** @var \Jellyfish\Queue\ConsumerInterface|\PHPUnit\Framework\MockObject\MockObject $consumerMock */
+        /** @var \Jellyfish\QueueRabbitMq\ConsumerInterface|\PHPUnit\Framework\MockObject\MockObject $consumerMock */
         $consumerMock = $this->getMockBuilder(ConsumerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        self::assertEquals(
+        static::assertEquals(
             $this->queueClient,
             $this->queueClient->setConsumer(DestinationInterface::TYPE_FANOUT, $consumerMock)
         );
@@ -231,12 +224,12 @@ class QueueClientTest extends Unit
      */
     public function testSetProducer(): void
     {
-        /** @var \Jellyfish\Queue\ProducerInterface|\PHPUnit\Framework\MockObject\MockObject $producerMock */
+        /** @var \Jellyfish\QueueRabbitMq\ProducerInterface|\PHPUnit\Framework\MockObject\MockObject $producerMock */
         $producerMock = $this->getMockBuilder(ProducerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        self::assertEquals(
+        static::assertEquals(
             $this->queueClient,
             $this->queueClient->setProducer(DestinationInterface::TYPE_FANOUT, $producerMock)
         );

@@ -79,15 +79,15 @@ class ClassDefinitionMapMergerTest extends Unit
      */
     public function testMerge(): void
     {
-        $this->classDefinitionMapAMock['Product']->expects($this->atLeastOnce())
+        $this->classDefinitionMapAMock['Product']->expects(static::atLeastOnce())
             ->method('getProperties')
             ->willReturn($this->classDefinitionPropertyMapAMock);
 
-        $this->classDefinitionMapBMock['Product']->expects($this->atLeastOnce())
+        $this->classDefinitionMapBMock['Product']->expects(static::atLeastOnce())
             ->method('getProperties')
             ->willReturn($this->classDefinitionPropertyMapBMock);
 
-        $this->classDefinitionMapAMock['Product']->expects($this->atLeastOnce())
+        $this->classDefinitionMapAMock['Product']->expects(static::atLeastOnce())
             ->method('setProperties')
             ->with($this->classDefinitionPropertyMapBMock);
 
@@ -96,9 +96,9 @@ class ClassDefinitionMapMergerTest extends Unit
             $this->classDefinitionMapBMock
         );
 
-        $this->assertArrayHasKey('Product', $mergedClassDefinitionMap);
-        $this->assertEquals($this->classDefinitionMapAMock['Product'], $mergedClassDefinitionMap['Product']);
-        $this->assertArrayHasKey('Customer', $mergedClassDefinitionMap);
-        $this->assertEquals($this->classDefinitionMapBMock['Customer'], $mergedClassDefinitionMap['Customer']);
+        static::assertArrayHasKey('Product', $mergedClassDefinitionMap);
+        static::assertEquals($this->classDefinitionMapAMock['Product'], $mergedClassDefinitionMap['Product']);
+        static::assertArrayHasKey('Customer', $mergedClassDefinitionMap);
+        static::assertEquals($this->classDefinitionMapBMock['Customer'], $mergedClassDefinitionMap['Customer']);
     }
 }

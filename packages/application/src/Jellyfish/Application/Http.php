@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Application;
 
+use Jellyfish\Http\HttpConstants;
 use Jellyfish\Kernel\KernelInterface;
 
 class Http
@@ -26,15 +27,11 @@ class Http
      */
     public function run(): void
     {
-        /** @var \Psr\Http\Message\ServerRequestInterface $request */
-        $request = $this->kernel->getContainer()->offsetGet('request');
-        /** @var \League\Route\Router $router */
-        $router = $this->kernel->getContainer()->offsetGet('router');
-        /** @var \Zend\HttpHandlerRunner\Emitter\EmitterInterface $emitter */
-        $emitter = $this->kernel->getContainer()->offsetGet('emitter');
+        /** @var \Jellyfish\Http\HttpFacadeInterface $httpFacade */
+        $httpFacade = $this->kernel->getContainer()->offsetGet(HttpConstants::FACADE);
 
-        $response = $router->dispatch($request);
+        $response = $httpFacade->dispatch($httpFacade->getCurrentRequest());
 
-        $emitter->emit($response);
+        $httpFacade->emit($response);
     }
 }

@@ -4,31 +4,28 @@ declare(strict_types=1);
 
 namespace Jellyfish\QueueRabbitMq;
 
-use Jellyfish\Queue\ConsumerInterface;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\Exception\ConsumerNotFoundException;
 use Jellyfish\Queue\Exception\ProducerNotFoundException;
 use Jellyfish\Queue\MessageInterface;
-use Jellyfish\Queue\ProducerInterface;
-use Jellyfish\Queue\QueueClientInterface;
 
 use function sprintf;
 
 class QueueClient implements QueueClientInterface
 {
     /**
-     * @var \Jellyfish\Queue\ConsumerInterface[]
+     * @var \Jellyfish\QueueRabbitMq\ConsumerInterface[]
      */
     protected $consumers;
 
     /**
-     * @var \Jellyfish\Queue\ProducerInterface[]
+     * @var \Jellyfish\QueueRabbitMq\ProducerInterface[]
      */
     protected $producers;
 
     /**
-     * @param \Jellyfish\Queue\ConsumerInterface[] $consumers
-     * @param \Jellyfish\Queue\ProducerInterface[] $producers
+     * @param \Jellyfish\QueueRabbitMq\ConsumerInterface[] $consumers
+     * @param \Jellyfish\QueueRabbitMq\ProducerInterface[] $producers
      */
     public function __construct(
         array $consumers = [],
@@ -40,9 +37,9 @@ class QueueClient implements QueueClientInterface
 
     /**
      * @param string $type
-     * @param \Jellyfish\Queue\ConsumerInterface $consumer
+     * @param \Jellyfish\QueueRabbitMq\ConsumerInterface $consumer
      *
-     * @return \Jellyfish\Queue\QueueClientInterface
+     * @return \Jellyfish\QueueRabbitMq\QueueClientInterface
      */
     public function setConsumer(string $type, ConsumerInterface $consumer): QueueClientInterface
     {
@@ -53,9 +50,9 @@ class QueueClient implements QueueClientInterface
 
     /**
      * @param string $type
-     * @param \Jellyfish\Queue\ProducerInterface $producer
+     * @param \Jellyfish\QueueRabbitMq\ProducerInterface $producer
      *
-     * @return \Jellyfish\Queue\QueueClientInterface
+     * @return \Jellyfish\QueueRabbitMq\QueueClientInterface
      */
     public function setProducer(string $type, ProducerInterface $producer): QueueClientInterface
     {
@@ -104,7 +101,7 @@ class QueueClient implements QueueClientInterface
      * @param \Jellyfish\Queue\DestinationInterface $destination
      * @param \Jellyfish\Queue\MessageInterface $message
      *
-     * @return \Jellyfish\Queue\QueueClientInterface
+     * @return \Jellyfish\QueueRabbitMq\QueueClientInterface
      */
     public function sendMessage(DestinationInterface $destination, MessageInterface $message): QueueClientInterface
     {

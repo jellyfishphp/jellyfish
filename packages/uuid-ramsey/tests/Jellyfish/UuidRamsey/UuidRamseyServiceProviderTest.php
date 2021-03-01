@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\UuidRamsey;
 
 use Codeception\Test\Unit;
@@ -36,10 +38,10 @@ class UuidRamseyServiceProviderTest extends Unit
     {
         $this->uuidRamseyServiceProvider->register($this->container);
 
-        self::assertTrue($this->container->offsetExists(UuidConstants::CONTAINER_KEY_UUID_GENERATOR));
-        self::assertInstanceOf(
-            UuidGenerator::class,
-            $this->container->offsetGet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR)
+        static::assertTrue($this->container->offsetExists(UuidConstants::FACADE));
+        static::assertInstanceOf(
+            UuidRamseyFacade::class,
+            $this->container->offsetGet(UuidConstants::FACADE)
         );
     }
 }

@@ -5,28 +5,22 @@ declare(strict_types=1);
 namespace Jellyfish\Transfer\Command;
 
 use Codeception\Test\Unit;
-use Jellyfish\Transfer\TransferCleanerInterface;
-use Jellyfish\Transfer\TransferGeneratorInterface;
-use Psr\Log\LoggerInterface;
+use Jellyfish\Log\LogFacadeInterface;
+use Jellyfish\Transfer\TransferFacadeInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TransferGenerateCommandTest extends Unit
 {
     /**
-     * @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Log\LogFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $loggerMock;
+    protected $logFacadeMock;
 
     /**
-     * @var \Jellyfish\Transfer\TransferGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Transfer\TransferFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $transferGeneratorMock;
-
-    /**
-     * @var \Jellyfish\Transfer\TransferCleanerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $transferCleanerMock;
+    protected $transferFacadeMock;
 
     /**
      * @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -50,15 +44,11 @@ class TransferGenerateCommandTest extends Unit
     {
         parent::_before();
 
-        $this->loggerMock = $this->getMockBuilder(LoggerInterface::class)
+        $this->logFacadeMock = $this->getMockBuilder(LogFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->transferGeneratorMock = $this->getMockBuilder(TransferGeneratorInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->transferCleanerMock = $this->getMockBuilder(TransferCleanerInterface::class)
+        $this->transferFacadeMock = $this->getMockBuilder(TransferFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -71,9 +61,8 @@ class TransferGenerateCommandTest extends Unit
             ->getMock();
 
         $this->transferGenerateCommand = new TransferGenerateCommand(
-            $this->transferGeneratorMock,
-            $this->transferCleanerMock,
-            $this->loggerMock
+            $this->transferFacadeMock,
+            $this->logFacadeMock
         );
     }
 
@@ -82,7 +71,7 @@ class TransferGenerateCommandTest extends Unit
      */
     public function testGetName(): void
     {
-        $this->assertEquals(TransferGenerateCommand::NAME, $this->transferGenerateCommand->getName());
+        static::assertEquals(TransferGenerateCommand::NAME, $this->transferGenerateCommand->getName());
     }
 
     /**
@@ -90,7 +79,7 @@ class TransferGenerateCommandTest extends Unit
      */
     public function testGetDescription(): void
     {
-        $this->assertEquals(TransferGenerateCommand::DESCRIPTION, $this->transferGenerateCommand->getDescription());
+        static::assertEquals(TransferGenerateCommand::DESCRIPTION, $this->transferGenerateCommand->getDescription());
     }
 
     /**
@@ -100,16 +89,16 @@ class TransferGenerateCommandTest extends Unit
      */
     public function testRun(): void
     {
-        $this->transferCleanerMock->expects($this->atLeastOnce())
+        $this->transferFacadeMock->expects(static::atLeastOnce())
             ->method('clean')
-            ->willReturn($this->transferCleanerMock);
+            ->willReturn($this->transferFacadeMock);
 
-        $this->transferGeneratorMock->expects($this->atLeastOnce())
+        $this->transferFacadeMock->expects(static::atLeastOnce())
             ->method('generate')
-            ->willReturn($this->transferGeneratorMock);
+            ->willReturn($this->transferFacadeMock);
 
         $exitCode = $this->transferGenerateCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        static::assertEquals(0, $exitCode);
     }
 }

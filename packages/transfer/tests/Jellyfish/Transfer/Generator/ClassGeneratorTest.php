@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\Transfer\Generator;
 
 use Codeception\Test\Unit;
-use Jellyfish\Filesystem\FilesystemInterface;
+use Jellyfish\Filesystem\FilesystemFacadeInterface;
 use Jellyfish\Transfer\Definition\ClassDefinitionInterface;
 use Twig\Environment;
 
@@ -22,9 +22,9 @@ class ClassGeneratorTest extends Unit
     protected $classGenerator;
 
     /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Filesystem\FilesystemFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $filesystemMock;
+    protected $filesystemFacadeMock;
 
     /**
      * @var \Twig\Environment|\PHPUnit\Framework\MockObject\MockObject
@@ -45,7 +45,7 @@ class ClassGeneratorTest extends Unit
 
         $this->targetDirectory = './src/Generated/Transfer/';
 
-        $this->filesystemMock = $this->getMockBuilder(FilesystemInterface::class)
+        $this->filesystemFacadeMock = $this->getMockBuilder(FilesystemFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -58,7 +58,7 @@ class ClassGeneratorTest extends Unit
             ->getMock();
 
         $this->classGenerator = new ClassGenerator(
-            $this->filesystemMock,
+            $this->filesystemFacadeMock,
             $this->twigEnvironmentMock,
             $this->targetDirectory
         );
@@ -71,32 +71,32 @@ class ClassGeneratorTest extends Unit
      */
     public function testGenerate(): void
     {
-        $this->classDefinitionMock->expects($this->atLeastOnce())
+        $this->classDefinitionMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn('Product');
 
-        $this->classDefinitionMock->expects($this->atLeastOnce())
+        $this->classDefinitionMock->expects(static::atLeastOnce())
             ->method('getNamespace')
             ->willReturn('Catalog');
 
-        $this->twigEnvironmentMock->expects($this->atLeastOnce())
+        $this->twigEnvironmentMock->expects(static::atLeastOnce())
             ->method('render')
             ->with('class.twig', ['classDefinition' => $this->classDefinitionMock])
             ->willReturn('use ...');
 
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('exists')
             ->willReturn(false);
 
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('mkdir')
             ->with($this->targetDirectory . 'Catalog/', 0775);
 
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('writeToFile')
             ->with($this->targetDirectory . 'Catalog/Product.php', 'use ...');
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->classGenerator,
             $this->classGenerator->generate($this->classDefinitionMock)
         );
@@ -109,32 +109,32 @@ class ClassGeneratorTest extends Unit
      */
     public function testGenerateDefaultNamespace(): void
     {
-        $this->classDefinitionMock->expects($this->atLeastOnce())
+        $this->classDefinitionMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn('Product');
 
-        $this->classDefinitionMock->expects($this->atLeastOnce())
+        $this->classDefinitionMock->expects(static::atLeastOnce())
             ->method('getNamespace')
             ->willReturn(null);
 
-        $this->twigEnvironmentMock->expects($this->atLeastOnce())
+        $this->twigEnvironmentMock->expects(static::atLeastOnce())
             ->method('render')
             ->with('class.twig', ['classDefinition' => $this->classDefinitionMock])
             ->willReturn('use ...');
 
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('exists')
             ->willReturn(false);
 
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('mkdir')
             ->with($this->targetDirectory, 0775);
 
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('writeToFile')
             ->with($this->targetDirectory . 'Product.php', 'use ...');
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->classGenerator,
             $this->classGenerator->generate($this->classDefinitionMock)
         );
@@ -147,32 +147,32 @@ class ClassGeneratorTest extends Unit
      */
     public function testGenerateWithExistingDirectory(): void
     {
-        $this->classDefinitionMock->expects($this->atLeastOnce())
+        $this->classDefinitionMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturn('Product');
 
-        $this->classDefinitionMock->expects($this->atLeastOnce())
+        $this->classDefinitionMock->expects(static::atLeastOnce())
             ->method('getNamespace')
             ->willReturn(null);
 
-        $this->twigEnvironmentMock->expects($this->atLeastOnce())
+        $this->twigEnvironmentMock->expects(static::atLeastOnce())
             ->method('render')
             ->with('class.twig', ['classDefinition' => $this->classDefinitionMock])
             ->willReturn('use ...');
 
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('exists')
             ->willReturn(true);
 
-        $this->filesystemMock->expects($this->never())
+        $this->filesystemFacadeMock->expects(static::never())
             ->method('mkdir')
             ->with($this->targetDirectory, 0775);
 
-        $this->filesystemMock->expects($this->atLeastOnce())
+        $this->filesystemFacadeMock->expects(static::atLeastOnce())
             ->method('writeToFile')
             ->with($this->targetDirectory . 'Product.php', 'use ...');
 
-        $this->assertEquals(
+        static::assertEquals(
             $this->classGenerator,
             $this->classGenerator->generate($this->classDefinitionMock)
         );

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\EventCache;
 
 use Jellyfish\Cache\CacheConstants;
 use Jellyfish\Event\EventConstants;
+use Jellyfish\Event\EventFacadeInterface;
 use Jellyfish\EventCache\EventErrorHandler\CacheEventErrorHandler;
 use Jellyfish\Serializer\SerializerConstants;
 use Pimple\Container;
@@ -28,19 +31,15 @@ class EventCacheServiceProvider implements ServiceProviderInterface
      */
     protected function registerEventErrorHandler(Container $container): EventCacheServiceProvider
     {
-        if (!$container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)) {
-            return $this;
-        }
-
         $container->extend(
-            EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS,
-            static function (array $defaultEventErrorHandlers, Container $container) {
-                $defaultEventErrorHandlers[] = new CacheEventErrorHandler(
-                    $container->offsetGet(CacheConstants::CONTAINER_KEY_CACHE),
-                    $container->offsetGet(SerializerConstants::CONTAINER_KEY_SERIALIZER)
+            EventConstants::FACADE,
+            static function (EventFacadeInterface $eventFacade, Container $container) {
+                $eventErrorHandler = new CacheEventErrorHandler(
+                    $container->offsetGet(CacheConstants::FACADE),
+                    $container->offsetGet(SerializerConstants::FACADE)
                 );
 
-                return $defaultEventErrorHandlers;
+                return $eventFacade->addDefaultEventErrorHandler($eventErrorHandler);
             }
         );
 

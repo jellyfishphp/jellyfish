@@ -6,42 +6,42 @@ namespace Jellyfish\Event;
 
 use ArrayObject;
 use Jellyfish\Event\Exception\MappingException;
-use Jellyfish\Queue\MessageFactoryInterface;
 use Jellyfish\Queue\MessageInterface;
-use Jellyfish\Serializer\SerializerInterface;
+use Jellyfish\Queue\QueueFacadeInterface;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 
 use function get_class;
 
 class EventMapper implements EventMapperInterface
 {
     /**
-     * @var \Jellyfish\Event\EventFactoryInterface
+     * @var \Jellyfish\Event\EventFactory
      */
     protected $eventFactory;
 
     /**
-     * @var \Jellyfish\Queue\MessageFactoryInterface
+     * @var \Jellyfish\Queue\QueueFacadeInterface
      */
-    protected $messageFactory;
+    protected $queueFacade;
 
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface
+     * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializer;
+    protected $serializerFacade;
 
     /**
-     * @param \Jellyfish\Event\EventFactoryInterface $eventFactory
-     * @param \Jellyfish\Queue\MessageFactoryInterface $messageFactory
-     * @param \Jellyfish\Serializer\SerializerInterface $serializer
+     * @param \Jellyfish\Event\EventFactory $eventFactory
+     * @param \Jellyfish\Queue\QueueFacadeInterface $queueFacade
+     * @param \Jellyfish\Serializer\SerializerFacadeInterface $serializerFacade
      */
     public function __construct(
-        EventFactoryInterface $eventFactory,
-        MessageFactoryInterface $messageFactory,
-        SerializerInterface $serializer
+        EventFactory $eventFactory,
+        QueueFacadeInterface $queueFacade,
+        SerializerFacadeInterface $serializerFacade
     ) {
-        $this->messageFactory = $messageFactory;
         $this->eventFactory = $eventFactory;
-        $this->serializer = $serializer;
+        $this->queueFacade = $queueFacade;
+        $this->serializerFacade = $serializerFacade;
     }
 
     /**
@@ -60,10 +60,10 @@ class EventMapper implements EventMapperInterface
             throw new MappingException('Could not map message to event.');
         }
 
-        $payload = $this->serializer->deserialize($message->getBody(), $type, 'json');
+        $payload = $this->serializerFacade->deserialize($message->getBody(), $type, 'json');
         $metaProperties = $this->mapHeadersToMetaProperties($message->getHeaders());
 
-        return $this->eventFactory->create()
+        return $this->eventFactory->createEvent()
             ->setName($eventName)
             ->setPayload($payload)
             ->setMetaProperties($metaProperties);
@@ -78,11 +78,11 @@ class EventMapper implements EventMapperInterface
         $payload = $event->getPayload();
         $metaProperties = $event->getMetaProperties();
 
-        $message = $this->messageFactory->create()
+        $message = $this->queueFacade->createMessage()
             ->setHeaders($metaProperties)
             ->setHeader('event_name', $event->getName())
             ->setHeader('body_type', get_class($payload))
-            ->setBody($this->serializer->serialize($payload, 'json'));
+            ->setBody($this->serializerFacade->serialize($payload, 'json'));
 
         if (!($payload instanceof ArrayObject)) {
             return $message;

@@ -7,9 +7,9 @@ namespace Jellyfish\Lock;
 trait LockTrait
 {
     /**
-     * @var \Jellyfish\Lock\LockFactoryInterface
+     * @var \Jellyfish\Lock\LockFacadeInterface
      */
-    private $lockFactory;
+    private $lockFacade;
 
     /**
      * @var \Jellyfish\Lock\LockInterface|null
@@ -24,11 +24,11 @@ trait LockTrait
      */
     private function acquire(array $identifierParts, float $ttl = 360.0): bool
     {
-        if ($this->lockFactory === null) {
+        if ($this->lockFacade === null) {
             return true;
         }
 
-        $this->lock = $this->lockFactory->create($identifierParts, $ttl);
+        $this->lock = $this->lockFacade->createLock($identifierParts, $ttl);
 
         if (!$this->lock->acquire()) {
             $this->lock = null;
