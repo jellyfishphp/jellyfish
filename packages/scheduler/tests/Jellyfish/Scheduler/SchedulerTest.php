@@ -58,11 +58,7 @@ class SchedulerTest extends Unit
 
         $this->jobMock->expects(static::atLeastOnce())
             ->method('isRunning')
-            ->willReturn(true);
-
-        $this->jobMock->expects(static::atLeastOnce())
-            ->method('isRunning')
-            ->willReturn(false);
+            ->willReturnOnConsecutiveCalls(true, false);
 
         static::assertEquals($this->scheduler, $this->scheduler->run());
     }
