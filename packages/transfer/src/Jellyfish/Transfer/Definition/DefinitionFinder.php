@@ -9,8 +9,11 @@ use Jellyfish\Finder\FinderFacadeInterface;
 
 class DefinitionFinder implements DefinitionFinderInterface
 {
-    protected const IN_PATTERN = '{,vendor/*/*/}src/*/*/Transfer/';
     protected const NAME_PATTERN = '*.transfer.json';
+    protected const IN_PATTERNS = [
+        'src/*/*/Transfer/',
+        'vendor/*/*/src/*/*/Transfer/'
+    ];
 
     /**
      * @var string
@@ -41,7 +44,7 @@ class DefinitionFinder implements DefinitionFinderInterface
     {
         $finder = $this->finderFacade->createFinder();
 
-        return $finder->in(static::IN_PATTERN)
+        return $finder->in(static::IN_PATTERNS)
             ->name(static::NAME_PATTERN)
             ->getIterator();
     }

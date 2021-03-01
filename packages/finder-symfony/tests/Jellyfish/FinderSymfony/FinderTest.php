@@ -48,14 +48,14 @@ class FinderTest extends Unit
      */
     public function testIn(): void
     {
-        $pattern = '/usr/local/apache2/htdocs/';
+        $directories = ['/usr/local/apache2/htdocs/'];
 
         $this->symfonyFinderMock->expects(static::atLeastOnce())
             ->method('in')
-            ->with($pattern)
+            ->with($directories)
             ->willReturn($this->symfonyFinderMock);
 
-        static::assertEquals($this->finder, $this->finder->in($pattern));
+        static::assertEquals($this->finder, $this->finder->in($directories));
     }
 
     /**

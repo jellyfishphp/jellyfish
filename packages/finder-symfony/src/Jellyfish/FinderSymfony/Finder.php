@@ -24,13 +24,13 @@ class Finder implements FinderInterface
     }
 
     /**
-     * @param string $directory
+     * @param string[] $directories
      *
      * @return \Jellyfish\Finder\FinderInterface
      */
-    public function in(string $directory): FinderInterface
+    public function in(array $directories): FinderInterface
     {
-        $this->symfonyFinder->in($directory);
+        $this->symfonyFinder->in($directories);
 
         return $this;
     }

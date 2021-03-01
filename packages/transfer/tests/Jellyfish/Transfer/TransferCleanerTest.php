@@ -104,7 +104,7 @@ class TransferCleanerTest extends Unit
 
         $finderMocks[0]->expects(static::atLeastOnce())
             ->method('in')
-            ->with($this->targetDirectory)
+            ->with([$this->targetDirectory])
             ->willReturn($finderMocks[0]);
 
         $finderMocks[0]->expects(static::atLeastOnce())
@@ -148,7 +148,7 @@ class TransferCleanerTest extends Unit
 
         $finderMocks[1]->expects(static::atLeastOnce())
             ->method('in')
-            ->with($this->targetDirectory . 'Product')
+            ->with([$this->targetDirectory . 'Product'])
             ->willReturn($finderMocks[1]);
 
         $finderMocks[1]->expects(static::atLeastOnce())
@@ -210,7 +210,7 @@ class TransferCleanerTest extends Unit
 
         $finderMock->expects(static::atLeastOnce())
             ->method('in')
-            ->with($this->targetDirectory)
+            ->with([$this->targetDirectory])
             ->willReturn($finderMock);
 
         $finderMock->expects(static::atLeastOnce())

@@ -71,7 +71,7 @@ class TransferCleaner implements TransferCleanerInterface
     {
         $finder = $this->finderFacade->createFinder();
 
-        $iterator = $finder->in($directory)
+        $iterator = $finder->in([$directory])
             ->depth(0)
             ->getIterator();
 

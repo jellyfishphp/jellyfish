@@ -71,7 +71,7 @@ class DefinitionFinderTest extends Unit
 
         $this->finderMock->expects(static::atLeastOnce())
             ->method('in')
-            ->with('{,vendor/*/*/}src/*/*/Transfer/')
+            ->with(['src/*/*/Transfer/', 'vendor/*/*/src/*/*/Transfer/'])
             ->willReturn($this->finderMock);
 
         $this->finderMock->expects(static::atLeastOnce())

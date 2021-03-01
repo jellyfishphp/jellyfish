@@ -10,11 +10,11 @@ use IteratorAggregate;
 interface FinderInterface extends IteratorAggregate
 {
     /**
-     * @param string $pattern
+     * @param string[] $directories
      *
      * @return \Jellyfish\Finder\FinderInterface
      */
-    public function in(string $pattern): FinderInterface;
+    public function in(array $directories): FinderInterface;
 
     /**
      * @param string $pattern
