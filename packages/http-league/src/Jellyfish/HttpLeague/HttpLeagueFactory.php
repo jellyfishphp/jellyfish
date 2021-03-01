@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Jellyfish\HttpLeague;
 
-use Http\Factory\Diactoros\ResponseFactory;
+use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiStreamEmitter;
 use League\Route\Router;
@@ -12,7 +13,6 @@ use League\Route\Strategy\JsonStrategy;
 use League\Route\Strategy\StrategyInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\ServerRequestFactory;
 
 class HttpLeagueFactory
 {
