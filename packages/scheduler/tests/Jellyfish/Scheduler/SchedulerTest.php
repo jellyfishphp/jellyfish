@@ -54,13 +54,13 @@ class SchedulerTest extends Unit
         $this->jobMock->expects(static::atLeastOnce())
             ->method('run')
             ->withAnyParameters()
-            ->willReturn($this->jobMock); // TODO: only DateTime
+            ->willReturn($this->jobMock);
 
-        $this->jobMock->expects(static::at(1))
+        $this->jobMock->expects(static::atLeastOnce())
             ->method('isRunning')
             ->willReturn(true);
 
-        $this->jobMock->expects(static::at(2))
+        $this->jobMock->expects(static::atLeastOnce())
             ->method('isRunning')
             ->willReturn(false);
 
