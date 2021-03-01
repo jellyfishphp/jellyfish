@@ -26,11 +26,11 @@ prepare-dandelion-config:
 
 .PHONY: split
 split:
-	docker run -i -v $(BASE_DIRECTORY):/home/dandelion/project -w /home/dandelion/project dandelionphp/dandelion:latest dandelion split:all $(BRANCH)
+	docker run -i -v $(BASE_DIRECTORY):/home/dandelion/project -w /home/dandelion/project dandelionphp/dandelion:2.0.0 dandelion split:all $(BRANCH)
 
 .PHONY: release
 release:
-	docker run -i -v $(BASE_DIRECTORY):/home/dandelion/project -w /home/dandelion/project dandelionphp/dandelion:latest dandelion release:all $(BRANCH)
+	docker run -i -v $(BASE_DIRECTORY):/home/dandelion/project -w /home/dandelion/project dandelionphp/dandelion:2.0.0 dandelion release:all $(BRANCH)
 
-.PHONY: test
-test: phpcs phpcpd phpstan codeception
+.PHONY: ci
+ci: phpcs phpcpd phpstan codeception
