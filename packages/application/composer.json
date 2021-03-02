@@ -24,12 +24,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\Application": "src/Jellyfish/Application"
+      "Jellyfish\\Application\\": "src/Jellyfish/Application"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\Application": "tests/Jellyfish/Application"
+      "Jellyfish\\Application\\": "tests/Jellyfish/Application"
     }
   },
   "bin": [
