@@ -23,12 +23,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\FinderSymfony\\": "src/Jellyfish/FilesystemSymfony"
+      "Jellyfish\\FilesystemSymfony\\": "src/Jellyfish/FilesystemSymfony"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\FinderSymfony\\": "tests/Jellyfish/FilesystemSymfony"
+      "Jellyfish\\FilesystemSymfony\\": "tests/Jellyfish/FilesystemSymfony"
     }
   }
 }

@@ -20,5 +20,10 @@
     "psr-4": {
       "Jellyfish\\Process\\": "src/Jellyfish/Process"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jellyfish\\Process\\": "tests/Jellyfish/Process"
+    }
   }
 }

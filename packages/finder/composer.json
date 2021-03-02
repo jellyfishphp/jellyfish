@@ -20,5 +20,10 @@
     "psr-4": {
       "Jellyfish\\Finder\\": "src/Jellyfish/Finder"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jellyfish\\Finder\\": "tests/Jellyfish/Finder"
+    }
   }
 }

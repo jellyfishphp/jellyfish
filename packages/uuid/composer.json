@@ -20,5 +20,10 @@
     "psr-4": {
       "Jellyfish\\Uuid\\": "src/Jellyfish/Uuid"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jellyfish\\Uuid\\": "tests/Jellyfish/Uuid"
+    }
   }
 }

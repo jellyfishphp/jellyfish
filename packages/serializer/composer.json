@@ -20,5 +20,10 @@
     "psr-4": {
       "Jellyfish\\Serializer\\": "src/Jellyfish/Serializer"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jellyfish\\Serializer\\": "tests/Jellyfish/Serializer"
+    }
   }
 }

@@ -18,7 +18,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\Finder\\": "src/Jellyfish/Filesystem"
+      "Jellyfish\\Filesystem\\": "src/Jellyfish/Filesystem"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jellyfish\\Filesystem\\": "tests/Jellyfish/Filesystem"
     }
   }
 }

@@ -22,12 +22,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\UuidRamsey\\\\": "src/Jellyfish/UuidRamsey"
+      "Jellyfish\\UuidRamsey\\": "src/Jellyfish/UuidRamsey"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\UuidRamsey\\\\": "tests/Jellyfish/UuidRamsey"
+      "Jellyfish\\UuidRamsey\\": "tests/Jellyfish/UuidRamsey"
     }
   }
 }

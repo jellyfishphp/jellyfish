@@ -20,5 +20,10 @@
     "psr-4": {
       "Jellyfish\\JsonSchema\\": "src/Jellyfish/JsonSchema"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jellyfish\\JsonSchema\\": "tests/Jellyfish/JsonSchema"
+    }
   }
 }
