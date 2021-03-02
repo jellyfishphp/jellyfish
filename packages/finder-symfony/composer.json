@@ -25,5 +25,10 @@
     "psr-4": {
       "Jellyfish\\FinderSymfony\\": "src/Jellyfish/FinderSymfony"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jellyfish\\FinderSymfony\\": "tests/Jellyfish/FinderSymfony"
+    }
   }
 }

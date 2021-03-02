@@ -23,12 +23,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\JsonSchema\\": "src/Jellyfish/JsonSchemaOpis"
+      "Jellyfish\\JsonSchemaOpis\\": "src/Jellyfish/JsonSchemaOpis"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\JsonSchema\\": "tests/Jellyfish/JsonSchemaOpis"
+      "Jellyfish\\JsonSchemaOpis\\": "tests/Jellyfish/JsonSchemaOpis"
     }
   }
 }

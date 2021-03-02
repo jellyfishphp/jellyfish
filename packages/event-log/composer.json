@@ -23,12 +23,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\Log\\": "src/Jellyfish/Log"
+      "Jellyfish\\EventLog\\": "src/Jellyfish/EventLog"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\Log\\": "tests/Jellyfish/Log"
+      "Jellyfish\\EventLog\\": "tests/Jellyfish/EventLog"
     }
   }
 }

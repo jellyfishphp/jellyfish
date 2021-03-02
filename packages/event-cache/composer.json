@@ -24,12 +24,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\Log\\": "src/Jellyfish/Log"
+      "Jellyfish\\EventCache\\": "src/Jellyfish/EventCache"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\Log\\": "tests/Jellyfish/Log"
+      "Jellyfish\\EventCache\\": "tests/Jellyfish/EventCache"
     }
   }
 }
