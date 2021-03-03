@@ -7,7 +7,6 @@ namespace Jellyfish\Scheduler\Command;
 use Codeception\Test\Unit;
 use Exception;
 use Jellyfish\Lock\LockFacadeInterface;
-use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockInterface;
 use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Scheduler\SchedulerFacadeInterface;

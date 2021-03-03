@@ -8,8 +8,8 @@ use ArrayObject;
 use Codeception\Test\Unit;
 use Jellyfish\Event\Exception\MappingException;
 use Jellyfish\Event\Fixtures\Payload;
-use Jellyfish\Queue\QueueFacadeInterface;
 use Jellyfish\Queue\MessageInterface;
+use Jellyfish\Queue\QueueFacadeInterface;
 use Jellyfish\Serializer\SerializerFacadeInterface;
 
 class EventMapperTest extends Unit

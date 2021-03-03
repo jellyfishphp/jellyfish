@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jellyfish\Scheduler\Command;
 
 use Jellyfish\Lock\LockFacadeInterface;
-use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockTrait;
 use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Scheduler\SchedulerFacadeInterface;

@@ -171,7 +171,7 @@ class FilesystemSymfonyFacadeTest extends Unit
 
         static::assertEquals(
             $content,
-            $this->filesystemSymfonyFacade->readFromFile($pathToFile,)
+            $this->filesystemSymfonyFacade->readFromFile($pathToFile)
         );
     }
 }

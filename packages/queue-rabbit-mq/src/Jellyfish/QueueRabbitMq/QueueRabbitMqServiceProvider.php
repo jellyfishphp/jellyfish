@@ -30,12 +30,12 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
     protected function registerQueueFacade(Container $container): QueueRabbitMqServiceProvider
     {
         $container->offsetSet(QueueConstants::FACADE, static function (Container $container) {
-                $queueRabbitMqFactory = new QueueRabbitMqFactory(
-                    $container->offsetGet(ConfigConstants::FACADE),
-                    $container->offsetGet(SerializerConstants::FACADE)
-                );
+            $queueRabbitMqFactory = new QueueRabbitMqFactory(
+                $container->offsetGet(ConfigConstants::FACADE),
+                $container->offsetGet(SerializerConstants::FACADE)
+            );
 
-                return new QueueRabbitMqFacade($queueRabbitMqFactory);
+            return new QueueRabbitMqFacade($queueRabbitMqFactory);
         });
 
         return $this;

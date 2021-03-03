@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Jellyfish\HttpLeague;
 
 use Codeception\Test\Unit;
+use Laminas\Diactoros\ServerRequest;
 use Laminas\HttpHandlerRunner\Emitter\SapiStreamEmitter;
 use League\Route\Router;
-use Zend\Diactoros\ServerRequest;
 
 class HttpLeagueFactoryTest extends Unit
 {

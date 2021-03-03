@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jellyfish\ProcessSymfony;
 
 use Codeception\Test\Unit;
-use Jellyfish\Process\Exception\RuntimeException;
 use Symfony\Component\Process\Process as SymfonyProcess;
 
 class ProcessTest extends Unit

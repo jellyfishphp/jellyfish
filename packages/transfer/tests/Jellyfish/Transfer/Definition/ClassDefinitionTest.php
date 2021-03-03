@@ -41,8 +41,7 @@ class ClassDefinitionTest extends Unit
      */
     public function testGetIdWithInvalidPattern(): void
     {
-        $extendedClassDefinition = new class () extends ClassDefinition
-        {
+        $extendedClassDefinition = new class() extends ClassDefinition {
             protected const PATTERN_ID = '';
         };
 
