@@ -16,10 +16,10 @@ use Jellyfish\Transfer\Definition\ClassDefinitionMapMergerInterface;
 use Jellyfish\Transfer\Definition\DefinitionFinder;
 use Jellyfish\Transfer\Definition\DefinitionFinderInterface;
 use Jellyfish\Transfer\Generator\ClassGenerator;
-use function sprintf;
 use Twig\Environment;
-
 use Twig\Loader\FilesystemLoader;
+
+use function sprintf;
 
 class TransferFactory
 {

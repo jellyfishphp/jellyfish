@@ -6,9 +6,9 @@ namespace Jellyfish\Config;
 
 use Codeception\Test\Unit;
 use Exception;
-use function file_get_contents;
-
 use org\bovigo\vfs\vfsStream;
+
+use function file_get_contents;
 use function rtrim;
 
 class ConfigTest extends Unit

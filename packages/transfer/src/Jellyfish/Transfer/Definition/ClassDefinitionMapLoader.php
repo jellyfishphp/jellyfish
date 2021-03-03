@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Definition;
 
-use function is_string;
 use Jellyfish\Filesystem\FilesystemFacadeInterface;
-
 use SplFileInfo;
+
+use function is_string;
 
 class ClassDefinitionMapLoader implements ClassDefinitionMapLoaderInterface
 {

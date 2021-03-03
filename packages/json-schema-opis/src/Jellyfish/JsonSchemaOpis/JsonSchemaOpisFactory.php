@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jellyfish\JsonSchemaOpis;
 
-use function json_decode;
 use Opis\JsonSchema\ISchema as OpisSchemaInterface;
 use Opis\JsonSchema\IValidator as OpisValidatorInterface;
 use Opis\JsonSchema\Schema as OpisSchema;
-
 use Opis\JsonSchema\Validator as OpisValidator;
+
+use function json_decode;
 
 class JsonSchemaOpisFactory
 {

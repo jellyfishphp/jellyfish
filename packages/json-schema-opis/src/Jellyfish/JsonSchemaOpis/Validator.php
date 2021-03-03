@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jellyfish\JsonSchemaOpis;
 
-use function json_decode;
 use Opis\JsonSchema\ISchema as OpisSchemaInterface;
-
 use Opis\JsonSchema\IValidator as OpisValidatorInterface;
+
+use function json_decode;
 
 class Validator implements ValidatorInterface
 {

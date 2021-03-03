@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jellyfish\Application;
 
-use function count;
 use Jellyfish\Console\ConsoleConstants;
 use Jellyfish\Kernel\KernelInterface;
 use Symfony\Component\Console\Application as BaseApplication;
-
 use Symfony\Component\Console\Command\Command;
+
+use function count;
 
 class Console extends BaseApplication
 {

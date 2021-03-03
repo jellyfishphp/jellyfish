@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jellyfish\SerializerSymfony\NameConverter;
 
-use function array_key_exists;
-
 use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface;
+
+use function array_key_exists;
 
 class PropertyNameConverterStrategyProvider implements PropertyNameConverterStrategyProviderInterface
 {

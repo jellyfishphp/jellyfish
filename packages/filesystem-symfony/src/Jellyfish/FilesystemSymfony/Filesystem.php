@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jellyfish\FilesystemSymfony;
 
-use function file_get_contents;
-use function file_put_contents;
-
-use function sprintf;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
+
+use function file_get_contents;
+use function file_put_contents;
+use function sprintf;
 
 class Filesystem implements FilesystemInterface
 {

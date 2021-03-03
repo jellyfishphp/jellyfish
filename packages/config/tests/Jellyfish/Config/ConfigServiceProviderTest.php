@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Jellyfish\Config;
 
 use Codeception\Test\Unit;
-use function file_get_contents;
 use org\bovigo\vfs\vfsStream;
-
 use Pimple\Container;
+
+use function file_get_contents;
 use function rtrim;
 
 class ConfigServiceProviderTest extends Unit

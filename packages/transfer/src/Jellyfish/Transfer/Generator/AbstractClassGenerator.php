@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Generator;
 
-use function explode;
-
-use function implode;
 use Jellyfish\Transfer\Definition\ClassDefinitionInterface;
+
+use function explode;
+use function implode;
 
 abstract class AbstractClassGenerator extends AbstractGenerator implements ClassGeneratorInterface
 {

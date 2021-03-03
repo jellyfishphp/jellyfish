@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Definition;
 
-use function array_key_exists;
-
-use function preg_replace;
 use RuntimeException;
+
+use function array_key_exists;
+use function preg_replace;
 use function sha1;
 use function sprintf;
 use function str_replace;

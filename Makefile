@@ -41,4 +41,4 @@ ci: phpcs phpcpd phpstan codeception
 
 .PHONY: php-cs-fixer
 php-cs-fixer:
-	./vendor/bin/php-cs-fixer fix --rules=@PSR12,ordered_imports,no_unused_imports packages/
+	./vendor/bin/php-cs-fixer fix --rules=@PSR12,no_unused_imports packages/

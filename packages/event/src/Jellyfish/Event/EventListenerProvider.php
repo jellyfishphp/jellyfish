@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
-use function array_key_exists;
-
 use Jellyfish\Event\Exception\NotSupportedTypeException;
+
+use function array_key_exists;
 use function sprintf;
 
 class EventListenerProvider implements EventListenerProviderInterface
