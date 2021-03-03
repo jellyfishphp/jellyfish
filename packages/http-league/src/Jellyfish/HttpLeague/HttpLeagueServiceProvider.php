@@ -33,6 +33,6 @@ class HttpLeagueServiceProvider implements ServiceProviderInterface
             return new HttpLeagueFacade($httpLeagueFactory);
         });
 
-        return $container;
+        return $this;
     }
 }
