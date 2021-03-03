@@ -34,7 +34,8 @@ class ConsoleServiceProviderTest extends Unit
     /**
      * @return void
      */
-    public function testRegister(): void {
+    public function testRegister(): void
+    {
         $this->consoleServiceProvider->register($this->container);
 
         static::assertTrue($this->container->offsetExists(ConsoleConstants::FACADE));

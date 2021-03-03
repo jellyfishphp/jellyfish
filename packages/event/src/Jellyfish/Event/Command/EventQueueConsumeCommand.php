@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\Event\Command;
 
 use InvalidArgumentException;
+use function is_string;
 use Jellyfish\Event\EventBulkListenerInterface;
 use Jellyfish\Event\EventFacadeInterface;
 use Jellyfish\Event\EventListenerInterface;
@@ -15,9 +16,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Throwable;
 
-use function is_string;
+use Throwable;
 
 class EventQueueConsumeCommand extends Command
 {

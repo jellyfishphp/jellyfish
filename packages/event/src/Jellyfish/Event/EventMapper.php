@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Jellyfish\Event;
 
 use ArrayObject;
+use function get_class;
 use Jellyfish\Event\Exception\MappingException;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\QueueFacadeInterface;
-use Jellyfish\Serializer\SerializerFacadeInterface;
 
-use function get_class;
+use Jellyfish\Serializer\SerializerFacadeInterface;
 
 class EventMapper implements EventMapperInterface
 {

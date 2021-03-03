@@ -64,7 +64,8 @@ class CacheSymfonyFacadeTest extends Unit
     /**
      * @throws \Jellyfish\Cache\Exception\InvalidLifeTimeException
      */
-    public function testSet(): void {
+    public function testSet(): void
+    {
         $key = 'foo';
         $value = 'bar';
 

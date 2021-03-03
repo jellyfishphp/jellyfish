@@ -6,14 +6,14 @@ namespace Jellyfish\Config;
 
 use ArrayObject;
 use Exception;
-use Jellyfish\Config\Exception\ConfigKeyNotFoundException;
-use Jellyfish\Config\Exception\NotSupportedConfigValueTypeException;
-
 use function file_exists;
 use function is_bool;
+
 use function is_float;
 use function is_int;
 use function is_string;
+use Jellyfish\Config\Exception\ConfigKeyNotFoundException;
+use Jellyfish\Config\Exception\NotSupportedConfigValueTypeException;
 
 class Config implements ConfigInterface
 {

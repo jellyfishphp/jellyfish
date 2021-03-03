@@ -93,7 +93,7 @@ class TransferServiceProviderTest extends Unit
             ->method('addCommand')
             ->with(
                 static::callback(static function (Command $command) {
-                        return $command instanceof TransferGenerateCommand;
+                    return $command instanceof TransferGenerateCommand;
                 })
             )->willReturn($this->consoleFacadeMock);
 

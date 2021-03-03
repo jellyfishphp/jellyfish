@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
-use Throwable;
-
 use function count;
+
+use Throwable;
 
 abstract class AbstractEventListener implements EventListenerInterface
 {

@@ -6,7 +6,6 @@ namespace Jellyfish\Application;
 
 use Codeception\Test\Unit;
 use Jellyfish\Console\ConsoleConstants;
-use Jellyfish\Console\ConsoleFacade;
 use Jellyfish\Console\ConsoleFacadeInterface;
 use Jellyfish\Kernel\KernelInterface;
 use Pimple\Container;

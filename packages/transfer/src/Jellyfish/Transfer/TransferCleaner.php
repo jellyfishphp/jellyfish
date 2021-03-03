@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer;
 
+use function is_string;
 use Jellyfish\Filesystem\FilesystemFacadeInterface;
 use Jellyfish\Finder\FinderFacadeInterface;
-use SplFileInfo;
 
-use function is_string;
+use SplFileInfo;
 
 class TransferCleaner implements TransferCleanerInterface
 {

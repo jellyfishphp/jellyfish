@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Jellyfish\Kernel;
 
 use Codeception\Test\Unit;
-use Jellyfish\Kernel\Exception\EnvVarNotSetException;
-use org\bovigo\vfs\vfsStream;
-
 use function file_get_contents;
+use Jellyfish\Kernel\Exception\EnvVarNotSetException;
+
+use org\bovigo\vfs\vfsStream;
 use function putenv;
 use function unlink;
 

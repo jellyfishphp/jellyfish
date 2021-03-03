@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Jellyfish\JsonSchemaOpis;
 
 use Codeception\Test\Unit;
+use function json_decode;
 use Opis\JsonSchema\ISchema as OpisSchemaInterface;
 use Opis\JsonSchema\IValidator as OpisValidatorInterface;
-use Opis\JsonSchema\ValidationResult as OpisValidationResult;
 
-use function json_decode;
+use Opis\JsonSchema\ValidationResult as OpisValidationResult;
 
 class ValidatorTest extends Unit
 {

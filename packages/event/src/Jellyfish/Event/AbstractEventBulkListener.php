@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
+use function get_class;
 use Jellyfish\Event\Exception\NotSupportedMethodException;
 use Jellyfish\Event\Exception\NotSupportedTypeException;
-use Throwable;
 
-use function get_class;
 use function sprintf;
+use Throwable;
 
 abstract class AbstractEventBulkListener extends AbstractEventListener implements EventBulkListenerInterface
 {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
+use function array_key_exists;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Process\ProcessFacadeInterface;
 use Jellyfish\Queue\DestinationInterface;
-use Jellyfish\Queue\QueueFacadeInterface;
 
-use function array_key_exists;
+use Jellyfish\Queue\QueueFacadeInterface;
 use function sprintf;
 
 class EventQueueConsumer implements EventQueueConsumerInterface

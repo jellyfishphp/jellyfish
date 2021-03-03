@@ -8,11 +8,9 @@ use Codeception\Test\Unit;
 use Jellyfish\Http\HttpConstants;
 use Jellyfish\Http\HttpFacadeInterface;
 use Jellyfish\Kernel\KernelInterface;
-use League\Route\Router;
 use Pimple\Container;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
 
 class HttpTest extends Unit
 {

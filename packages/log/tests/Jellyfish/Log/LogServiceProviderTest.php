@@ -7,7 +7,6 @@ namespace Jellyfish\Log;
 use Codeception\Test\Unit;
 use Jellyfish\Config\ConfigConstants;
 use Jellyfish\Config\ConfigFacadeInterface;
-use Jellyfish\Event\EventConstants;
 use Pimple\Container;
 
 class LogServiceProviderTest extends Unit

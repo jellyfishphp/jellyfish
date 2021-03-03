@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Jellyfish\Kernel;
 
 use ArrayObject;
-use Jellyfish\Kernel\Exception\EnvVarNotSetException;
-use Pimple\Container;
-
 use function file_exists;
 use function getenv;
+
+use Jellyfish\Kernel\Exception\EnvVarNotSetException;
+use Pimple\Container;
 use function rtrim;
 
 class Kernel implements KernelInterface
