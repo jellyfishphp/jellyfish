@@ -6,6 +6,7 @@ namespace Jellyfish\FinderSymfony;
 
 use Codeception\Test\Unit;
 use Iterator;
+use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 
 class FinderTest extends Unit
@@ -48,12 +49,31 @@ class FinderTest extends Unit
      */
     public function testIn(): void
     {
-        $directories = ['/usr/local/apache2/htdocs/'];
+        $directories = [
+            '/usr/local/apache2/htdocs/',
+        ];
 
         $this->symfonyFinderMock->expects(static::atLeastOnce())
             ->method('in')
-            ->with($directories)
+            ->with($directories[0])
             ->willReturn($this->symfonyFinderMock);
+
+        static::assertEquals($this->finder, $this->finder->in($directories));
+    }
+
+    /**
+     * @return void
+     */
+    public function testInWithNonExistingDirectory(): void
+    {
+        $directories = [
+            '/usr/local/apache2/htdocs/',
+        ];
+
+        $this->symfonyFinderMock->expects(static::atLeastOnce())
+            ->method('in')
+            ->with($directories[0])
+            ->willThrowException(new DirectoryNotFoundException());
 
         static::assertEquals($this->finder, $this->finder->in($directories));
     }

@@ -6,6 +6,7 @@ namespace Jellyfish\FinderSymfony;
 
 use Iterator;
 use Jellyfish\Finder\FinderInterface;
+use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 
 class Finder implements FinderInterface
@@ -30,7 +31,12 @@ class Finder implements FinderInterface
      */
     public function in(array $directories): FinderInterface
     {
-        $this->symfonyFinder->in($directories);
+        foreach ($directories as $directory) {
+            try {
+                $this->symfonyFinder->in($directory);
+            } catch (DirectoryNotFoundException $directoryNotFoundException) {
+            }
+        }
 
         return $this;
     }
