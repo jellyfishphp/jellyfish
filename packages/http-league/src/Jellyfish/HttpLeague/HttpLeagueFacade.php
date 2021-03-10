@@ -8,6 +8,7 @@ use Jellyfish\Http\ControllerInterface;
 use Jellyfish\Http\HttpFacadeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 
 class HttpLeagueFacade implements HttpFacadeInterface
 {
@@ -30,7 +31,7 @@ class HttpLeagueFacade implements HttpFacadeInterface
      */
     public function dispatch(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->factory->createRouter()->dispatch($request);
+        return $this->factory->getRouter()->dispatch($request);
     }
 
     /**
@@ -38,7 +39,7 @@ class HttpLeagueFacade implements HttpFacadeInterface
      */
     public function getCurrentRequest(): ServerRequestInterface
     {
-        return $this->factory->createRequest();
+        return $this->factory->getRequest();
     }
 
     /**
@@ -48,7 +49,7 @@ class HttpLeagueFacade implements HttpFacadeInterface
      */
     public function emit(ResponseInterface $response): bool
     {
-        return $this->factory->createEmitter()->emit($response);
+        return $this->factory->getEmitter()->emit($response);
     }
 
     /**
@@ -60,7 +61,19 @@ class HttpLeagueFacade implements HttpFacadeInterface
      */
     public function map(string $method, string $path, ControllerInterface $controller): HttpFacadeInterface
     {
-        $this->factory->createRouter()->map($method, $path, $controller);
+        $this->factory->getRouter()->map($method, $path, $controller);
+
+        return $this;
+    }
+
+    /**
+     * @param \Psr\Http\Server\MiddlewareInterface $middleware
+     *
+     * @return \Jellyfish\Http\HttpFacadeInterface
+     */
+    public function addMiddleware(MiddlewareInterface $middleware): HttpFacadeInterface
+    {
+        $this->factory->getRouter()->middleware($middleware);
 
         return $this;
     }
