@@ -1,4 +1,4 @@
-namespace: finder-symfony
+namespace: http-authentication
 
 suites:
   unit:

@@ -25,12 +25,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\FinderSymfony\\": "src/Jellyfish/HttpAuthentication"
+      "Jellyfish\\HttpAuthentication\\": "src/Jellyfish/HttpAuthentication"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\FinderSymfony\\": "tests/Jellyfish/HttpAuthentication"
+      "Jellyfish\\HttpAuthentication\\": "tests/Jellyfish/HttpAuthentication"
     }
   }
 }
