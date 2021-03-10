@@ -6,6 +6,7 @@ namespace Jellyfish\Http;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 
 interface HttpFacadeInterface
 {
@@ -36,4 +37,11 @@ interface HttpFacadeInterface
      * @return \Jellyfish\Http\HttpFacadeInterface
      */
     public function map(string $method, string $path, ControllerInterface $controller): HttpFacadeInterface;
+
+    /**
+     * @param \Psr\Http\Server\MiddlewareInterface $middleware
+     *
+     * @return \Jellyfish\Http\HttpFacadeInterface
+     */
+    public function addMiddleware(MiddlewareInterface $middleware): HttpFacadeInterface;
 }
