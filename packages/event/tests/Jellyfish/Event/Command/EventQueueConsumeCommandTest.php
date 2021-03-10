@@ -14,6 +14,7 @@ use Jellyfish\Event\EventListenerInterface;
 use Jellyfish\Lock\LockFacadeInterface;
 use Jellyfish\Lock\LockInterface;
 use Jellyfish\Log\LogFacadeInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -63,6 +64,11 @@ class EventQueueConsumeCommandTest extends Unit
      * @var \Jellyfish\Log\LogFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $logFacadeMock;
+
+    /**
+     * @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $loggerMock;
 
     /**
      * @var \Jellyfish\Event\Command\EventQueueConsumeCommand
@@ -125,6 +131,10 @@ class EventQueueConsumeCommandTest extends Unit
             ->getMock();
 
         $this->logFacadeMock = $this->getMockBuilder(LogFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->loggerMock = $this->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -298,7 +308,7 @@ class EventQueueConsumeCommandTest extends Unit
             ->with($this->eventMock);
 
         $this->logFacadeMock->expects(static::never())
-            ->method('error');
+            ->method('getLogger');
 
         $this->lockMock->expects(static::atLeastOnce())
             ->method('release')
@@ -353,7 +363,7 @@ class EventQueueConsumeCommandTest extends Unit
             ->willReturn($this->eventBulkListenerMock);
 
         $this->logFacadeMock->expects(static::never())
-            ->method('error');
+            ->method('getLogger');
 
         $this->lockMock->expects(static::atLeastOnce())
             ->method('release')
@@ -402,6 +412,10 @@ class EventQueueConsumeCommandTest extends Unit
             ->willThrowException($exception);
 
         $this->logFacadeMock->expects(static::atLeastOnce())
+            ->method('getLogger')
+            ->willReturn($this->loggerMock);
+
+        $this->loggerMock->expects(static::atLeastOnce())
             ->method('error')
             ->with((string)$exception);
 
@@ -439,7 +453,7 @@ class EventQueueConsumeCommandTest extends Unit
             ->method('dequeueEvent');
 
         $this->logFacadeMock->expects(static::never())
-            ->method('error');
+            ->method('getLogger');
 
         $this->lockMock->expects(static::never())
             ->method('release');

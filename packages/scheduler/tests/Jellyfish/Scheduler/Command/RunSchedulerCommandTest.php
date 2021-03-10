@@ -10,6 +10,7 @@ use Jellyfish\Lock\LockFacadeInterface;
 use Jellyfish\Lock\LockInterface;
 use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Scheduler\SchedulerFacadeInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -44,6 +45,11 @@ class RunSchedulerCommandTest extends Unit
      * @var \Jellyfish\Log\LogFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $logFacadeMock;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface
+     */
+    protected $loggerMock;
 
     /**
      * @var \Jellyfish\Scheduler\Command\RunSchedulerCommand
@@ -83,6 +89,10 @@ class RunSchedulerCommandTest extends Unit
             ->getMock();
 
         $this->logFacadeMock = $this->getMockBuilder(LogFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->loggerMock = $this->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -135,7 +145,7 @@ class RunSchedulerCommandTest extends Unit
             ->willReturn($this->lockMock);
 
         $this->logFacadeMock->expects(static::never())
-            ->method('error');
+            ->method('getLogger');
 
         $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
 
@@ -166,7 +176,7 @@ class RunSchedulerCommandTest extends Unit
             ->willReturn($this->lockMock);
 
         $this->logFacadeMock->expects(static::never())
-            ->method('error');
+            ->method('getLogger');
 
         $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
 
@@ -196,6 +206,10 @@ class RunSchedulerCommandTest extends Unit
             ->willThrowException(new Exception($exceptionMessage));
 
         $this->logFacadeMock->expects(static::atLeastOnce())
+            ->method('getLogger')
+            ->willReturn($this->loggerMock);
+
+        $this->loggerMock->expects(static::atLeastOnce())
             ->method('error')
             ->with($exceptionMessage);
 

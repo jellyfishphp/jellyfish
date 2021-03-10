@@ -44,7 +44,7 @@ class LogEventErrorHandler implements EventErrorHandlerInterface
             'trace' => $throwable->getTrace()
         ];
 
-        $this->logFacade->error($throwable->getMessage(), $context);
+        $this->logFacade->getLogger()->error($throwable->getMessage(), $context);
 
         return $this;
     }

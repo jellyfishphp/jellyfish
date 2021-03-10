@@ -1,5 +1,6 @@
 {
   "name": "jellyfish/jellyfish",
+  "description": "The Jellyfish PHP framework",
   "license": "MIT",
   "authors": [
     {
@@ -47,6 +48,43 @@
   "bin": [
     "packages/application/bin/console"
   ],
+  "replace": {
+    "jellyfish/application": "*",
+    "jellyfish/cache": "*",
+    "jellyfish/cache-symfony": "*",
+    "jellyfish/config": "*",
+    "jellyfish/console": "*",
+    "jellyfish/event": "*",
+    "jellyfish/event-cache": "*",
+    "jellyfish/event-log": "*",
+    "jellyfish/filesystem": "*",
+    "jellyfish/filesystem-symfony": "*",
+    "jellyfish/finder": "*",
+    "jellyfish/finder-symfony": "*",
+    "jellyfish/guzzle": "*",
+    "jellyfish/http": "*",
+    "jellyfish/http-league": "*",
+    "jellyfish/json-schema": "*",
+    "jellyfish/json-schema-opis": "*",
+    "jellyfish/kernel": "*",
+    "jellyfish/lock": "*",
+    "jellyfish/lock-symfony": "*",
+    "jellyfish/log": "*",
+    "jellyfish/log-monolog": "*",
+    "jellyfish/pimple": "*",
+    "jellyfish/predis": "*",
+    "jellyfish/process": "*",
+    "jellyfish/process-symfony": "*",
+    "jellyfish/queue": "*",
+    "jellyfish/queue-rabbit-mq": "*",
+    "jellyfish/scheduler": "*",
+    "jellyfish/serializer": "*",
+    "jellyfish/serializer-symfony": "*",
+    "jellyfish/transfer": "*",
+    "jellyfish/twig": "*",
+    "jellyfish/uuid": "*",
+    "jellyfish/uuid-ramsey": "*"
+  },
   "autoload": {
     "psr-4": {
       "Jellyfish\\Application\\": "packages/application/src/Jellyfish/Application",
@@ -69,6 +107,7 @@
       "Jellyfish\\Lock\\": "packages/lock/src/Jellyfish/Lock",
       "Jellyfish\\LockSymfony\\": "packages/lock-symfony/src/Jellyfish/LockSymfony",
       "Jellyfish\\Log\\": "packages/log/src/Jellyfish/Log",
+      "Jellyfish\\LogMonolog\\": "packages/log-monolog/src/Jellyfish/LogMonolog",
       "Jellyfish\\Process\\": "packages/process/src/Jellyfish/Process",
       "Jellyfish\\ProcessSymfony\\": "packages/process-symfony/src/Jellyfish/ProcessSymfony",
       "Jellyfish\\Queue\\": "packages/queue/src/Jellyfish/Queue",
@@ -103,6 +142,7 @@
       "Jellyfish\\Lock\\": "packages/lock/tests/Jellyfish/Lock",
       "Jellyfish\\LockSymfony\\": "packages/lock-symfony/tests/Jellyfish/LockSymfony",
       "Jellyfish\\Log\\": "packages/log/tests/Jellyfish/Log",
+      "Jellyfish\\LogMonolog\\": "packages/log-monolog/tests/Jellyfish/LogMonolog",
       "Jellyfish\\Process\\": "packages/process/tests/Jellyfish/Process",
       "Jellyfish\\ProcessSymfony\\": "packages/process-symfony/tests/Jellyfish/ProcessSymfony",
       "Jellyfish\\Queue\\": "packages/queue/tests/Jellyfish/Queue",

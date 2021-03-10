@@ -1,6 +1,6 @@
 {
-  "name": "jellyfish/log",
-  "description": "Jellyfish log bundle",
+  "name": "jellyfish/log-monolog",
+  "description": "Jellyfish log monolog bundle",
   "license": "MIT",
   "authors": [
     {
@@ -9,7 +9,10 @@
     }
   ],
   "require": {
-    "psr/log": "^1.0.0"
+    "jellyfish/config": "^1.0.0",
+    "jellyfish/log": "^1.0.0",
+    "jellyfish/pimple": "^1.0.0",
+    "monolog/monolog": "^2.0.0"
   },
   "require-dev": {
     "codeception/codeception": "^4.0",
@@ -21,12 +24,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\Log\\": "src/Jellyfish/Log"
+      "Jellyfish\\LogMonolog\\": "src/Jellyfish/LogMonolog"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\Log\\": "tests/Jellyfish/Log"
+      "Jellyfish\\LogMonolog\\": "tests/Jellyfish/LogMonolog"
     }
   }
 }

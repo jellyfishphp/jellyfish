@@ -84,6 +84,10 @@
             "path": "packages/log",
             "version": "1.0.0"
         },
+        "log-monolog": {
+            "path": "packages/log-monolog",
+            "version": "1.0.0"
+        },
         "pimple": {
             "path": "packages/pimple",
             "version": "1.0.0"

@@ -75,7 +75,7 @@ class RunSchedulerCommand extends Command
         try {
             $this->schedulerFacade->runScheduler();
         } catch (Throwable $e) {
-            $this->logFacade->error($e->getMessage());
+            $this->logFacade->getLogger()->error($e->getMessage());
         } finally {
             $this->release();
         }

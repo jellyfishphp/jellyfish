@@ -19,6 +19,7 @@ include:
   - packages/lock/
   - packages/lock-symfony/
   - packages/log/
+  - packages/log-monolog/
   - packages/process/
   - packages/process-symfony/
   - packages/queue/

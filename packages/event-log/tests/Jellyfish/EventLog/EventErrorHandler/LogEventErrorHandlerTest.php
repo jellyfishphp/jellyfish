@@ -8,6 +8,7 @@ use Codeception\Test\Unit;
 use Exception;
 use Jellyfish\Event\EventInterface;
 use Jellyfish\Log\LogFacadeInterface;
+use Psr\Log\LoggerInterface;
 
 class LogEventErrorHandlerTest extends Unit
 {
@@ -15,6 +16,11 @@ class LogEventErrorHandlerTest extends Unit
      * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Log\LogFacadeInterface
      */
     protected $logFacadeMock;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface
+     */
+    protected $loggerMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Event\EventInterface
@@ -44,6 +50,10 @@ class LogEventErrorHandlerTest extends Unit
         parent::_before();
 
         $this->logFacadeMock = $this->getMockBuilder(LogFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->loggerMock = $this->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -87,6 +97,10 @@ class LogEventErrorHandlerTest extends Unit
             ->willReturn($metaProperties);
 
         $this->logFacadeMock->expects(static::atLeastOnce())
+            ->method('getLogger')
+            ->willReturn($this->loggerMock);
+
+        $this->loggerMock->expects(static::atLeastOnce())
             ->method('error')
             ->with($this->exception->getMessage(), $context);
 
