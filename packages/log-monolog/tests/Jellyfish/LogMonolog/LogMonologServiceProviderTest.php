@@ -2,19 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Jellyfish\Log;
+namespace Jellyfish\LogMonolog;
 
 use Codeception\Test\Unit;
 use Jellyfish\Config\ConfigConstants;
 use Jellyfish\Config\ConfigFacadeInterface;
+use Jellyfish\Log\LogConstants;
+use Jellyfish\Log\LogFacadeInterface;
 use Pimple\Container;
 
-class LogServiceProviderTest extends Unit
+class LogMonologServiceProviderTest extends Unit
 {
     /**
      * @var \Pimple\ServiceProviderInterface
      */
-    protected $logServiceProvider;
+    protected $logMonologServiceProvider;
 
     /**
      * @var \Pimple\Container
@@ -49,7 +51,7 @@ class LogServiceProviderTest extends Unit
             return $self->configFacadeMock;
         });
 
-        $this->logServiceProvider = new LogServiceProvider();
+        $this->logMonologServiceProvider = new LogMonologServiceProvider();
     }
 
     /**
@@ -57,12 +59,7 @@ class LogServiceProviderTest extends Unit
      */
     public function testRegister(): void
     {
-        $this->configFacadeMock->expects(self::atLeastOnce())
-            ->method('get')
-            ->with(LogConstants::LOG_LEVEL, LogConstants::DEFAULT_LOG_LEVEL)
-            ->willReturn(LogConstants::LOG_LEVEL_DEBUG);
-
-        $this->logServiceProvider->register($this->container);
+        $this->logMonologServiceProvider->register($this->container);
 
         self::assertInstanceOf(
             LogFacadeInterface::class,

@@ -93,7 +93,7 @@ class EventQueueConsumeCommand extends Command
         try {
             $result = $this->executeLockablePart($eventName, $listenerIdentifier);
         } catch (Throwable $e) {
-            $this->logFacade->error((string)$e);
+            $this->logFacade->getLogger()->error((string)$e);
         } finally {
             $this->release();
         }
