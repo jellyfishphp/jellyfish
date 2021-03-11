@@ -12,7 +12,9 @@ class DefinitionFinder implements DefinitionFinderInterface
     protected const NAME_PATTERN = '*.transfer.json';
     protected const IN_PATTERNS = [
         'src/*/*/Transfer/',
-        'vendor/*/*/src/*/*/Transfer/'
+        'packages/*/src/*/*/Transfer/',
+        'vendor/*/*/src/*/*/Transfer/',
+        'vendor/*/*/packages/*/src/*/*/Transfer/'
     ];
 
     /**

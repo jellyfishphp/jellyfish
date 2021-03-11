@@ -56,6 +56,10 @@
             "path": "packages/http",
             "version": "1.0.0"
         },
+        "http-authentication": {
+            "path": "packages/http-authentication",
+            "version": "1.0.0"
+        },
         "http-league": {
             "path": "packages/http-league",
             "version": "1.0.0"

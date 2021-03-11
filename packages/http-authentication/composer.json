@@ -1,6 +1,6 @@
 {
-  "name": "jellyfish/http",
-  "description": "Jellyfish http bundle",
+  "name": "jellyfish/http-authentication",
+  "description": "Jellyfish http authentication bundle",
   "license": "MIT",
   "authors": [
     {
@@ -9,9 +9,11 @@
     }
   ],
   "require": {
-    "psr/http-message": "^1.0.0",
-    "psr/http-server-handler": "^1.0.0",
-    "psr/http-server-middleware": "^1.0.0"
+    "jellyfish/config": "^1.0.0",
+    "jellyfish/http": "^1.0.0",
+    "jellyfish/pimple": "^1.0.0",
+    "laminas/laminas-diactoros": "^2.0.0",
+    "psr/http-message": "^1.0.0"
   },
   "require-dev": {
     "codeception/codeception": "^4.0",
@@ -23,12 +25,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\Http\\": "src/Jellyfish/Http"
+      "Jellyfish\\HttpAuthentication\\": "src/Jellyfish/HttpAuthentication"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\Http\\": "tests/Jellyfish/Http"
+      "Jellyfish\\HttpAuthentication\\": "tests/Jellyfish/HttpAuthentication"
     }
   }
 }

@@ -10,6 +10,7 @@ use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use League\Route\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 
 class HttpLeagueFacadeTest extends Unit
 {
@@ -42,6 +43,11 @@ class HttpLeagueFacadeTest extends Unit
      * @var \Jellyfish\Http\ControllerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $controllerMock;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Http\Server\MiddlewareInterface
+     */
+    protected $middlewareMock;
 
     /**
      * @var \Jellyfish\HttpLeague\HttpLeagueFacade
@@ -79,6 +85,10 @@ class HttpLeagueFacadeTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->middlewareMock = $this->getMockBuilder(MiddlewareInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->httpLeagueFacade = new HttpLeagueFacade($this->httpLeagueFactoryMock);
     }
 
@@ -88,7 +98,7 @@ class HttpLeagueFacadeTest extends Unit
     public function testDispatch(): void
     {
         $this->httpLeagueFactoryMock->expects(static::atLeastOnce())
-            ->method('createRouter')
+            ->method('getRouter')
             ->willReturn($this->routerMock);
 
         $this->routerMock->expects(static::atLeastOnce())
@@ -108,7 +118,7 @@ class HttpLeagueFacadeTest extends Unit
     public function testEmit(): void
     {
         $this->httpLeagueFactoryMock->expects(static::atLeastOnce())
-            ->method('createEmitter')
+            ->method('getEmitter')
             ->willReturn($this->emitterMock);
 
         $this->emitterMock->expects(static::atLeastOnce())
@@ -128,7 +138,7 @@ class HttpLeagueFacadeTest extends Unit
         $path = '/foo';
 
         $this->httpLeagueFactoryMock->expects(static::atLeastOnce())
-            ->method('createRouter')
+            ->method('getRouter')
             ->willReturn($this->routerMock);
 
         $this->routerMock->expects(static::atLeastOnce())
@@ -141,15 +151,37 @@ class HttpLeagueFacadeTest extends Unit
         );
     }
 
+    /**
+     * @return void
+     */
     public function testGetCurrentRequest(): void
     {
         $this->httpLeagueFactoryMock->expects(static::atLeastOnce())
-            ->method('createRequest')
+            ->method('getRequest')
             ->willReturn($this->serverRequestMock);
 
         static::assertEquals(
             $this->serverRequestMock,
             $this->httpLeagueFacade->getCurrentRequest()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAddMiddleware(): void
+    {
+        $this->httpLeagueFactoryMock->expects(static::atLeastOnce())
+            ->method('getRouter')
+            ->willReturn($this->routerMock);
+
+        $this->routerMock->expects(static::atLeastOnce())
+            ->method('middleware')
+            ->with($this->middlewareMock);
+
+        static::assertEquals(
+            $this->httpLeagueFacade,
+            $this->httpLeagueFacade->addMiddleware($this->middlewareMock)
         );
     }
 }

@@ -29,33 +29,33 @@ class HttpLeagueFactoryTest extends Unit
     /**
      * @return void
      */
-    public function testCreateRouter(): void
+    public function testGetRouter(): void
     {
         static::assertInstanceOf(
             Router::class,
-            $this->httpLeagueFactory->createRouter()
+            $this->httpLeagueFactory->getRouter()
         );
     }
 
     /**
      * @return void
      */
-    public function testCreateRequest(): void
+    public function testGetRequest(): void
     {
         static::assertInstanceOf(
             ServerRequest::class,
-            $this->httpLeagueFactory->createRequest()
+            $this->httpLeagueFactory->getRequest()
         );
     }
 
     /**
      * @return void
      */
-    public function testCreateEmitter(): void
+    public function testGetEmitter(): void
     {
         static::assertInstanceOf(
             SapiStreamEmitter::class,
-            $this->httpLeagueFactory->createEmitter()
+            $this->httpLeagueFactory->getEmitter()
         );
     }
 }

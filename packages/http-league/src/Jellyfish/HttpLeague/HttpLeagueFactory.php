@@ -36,7 +36,7 @@ class HttpLeagueFactory
      *
      * @return \Psr\Http\Message\ServerRequestInterface
      */
-    public function createRequest(): ServerRequestInterface
+    public function getRequest(): ServerRequestInterface
     {
         if ($this->request === null) {
             $this->request = ServerRequestFactory::fromGlobals();
@@ -48,7 +48,7 @@ class HttpLeagueFactory
     /**
      * @return \League\Route\Router
      */
-    public function createRouter(): Router
+    public function getRouter(): Router
     {
         if ($this->router === null) {
             $this->router = new Router();
@@ -77,7 +77,7 @@ class HttpLeagueFactory
     /**
      * @return \Laminas\HttpHandlerRunner\Emitter\EmitterInterface
      */
-    public function createEmitter(): EmitterInterface
+    public function getEmitter(): EmitterInterface
     {
         if ($this->emitter === null) {
             $this->emitter = new SapiStreamEmitter();
