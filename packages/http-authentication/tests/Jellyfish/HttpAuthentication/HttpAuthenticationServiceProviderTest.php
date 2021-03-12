@@ -43,13 +43,11 @@ class HttpAuthenticationServiceProviderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $self = $this;
-
-        $this->container->offsetSet(ConfigConstants::FACADE, static function () use ($self) {
-            return $self->getMockBuilder(ConfigFacadeInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
+        $this->container->offsetSet('app_dir', static function () {
+            return DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR;
         });
+
+        $self = $this;
 
         $this->container->offsetSet(HttpConstants::FACADE, static function () use ($self) {
             return $self->httpFacadeMock;

@@ -9,9 +9,9 @@ use Jellyfish\Config\ConfigFacadeInterface;
 class HttpAuthenticationFactory
 {
     /**
-     * @var \Jellyfish\Config\ConfigFacadeInterface
+     * @var string
      */
-    protected $configFacade;
+    protected $appDir;
 
     /**
      * @var \Jellyfish\HttpAuthentication\AuthenticationInterface
@@ -19,11 +19,11 @@ class HttpAuthenticationFactory
     protected $authentication;
 
     /**
-     * @param \Jellyfish\Config\ConfigFacadeInterface $configFacade
+     * @param string $appDir
      */
-    public function __construct(ConfigFacadeInterface $configFacade)
+    public function __construct(string $appDir)
     {
-        $this->configFacade = $configFacade;
+        $this->appDir = $appDir;
     }
 
     /**
@@ -35,31 +35,18 @@ class HttpAuthenticationFactory
     public function getAuthentication(): AuthenticationInterface
     {
         if ($this->authentication === null) {
-            $this->authentication = new BasicAuthentication($this->createUser());
+            $this->authentication = new BasicAuthentication($this->createUserReader());
         }
 
         return $this->authentication;
     }
 
     /**
-     * @return \Jellyfish\HttpAuthentication\UserInterface
+     * @return \Jellyfish\HttpAuthentication\UserReaderInterface
      *
-     * @throws \Jellyfish\Config\Exception\ConfigKeyNotFoundException
-     * @throws \Jellyfish\Config\Exception\NotSupportedConfigValueTypeException
      */
-    protected function createUser(): UserInterface
+    protected function createUserReader(): UserReaderInterface
     {
-        $identifier = $this->configFacade->get(
-            HttpAuthenticationConstants::USER_IDENTIFIER,
-            HttpAuthenticationConstants::DEFAULT_USER_IDENTIFIER
-        );
-
-        $password = $this->configFacade->get(
-            HttpAuthenticationConstants::USER_PASSWORD,
-            HttpAuthenticationConstants::DEFAULT_USER_PASSWORD
-        );
-
-        return (new User())->setIdentifier($identifier)
-            ->setPassword($password);
+        return new UserReader($this->appDir);
     }
 }
