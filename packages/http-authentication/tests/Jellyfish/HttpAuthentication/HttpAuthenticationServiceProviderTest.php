@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Jellyfish\HttpAuthentication;
 
 use Codeception\Test\Unit;
-use Jellyfish\Config\ConfigConstants;
-use Jellyfish\Config\ConfigFacadeInterface;
 use Jellyfish\Http\HttpConstants;
 use Jellyfish\Http\HttpFacadeInterface;
 use Jellyfish\HttpAuthentication\Middleware\AuthenticationMiddleware;

@@ -101,6 +101,4 @@ class BasicAuthentication implements AuthenticationInterface
             && password_verify($credentials[1], $user->getPassword())
             && preg_match($user->getPathRegEx(), $path);
     }
-
-
 }

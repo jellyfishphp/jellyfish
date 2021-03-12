@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jellyfish\HttpAuthentication;
 
-use Jellyfish\Config\ConfigFacadeInterface;
-
 class HttpAuthenticationFactory
 {
     /**

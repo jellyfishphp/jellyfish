@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jellyfish\HttpAuthentication;
 
-use Jellyfish\Config\ConfigConstants;
 use Jellyfish\Http\HttpConstants;
 use Jellyfish\Http\HttpFacadeInterface;
 use Jellyfish\HttpAuthentication\Middleware\AuthenticationMiddleware;

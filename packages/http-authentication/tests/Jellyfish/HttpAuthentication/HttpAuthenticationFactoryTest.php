@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jellyfish\HttpAuthentication;
 
 use Codeception\Test\Unit;
-use Jellyfish\Config\ConfigFacadeInterface;
 use org\bovigo\vfs\vfsStream;
 
 use function file_get_contents;
