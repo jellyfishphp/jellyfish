@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Jellyfish\HttpAuthentication;
 
 use Codeception\Test\Unit;
-use Jellyfish\Config\ConfigConstants;
-use Jellyfish\Config\ConfigFacadeInterface;
 use Jellyfish\Http\HttpConstants;
 use Jellyfish\Http\HttpFacadeInterface;
 use Jellyfish\HttpAuthentication\Middleware\AuthenticationMiddleware;
@@ -43,13 +41,11 @@ class HttpAuthenticationServiceProviderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $self = $this;
-
-        $this->container->offsetSet(ConfigConstants::FACADE, static function () use ($self) {
-            return $self->getMockBuilder(ConfigFacadeInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
+        $this->container->offsetSet('app_dir', static function () {
+            return DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR;
         });
+
+        $self = $this;
 
         $this->container->offsetSet(HttpConstants::FACADE, static function () use ($self) {
             return $self->httpFacadeMock;

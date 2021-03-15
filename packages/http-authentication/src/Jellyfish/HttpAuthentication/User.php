@@ -17,6 +17,11 @@ class User implements UserInterface
     protected $password;
 
     /**
+     * @var string
+     */
+    protected $pathRegEx;
+
+    /**
      * @return string
      */
     public function getIdentifier(): string
@@ -52,6 +57,26 @@ class User implements UserInterface
     public function setPassword(string $password): UserInterface
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPathRegEx(): string
+    {
+        return $this->pathRegEx;
+    }
+
+    /**
+     * @param string $pathRegEx
+     *
+     * @return \Jellyfish\HttpAuthentication\UserInterface
+     */
+    public function setPathRegEx(string $pathRegEx): UserInterface
+    {
+        $this->pathRegEx = $pathRegEx;
 
         return $this;
     }

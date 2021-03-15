@@ -46,4 +46,16 @@ class UserTest extends Unit
 
         static::assertEquals($password, $this->user->getPassword());
     }
+
+    /**
+     * @return void
+     */
+    public function testSetAndGetPathRegEx(): void
+    {
+        $pathRegEx = '/\/.*/';
+
+        $this->user->setPathRegEx($pathRegEx);
+
+        static::assertEquals($pathRegEx, $this->user->getPathRegEx());
+    }
 }

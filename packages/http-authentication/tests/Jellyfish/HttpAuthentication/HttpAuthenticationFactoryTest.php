@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Jellyfish\HttpAuthentication;
 
 use Codeception\Test\Unit;
-use Jellyfish\Config\ConfigFacadeInterface;
+use org\bovigo\vfs\vfsStream;
+
+use function file_get_contents;
 
 class HttpAuthenticationFactoryTest extends Unit
 {
@@ -26,11 +28,15 @@ class HttpAuthenticationFactoryTest extends Unit
     {
         parent::_before();
 
-        $this->configFacadeMock = $this->getMockBuilder(ConfigFacadeInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $rootDir = vfsStream::setup('root', null, [
+            'app' => [
+                'users.php' => file_get_contents(codecept_data_dir('users.php')),
+            ],
+        ])->url();
 
-        $this->httpAuthenticationFactory = new HttpAuthenticationFactory($this->configFacadeMock);
+        $appDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR;
+
+        $this->httpAuthenticationFactory = new HttpAuthenticationFactory($appDir);
     }
 
     /**
@@ -41,16 +47,6 @@ class HttpAuthenticationFactoryTest extends Unit
      */
     public function testGetAuthentication(): void
     {
-        $this->configFacadeMock->expects(static::atLeastOnce())
-            ->method('get')
-            ->withConsecutive(
-                [HttpAuthenticationConstants::USER_IDENTIFIER, HttpAuthenticationConstants::DEFAULT_USER_IDENTIFIER],
-                [HttpAuthenticationConstants::USER_PASSWORD, HttpAuthenticationConstants::DEFAULT_USER_PASSWORD],
-            )->willReturnOnConsecutiveCalls(
-                HttpAuthenticationConstants::DEFAULT_USER_IDENTIFIER,
-                HttpAuthenticationConstants::DEFAULT_USER_PASSWORD
-            );
-
         static::assertInstanceOf(
             BasicAuthentication::class,
             $this->httpAuthenticationFactory->getAuthentication()

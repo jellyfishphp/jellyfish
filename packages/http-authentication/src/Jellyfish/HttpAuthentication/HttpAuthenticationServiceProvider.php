@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jellyfish\HttpAuthentication;
 
-use Jellyfish\Config\ConfigConstants;
 use Jellyfish\Http\HttpConstants;
 use Jellyfish\Http\HttpFacadeInterface;
 use Jellyfish\HttpAuthentication\Middleware\AuthenticationMiddleware;
@@ -32,9 +31,7 @@ class HttpAuthenticationServiceProvider implements ServiceProviderInterface
     protected function registerHttpAuthenticationFacade(Container $container): HttpAuthenticationServiceProvider
     {
         $container->offsetSet(HttpAuthenticationConstants::FACADE, static function (Container $container) {
-            $httpAuthenticationFactory = new HttpAuthenticationFactory(
-                $container->offsetGet(ConfigConstants::FACADE)
-            );
+            $httpAuthenticationFactory = new HttpAuthenticationFactory($container->offsetGet('app_dir'));
 
             return new HttpAuthenticationFacade($httpAuthenticationFactory);
         });

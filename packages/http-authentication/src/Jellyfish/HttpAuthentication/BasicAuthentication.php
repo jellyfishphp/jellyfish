@@ -10,6 +10,8 @@ use function base64_decode;
 use function count;
 use function explode;
 use function is_array;
+use function password_verify;
+use function preg_match;
 use function str_replace;
 
 class BasicAuthentication implements AuthenticationInterface
@@ -17,17 +19,17 @@ class BasicAuthentication implements AuthenticationInterface
     protected const TYPE = 'Basic';
 
     /**
-     * @var \Jellyfish\HttpAuthentication\UserInterface
+     * @var \Jellyfish\HttpAuthentication\UserReaderInterface
      */
-    protected $user;
+    protected $userReader;
 
     /**
-     * @param \Jellyfish\HttpAuthentication\UserInterface $user
+     * @param \Jellyfish\HttpAuthentication\UserReaderInterface $userReader
      */
     public function __construct(
-        UserInterface $user
+        UserReaderInterface $userReader
     ) {
-        $this->user = $user;
+        $this->userReader = $userReader;
     }
 
     /**
@@ -37,17 +39,32 @@ class BasicAuthentication implements AuthenticationInterface
      */
     public function authenticate(ServerRequestInterface $request): bool
     {
+        $authorizationHeader = $this->getAuthorizationHeaderByServerRequest($request);
+        $path = $request->getUri()->getPath();
+
+        return $authorizationHeader !== null
+            && $this->validateType($authorizationHeader)
+            && $this->validateCredentials($authorizationHeader, $path);
+    }
+
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
+     * @return string|null
+     */
+    protected function getAuthorizationHeaderByServerRequest(ServerRequestInterface $request): ?string
+    {
         if (!$request->hasHeader('Authorization')) {
-            return false;
+            return null;
         }
 
         $authorizationHeader = $request->getHeader('Authorization');
 
         if (!is_array($authorizationHeader) || count($authorizationHeader) !== 1) {
-            return false;
+            return null;
         }
 
-        return $this->validateType($authorizationHeader[0]) && $this->validateCredentials($authorizationHeader[0]);
+        return $authorizationHeader[0];
     }
 
     /**
@@ -64,16 +81,24 @@ class BasicAuthentication implements AuthenticationInterface
 
     /**
      * @param string $authorizationHeader
+     * @param string $path
      *
      * @return bool
      */
-    protected function validateCredentials(string $authorizationHeader): bool
+    protected function validateCredentials(string $authorizationHeader, string $path): bool
     {
         $decodedCredentials = base64_decode(str_replace('Basic ', '', $authorizationHeader));
         $credentials = explode(':', $decodedCredentials);
 
-        return count($credentials) === 2
-            && $this->user->getIdentifier() === $credentials[0]
-            && $this->user->getPassword() === $credentials[1];
+        if (count($credentials) !== 2) {
+            return false;
+        }
+
+        $user = $this->userReader->getByIdentifier($credentials[0]);
+
+        return $user !== null
+            && $user->getIdentifier() === $credentials[0]
+            && password_verify($credentials[1], $user->getPassword())
+            && preg_match($user->getPathRegEx(), $path);
     }
 }

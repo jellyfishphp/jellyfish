@@ -6,9 +6,17 @@ namespace Jellyfish\HttpAuthentication;
 
 use Codeception\Test\Unit;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
+
+use function password_hash;
 
 class BasicAuthenticationTest extends Unit
 {
+    /**
+     * @var \Jellyfish\HttpAuthentication\UserReaderInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $userReaderMock;
+
     /**
      * @var \Jellyfish\HttpAuthentication\UserInterface|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -18,6 +26,11 @@ class BasicAuthenticationTest extends Unit
      * @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Http\Message\ServerRequestInterface
      */
     protected $serverRequestMock;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Http\Message\UriInterface
+     */
+    protected $uriMock;
 
     /**
      * @var \Jellyfish\HttpAuthentication\BasicAuthentication
@@ -31,6 +44,10 @@ class BasicAuthenticationTest extends Unit
     {
         parent::_before();
 
+        $this->userReaderMock = $this->getMockBuilder(UserReaderInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->userMock = $this->getMockBuilder(UserInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -39,7 +56,11 @@ class BasicAuthenticationTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->basicAuthentication = new BasicAuthentication($this->userMock);
+        $this->uriMock = $this->getMockBuilder(UriInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->basicAuthentication = new BasicAuthentication($this->userReaderMock);
     }
 
     /**
@@ -57,13 +78,30 @@ class BasicAuthenticationTest extends Unit
             ->with('Authorization')
             ->willReturn(['Basic Zm9vOmJhcg==']);
 
+        $this->serverRequestMock->expects(static::atLeastOnce())
+            ->method('getUri')
+            ->willReturn($this->uriMock);
+
+        $this->uriMock->expects(static::atLeastOnce())
+            ->method('getPath')
+            ->willReturn('/');
+
+        $this->userReaderMock->expects(static::atLeastOnce())
+            ->method('getByIdentifier')
+            ->with('foo')
+            ->willReturn($this->userMock);
+
         $this->userMock->expects(static::atLeastOnce())
             ->method('getIdentifier')
             ->willReturn('foo');
 
         $this->userMock->expects(static::atLeastOnce())
             ->method('getPassword')
-            ->willReturn('bar');
+            ->willReturn(password_hash('bar', PASSWORD_BCRYPT));
+
+        $this->userMock->expects(static::atLeastOnce())
+            ->method('getPathRegEx')
+            ->willReturn('/\/.*/');
 
         static::assertTrue($this->basicAuthentication->authenticate($this->serverRequestMock));
     }
@@ -83,11 +121,16 @@ class BasicAuthenticationTest extends Unit
             ->with('Authorization')
             ->willReturn(['Bearer Zm9vOmJhcg==']);
 
-        $this->userMock->expects(static::never())
-            ->method('getIdentifier');
+        $this->serverRequestMock->expects(static::atLeastOnce())
+            ->method('getUri')
+            ->willReturn($this->uriMock);
 
-        $this->userMock->expects(static::never())
-            ->method('getPassword');
+        $this->uriMock->expects(static::atLeastOnce())
+            ->method('getPath')
+            ->willReturn('/');
+
+        $this->userReaderMock->expects(static::never())
+            ->method('getByIdentifier');
 
         static::assertFalse($this->basicAuthentication->authenticate($this->serverRequestMock));
     }
@@ -105,14 +148,59 @@ class BasicAuthenticationTest extends Unit
         $this->serverRequestMock->expects(static::atLeastOnce())
             ->method('getHeader')
             ->with('Authorization')
-            ->willReturn(['Basic Zi9vOmJhcg==']);
+            ->willReturn(['Basic Zm9vOmJhcg==']);
+
+        $this->serverRequestMock->expects(static::atLeastOnce())
+            ->method('getUri')
+            ->willReturn($this->uriMock);
+
+        $this->uriMock->expects(static::atLeastOnce())
+            ->method('getPath')
+            ->willReturn('/');
+
+        $this->userReaderMock->expects(static::atLeastOnce())
+            ->method('getByIdentifier')
+            ->with('foo')
+            ->willReturn($this->userMock);
 
         $this->userMock->expects(static::atLeastOnce())
             ->method('getIdentifier')
             ->willReturn('foo');
 
-        $this->userMock->expects(static::never())
-            ->method('getPassword');
+        $this->userMock->expects(static::atLeastOnce())
+            ->method('getPassword')
+            ->willReturn('baa');
+
+        static::assertFalse($this->basicAuthentication->authenticate($this->serverRequestMock));
+    }
+
+    /**
+     * @return void
+     */
+    public function testAuthenticateWithNonExistingUser(): void
+    {
+        $this->serverRequestMock->expects(static::atLeastOnce())
+            ->method('hasHeader')
+            ->with('Authorization')
+            ->willReturn(true);
+
+        $this->serverRequestMock->expects(static::atLeastOnce())
+            ->method('getHeader')
+            ->with('Authorization')
+            ->willReturn(['Basic Zm9vOmJhcg==']);
+
+        $this->serverRequestMock->expects(static::atLeastOnce())
+            ->method('getUri')
+            ->willReturn($this->uriMock);
+
+        $this->uriMock->expects(static::atLeastOnce())
+            ->method('getPath')
+            ->willReturn('/');
+
+        $this->userReaderMock->expects(static::atLeastOnce())
+            ->method('getByIdentifier')
+            ->with('foo')
+            ->willReturn(null);
 
         static::assertFalse($this->basicAuthentication->authenticate($this->serverRequestMock));
     }
@@ -131,11 +219,16 @@ class BasicAuthenticationTest extends Unit
             ->method('getHeader')
             ->with('Authorization');
 
-        $this->userMock->expects(static::never())
-            ->method('getIdentifier');
+        $this->serverRequestMock->expects(static::atLeastOnce())
+            ->method('getUri')
+            ->willReturn($this->uriMock);
 
-        $this->userMock->expects(static::never())
-            ->method('getPassword');
+        $this->uriMock->expects(static::atLeastOnce())
+            ->method('getPath')
+            ->willReturn('/');
+
+        $this->userReaderMock->expects(static::never())
+            ->method('getByIdentifier');
 
         static::assertFalse($this->basicAuthentication->authenticate($this->serverRequestMock));
     }
@@ -153,13 +246,47 @@ class BasicAuthenticationTest extends Unit
         $this->serverRequestMock->expects(static::atLeastOnce())
             ->method('getHeader')
             ->with('Authorization')
-            ->willReturn('foo');
+            ->willReturn(['Basic Zm9v']);
 
-        $this->userMock->expects(static::never())
-            ->method('getIdentifier');
+        $this->serverRequestMock->expects(static::atLeastOnce())
+            ->method('getUri')
+            ->willReturn($this->uriMock);
 
-        $this->userMock->expects(static::never())
-            ->method('getPassword');
+        $this->uriMock->expects(static::atLeastOnce())
+            ->method('getPath')
+            ->willReturn('/');
+
+        $this->userReaderMock->expects(static::never())
+            ->method('getByIdentifier');
+
+        static::assertFalse($this->basicAuthentication->authenticate($this->serverRequestMock));
+    }
+
+    /**
+     * @return void
+     */
+    public function testAuthenticateWithInvalidAuthorizationHeaderType(): void
+    {
+        $this->serverRequestMock->expects(static::atLeastOnce())
+            ->method('hasHeader')
+            ->with('Authorization')
+            ->willReturn(true);
+
+        $this->serverRequestMock->expects(static::atLeastOnce())
+            ->method('getHeader')
+            ->with('Authorization')
+            ->willReturn('Basic Zm9v');
+
+        $this->serverRequestMock->expects(static::atLeastOnce())
+            ->method('getUri')
+            ->willReturn($this->uriMock);
+
+        $this->uriMock->expects(static::atLeastOnce())
+            ->method('getPath')
+            ->willReturn('/');
+
+        $this->userReaderMock->expects(static::never())
+            ->method('getByIdentifier');
 
         static::assertFalse($this->basicAuthentication->authenticate($this->serverRequestMock));
     }

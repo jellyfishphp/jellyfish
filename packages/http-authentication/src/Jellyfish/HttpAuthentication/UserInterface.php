@@ -29,4 +29,16 @@ interface UserInterface
      * @return \Jellyfish\HttpAuthentication\UserInterface
      */
     public function setPassword(string $password): UserInterface;
+
+    /**
+     * @return string
+     */
+    public function getPathRegEx(): string;
+
+    /**
+     * @param string $pathRegEx
+     *
+     * @return \Jellyfish\HttpAuthentication\UserInterface
+     */
+    public function setPathRegEx(string $pathRegEx): UserInterface;
 }
