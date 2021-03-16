@@ -38,10 +38,13 @@ class Jellyfish extends Module
 
     /**
      * @return void
+     *
+     * @phpcs:disable
      */
     public function _initialize(): void
     {
         parent::_initialize();
+        // @phpcs:enable
 
         if ((bool)$this->config[JellyfishConstants::CONFIG_GENERATE_TRANSFER_CLASSES]) {
             $this->generateTransferClasses();
