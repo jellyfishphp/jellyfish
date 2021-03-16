@@ -12,6 +12,10 @@
             "path": "packages/cache-symfony",
             "version": "1.0.0"
         },
+        "codeception": {
+            "path": "packages/codeception",
+            "version": "1.0.0"
+        },
         "config": {
             "path": "packages/config",
             "version": "1.0.0"

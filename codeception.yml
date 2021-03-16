@@ -2,6 +2,7 @@ include:
   - packages/application/
   - packages/cache/
   - packages/cache-symfony/
+  - packages/codeception/
   - packages/config/
   - packages/console/
   - packages/event/
@@ -38,3 +39,10 @@ settings:
 
 paths:
   output: output
+
+modules:
+  enabled:
+    - \Jellyfish\Codeception\Module\Jellyfish
+  config:
+    \Jellyfish\Codeception\Module\Jellyfish:
+      generate_transfer_classes: true
