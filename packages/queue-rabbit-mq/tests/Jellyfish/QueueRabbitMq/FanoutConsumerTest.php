@@ -226,7 +226,8 @@ class FanoutConsumerTest extends Unit
         try {
             $this->fanoutConsumer->receiveMessage($this->destinationMock);
             static::fail();
-        } catch (Exception $exception) {}
+        } catch (Exception $exception) {
+        }
     }
 
     /**

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jellyfish\QueueRabbitMq;
 
 use Codeception\Test\Unit;
-use Jellyfish\Queue\Message;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Serializer\SerializerFacadeInterface;
 
