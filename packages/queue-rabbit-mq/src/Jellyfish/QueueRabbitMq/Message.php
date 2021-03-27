@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jellyfish\Queue;
+namespace Jellyfish\QueueRabbitMq;
+
+use Jellyfish\Queue\MessageInterface;
 
 use function array_key_exists;
 

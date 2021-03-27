@@ -6,6 +6,6 @@ namespace Jellyfish\QueueRabbitMq\Exception;
 
 use Exception;
 
-class CouldNotBindQueueException extends Exception
+class MissingDestinationPropertyException extends Exception
 {
 }
