@@ -6,9 +6,31 @@ namespace Jellyfish\QueueRabbitMq;
 
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
+use Jellyfish\QueueRabbitMq\Exception\MissingDestinationPropertyException;
 
 class FanoutConsumer extends AbstractConsumer
 {
+    /**
+     * @var \Jellyfish\QueueRabbitMq\DestinationFactoryInterface
+     */
+    protected $destinationFactory;
+
+    /**
+     * @param \Jellyfish\QueueRabbitMq\ConnectionInterface $connection
+     * @param \Jellyfish\QueueRabbitMq\MessageMapperInterface $messageMapper
+     * @param \Jellyfish\QueueRabbitMq\DestinationFactoryInterface $destinationFactory
+     */
+    public function __construct(
+        ConnectionInterface $connection,
+        MessageMapperInterface $messageMapper,
+        DestinationFactoryInterface $destinationFactory
+    ) {
+        parent::__construct($connection, $messageMapper);
+
+        $this->destinationFactory = $destinationFactory;
+    }
+
+
     /**
      * @param  \Jellyfish\Queue\DestinationInterface  $destination
      *
@@ -55,7 +77,15 @@ class FanoutConsumer extends AbstractConsumer
      */
     protected function createExchange(DestinationInterface $destination): FanoutConsumer
     {
-        $this->connection->createExchange($destination);
+        if ($destination->getProperty('bind') === null) {
+            throw new MissingDestinationPropertyException('Destination property "bind" is not set.');
+        }
+
+        $exchangeDestination = $this->destinationFactory->create()
+            ->setName($destination->getProperty('bind'))
+            ->setType($destination->getType());
+
+        $this->connection->createExchange($exchangeDestination);
 
         return $this;
     }

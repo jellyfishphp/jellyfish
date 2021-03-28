@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\QueueRabbitMq;
 
 use Codeception\Test\Unit;
+use Exception;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
@@ -37,6 +38,16 @@ class FanoutConsumerTest extends Unit
     protected $amqpMessageMock;
 
     /**
+     * @var \Jellyfish\QueueRabbitMq\DestinationFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $destinationFactoryMock;
+
+    /**
+     * @var \Jellyfish\Queue\DestinationInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $exchangeDestinationMock;
+
+    /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\DestinationInterface
      */
     protected $destinationMock;
@@ -45,6 +56,11 @@ class FanoutConsumerTest extends Unit
      * @var string
      */
     protected $queueName;
+
+    /**
+     * @var string
+     */
+    protected $bind;
 
     /**
      * @var string
@@ -86,17 +102,27 @@ class FanoutConsumerTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->destinationFactoryMock = $this->getMockBuilder(DestinationFactoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->exchangeDestinationMock = $this->getMockBuilder(DestinationInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->destinationMock = $this->getMockBuilder(DestinationInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->queueName = 'Foo';
+        $this->bind = 'FooBar';
         $this->propertyName = 'Bar';
         $this->json = '{...}';
 
         $this->fanoutConsumer = new FanoutConsumer(
             $this->connectionMock,
-            $this->messageMapperMock
+            $this->messageMapperMock,
+            $this->destinationFactoryMock
         );
     }
 
@@ -105,14 +131,42 @@ class FanoutConsumerTest extends Unit
      */
     public function testReceiveMessage(): void
     {
+        $this->destinationFactoryMock->expects(static::atLeastOnce())
+            ->method('create')
+            ->willReturn($this->exchangeDestinationMock);
+
         $this->destinationMock->expects(static::atLeastOnce())
-            ->method('getName')
-            ->willReturn($this->queueName);
+            ->method('getProperty')
+            ->with('bind')
+            ->willReturn($this->bind);
+
+        $this->exchangeDestinationMock->expects(static::atLeastOnce())
+            ->method('setName')
+            ->with($this->bind)
+            ->willReturn($this->exchangeDestinationMock);
+
+        $this->destinationMock->expects(static::atLeastOnce())
+            ->method('getType')
+            ->willReturn(DestinationInterface::TYPE_FANOUT);
+
+        $this->exchangeDestinationMock->expects(static::atLeastOnce())
+            ->method('setType')
+            ->with(DestinationInterface::TYPE_FANOUT)
+            ->willReturn($this->exchangeDestinationMock);
+
+        $this->connectionMock->expects(static::atLeastOnce())
+            ->method('createExchange')
+            ->with($this->exchangeDestinationMock)
+            ->willReturn($this->connectionMock);
 
         $this->connectionMock->expects(static::atLeastOnce())
             ->method('createQueueAndBind')
             ->with($this->destinationMock)
             ->willReturn($this->connectionMock);
+
+        $this->destinationMock->expects(static::atLeastOnce())
+            ->method('getName')
+            ->willReturn($this->queueName);
 
         $this->connectionMock->expects(static::atLeastOnce())
             ->method('getChannel')
@@ -141,16 +195,82 @@ class FanoutConsumerTest extends Unit
     /**
      * @return void
      */
+    public function testReceiveMessageWithInvalidDestination(): void
+    {
+        $this->destinationFactoryMock->expects(static::never())
+            ->method('create');
+
+        $this->destinationMock->expects(static::atLeastOnce())
+            ->method('getProperty')
+            ->with('bind')
+            ->willReturn(null);
+
+        $this->destinationMock->expects(static::never())
+            ->method('getType');
+
+        $this->connectionMock->expects(static::never())
+            ->method('createExchange');
+
+        $this->connectionMock->expects(static::never())
+            ->method('createQueueAndBind');
+
+        $this->destinationMock->expects(static::never())
+            ->method('getName');
+
+        $this->connectionMock->expects(static::never())
+            ->method('getChannel');
+
+        $this->messageMapperMock->expects(static::never())
+            ->method('fromJson');
+
+        try {
+            $this->fanoutConsumer->receiveMessage($this->destinationMock);
+            static::fail();
+        } catch (Exception $exception) {
+        }
+    }
+
+    /**
+     * @return void
+     */
     public function testReceiveMessageFromEmptyQueue(): void
     {
+        $this->destinationFactoryMock->expects(static::atLeastOnce())
+            ->method('create')
+            ->willReturn($this->exchangeDestinationMock);
+
         $this->destinationMock->expects(static::atLeastOnce())
-            ->method('getName')
-            ->willReturn($this->queueName);
+            ->method('getProperty')
+            ->with('bind')
+            ->willReturn($this->bind);
+
+        $this->exchangeDestinationMock->expects(static::atLeastOnce())
+            ->method('setName')
+            ->with($this->bind)
+            ->willReturn($this->exchangeDestinationMock);
+
+        $this->destinationMock->expects(static::atLeastOnce())
+            ->method('getType')
+            ->willReturn(DestinationInterface::TYPE_FANOUT);
+
+        $this->exchangeDestinationMock->expects(static::atLeastOnce())
+            ->method('setType')
+            ->with(DestinationInterface::TYPE_FANOUT)
+            ->willReturn($this->exchangeDestinationMock);
+
+        $this->connectionMock->expects(static::atLeastOnce())
+            ->method('createExchange')
+            ->with($this->exchangeDestinationMock)
+            ->willReturn($this->connectionMock);
 
         $this->connectionMock->expects(static::atLeastOnce())
             ->method('createQueueAndBind')
             ->with($this->destinationMock)
             ->willReturn($this->connectionMock);
+
+        $this->destinationMock->expects(static::atLeastOnce())
+            ->method('getName')
+            ->willReturn($this->queueName);
 
         $this->connectionMock->expects(static::atLeastOnce())
             ->method('getChannel')
@@ -181,14 +301,42 @@ class FanoutConsumerTest extends Unit
     {
         $messageMocks = [$this->messageMock];
 
+        $this->destinationFactoryMock->expects(static::atLeastOnce())
+            ->method('create')
+            ->willReturn($this->exchangeDestinationMock);
+
         $this->destinationMock->expects(static::atLeastOnce())
-            ->method('getName')
-            ->willReturn($this->queueName);
+            ->method('getProperty')
+            ->with('bind')
+            ->willReturn($this->bind);
+
+        $this->exchangeDestinationMock->expects(static::atLeastOnce())
+            ->method('setName')
+            ->with($this->bind)
+            ->willReturn($this->exchangeDestinationMock);
+
+        $this->destinationMock->expects(static::atLeastOnce())
+            ->method('getType')
+            ->willReturn(DestinationInterface::TYPE_FANOUT);
+
+        $this->exchangeDestinationMock->expects(static::atLeastOnce())
+            ->method('setType')
+            ->with(DestinationInterface::TYPE_FANOUT)
+            ->willReturn($this->exchangeDestinationMock);
+
+        $this->connectionMock->expects(static::atLeastOnce())
+            ->method('createExchange')
+            ->with($this->exchangeDestinationMock)
+            ->willReturn($this->connectionMock);
 
         $this->connectionMock->expects(static::atLeastOnce())
             ->method('createQueueAndBind')
             ->with($this->destinationMock)
             ->willReturn($this->connectionMock);
+
+        $this->destinationMock->expects(static::atLeastOnce())
+            ->method('getName')
+            ->willReturn($this->queueName);
 
         $this->connectionMock->expects(static::atLeastOnce())
             ->method('getChannel')
@@ -221,14 +369,42 @@ class FanoutConsumerTest extends Unit
     {
         $messageMocks = [$this->messageMock];
 
+        $this->destinationFactoryMock->expects(static::atLeastOnce())
+            ->method('create')
+            ->willReturn($this->exchangeDestinationMock);
+
         $this->destinationMock->expects(static::atLeastOnce())
-            ->method('getName')
-            ->willReturn($this->queueName);
+            ->method('getProperty')
+            ->with('bind')
+            ->willReturn($this->bind);
+
+        $this->exchangeDestinationMock->expects(static::atLeastOnce())
+            ->method('setName')
+            ->with($this->bind)
+            ->willReturn($this->exchangeDestinationMock);
+
+        $this->destinationMock->expects(static::atLeastOnce())
+            ->method('getType')
+            ->willReturn(DestinationInterface::TYPE_FANOUT);
+
+        $this->exchangeDestinationMock->expects(static::atLeastOnce())
+            ->method('setType')
+            ->with(DestinationInterface::TYPE_FANOUT)
+            ->willReturn($this->exchangeDestinationMock);
+
+        $this->connectionMock->expects(static::atLeastOnce())
+            ->method('createExchange')
+            ->with($this->exchangeDestinationMock)
+            ->willReturn($this->connectionMock);
 
         $this->connectionMock->expects(static::atLeastOnce())
             ->method('createQueueAndBind')
             ->with($this->destinationMock)
             ->willReturn($this->connectionMock);
+
+        $this->destinationMock->expects(static::atLeastOnce())
+            ->method('getName')
+            ->willReturn($this->queueName);
 
         $this->connectionMock->expects(static::atLeastOnce())
             ->method('getChannel')

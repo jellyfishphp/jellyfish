@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\QueueRabbitMq;
 
 use Jellyfish\Config\ConfigFacadeInterface;
-use Jellyfish\Queue\Destination;
 use Jellyfish\Queue\DestinationInterface;
-use Jellyfish\Queue\Message;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Serializer\SerializerFacadeInterface;
 use PhpAmqpLib\Connection\AMQPLazyConnection;
@@ -35,6 +33,11 @@ class QueueRabbitMqFactory
     protected $queueClient;
 
     /**
+     * @var \Jellyfish\QueueRabbitMq\DestinationFactoryInterface
+     */
+    protected $destinationFactory;
+
+    /**
      * @param \Jellyfish\Config\ConfigFacadeInterface $configFacade
      * @param \Jellyfish\Serializer\SerializerFacadeInterface $serializerFacade
      */
@@ -51,7 +54,7 @@ class QueueRabbitMqFactory
      */
     public function createDestination(): DestinationInterface
     {
-        return new Destination();
+        return $this->getDestinationFactory()->create();
     }
 
     /**
@@ -138,7 +141,11 @@ class QueueRabbitMqFactory
 
         return [
             DestinationInterface::TYPE_QUEUE => new QueueConsumer($connection, $messageMapper),
-            DestinationInterface::TYPE_FANOUT => new FanoutConsumer($connection, $messageMapper)
+            DestinationInterface::TYPE_FANOUT => new FanoutConsumer(
+                $connection,
+                $messageMapper,
+                $this->getDestinationFactory()
+            )
         ];
     }
 
@@ -155,5 +162,17 @@ class QueueRabbitMqFactory
             DestinationInterface::TYPE_QUEUE => new QueueProducer($connection, $messageMapper, $amqpMessageFactory),
             DestinationInterface::TYPE_FANOUT => new FanoutProducer($connection, $messageMapper, $amqpMessageFactory),
         ];
+    }
+
+    /**
+     * @return \Jellyfish\QueueRabbitMq\DestinationFactoryInterface
+     */
+    protected function getDestinationFactory(): DestinationFactoryInterface
+    {
+        if ($this->destinationFactory === null) {
+            $this->destinationFactory = new DestinationFactory();
+        }
+
+        return $this->destinationFactory;
     }
 }

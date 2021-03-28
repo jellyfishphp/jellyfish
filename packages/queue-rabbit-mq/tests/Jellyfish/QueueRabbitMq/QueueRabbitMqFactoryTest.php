@@ -6,8 +6,6 @@ namespace Jellyfish\QueueRabbitMq;
 
 use Codeception\Test\Unit;
 use Jellyfish\Config\ConfigFacadeInterface;
-use Jellyfish\Queue\Destination;
-use Jellyfish\Queue\Message;
 use Jellyfish\Serializer\SerializerFacadeInterface;
 
 class QueueRabbitMqFactoryTest extends Unit
