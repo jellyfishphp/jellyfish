@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jellyfish\QueueRabbitMq;
 
-use Jellyfish\Queue\Message;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Serializer\SerializerFacadeInterface;
 

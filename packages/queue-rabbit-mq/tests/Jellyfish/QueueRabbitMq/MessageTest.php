@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jellyfish\Queue;
+namespace Jellyfish\QueueRabbitMq;
 
 use Codeception\Test\Unit;
 

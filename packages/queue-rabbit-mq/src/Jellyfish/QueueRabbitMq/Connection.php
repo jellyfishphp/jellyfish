@@ -6,7 +6,7 @@ namespace Jellyfish\QueueRabbitMq;
 
 use Exception;
 use Jellyfish\Queue\DestinationInterface;
-use Jellyfish\QueueRabbitMq\Exception\CouldNotBindQueueException;
+use Jellyfish\QueueRabbitMq\Exception\MissingDestinationPropertyException;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AbstractConnection;
 
@@ -94,7 +94,7 @@ class Connection implements ConnectionInterface
         $bind = $destination->getProperty('bind');
 
         if ($bind === null) {
-            throw new CouldNotBindQueueException('Destination property "bind" is not set.');
+            throw new MissingDestinationPropertyException('Destination property "bind" is not set.');
         }
 
         $this->getChannel()->queue_bind($destination->getName(), $bind);
