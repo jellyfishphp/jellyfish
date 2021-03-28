@@ -160,7 +160,8 @@
       "Jellyfish\\SerializerSymfony\\": "packages/serializer-symfony/tests/Jellyfish/SerializerSymfony",
       "Jellyfish\\Transfer\\": "packages/transfer/tests/Jellyfish/Transfer",
       "Jellyfish\\Uuid\\": "packages/uuid/tests/Jellyfish/Uuid",
-      "Jellyfish\\UuidRamsey\\": "packages/uuid-ramsey/tests/Jellyfish/UuidRamsey"
+      "Jellyfish\\UuidRamsey\\": "packages/uuid-ramsey/tests/Jellyfish/UuidRamsey",
+      "Generated\\": "src/Generated/"
     }
   }
 }

@@ -33,12 +33,22 @@ include:
   - packages/uuid/
   - packages/uuid-ramsey/
 
+suites:
+  unit:
+    path: .
+
+
 settings:
   shuffle: true
   lint: true
 
+bootstrap: _bootstrap.php
+
 paths:
-  output: output
+  tests: tests
+  output: tests/_output
+  support: tests/_support
+  data: tests/_data
 
 modules:
   enabled:

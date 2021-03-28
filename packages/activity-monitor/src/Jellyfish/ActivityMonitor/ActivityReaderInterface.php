@@ -1,18 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\ActivityMonitor;
+
+use Generated\Transfer\ActivityMonitor\Activity;
 
 interface ActivityReaderInterface
 {
     /**
      * @param int $id
      *
-     * @return \Jellyfish\ActivityMonitor\ActivityInterface|null
+     * @return \Generated\Transfer\ActivityMonitor\Activity|null
+     *
+     * @throws \Jellyfish\Process\Exception\AlreadyStartedException
+     * @throws \Jellyfish\Process\Exception\NotStartedException
+     * @throws \Jellyfish\Process\Exception\NotTerminatedException
      */
-    public function getById(int $id): ?ActivityInterface;
+    public function getById(int $id): ?Activity;
 
     /**
-     * @return \Jellyfish\ActivityMonitor\ActivityInterface[]
+     * @return \Generated\Transfer\ActivityMonitor\Activity[]
      *
      * @throws \Jellyfish\Process\Exception\AlreadyStartedException
      * @throws \Jellyfish\Process\Exception\NotStartedException

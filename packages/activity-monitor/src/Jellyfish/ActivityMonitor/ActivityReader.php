@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jellyfish\ActivityMonitor;
 
 use ArrayObject;
+use Generated\Transfer\Pm2\Activity as Pm2Activity;
+use Generated\Transfer\ActivityMonitor\Activity;
 use Jellyfish\Process\ProcessFacadeInterface;
 use Jellyfish\Serializer\SerializerFacadeInterface;
 
@@ -14,29 +18,37 @@ class ActivityReader implements ActivityReaderInterface
     public const ARGUMENT_JLIST = 'jlist';
 
     /**
+     * @var \Jellyfish\ActivityMonitor\ActivityMapperInterface
+     */
+    protected $activityMapper;
+
+    /**
      * @var \Jellyfish\Process\ProcessFacadeInterface
      */
     protected $processFacade;
+
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
     protected $serializerFacade;
 
     /**
-     * ActivityReader constructor.
+     * @param \Jellyfish\ActivityMonitor\ActivityMapperInterface $activityMapper
      * @param \Jellyfish\Process\ProcessFacadeInterface $processFacade
      * @param \Jellyfish\Serializer\SerializerFacadeInterface $serializerFacade
      */
     public function __construct(
+        ActivityMapperInterface $activityMapper,
         ProcessFacadeInterface $processFacade,
         SerializerFacadeInterface $serializerFacade
     ) {
+        $this->activityMapper = $activityMapper;
         $this->processFacade = $processFacade;
         $this->serializerFacade = $serializerFacade;
     }
 
     /**
-     * @return \Jellyfish\ActivityMonitor\ActivityInterface[]
+     * @return \Generated\Transfer\ActivityMonitor\Activity[]
      *
      * @throws \Jellyfish\Process\Exception\AlreadyStartedException
      * @throws \Jellyfish\Process\Exception\NotStartedException
@@ -53,25 +65,29 @@ class ActivityReader implements ActivityReaderInterface
             return [];
         }
 
-        $activityList = $this->serializerFacade->deserialize(
+        $pm2Activities = $this->serializerFacade->deserialize(
             $process->getOutput(),
-            sprintf('%s[]',Activity::class),
+            sprintf('%s[]', Pm2Activity::class),
             'json'
         );
 
-        if ($activityList instanceof ArrayObject) {
-            return $activityList->getArrayCopy();
+        if (!($pm2Activities instanceof ArrayObject)) {
+            return [];
         }
 
-        return [];
+        return $this->activityMapper->mapPm2ActivitiesToActivities($pm2Activities->getArrayCopy());
     }
 
     /**
      * @param int $id
      *
-     * @return \Jellyfish\ActivityMonitor\ActivityInterface|null
+     * @return \Generated\Transfer\ActivityMonitor\Activity|null
+     *
+     * @throws \Jellyfish\Process\Exception\AlreadyStartedException
+     * @throws \Jellyfish\Process\Exception\NotStartedException
+     * @throws \Jellyfish\Process\Exception\NotTerminatedException
      */
-    public function getById(int $id): ?ActivityInterface
+    public function getById(int $id): ?Activity
     {
         $activities = $this->getAll();
 

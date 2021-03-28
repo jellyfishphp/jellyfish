@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Activity",
+    "namespace": "Pm2",
+    "properties": [
+      {
+        "name": "pmId",
+        "type": "int",
+        "isNullable": false
+      },
+      {
+        "name": "pid",
+        "type": "int",
+        "isNullable": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "isNullable": false
+      },
+      {
+        "name": "pm2Env",
+        "type": "Environment",
+        "typeNamespace": "Pm2\\Activity",
+        "isNullable": false
+      }
+    ]
+  },
+  {
+    "name": "Environment",
+    "namespace": "Pm2\\Activity",
+    "properties": [
+      {
+        "name": "status",
+        "type": "string",
+        "isNullable": false
+      }
+    ]
+  },
+  {
+    "name": "Activity",
+    "namespace": "ActivityMonitor",
+    "properties": [
+      {
+        "name": "id",
+        "type": "int",
+        "isNullable": false
+      },
+      {
+        "name": "processId",
+        "type": "int",
+        "isNullable": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "isNullable": false
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "isNullable": false
+      }
+    ]
+  }
+]
