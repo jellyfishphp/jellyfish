@@ -20,8 +20,7 @@ class ActivityMonitorServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container): void
     {
-        $this->registerActivityMonitorFacade($container)
-            ->registerPropertyNameConverterStrategy($container);
+        $this->registerActivityMonitorFacadeAndPropertyNameConverterStrategy($container);
     }
 
     /**
@@ -29,39 +28,24 @@ class ActivityMonitorServiceProvider implements ServiceProviderInterface
      *
      * @return \Jellyfish\ActivityMonitor\ActivityMonitorServiceProvider
      */
-    protected function registerActivityMonitorFacade(Container $container): ActivityMonitorServiceProvider
-    {
+    protected function registerActivityMonitorFacadeAndPropertyNameConverterStrategy(
+        Container $container
+    ): ActivityMonitorServiceProvider {
         $container->offsetSet(ActivityMonitorConstants::FACADE, static function (Container $container) {
             $activityMonitorFactory = new ActivityMonitorFactory(
                 $container->offsetGet(ProcessConstants::FACADE),
                 $container->offsetGet(SerializerConstants::FACADE)
             );
 
-            return new ActivityMonitorFacade($activityMonitorFactory);
+            $activityMonitorFacade = new ActivityMonitorFacade($activityMonitorFactory);
+
+            $container->offsetGet(SerializerConstants::FACADE)->addPropertyNameConverterStrategy(
+                ActivityMonitorConstants::PROPERTY_NAME_CONVERTER_STRATEGY,
+                new PropertyNameConverterStrategy($activityMonitorFacade)
+            );
+
+            return $activityMonitorFacade;
         });
-
-        return $this;
-    }
-
-    /**
-     * @param \Pimple\Container $container
-     * @return \Jellyfish\ActivityMonitor\ActivityMonitorServiceProvider
-     */
-    protected function registerPropertyNameConverterStrategy(Container $container): ActivityMonitorServiceProvider
-    {
-        $container->extend(
-            SerializerConstants::FACADE,
-            static function (SerializerFacadeInterface $serializerFacade, Container $container) {
-                $propertyNameConverterStrategy = new PropertyNameConverterStrategy(
-                    $container->offsetGet(ActivityMonitorConstants::FACADE)
-                );
-
-                return $serializerFacade->addPropertyNameConverterStrategy(
-                    ActivityMonitorConstants::PROPERTY_NAME_CONVERTER_STRATEGY,
-                    $propertyNameConverterStrategy
-                );
-            }
-        );
 
         return $this;
     }

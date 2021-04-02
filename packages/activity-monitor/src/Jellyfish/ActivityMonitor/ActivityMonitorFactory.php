@@ -13,6 +13,7 @@ class ActivityMonitorFactory
      * @var \Jellyfish\Process\ProcessFacadeInterface
      */
     protected $processFacade;
+
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
@@ -34,6 +35,11 @@ class ActivityMonitorFactory
     protected $activityManager;
 
     /**
+     * @var \Jellyfish\ActivityMonitor\Pm2Interface
+     */
+    protected $pm2;
+
+    /**
      * @param \Jellyfish\Process\ProcessFacadeInterface $processFacade
      * @param \Jellyfish\Serializer\SerializerFacadeInterface $serializerFacade
      */
@@ -52,9 +58,8 @@ class ActivityMonitorFactory
     {
         if ($this->activityReader === null) {
             $this->activityReader = new ActivityReader(
-                $this->createActivityMapper(),
-                $this->processFacade,
-                $this->serializerFacade
+                $this->getPm2(),
+                $this->createActivityMapper()
             );
         }
 
@@ -87,11 +92,23 @@ class ActivityMonitorFactory
     public function getActivityManager(): ActivityManagerInterface
     {
         if ($this->activityManager === null) {
-            $this->activityManager = new ActivityManager(
-                $this->processFacade
-            );
+            $this->activityManager = new ActivityManager($this->getPm2());
         }
 
         return $this->activityManager;
+    }
+
+    /**
+     * @return \Jellyfish\ActivityMonitor\Pm2Interface
+     */
+    protected function getPm2(): Pm2Interface {
+        if ($this->pm2 === null) {
+            $this->pm2 = new Pm2(
+                $this->processFacade,
+                $this->serializerFacade
+            );
+        }
+
+        return $this->pm2;
     }
 }

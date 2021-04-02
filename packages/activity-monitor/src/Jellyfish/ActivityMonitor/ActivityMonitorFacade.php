@@ -20,7 +20,7 @@ class ActivityMonitorFacade implements ActivityMonitorFacadeInterface
     }
 
     /**
-     * @inheritDoc
+     * @return \Generated\Transfer\ActivityMonitor\Activity[]
      */
     public function getAllActivities(): array
     {

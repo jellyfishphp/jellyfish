@@ -1,5 +1,9 @@
 {
   "repositories": {
+    "activity-monitor": {
+      "path": "packages/activity-monitor",
+      "version": "1.0.0"
+    },
     "application": {
       "path": "packages/application",
       "version": "1.0.0"

@@ -1,71 +1,57 @@
 <?php
 
-namespace Jellyfish\ActivityMonitor;
+declare(strict_types=1);
 
-use Jellyfish\Process\ProcessFacadeInterface;
+namespace Jellyfish\ActivityMonitor;
 
 class ActivityManager implements ActivityManagerInterface
 {
-    public const PM2_CLI = 'pm2';
-
-    public const ARGUMENT_START = 'start';
-    public const ARGUMENT_STOP = 'stop';
-    public const ARGUMENT_RESTART = 'restart';
-    public const ARGUMENT_ALL = 'all';
-
     /**
-     * @var \Jellyfish\Process\ProcessFacadeInterface
+     * @var \Jellyfish\ActivityMonitor\Pm2Interface
      */
-    protected $processFacade;
+    protected $pm2;
 
     /**
-     * @param \Jellyfish\Process\ProcessFacadeInterface $processFacade
+     * @param \Jellyfish\ActivityMonitor\Pm2Interface $pm2
      */
     public function __construct(
-        ProcessFacadeInterface $processFacade
+        Pm2Interface $pm2
     ) {
-        $this->processFacade = $processFacade;
+        $this->pm2 = $pm2;
     }
-
 
     /**
      * @param int $activityId
+     *
      * @return \Jellyfish\ActivityMonitor\ActivityManagerInterface
      */
     public function start(int $activityId): ActivityManagerInterface
     {
-        $process = $this->processFacade->createProcess([static::PM2_CLI, static::ARGUMENT_START, $activityId]);
-
-        $process->start()
-            ->wait();
+        $this->pm2->startActivity($activityId);
 
         return $this;
     }
 
     /**
      * @param int $activityId
+     *
      * @return \Jellyfish\ActivityMonitor\ActivityManagerInterface
      */
     public function stop(int $activityId): ActivityManagerInterface
     {
-        $process = $this->processFacade->createProcess([static::PM2_CLI, static::ARGUMENT_STOP, $activityId]);
-
-        $process->start()
-            ->wait();
+        $this->pm2->stopActivity($activityId);
 
         return $this;
     }
 
     /**
      * @param int $activityId
+     *
      * @return \Jellyfish\ActivityMonitor\ActivityManagerInterface
      */
     public function restart(int $activityId): ActivityManagerInterface
     {
-        $process = $this->processFacade->createProcess([static::PM2_CLI, static::ARGUMENT_RESTART, $activityId]);
-
-        $process->start()
-            ->wait();
+        $this->pm2->restartActivity($activityId);
 
         return $this;
     }
@@ -75,10 +61,7 @@ class ActivityManager implements ActivityManagerInterface
      */
     public function stopAll(): ActivityManagerInterface
     {
-        $process = $this->processFacade->createProcess([static::PM2_CLI, static::ARGUMENT_STOP, static::ARGUMENT_ALL]);
-
-        $process->start()
-            ->wait();
+        $this->pm2->stopAllActivities();
 
         return $this;
     }
@@ -88,10 +71,7 @@ class ActivityManager implements ActivityManagerInterface
      */
     public function restartAll(): ActivityManagerInterface
     {
-        $process = $this->processFacade->createProcess([static::PM2_CLI, static::ARGUMENT_RESTART, static::ARGUMENT_ALL]);
-
-        $process->start()
-            ->wait();
+        $this->pm2->restartAllActivities();
 
         return $this;
     }

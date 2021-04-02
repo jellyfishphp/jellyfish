@@ -30,7 +30,9 @@ class PropertyNameConverter implements PropertyNameConverterInterface
         $convertedPropertyName = preg_replace('/[A-Z]/', '_\\0', lcfirst($propertyName));
 
         if (!is_string($convertedPropertyName)) {
+            // @codeCoverageIgnoreStart
             return null;
+            // @codeCoverageIgnoreEnd
         }
 
         return strtolower($convertedPropertyName);
@@ -54,7 +56,9 @@ class PropertyNameConverter implements PropertyNameConverterInterface
         }, $propertyName);
 
         if (!is_string($camelCasedName)) {
+            // @codeCoverageIgnoreStart
             return null;
+            // @codeCoverageIgnoreEnd
         }
 
         return lcfirst($camelCasedName);

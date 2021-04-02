@@ -33,7 +33,7 @@ interface ActivityMonitorFacadeInterface
     ): ?string;
 
     /**
-     * @return array
+     * @return \Generated\Transfer\ActivityMonitor\Activity[]
      */
     public function getAllActivities(): array;
 
