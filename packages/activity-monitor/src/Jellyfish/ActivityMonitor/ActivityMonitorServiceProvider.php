@@ -7,7 +7,6 @@ namespace Jellyfish\ActivityMonitor;
 use Jellyfish\ActivityMonitor\Serializer\NameConverter\PropertyNameConverterStrategy;
 use Jellyfish\Process\ProcessConstants;
 use Jellyfish\Serializer\SerializerConstants;
-use Jellyfish\Serializer\SerializerFacadeInterface;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

@@ -131,7 +131,8 @@ class Pm2Test extends Unit
         try {
             $this->pm2->getActivities();
             static::fail();
-        } catch (Exception $exception) {}
+        } catch (Exception $exception) {
+        }
     }
 
     /**

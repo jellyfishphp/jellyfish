@@ -101,7 +101,8 @@ class ActivityMonitorFactory
     /**
      * @return \Jellyfish\ActivityMonitor\Pm2Interface
      */
-    protected function getPm2(): Pm2Interface {
+    protected function getPm2(): Pm2Interface
+    {
         if ($this->pm2 === null) {
             $this->pm2 = new Pm2(
                 $this->processFacade,
