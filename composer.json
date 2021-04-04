@@ -89,6 +89,7 @@
   },
   "autoload": {
     "psr-4": {
+      "Jellyfish\\ActivityMonitor\\": "packages/activity-monitor/src/Jellyfish/ActivityMonitor",
       "Jellyfish\\Application\\": "packages/application/src/Jellyfish/Application",
       "Jellyfish\\Cache\\": "packages/cache/src/Jellyfish/Cache",
       "Jellyfish\\CacheSymfony\\": "packages/cache-symfony/src/Jellyfish/CacheSymfony",
@@ -126,6 +127,7 @@
   },
   "autoload-dev": {
     "psr-4": {
+      "Jellyfish\\ActivityMonitor\\": "packages/activity-monitor/tests/Jellyfish/ActivityMonitor",
       "Jellyfish\\Application\\": "packages/application/tests/Jellyfish/Application",
       "Jellyfish\\Cache\\": "packages/cache/tests/Jellyfish/Cache",
       "Jellyfish\\CacheSymfony\\": "packages/cache-symfony/tests/Jellyfish/CacheSymfony",
@@ -158,7 +160,8 @@
       "Jellyfish\\SerializerSymfony\\": "packages/serializer-symfony/tests/Jellyfish/SerializerSymfony",
       "Jellyfish\\Transfer\\": "packages/transfer/tests/Jellyfish/Transfer",
       "Jellyfish\\Uuid\\": "packages/uuid/tests/Jellyfish/Uuid",
-      "Jellyfish\\UuidRamsey\\": "packages/uuid-ramsey/tests/Jellyfish/UuidRamsey"
+      "Jellyfish\\UuidRamsey\\": "packages/uuid-ramsey/tests/Jellyfish/UuidRamsey",
+      "Generated\\": "src/Generated/"
     }
   }
 }
