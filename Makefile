@@ -37,7 +37,7 @@ release:
 	docker run -i -v $(BASE_DIRECTORY):/home/dandelion/project -w /home/dandelion/project dandelionphp/dandelion:2.0.0 dandelion release:all $(BRANCH)
 
 .PHONY: ci
-ci: phpcs phpcpd phpstan codeception
+ci: phpcs phpcpd codeception phpstan
 
 .PHONY: php-cs-fixer
 php-cs-fixer:
