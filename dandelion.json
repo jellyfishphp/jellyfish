@@ -124,6 +124,10 @@
       "path": "packages/queue-rabbit-mq",
       "version": "1.0.0"
     },
+    "road-runner": {
+      "path": "packages/road-runner",
+      "version": "1.0.0"
+    },
     "scheduler": {
       "path": "packages/scheduler",
       "version": "1.0.0"

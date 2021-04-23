@@ -1,6 +1,6 @@
 {
-  "name": "jellyfish/application",
-  "description": "Jellyfish application bundle",
+  "name": "jellyfish/road-runner",
+  "description": "Jellyfish road runner bundle",
   "license": "MIT",
   "authors": [
     {
@@ -9,11 +9,9 @@
     }
   ],
   "require": {
-    "jellyfish/console": "^1.0.0",
-    "jellyfish/http": "^1.0.0",
-    "jellyfish/kernel": "^1.0.0",
     "jellyfish/pimple": "^1.0.0",
-    "jellyfish/road-runner": "^1.0.0"
+    "nyholm/psr7": "^1.0.0",
+    "spiral/roadrunner": "^v2.0.0"
   },
   "require-dev": {
     "codeception/codeception": "^4.0",
@@ -25,15 +23,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\Application\\": "src/Jellyfish/Application"
+      "Jellyfish\\RoadRunner\\": "src/Jellyfish/RoadRunner"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\Application\\": "tests/Jellyfish/Application"
+      "Jellyfish\\RoadRunner\\": "tests/Jellyfish/RoadRunner"
     }
-  },
-  "bin": [
-    "bin/console"
-  ]
+  }
 }

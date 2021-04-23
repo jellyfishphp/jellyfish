@@ -1,4 +1,4 @@
-namespace: application
+namespace: road-runner
 
 suites:
   unit:
@@ -7,6 +7,8 @@ suites:
 settings:
   shuffle: true
   lint: true
+
+bootstrap: _bootstrap.php
 
 paths:
   tests: tests
@@ -19,6 +21,4 @@ coverage:
   include:
     - src/*
   exclude:
-    - src/Jellyfish/Application/RoadRunner.php
-
-bootstrap: _bootstrap.php
+    - src/Jellyfish/RoadRunner/RoadRunnerFactory.php
