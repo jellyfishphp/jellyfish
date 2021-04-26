@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "pimple/pimple": "^3.0.0"
   }
 }

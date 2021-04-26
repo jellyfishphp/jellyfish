@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "jellyfish/pimple": "^1.0.0",
     "nyholm/psr7": "^1.0.0",
     "spiral/roadrunner": "^v2.0.0"

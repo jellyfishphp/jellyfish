@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "jellyfish/uuid": "^1.0.0",
     "ramsey/uuid": "^4.0.0"
   },

@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "dragonmantank/cron-expression": "^v2.0.0 || ^3.0.0",
     "jellyfish/console": "^1.0.0",
     "jellyfish/lock": "^1.0.0",

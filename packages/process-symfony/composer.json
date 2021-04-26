@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "jellyfish/pimple": "^1.0.0",
     "jellyfish/process": "^1.0.0",
     "symfony/process": "^5.0.0"

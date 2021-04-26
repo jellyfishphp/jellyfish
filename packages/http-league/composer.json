@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "jellyfish/http": "^1.0.0",
     "jellyfish/pimple": "^1.0.0",
     "laminas/laminas-diactoros": "^2.0.0",

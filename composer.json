@@ -9,10 +9,7 @@
     }
   ],
   "require": {
-    "php": ">=7.3",
-
-    "ext-json": "*",
-
+    "php": ">=7.4",
     "dragonmantank/cron-expression": "^v2.0.0 || ^3.0.0",
     "guzzlehttp/guzzle": "^6.0.0 || ^7.0.0",
     "laminas/laminas-diactoros": "^2.0.0",

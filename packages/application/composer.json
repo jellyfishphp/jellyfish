@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "jellyfish/console": "^1.0.0",
     "jellyfish/http": "^1.0.0",
     "jellyfish/kernel": "^1.0.0",

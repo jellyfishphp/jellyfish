@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "psr/log": "^1.0.0"
   },
   "require-dev": {

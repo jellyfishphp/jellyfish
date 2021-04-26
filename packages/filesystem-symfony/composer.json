@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "jellyfish/filesystem": "^1.0.0",
     "jellyfish/pimple": "^1.0.0",
     "symfony/filesystem": "^5.0.0"

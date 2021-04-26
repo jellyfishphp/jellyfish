@@ -9,6 +9,7 @@
     }
   ],
   "require-dev": {
+    "php": ">=7.4",
     "codeception/codeception": "^4.0",
     "mikey179/vfsstream": "^v1.6",
     "phpstan/phpstan": "^0.12",

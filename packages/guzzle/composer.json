@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "guzzlehttp/guzzle": "^6.0.0 || ^7.0.0"
   }
 }

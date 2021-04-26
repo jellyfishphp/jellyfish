@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "jellyfish/pimple": "^1.0.0",
     "jellyfish/serializer": "^1.0.0",
     "phpdocumentor/reflection-docblock": "^4.0.0 || ^5.0.0",

@@ -8,6 +8,9 @@
       "email": "daniel-rose@gmx.de"
     }
   ],
+  "require": {
+    "php": ">=7.4"
+  },
   "require-dev": {
     "codeception/codeception": "^4.0",
     "mikey179/vfsstream": "^v1.6",
