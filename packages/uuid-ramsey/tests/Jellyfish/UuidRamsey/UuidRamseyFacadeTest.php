@@ -21,7 +21,7 @@ class UuidRamseyFacadeTest extends Unit
     /**
      * @var \Jellyfish\UuidRamsey\UuidRamseyFacade
      */
-    protected $uuidRamseyFacade;
+    protected UuidRamseyFacade $uuidRamseyFacade;
 
     /**
      * @return void

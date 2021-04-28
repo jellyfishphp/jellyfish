@@ -11,7 +11,7 @@ class UuidGenerator implements UuidGeneratorInterface
     /**
      * @var \Ramsey\Uuid\UuidFactoryInterface
      */
-    protected $uuidFactory;
+    protected UuidFactoryInterface $uuidFactory;
 
     /**
      * @param \Ramsey\Uuid\UuidFactoryInterface $uuidFactory

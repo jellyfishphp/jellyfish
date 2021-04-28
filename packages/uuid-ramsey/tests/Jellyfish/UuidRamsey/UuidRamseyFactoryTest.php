@@ -11,7 +11,7 @@ class UuidRamseyFactoryTest extends Unit
     /**
      * @var \Jellyfish\UuidRamsey\UuidRamseyFactory
      */
-    protected $uuidRamseyFactory;
+    protected UuidRamseyFactory $uuidRamseyFactory;
 
     /**
      * @return void
