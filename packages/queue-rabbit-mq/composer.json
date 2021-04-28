@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "jellyfish/config": "^1.0.0",
     "jellyfish/pimple": "^1.0.0",
     "jellyfish/queue": "^1.0.0",

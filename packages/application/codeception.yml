@@ -18,5 +18,7 @@ coverage:
   enabled: true
   include:
     - src/*
+  exclude:
+    - src/Jellyfish/Application/RoadRunner.php
 
 bootstrap: _bootstrap.php

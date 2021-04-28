@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "codeception/codeception": "^4.0",
     "jellyfish/filesystem-symfony": "^1.0.0",
     "jellyfish/finder-symfony": "^1.0.0",

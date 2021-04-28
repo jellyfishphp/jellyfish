@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "predis/predis": "^1.0.0"
   }
 }

@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4",
     "jellyfish/json-schema": "^1.0.0",
     "jellyfish/pimple": "^1.0.0",
     "opis/json-schema": "^1.0.0"
