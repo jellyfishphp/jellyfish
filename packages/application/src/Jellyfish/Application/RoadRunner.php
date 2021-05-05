@@ -38,7 +38,6 @@ class RoadRunner
         while ($serverRequest = $roadRunnerFacade->waitRequest()) {
             try {
                 $response = $httpFacade->dispatch($serverRequest);
-                $httpFacade->emit($response);
 
                 $roadRunnerFacade->respond($response);
             } catch (Throwable $exception) {
