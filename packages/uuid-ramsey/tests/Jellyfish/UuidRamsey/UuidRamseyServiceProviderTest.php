@@ -11,14 +11,14 @@ use Pimple\Container;
 class UuidRamseyServiceProviderTest extends Unit
 {
     /**
-     * @var \Pimple\Container
+     * @var \Pimple\Container|null
      */
-    protected Container $container;
+    protected ?Container $container = null;
 
     /**
-     * @var \Jellyfish\UuidRamsey\UuidRamseyServiceProvider
+     * @var \Jellyfish\UuidRamsey\UuidRamseyServiceProvider|null
      */
-    protected UuidRamseyServiceProvider $uuidRamseyServiceProvider;
+    protected ?UuidRamseyServiceProvider $uuidRamseyServiceProvider = null;
 
     /**
      * @return void
