@@ -12,7 +12,7 @@ class SerializerSymfonyFacade implements SerializerFacadeInterface
     /**
      * @var \Jellyfish\SerializerSymfony\SerializerSymfonyFactory
      */
-    protected $factory;
+    protected SerializerSymfonyFactory $factory;
 
     /**
      * @param \Jellyfish\SerializerSymfony\SerializerSymfonyFactory $factory

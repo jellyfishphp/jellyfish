@@ -13,7 +13,7 @@ class PropertyNameConverterStrategyProvider implements PropertyNameConverterStra
     /**
      * @var \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface[]
      */
-    protected $propertyNameConverterStrategyList = [];
+    protected array $propertyNameConverterStrategyList = [];
 
     /**
      * @param string $propertyNameConverterStrategyKey

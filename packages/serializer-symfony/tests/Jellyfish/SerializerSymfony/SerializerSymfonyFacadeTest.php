@@ -32,14 +32,14 @@ class SerializerSymfonyFacadeTest extends Unit
     protected $propertyNameConverterStrategyMock;
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected $propertyNameConverterStrategyKey;
+    protected ?string $propertyNameConverterStrategyKey = null;
 
     /**
-     * @var \Jellyfish\SerializerSymfony\SerializerSymfonyFacade
+     * @var \Jellyfish\SerializerSymfony\SerializerSymfonyFacade|null
      */
-    protected $serializerSymfonyFacade;
+    protected ?SerializerSymfonyFacade $serializerSymfonyFacade = null;
 
     /**
      * @return void

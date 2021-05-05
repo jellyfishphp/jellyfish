@@ -9,7 +9,7 @@ class PropertyNameConverter implements PropertyNameConverterInterface
     /**
      * @var \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProviderInterface
      */
-    protected $strategyProvider;
+    protected PropertyNameConverterStrategyProviderInterface $strategyProvider;
 
     /**
      * @param \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProviderInterface $strategyProvider

@@ -12,14 +12,14 @@ use Pimple\Container;
 class SerializerServiceProviderTest extends Unit
 {
     /**
-     * @var \Pimple\Container
+     * @var \Pimple\Container|null
      */
-    protected $container;
+    protected ?Container $container = null;
 
     /**
-     * @var \Jellyfish\SerializerSymfony\SerializerSymfonyServiceProvider
+     * @var \Jellyfish\SerializerSymfony\SerializerSymfonyServiceProvider|null
      */
-    protected $serializerSymfonyServiceProvider;
+    protected ?SerializerSymfonyServiceProvider $serializerSymfonyServiceProvider = null;
 
     /**
      * @return void

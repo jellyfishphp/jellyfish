@@ -19,15 +19,18 @@ use Symfony\Component\Serializer\SerializerInterface as SymfonySerializerInterfa
 class SerializerSymfonyFactory
 {
     /**
-     * @var \Jellyfish\SerializerSymfony\SerializerInterface
+     * @var \Jellyfish\SerializerSymfony\SerializerInterface|null
      */
-    protected $serializer;
+    protected ?SerializerInterface $serializer = null;
 
     /**
-     * @var \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProviderInterface
+     * @var \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProviderInterface|null
      */
-    protected $propertyNameConverterStrategyProvider;
+    protected ?PropertyNameConverterStrategyProviderInterface $propertyNameConverterStrategyProvider = null;
 
+    /**
+     * @return \Jellyfish\SerializerSymfony\SerializerInterface
+     */
     public function getSerializer(): SerializerInterface
     {
         if ($this->serializer === null) {

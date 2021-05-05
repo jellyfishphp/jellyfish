@@ -7,7 +7,7 @@ namespace Jellyfish\SerializerSymfony;
 use ArrayObject;
 use Codeception\Test\Unit;
 use stdClass;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\SerializerInterface as SymfonySerializerInterface;
 
 class SerializerTest extends Unit
 {
@@ -17,9 +17,9 @@ class SerializerTest extends Unit
     protected $symfonySerializerMock;
 
     /**
-     * @var \Jellyfish\SerializerSymfony\SerializerInterface
+     * @var \Jellyfish\SerializerSymfony\SerializerInterface|null
      */
-    protected $serializer;
+    protected ?SerializerInterface $serializer = null;
 
     /**
      * @return void
@@ -28,7 +28,7 @@ class SerializerTest extends Unit
     {
         parent::_before();
 
-        $this->symfonySerializerMock = $this->getMockBuilder(SerializerInterface::class)
+        $this->symfonySerializerMock = $this->getMockBuilder(SymfonySerializerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 

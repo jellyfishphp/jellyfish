@@ -17,27 +17,27 @@ class PropertyNameConverterTest extends Unit
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject[]|\Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface[]
      */
-    protected $propertyNameConverterStrategyMocks;
+    protected ?array $propertyNameConverterStrategyMocks = null;
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected $propertyName;
+    protected ?string $propertyName = null;
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected $class;
+    protected ?string $class = null;
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected $format;
+    protected ?string $format = null;
 
     /**
-     * @var \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverter
+     * @var \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverter|null
      */
-    protected $propertyNameConverter;
+    protected ?\Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverter $propertyNameConverter = null;
 
     /**
      * @return void
