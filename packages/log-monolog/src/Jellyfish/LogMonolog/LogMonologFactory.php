@@ -82,7 +82,7 @@ class LogMonologFactory
     protected function createStreamHandler(): HandlerInterface
     {
         return new StreamHandler(
-            'php://stdout',
+            'php://stderr',
             $this->configFacade->get(LogConstants::LOG_LEVEL, LogConstants::DEFAULT_LOG_LEVEL)
         );
     }
