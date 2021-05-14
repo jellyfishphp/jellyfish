@@ -14,7 +14,7 @@ class JobTest extends Unit
     /**
      * @var \Jellyfish\Scheduler\JobInterface
      */
-    protected $job;
+    protected JobInterface $job;
 
     /**
      * @var \Cron\CronExpression|\PHPUnit\Framework\MockObject\MockObject
@@ -29,7 +29,7 @@ class JobTest extends Unit
     /**
      * @var DateTime
      */
-    protected $dateTime;
+    protected DateTime $dateTime;
 
     /**
      * @return void

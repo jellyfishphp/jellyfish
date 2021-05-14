@@ -22,7 +22,7 @@ class SchedulerFactoryTest extends Unit
     /**
      * @var \Jellyfish\Scheduler\SchedulerFactory
      */
-    protected $schedulerFactory;
+    protected SchedulerFactory $schedulerFactory;
 
     /**
      * @return void

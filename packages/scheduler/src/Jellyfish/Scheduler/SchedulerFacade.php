@@ -9,7 +9,7 @@ class SchedulerFacade implements SchedulerFacadeInterface
     /**
      * @var \Jellyfish\Scheduler\SchedulerFactory
      */
-    protected $factory;
+    protected SchedulerFactory $factory;
 
     /**
      * @param \Jellyfish\Scheduler\SchedulerFactory $factory

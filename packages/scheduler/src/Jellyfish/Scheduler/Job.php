@@ -13,12 +13,12 @@ class Job implements JobInterface
     /**
      * @var \Jellyfish\Process\ProcessInterface
      */
-    protected $process;
+    protected ProcessInterface $process;
 
     /**
      * @var \Cron\CronExpression
      */
-    protected $cronExpression;
+    protected CronExpression $cronExpression;
 
     /**
      * @param \Jellyfish\Process\ProcessInterface $process

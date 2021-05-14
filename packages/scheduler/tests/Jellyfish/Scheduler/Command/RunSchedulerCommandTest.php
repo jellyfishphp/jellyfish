@@ -54,12 +54,12 @@ class RunSchedulerCommandTest extends Unit
     /**
      * @var \Jellyfish\Scheduler\Command\RunSchedulerCommand
      */
-    protected $runSchedulerCommand;
+    protected RunSchedulerCommand $runSchedulerCommand;
 
     /**
      * @var array
      */
-    protected $lockIdentifierParts;
+    protected array $lockIdentifierParts;
 
     /**
      * @return void
