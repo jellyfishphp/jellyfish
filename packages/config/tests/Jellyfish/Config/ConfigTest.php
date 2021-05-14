@@ -16,7 +16,7 @@ class ConfigTest extends Unit
     /**
      * @var \Jellyfish\Config\ConfigInterface
      */
-    protected $config;
+    protected ConfigInterface $config;
 
     /**
      * @return void

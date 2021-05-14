@@ -9,17 +9,17 @@ class ConfigFactory
     /**
      * @var string
      */
-    protected $appDir;
+    protected string $appDir;
 
     /**
      * @var string
      */
-    protected $environment;
+    protected string $environment;
 
     /**
-     * @var \Jellyfish\Config\ConfigInterface
+     * @var \Jellyfish\Config\ConfigInterface|null
      */
-    protected $config;
+    protected ?ConfigInterface $config = null;
 
     /**
      * @param string $appDir

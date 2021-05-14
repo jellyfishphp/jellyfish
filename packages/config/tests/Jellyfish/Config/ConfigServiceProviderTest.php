@@ -16,12 +16,12 @@ class ConfigServiceProviderTest extends Unit
     /**
      * @var \Jellyfish\Config\ConfigServiceProvider
      */
-    protected $configServiceProvider;
+    protected ConfigServiceProvider $configServiceProvider;
 
     /**
-     * @var \Pimple\Container|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @return void

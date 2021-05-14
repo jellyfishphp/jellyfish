@@ -9,7 +9,7 @@ class ConfigFacade implements ConfigFacadeInterface
     /**
      * @var \Jellyfish\Config\ConfigFactory
      */
-    protected $factory;
+    protected ConfigFactory $factory;
 
     /**
      * @param \Jellyfish\Config\ConfigFactory $factory

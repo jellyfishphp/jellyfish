@@ -11,7 +11,7 @@ class ConfigFactoryTest extends Unit
     /**
      * @var \Jellyfish\Config\ConfigFactory
      */
-    protected $configFactory;
+    protected ConfigFactory $configFactory;
 
     /**
      * @return void

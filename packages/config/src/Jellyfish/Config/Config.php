@@ -24,17 +24,17 @@ class Config implements ConfigInterface
     /**
      * @var \ArrayObject
      */
-    protected $config;
+    protected ArrayObject $config;
 
     /**
      * @var string
      */
-    protected $appDir;
+    protected string $appDir;
 
     /**
      * @var string
      */
-    protected $environment;
+    protected string $environment;
 
     /**
      * @param string $appDir

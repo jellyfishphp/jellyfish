@@ -20,7 +20,7 @@ class ConfigFacadeTest extends Unit
     /**
      * @var \Jellyfish\Config\ConfigFacade
      */
-    protected $configFacade;
+    protected ConfigFacade $configFacade;
 
     /**
      * @return void
