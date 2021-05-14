@@ -13,12 +13,12 @@ abstract class AbstractConsumer implements ConsumerInterface
     /**
      * @var \Jellyfish\QueueRabbitMq\ConnectionInterface
      */
-    protected $connection;
+    protected ConnectionInterface $connection;
 
     /**
      * @var \Jellyfish\QueueRabbitMq\MessageMapperInterface
      */
-    protected $messageMapper;
+    protected MessageMapperInterface $messageMapper;
 
     /**
      * @param \Jellyfish\QueueRabbitMq\ConnectionInterface $connection

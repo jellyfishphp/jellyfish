@@ -12,7 +12,7 @@ class DestinationTest extends Unit
     /**
      * @var \Jellyfish\Queue\DestinationInterface
      */
-    protected $destination;
+    protected DestinationInterface $destination;
 
     /**
      * @return void

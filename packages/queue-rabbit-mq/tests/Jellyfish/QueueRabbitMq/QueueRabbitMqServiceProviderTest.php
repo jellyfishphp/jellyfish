@@ -18,12 +18,12 @@ class QueueRabbitMqServiceProviderTest extends Unit
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Jellyfish\QueueRabbitMq\QueueRabbitMqServiceProvider
      */
-    protected $queueRabbitMqServiceProvider;
+    protected QueueRabbitMqServiceProvider $queueRabbitMqServiceProvider;
 
     /**
      * @return void
@@ -38,17 +38,13 @@ class QueueRabbitMqServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet(ConfigConstants::FACADE, static function () use ($self) {
-            return $self->getMockBuilder(ConfigFacadeInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet(ConfigConstants::FACADE, static fn() => $self->getMockBuilder(ConfigFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
-        $this->container->offsetSet(SerializerConstants::FACADE, static function () use ($self) {
-            return $self->getMockBuilder(SerializerFacadeInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet(SerializerConstants::FACADE, static fn() => $self->getMockBuilder(SerializerFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
         $this->queueRabbitMqServiceProvider = new QueueRabbitMqServiceProvider();
     }

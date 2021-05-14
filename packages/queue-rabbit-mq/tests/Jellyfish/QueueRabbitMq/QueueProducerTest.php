@@ -50,17 +50,17 @@ class QueueProducerTest extends Unit
     /**
      * @var string
      */
-    protected $queueName;
+    protected string $queueName;
 
     /**
      * @var string
      */
-    protected $json;
+    protected string $json;
 
     /**
      * @var \Jellyfish\QueueRabbitMq\ProducerInterface
      */
-    protected $queueProducer;
+    protected ProducerInterface $queueProducer;
 
     /**
      * @return void

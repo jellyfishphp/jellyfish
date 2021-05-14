@@ -33,7 +33,7 @@ class QueueRabbitMqFacadeTest extends Unit
     /**
      * @var \Jellyfish\QueueRabbitMq\QueueRabbitMqFacade
      */
-    protected $queueRabbitMqFacade;
+    protected QueueRabbitMqFacade $queueRabbitMqFacade;
 
     /**
      * @Override

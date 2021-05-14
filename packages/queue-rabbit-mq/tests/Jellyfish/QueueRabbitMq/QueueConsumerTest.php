@@ -44,17 +44,17 @@ class QueueConsumerTest extends Unit
     /**
      * @var string
      */
-    protected $queueName;
+    protected string $queueName;
 
     /**
      * @var string
      */
-    protected $json;
+    protected string $json;
 
     /**
      * @var \Jellyfish\QueueRabbitMq\ConsumerInterface
      */
-    protected $queueConsumer;
+    protected ConsumerInterface $queueConsumer;
 
     /**
      * @return void

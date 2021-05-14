@@ -12,17 +12,17 @@ class QueueProducer implements ProducerInterface
     /**
      * @var \Jellyfish\QueueRabbitMq\ConnectionInterface
      */
-    protected $connection;
+    protected ConnectionInterface $connection;
 
     /**
      * @var \Jellyfish\QueueRabbitMq\MessageMapperInterface
      */
-    protected $messageMapper;
+    protected MessageMapperInterface $messageMapper;
 
     /**
      * @var \Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface
      */
-    protected $amqpMessageFactory;
+    protected AmqpMessageFactoryInterface $amqpMessageFactory;
 
     /**
      * @param \Jellyfish\QueueRabbitMq\ConnectionInterface $connection

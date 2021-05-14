@@ -13,12 +13,12 @@ class Message implements MessageInterface
     /**
      * @var array
      */
-    protected $headers;
+    protected array $headers;
 
     /**
      * @var string
      */
-    protected $body;
+    protected string $body;
 
     public function __construct()
     {

@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Jellyfish\QueueRabbitMq;
 
 use Codeception\Test\Unit;
+use Jellyfish\Queue\MessageInterface;
 
 class MessageTest extends Unit
 {
     /**
      * @var \Jellyfish\Queue\MessageInterface
      */
-    protected $message;
+    protected MessageInterface $message;
 
     /**
      * @return void

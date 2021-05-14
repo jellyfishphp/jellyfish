@@ -15,14 +15,14 @@ use function strtolower;
 class Connection implements ConnectionInterface
 {
     /**
-     * @var \PhpAmqpLib\Channel\AMQPChannel
+     * @var \PhpAmqpLib\Channel\AMQPChannel|null
      */
-    protected $channel;
+    protected ?AMQPChannel $channel = null;
 
     /**
      * @var \PhpAmqpLib\Connection\AbstractConnection
      */
-    protected $connection;
+    protected AbstractConnection $connection;
 
     /**
      * @param \PhpAmqpLib\Connection\AbstractConnection $connection

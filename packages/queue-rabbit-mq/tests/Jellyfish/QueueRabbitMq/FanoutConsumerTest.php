@@ -55,27 +55,27 @@ class FanoutConsumerTest extends Unit
     /**
      * @var string
      */
-    protected $queueName;
+    protected string $queueName;
 
     /**
      * @var string
      */
-    protected $bind;
+    protected string $bind;
 
     /**
      * @var string
      */
-    protected $propertyName;
+    protected string $propertyName;
 
     /**
      * @var string
      */
-    protected $json;
+    protected string $json;
 
     /**
      * @var \Jellyfish\QueueRabbitMq\ConsumerInterface
      */
-    protected $fanoutConsumer;
+    protected ConsumerInterface $fanoutConsumer;
 
     /**
      * @return void

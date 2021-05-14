@@ -15,27 +15,27 @@ class QueueRabbitMqFactory
     /**
      * @var \Jellyfish\Config\ConfigFacadeInterface
      */
-    protected $configFacade;
+    protected ConfigFacadeInterface $configFacade;
 
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializerFacade;
+    protected SerializerFacadeInterface $serializerFacade;
 
     /**
-     * @var \Jellyfish\QueueRabbitMq\Connection
+     * @var \Jellyfish\QueueRabbitMq\Connection|null
      */
-    protected $connection;
+    protected ?Connection $connection = null;
 
     /**
-     * @var \Jellyfish\QueueRabbitMq\QueueClientInterface
+     * @var \Jellyfish\QueueRabbitMq\QueueClientInterface|null
      */
-    protected $queueClient;
+    protected ?QueueClientInterface $queueClient = null;
 
     /**
-     * @var \Jellyfish\QueueRabbitMq\DestinationFactoryInterface
+     * @var \Jellyfish\QueueRabbitMq\DestinationFactoryInterface|null
      */
-    protected $destinationFactory;
+    protected ?DestinationFactoryInterface $destinationFactory = null;
 
     /**
      * @param \Jellyfish\Config\ConfigFacadeInterface $configFacade

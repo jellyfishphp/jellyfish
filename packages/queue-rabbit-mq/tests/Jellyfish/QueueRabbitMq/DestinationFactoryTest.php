@@ -11,7 +11,7 @@ class DestinationFactoryTest extends Unit
     /**
      * @var \Jellyfish\QueueRabbitMq\DestinationFactory
      */
-    protected $destinationFactory;
+    protected DestinationFactory $destinationFactory;
 
     /**
      * @return void

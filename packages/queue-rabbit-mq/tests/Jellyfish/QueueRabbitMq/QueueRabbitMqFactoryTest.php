@@ -23,7 +23,7 @@ class QueueRabbitMqFactoryTest extends Unit
     /**
      * @var \Jellyfish\QueueRabbitMq\QueueRabbitMqFactory
      */
-    protected $queueRabbitMqFactory;
+    protected QueueRabbitMqFactory $queueRabbitMqFactory;
 
     /**
      * @return void
