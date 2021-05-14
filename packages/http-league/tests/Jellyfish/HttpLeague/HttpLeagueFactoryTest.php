@@ -14,7 +14,7 @@ class HttpLeagueFactoryTest extends Unit
     /**
      * @var \Jellyfish\HttpLeague\HttpLeagueFactory
      */
-    protected $httpLeagueFactory;
+    protected HttpLeagueFactory $httpLeagueFactory;
 
     /**
      * @return void

@@ -52,7 +52,7 @@ class HttpLeagueFacadeTest extends Unit
     /**
      * @var \Jellyfish\HttpLeague\HttpLeagueFacade
      */
-    protected $httpLeagueFacade;
+    protected HttpLeagueFacade $httpLeagueFacade;
 
     /**
      * @return void

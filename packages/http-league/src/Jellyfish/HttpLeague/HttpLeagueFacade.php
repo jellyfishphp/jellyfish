@@ -15,7 +15,7 @@ class HttpLeagueFacade implements HttpFacadeInterface
     /**
      * @var \Jellyfish\HttpLeague\HttpLeagueFactory
      */
-    protected $factory;
+    protected HttpLeagueFactory $factory;
 
     /**
      * @param \Jellyfish\HttpLeague\HttpLeagueFactory $factory
