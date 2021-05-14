@@ -13,12 +13,12 @@ class ProcessSymfonyServiceProviderTest extends Unit
     /**
      * @var \Jellyfish\ProcessSymfony\ProcessSymfonyServiceProvider
      */
-    protected $processSymfonyServiceProvider;
+    protected ProcessSymfonyServiceProvider $processSymfonyServiceProvider;
 
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @return void

@@ -17,12 +17,12 @@ class Process implements ProcessInterface
     /**
      * @var string[]
      */
-    protected $command;
+    protected array $command;
 
     /**
      * @var \Symfony\Component\Process\Process
      */
-    protected $process;
+    protected SymfonyProcess $process;
 
     /**
      * @param string[] $command

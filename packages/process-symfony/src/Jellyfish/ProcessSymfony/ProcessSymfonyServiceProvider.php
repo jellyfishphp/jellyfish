@@ -27,9 +27,10 @@ class ProcessSymfonyServiceProvider implements ServiceProviderInterface
      */
     protected function registerProcessFacade(Container $container): ProcessSymfonyServiceProvider
     {
-        $container->offsetSet(ProcessConstants::FACADE, static function () {
-            return new ProcessSymfonyFacade(new ProcessSymfonyFactory());
-        });
+        $container->offsetSet(
+            ProcessConstants::FACADE,
+            static fn() => new ProcessSymfonyFacade(new ProcessSymfonyFactory())
+        );
 
         return $this;
     }

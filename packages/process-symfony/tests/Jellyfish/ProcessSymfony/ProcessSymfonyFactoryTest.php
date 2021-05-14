@@ -11,7 +11,7 @@ class ProcessSymfonyFactoryTest extends Unit
     /**
      * @var \Jellyfish\ProcessSymfony\ProcessSymfonyFactory
      */
-    protected $processSymfonyFactory;
+    protected ProcessSymfonyFactory $processSymfonyFactory;
 
     /**
      * @return void
@@ -19,6 +19,7 @@ class ProcessSymfonyFactoryTest extends Unit
     protected function _before(): void
     {
         parent::_before();
+
         $this->processSymfonyFactory = new ProcessSymfonyFactory();
     }
 

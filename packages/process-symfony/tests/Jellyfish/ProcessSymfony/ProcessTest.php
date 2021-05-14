@@ -6,6 +6,7 @@ namespace Jellyfish\ProcessSymfony;
 
 use Codeception\Test\Unit;
 use Exception;
+use Jellyfish\Process\ProcessInterface;
 use Symfony\Component\Process\Process as SymfonyProcess;
 
 class ProcessTest extends Unit
@@ -13,7 +14,7 @@ class ProcessTest extends Unit
     /**
      * @var string[]
      */
-    protected $command;
+    protected array $command;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Process\Process
@@ -23,7 +24,7 @@ class ProcessTest extends Unit
     /**
      * @var \Jellyfish\Process\ProcessInterface
      */
-    protected $process;
+    protected ProcessInterface $process;
 
     /**
      * @return void
