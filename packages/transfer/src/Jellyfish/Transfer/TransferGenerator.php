@@ -11,12 +11,12 @@ class TransferGenerator implements TransferGeneratorInterface
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface
      */
-    protected $classDefinitionMapLoader;
+    protected ClassDefinitionMapLoaderInterface $classDefinitionMapLoader;
 
     /**
-     * @var array
+     * @var \Jellyfish\Transfer\Generator\ClassGeneratorInterface[]
      */
-    protected $classGenerators;
+    protected array $classGenerators;
 
     /**
      * @param \Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface $classDefinitionMapLoader

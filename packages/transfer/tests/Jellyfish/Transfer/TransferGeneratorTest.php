@@ -14,7 +14,7 @@ class TransferGeneratorTest extends Unit
     /**
      * @var \Jellyfish\Transfer\TransferGeneratorInterface
      */
-    protected $transferGenerator;
+    protected TransferGeneratorInterface $transferGenerator;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -24,12 +24,12 @@ class TransferGeneratorTest extends Unit
     /**
      * @var \Jellyfish\Transfer\Generator\ClassGeneratorInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
      */
-    protected $classGeneratorMocks;
+    protected ?array $classGeneratorMocks = null;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinition[]\PHPUnit\Framework\MockObject\MockObject[]
      */
-    protected $classDefinitionMapMock;
+    protected ?array $classDefinitionMapMock = null;
 
     /**
      * @return void

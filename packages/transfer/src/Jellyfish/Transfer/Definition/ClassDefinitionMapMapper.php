@@ -16,7 +16,7 @@ class ClassDefinitionMapMapper implements ClassDefinitionMapMapperInterface
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializerFacade;
+    protected SerializerFacadeInterface $serializerFacade;
 
     /**
      * @param \Jellyfish\Serializer\SerializerFacadeInterface $serializerFacade

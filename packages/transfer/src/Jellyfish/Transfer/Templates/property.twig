@@ -13,7 +13,17 @@
         |null
     {%- endif %}
 {% endset %}
+{% set propertyType %}
+    {%- if property.isNullable() -%}
+        ?
+    {%- endif %}
+    {%- if property.isArray() -%}
+        array
+    {%- else -%}
+        {{- property.getType() -}}
+    {%- endif %}
+{% endset %}
     /**
      * @var {{ atVarTag }} ${{ property.getName }}
      */
-    protected ${{ property.getName }};
+    protected {{ propertyType }} ${{ property.getName }}{% if property.isNullable() %} = null{% endif %};

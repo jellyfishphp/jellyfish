@@ -14,22 +14,22 @@ class ClassDefinitionMapLoader implements ClassDefinitionMapLoaderInterface
     /**
      * @var \Jellyfish\Transfer\Definition\DefinitionFinderInterface
      */
-    protected $definitionFinder;
+    protected DefinitionFinderInterface $definitionFinder;
 
     /**
      * @var \Jellyfish\Filesystem\FilesystemFacadeInterface
      */
-    protected $filesystemFacade;
+    protected FilesystemFacadeInterface $filesystemFacade;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMapperInterface
      */
-    protected $classDefinitionMapMapper;
+    protected ClassDefinitionMapMapperInterface $classDefinitionMapMapper;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMergerInterface
      */
-    protected $classDefinitionMapMerger;
+    protected ClassDefinitionMapMergerInterface $classDefinitionMapMerger;
 
     /**
      * @param \Jellyfish\Transfer\Definition\DefinitionFinderInterface $definitionFinder

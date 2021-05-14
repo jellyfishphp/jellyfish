@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Command;
 
-use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Transfer\TransferFacadeInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,23 +17,15 @@ class TransferGenerateCommand extends Command
     /**
      * @var \Jellyfish\Transfer\TransferFacadeInterface
      */
-    protected $transferFacade;
-
-    /**
-     * @var \Jellyfish\Log\LogFacadeInterface
-     */
-    protected $logFacade;
+    protected TransferFacadeInterface $transferFacade;
 
     /**
      * @param \Jellyfish\Transfer\TransferFacadeInterface $transferFacade
-     * @param \Jellyfish\Log\LogFacadeInterface $logFacade
      */
     public function __construct(
-        TransferFacadeInterface $transferFacade,
-        LogFacadeInterface $logFacade
+        TransferFacadeInterface $transferFacade
     ) {
         $this->transferFacade = $transferFacade;
-        $this->logFacade = $logFacade;
 
         parent::__construct();
     }

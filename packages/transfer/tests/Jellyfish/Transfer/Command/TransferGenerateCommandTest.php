@@ -5,18 +5,12 @@ declare(strict_types=1);
 namespace Jellyfish\Transfer\Command;
 
 use Codeception\Test\Unit;
-use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Transfer\TransferFacadeInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TransferGenerateCommandTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Log\LogFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $logFacadeMock;
-
     /**
      * @var \Jellyfish\Transfer\TransferFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -35,7 +29,7 @@ class TransferGenerateCommandTest extends Unit
     /**
      * @var \Jellyfish\Transfer\Command\TransferGenerateCommand
      */
-    protected $transferGenerateCommand;
+    protected TransferGenerateCommand $transferGenerateCommand;
 
     /**
      * @return void
@@ -43,10 +37,6 @@ class TransferGenerateCommandTest extends Unit
     protected function _before(): void
     {
         parent::_before();
-
-        $this->logFacadeMock = $this->getMockBuilder(LogFacadeInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
 
         $this->transferFacadeMock = $this->getMockBuilder(TransferFacadeInterface::class)
             ->disableOriginalConstructor()
@@ -60,10 +50,7 @@ class TransferGenerateCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->transferGenerateCommand = new TransferGenerateCommand(
-            $this->transferFacadeMock,
-            $this->logFacadeMock
-        );
+        $this->transferGenerateCommand = new TransferGenerateCommand($this->transferFacadeMock);
     }
 
     /**

@@ -11,8 +11,6 @@ use Jellyfish\Filesystem\FilesystemConstants;
 use Jellyfish\Filesystem\FilesystemFacadeInterface;
 use Jellyfish\Finder\FinderConstants;
 use Jellyfish\Finder\FinderFacadeInterface;
-use Jellyfish\Log\LogConstants;
-use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Serializer\SerializerConstants;
 use Jellyfish\Serializer\SerializerFacadeInterface;
 use Jellyfish\Transfer\Command\TransferGenerateCommand;
@@ -29,12 +27,12 @@ class TransferServiceProviderTest extends Unit
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Jellyfish\Transfer\TransferServiceProvider
      */
-    protected $transferServiceProvider;
+    protected TransferServiceProvider $transferServiceProvider;
 
     /**
      * @return void
@@ -53,33 +51,19 @@ class TransferServiceProviderTest extends Unit
 
         $this->container->offsetSet('root_dir', DIRECTORY_SEPARATOR);
 
-        $this->container->offsetSet(ConsoleConstants::FACADE, function () use ($self) {
-            return $self->consoleFacadeMock;
-        });
+        $this->container->offsetSet(ConsoleConstants::FACADE, fn () => $self->consoleFacadeMock);
 
-        $this->container->offsetSet(SerializerConstants::FACADE, function () use ($self) {
-            return $self->getMockBuilder(SerializerFacadeInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet(SerializerConstants::FACADE, fn () => $self->getMockBuilder(SerializerFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
-        $this->container->offsetSet(FinderConstants::FACADE, function () use ($self) {
-            return $self->getMockBuilder(FinderFacadeInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet(FinderConstants::FACADE, fn () => $self->getMockBuilder(FinderFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
-        $this->container->offsetSet(FilesystemConstants::FACADE, function () use ($self) {
-            return $self->getMockBuilder(FilesystemFacadeInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
-
-        $this->container->offsetSet(LogConstants::FACADE, function () use ($self) {
-            return $self->getMockBuilder(LogFacadeInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet(FilesystemConstants::FACADE, fn () => $self->getMockBuilder(FilesystemFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
         $this->transferServiceProvider = new TransferServiceProvider();
     }
@@ -92,9 +76,7 @@ class TransferServiceProviderTest extends Unit
         $this->consoleFacadeMock->expects(static::atLeastOnce())
             ->method('addCommand')
             ->with(
-                static::callback(static function (Command $command) {
-                    return $command instanceof TransferGenerateCommand;
-                })
+                static::callback(static fn (Command $command) => $command instanceof TransferGenerateCommand)
             )->willReturn($this->consoleFacadeMock);
 
         $this->transferServiceProvider->register($this->container);

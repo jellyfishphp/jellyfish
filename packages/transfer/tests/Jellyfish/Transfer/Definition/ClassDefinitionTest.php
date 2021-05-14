@@ -14,7 +14,7 @@ class ClassDefinitionTest extends Unit
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinition
      */
-    protected $classDefinition;
+    protected ClassDefinition $classDefinition;
 
     /**
      * @return void

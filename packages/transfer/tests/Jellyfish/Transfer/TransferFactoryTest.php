@@ -30,12 +30,12 @@ class TransferFactoryTest extends Unit
     /**
      * @var string
      */
-    protected $rootDir;
+    protected string $rootDir;
 
     /**
      * @var \Jellyfish\Transfer\TransferFactory
      */
-    protected $transferFactory;
+    protected TransferFactory $transferFactory;
 
     /**
      * @return void

@@ -11,37 +11,37 @@ class ClassPropertyDefinition implements ClassPropertyDefinitionInterface
     /**
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @var string
      */
-    protected $type;
+    protected string $type;
 
     /**
      * @var string|null
      */
-    protected $typeAlias;
+    protected ?string $typeAlias = null;
 
     /**
      * @var string|null
      */
-    protected $typeNamespace;
+    protected ?string $typeNamespace = null;
 
     /**
      * @var string|null
      */
-    protected $singular;
+    protected ?string $singular = null;
 
     /**
      * @var bool
      */
-    protected $isNullable;
+    protected bool $isNullable;
 
     /**
      * @var bool|null
      */
-    protected $isArray;
+    protected ?bool $isArray = null;
 
     /**
      * @return string

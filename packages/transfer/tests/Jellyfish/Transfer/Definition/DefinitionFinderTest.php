@@ -14,12 +14,12 @@ class DefinitionFinderTest extends Unit
     /**
      * @var \Jellyfish\Transfer\Definition\DefinitionFinder
      */
-    protected $definitionFinder;
+    protected ?DefinitionFinder $definitionFinder;
 
     /**
      * @var string
      */
-    protected $rootDir;
+    protected string $rootDir;
 
     /**
      * @var \Jellyfish\Finder\FinderFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
