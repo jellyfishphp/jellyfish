@@ -8,18 +8,19 @@ use Codeception\Test\Unit;
 use Jellyfish\JsonSchema\JsonSchemaConstants;
 use Jellyfish\JsonSchema\JsonSchemaFacadeInterface;
 use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
 class JsonSchemaOpisServiceProviderTest extends Unit
 {
     /**
      * @var \Pimple\ServiceProviderInterface
      */
-    protected $jsonSchemaOpisServiceProvider;
+    protected ServiceProviderInterface $jsonSchemaOpisServiceProvider;
 
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @return void

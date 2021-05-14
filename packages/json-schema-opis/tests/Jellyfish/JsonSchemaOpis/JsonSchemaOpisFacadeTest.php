@@ -21,17 +21,17 @@ class JsonSchemaOpisFacadeTest extends Unit
     /**
      * @var string
      */
-    protected $json;
+    protected string $json;
 
     /**
      * @var string
      */
-    protected $schema;
+    protected string $schema;
 
     /**
      * @var \Jellyfish\JsonSchemaOpis\JsonSchemaOpisFacade
      */
-    protected $jsonSchemaOpisFacade;
+    protected JsonSchemaOpisFacade $jsonSchemaOpisFacade;
 
     /**
      * @return void

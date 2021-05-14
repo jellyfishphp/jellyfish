@@ -24,14 +24,14 @@ class ValidatorTest extends Unit
     protected $opisValidatorMock;
 
     /**
-     * @var \Opis\JsonSchema\ValidationResult|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Opis\JsonSchema\ValidationResult
      */
-    protected $opisValidationResult;
+    protected OpisValidationResult $opisValidationResult;
 
     /**
      * @var \Jellyfish\JsonSchemaOpis\ValidatorInterface
      */
-    protected $validator;
+    protected ValidatorInterface $validator;
 
     /**
      * @return void
