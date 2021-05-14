@@ -35,7 +35,7 @@ class WorkerTest extends Unit
     /**
      * @var \Jellyfish\RoadRunner\Worker
      */
-    protected $worker;
+    protected Worker $worker;
 
 
     /**

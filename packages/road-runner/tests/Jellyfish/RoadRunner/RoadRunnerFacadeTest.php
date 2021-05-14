@@ -33,7 +33,7 @@ class RoadRunnerFacadeTest extends Unit
     /**
      * @var \Jellyfish\RoadRunner\RoadRunnerFacade
      */
-    protected $roadRunnerFacade;
+    protected RoadRunnerFacade $roadRunnerFacade;
 
     /**
      * @Override

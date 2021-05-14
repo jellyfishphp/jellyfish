@@ -26,9 +26,10 @@ class RoadRunnerServiceProvider implements ServiceProviderInterface
      */
     protected function registerRoadRunnerFacade(Container $container): RoadRunnerServiceProvider
     {
-        $container->offsetSet(RoadRunnerConstants::FACADE, static function (Container $container) {
-            return new RoadRunnerFacade(new RoadRunnerFactory());
-        });
+        $container->offsetSet(
+            RoadRunnerConstants::FACADE,
+            static fn() => new RoadRunnerFacade(new RoadRunnerFactory())
+        );
 
         return $this;
     }
