@@ -30,17 +30,17 @@ class LogEventErrorHandlerTest extends Unit
     /**
      * @var \Exception
      */
-    protected $exception;
+    protected Exception $exception;
 
     /**
      * @var string
      */
-    protected $eventListenerIdentifier;
+    protected string $eventListenerIdentifier;
 
     /**
      * @var \Jellyfish\EventLog\EventErrorHandler\LogEventErrorHandler
      */
-    protected $logEventErrorHandler;
+    protected LogEventErrorHandler $logEventErrorHandler;
 
     /**
      * @return void

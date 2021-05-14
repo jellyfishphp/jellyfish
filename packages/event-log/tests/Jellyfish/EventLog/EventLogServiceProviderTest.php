@@ -12,6 +12,7 @@ use Jellyfish\EventLog\EventErrorHandler\LogEventErrorHandler;
 use Jellyfish\Log\LogConstants;
 use Jellyfish\Log\LogFacadeInterface;
 use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
 class EventLogServiceProviderTest extends Unit
 {
@@ -28,12 +29,12 @@ class EventLogServiceProviderTest extends Unit
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Pimple\ServiceProviderInterface
      */
-    protected $eventLogServiceProvider;
+    protected ServiceProviderInterface $eventLogServiceProvider;
 
     /**
      * @return void
@@ -52,15 +53,11 @@ class EventLogServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet(EventConstants::FACADE, static function () use ($self) {
-            return $self->eventFacadeMock;
-        });
+        $this->container->offsetSet(EventConstants::FACADE, static fn() => $self->eventFacadeMock);
 
-        $this->container->offsetSet(LogConstants::FACADE, static function () use ($self) {
-            return $self->getMockBuilder(LogFacadeInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet(LogConstants::FACADE, static fn() => $self->getMockBuilder(LogFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
         $this->eventLogServiceProvider = new EventLogServiceProvider();
     }
@@ -74,9 +71,7 @@ class EventLogServiceProviderTest extends Unit
             ->method('addDefaultEventErrorHandler')
             ->with(
                 static::callback(
-                    static function (EventErrorHandlerInterface $eventErrorHandler) {
-                        return $eventErrorHandler instanceof LogEventErrorHandler;
-                    }
+                    static fn(EventErrorHandlerInterface $eventErrorHandler) => $eventErrorHandler instanceof LogEventErrorHandler
                 )
             )->willReturn($this->eventFacadeMock);
 
