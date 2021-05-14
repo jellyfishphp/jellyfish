@@ -10,18 +10,19 @@ use Jellyfish\Config\ConfigFacadeInterface;
 use Jellyfish\Log\LogConstants;
 use Jellyfish\Log\LogFacadeInterface;
 use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
 class LogMonologServiceProviderTest extends Unit
 {
     /**
      * @var \Pimple\ServiceProviderInterface
      */
-    protected $logMonologServiceProvider;
+    protected ServiceProviderInterface $logMonologServiceProvider;
 
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Jellyfish\Config\ConfigFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -47,9 +48,7 @@ class LogMonologServiceProviderTest extends Unit
 
         $this->container->offsetSet('root_dir', DIRECTORY_SEPARATOR);
 
-        $this->container->offsetSet(ConfigConstants::FACADE, static function () use ($self) {
-            return $self->configFacadeMock;
-        });
+        $this->container->offsetSet(ConfigConstants::FACADE, static fn() => $self->configFacadeMock);
 
         $this->logMonologServiceProvider = new LogMonologServiceProvider();
     }

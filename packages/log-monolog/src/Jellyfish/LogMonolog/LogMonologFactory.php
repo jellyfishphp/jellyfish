@@ -17,17 +17,17 @@ class LogMonologFactory
     /**
      * @var \Jellyfish\Config\ConfigFacadeInterface
      */
-    protected $configFacade;
+    protected ConfigFacadeInterface $configFacade;
 
     /**
      * @var string
      */
-    protected $rootDir;
+    protected string $rootDir;
 
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var \Psr\Log\LoggerInterface|null
      */
-    protected $logger;
+    protected ?LoggerInterface $logger = null;
 
     /**
      * @param \Jellyfish\Config\ConfigFacadeInterface $configFacade

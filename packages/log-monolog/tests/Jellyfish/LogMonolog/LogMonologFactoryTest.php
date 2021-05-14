@@ -19,7 +19,7 @@ class LogMonologFactoryTest extends Unit
     /**
      * @var \Jellyfish\LogMonolog\LogMonologFactory
      */
-    protected $logMonologFactory;
+    protected LogMonologFactory $logMonologFactory;
 
     /**
      * @return void

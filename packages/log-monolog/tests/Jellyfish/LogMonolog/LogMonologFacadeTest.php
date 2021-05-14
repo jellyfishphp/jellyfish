@@ -22,7 +22,7 @@ class LogMonologFacadeTest extends Unit
     /**
      * @var \Jellyfish\LogMonolog\LogMonologFacade
      */
-    protected $logMonologFacade;
+    protected LogMonologFacade $logMonologFacade;
 
     /**
      * @return void
