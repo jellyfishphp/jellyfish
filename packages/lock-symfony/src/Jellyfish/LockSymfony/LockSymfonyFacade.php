@@ -12,7 +12,7 @@ class LockSymfonyFacade implements LockFacadeInterface
     /**
      * @var \Jellyfish\LockSymfony\LockSymfonyFactory
      */
-    protected $factory;
+    protected LockSymfonyFactory $factory;
 
     /**
      * @param \Jellyfish\LockSymfony\LockSymfonyFactory $factory

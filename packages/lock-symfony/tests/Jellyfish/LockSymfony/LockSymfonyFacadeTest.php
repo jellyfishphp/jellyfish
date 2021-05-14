@@ -22,7 +22,7 @@ class LockSymfonyFacadeTest extends Unit
     /**
      * @var \Jellyfish\LockSymfony\LockSymfonyFacade
      */
-    protected $lockSymfonyFacade;
+    protected LockSymfonyFacade $lockSymfonyFacade;
 
     /**
      * @return void

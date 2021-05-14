@@ -12,7 +12,7 @@ class Lock implements LockInterface
     /**
      * @var \Symfony\Component\Lock\LockInterface
      */
-    protected $symfonyLock;
+    protected SymfonyLockInterface $symfonyLock;
 
     /**
      * @param \Symfony\Component\Lock\LockInterface $symfonyLock

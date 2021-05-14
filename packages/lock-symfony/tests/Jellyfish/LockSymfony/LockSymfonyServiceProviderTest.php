@@ -21,12 +21,12 @@ class LockSymfonyServiceProviderTest extends Unit
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Jellyfish\LockSymfony\LockSymfonyServiceProvider
      */
-    protected $lockSymfonyServiceProvider;
+    protected LockSymfonyServiceProvider $lockSymfonyServiceProvider;
 
     /**
      * @return void
@@ -43,9 +43,7 @@ class LockSymfonyServiceProviderTest extends Unit
 
         $self = $this;
 
-        $this->container->offsetSet(ConfigConstants::FACADE, static function () use ($self) {
-            return $self->configFacadeMock;
-        });
+        $this->container->offsetSet(ConfigConstants::FACADE, static fn() => $self->configFacadeMock);
 
         $this->lockSymfonyServiceProvider = new LockSymfonyServiceProvider();
     }
@@ -54,8 +52,8 @@ class LockSymfonyServiceProviderTest extends Unit
     {
         $this->lockSymfonyServiceProvider->register($this->container);
 
-        self::assertTrue($this->container->offsetExists(LockConstants::FACADE));
-        self::assertInstanceOf(
+        static::assertTrue($this->container->offsetExists(LockConstants::FACADE));
+        static::assertInstanceOf(
             LockFacadeInterface::class,
             $this->container->offsetGet(LockConstants::FACADE)
         );

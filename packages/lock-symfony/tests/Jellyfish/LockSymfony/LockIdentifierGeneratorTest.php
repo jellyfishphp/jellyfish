@@ -15,7 +15,7 @@ class LockIdentifierGeneratorTest extends Unit
     /**
      * @var \Jellyfish\LockSymfony\LockIdentifierGeneratorInterface
      */
-    protected $lockIdentifierGenerator;
+    protected LockIdentifierGeneratorInterface $lockIdentifierGenerator;
 
     /**
      * @return void
@@ -38,6 +38,6 @@ class LockIdentifierGeneratorTest extends Unit
 
         $identifier = $this->lockIdentifierGenerator->generate($identifierParts);
 
-        $this->assertEquals($expectedIdentifier, $identifier);
+        static::assertEquals($expectedIdentifier, $identifier);
     }
 }
