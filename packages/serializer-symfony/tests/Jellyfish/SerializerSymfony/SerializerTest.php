@@ -17,9 +17,9 @@ class SerializerTest extends Unit
     protected $symfonySerializerMock;
 
     /**
-     * @var \Jellyfish\SerializerSymfony\SerializerInterface|null
+     * @var \Jellyfish\SerializerSymfony\SerializerInterface
      */
-    protected ?SerializerInterface $serializer = null;
+    protected SerializerInterface $serializer;
 
     /**
      * @return void

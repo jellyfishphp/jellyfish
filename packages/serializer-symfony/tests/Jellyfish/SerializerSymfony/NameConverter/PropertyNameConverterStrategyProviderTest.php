@@ -15,14 +15,14 @@ class PropertyNameConverterStrategyProviderTest extends Unit
     protected $propertyNameConverterStrategyMock;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected ?string $propertyNameConverterStrategyKey = null;
+    protected string $propertyNameConverterStrategyKey;
 
     /**
-     * @var \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProvider|null
+     * @var \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProvider
      */
-    protected ?PropertyNameConverterStrategyProvider $propertyNameConverterStrategyProvider = null;
+    protected PropertyNameConverterStrategyProvider $propertyNameConverterStrategyProvider;
 
     /**
      * @return void

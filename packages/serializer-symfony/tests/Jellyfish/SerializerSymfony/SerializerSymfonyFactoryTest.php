@@ -10,9 +10,9 @@ use Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProvi
 class SerializerSymfonyFactoryTest extends Unit
 {
     /**
-     * @var \Jellyfish\SerializerSymfony\SerializerSymfonyFactory|null
+     * @var \Jellyfish\SerializerSymfony\SerializerSymfonyFactory
      */
-    protected ?SerializerSymfonyFactory $serializerSymfonyFactory = null;
+    protected SerializerSymfonyFactory $serializerSymfonyFactory;
 
     /**
      * @return void

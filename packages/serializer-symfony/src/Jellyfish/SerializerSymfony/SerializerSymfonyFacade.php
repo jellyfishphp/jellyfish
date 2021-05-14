@@ -22,7 +22,6 @@ class SerializerSymfonyFacade implements SerializerFacadeInterface
         $this->factory = $factory;
     }
 
-
     /**
      * @param object $data
      * @param string $format
