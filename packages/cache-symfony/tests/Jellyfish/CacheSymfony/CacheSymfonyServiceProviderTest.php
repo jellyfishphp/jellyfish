@@ -16,7 +16,7 @@ class CacheSymfonyServiceProviderTest extends Unit
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Jellyfish\Config\ConfigFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -26,7 +26,7 @@ class CacheSymfonyServiceProviderTest extends Unit
     /**
      * @var \Jellyfish\CacheSymfony\CacheSymfonyServiceProvider
      */
-    protected $cacheSymfonyServiceProvider;
+    protected CacheSymfonyServiceProvider $cacheSymfonyServiceProvider;
 
     /**
      * @return void
@@ -43,9 +43,7 @@ class CacheSymfonyServiceProviderTest extends Unit
 
         $self = $this;
 
-        $this->container->offsetSet(ConfigConstants::FACADE, static function () use ($self) {
-            return $self->configFacadeMock;
-        });
+        $this->container->offsetSet(ConfigConstants::FACADE, static fn() => $self->configFacadeMock);
 
         $this->cacheSymfonyServiceProvider = new CacheSymfonyServiceProvider();
     }

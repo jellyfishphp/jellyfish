@@ -12,7 +12,7 @@ class Cache implements CacheInterface
     /**
      * @var \Symfony\Component\Cache\Adapter\AbstractAdapter
      */
-    protected $cacheAdapter;
+    protected AbstractAdapter $cacheAdapter;
 
     /**
      * @param \Symfony\Component\Cache\Adapter\AbstractAdapter $cacheAdapter

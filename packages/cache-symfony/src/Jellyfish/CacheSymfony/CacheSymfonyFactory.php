@@ -15,12 +15,12 @@ class CacheSymfonyFactory
     /**
      * @var \Jellyfish\Config\ConfigFacadeInterface
      */
-    protected $configFacade;
+    protected ConfigFacadeInterface $configFacade;
 
     /**
-     * @var \Jellyfish\CacheSymfony\CacheInterface
+     * @var \Jellyfish\CacheSymfony\CacheInterface|null
      */
-    protected $cache;
+    protected ?CacheInterface $cache = null;
 
     /**
      * @param \Jellyfish\Config\ConfigFacadeInterface $configFacade
