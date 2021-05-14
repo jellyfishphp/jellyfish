@@ -11,7 +11,7 @@ class FilesystemSymfonyFacade implements FilesystemFacadeInterface
     /**
      * @var \Jellyfish\FilesystemSymfony\FilesystemSymfonyFactory
      */
-    protected $factory;
+    protected FilesystemSymfonyFactory $factory;
 
     /**
      * @param \Jellyfish\FilesystemSymfony\FilesystemSymfonyFactory $factory

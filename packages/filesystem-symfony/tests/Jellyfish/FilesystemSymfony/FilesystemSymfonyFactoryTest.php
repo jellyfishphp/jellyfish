@@ -11,7 +11,7 @@ class FilesystemSymfonyFactoryTest extends Unit
     /**
      * @var \Jellyfish\FilesystemSymfony\FilesystemSymfonyFactory
      */
-    protected $filesystemSymfonyFactory;
+    protected FilesystemSymfonyFactory $filesystemSymfonyFactory;
 
     /**
      * @return void

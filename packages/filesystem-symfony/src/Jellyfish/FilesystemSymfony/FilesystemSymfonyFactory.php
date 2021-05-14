@@ -9,9 +9,9 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 class FilesystemSymfonyFactory
 {
     /**
-     * @var \Jellyfish\FilesystemSymfony\FilesystemInterface
+     * @var \Jellyfish\FilesystemSymfony\FilesystemInterface|null
      */
-    protected $filesystem;
+    protected ?FilesystemInterface $filesystem = null;
 
     /**
      * @return \Jellyfish\FilesystemSymfony\FilesystemInterface

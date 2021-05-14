@@ -21,7 +21,7 @@ class FilesystemSymfonyFacadeTest extends Unit
     /**
      * @var \Jellyfish\FilesystemSymfony\FilesystemSymfonyFacade
      */
-    protected $filesystemSymfonyFacade;
+    protected FilesystemSymfonyFacade $filesystemSymfonyFacade;
 
     /**
      * @return void
