@@ -15,7 +15,7 @@ class UserReader implements UserReaderInterface
     /**
      * @var \ArrayObject<string, \Jellyfish\HttpAuthentication\UserInterface>
      */
-    protected $users;
+    protected ArrayObject $users;
 
     /**
      * @param string $appDir

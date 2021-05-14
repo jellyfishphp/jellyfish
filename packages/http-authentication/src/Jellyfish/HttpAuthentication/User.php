@@ -9,17 +9,17 @@ class User implements UserInterface
     /**
      * @var string
      */
-    protected $identifier;
+    protected string $identifier;
 
     /**
      * @var string
      */
-    protected $password;
+    protected string $password;
 
     /**
      * @var string
      */
-    protected $pathRegEx;
+    protected string $pathRegEx;
 
     /**
      * @return string

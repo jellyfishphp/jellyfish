@@ -27,7 +27,7 @@ class HttpAuthenticationFacadeTest extends Unit
     /**
      * @var \Jellyfish\HttpAuthentication\HttpAuthenticationFacade
      */
-    protected $httpAuthenticationFacade;
+    protected HttpAuthenticationFacade $httpAuthenticationFacade;
 
     /**
      * @return void

@@ -11,7 +11,7 @@ class HttpAuthenticationFacade implements HttpAuthenticationFacadeInterface
     /**
      * @var \Jellyfish\HttpAuthentication\HttpAuthenticationFactory
      */
-    protected $factory;
+    protected HttpAuthenticationFactory $factory;
 
     /**
      * @param \Jellyfish\HttpAuthentication\HttpAuthenticationFactory $factory

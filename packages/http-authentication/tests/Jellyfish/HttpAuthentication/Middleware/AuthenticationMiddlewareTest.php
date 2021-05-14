@@ -36,7 +36,7 @@ class AuthenticationMiddlewareTest extends Unit
     /**
      * @var \Jellyfish\HttpAuthentication\Middleware\AuthenticationMiddleware
      */
-    protected $authenticationMiddleware;
+    protected AuthenticationMiddleware $authenticationMiddleware;
 
     /**
      * @return void

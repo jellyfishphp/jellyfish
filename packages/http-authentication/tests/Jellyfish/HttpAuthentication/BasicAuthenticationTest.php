@@ -35,7 +35,7 @@ class BasicAuthenticationTest extends Unit
     /**
      * @var \Jellyfish\HttpAuthentication\BasicAuthentication
      */
-    protected $basicAuthentication;
+    protected BasicAuthentication $basicAuthentication;
 
     /**
      * @return void

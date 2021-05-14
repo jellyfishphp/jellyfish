@@ -12,7 +12,7 @@ class UserReaderTest extends Unit
     /**
      * @var \Jellyfish\HttpAuthentication\UserReader
      */
-    protected $userReader;
+    protected UserReader $userReader;
 
     /**
      * @return void

@@ -16,7 +16,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
     /**
      * @var \Jellyfish\HttpAuthentication\HttpAuthenticationFacadeInterface
      */
-    protected $httpAuthenticationFacade;
+    protected HttpAuthenticationFacadeInterface $httpAuthenticationFacade;
 
     /**
      * @param \Jellyfish\HttpAuthentication\HttpAuthenticationFacadeInterface $httpAuthenticationFacade
