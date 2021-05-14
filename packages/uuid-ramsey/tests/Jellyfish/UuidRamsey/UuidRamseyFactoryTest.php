@@ -9,9 +9,9 @@ use Codeception\Test\Unit;
 class UuidRamseyFactoryTest extends Unit
 {
     /**
-     * @var \Jellyfish\UuidRamsey\UuidRamseyFactory|null
+     * @var \Jellyfish\UuidRamsey\UuidRamseyFactory
      */
-    protected ?UuidRamseyFactory $uuidRamseyFactory = null;
+    protected UuidRamseyFactory $uuidRamseyFactory;
 
     /**
      * @return void

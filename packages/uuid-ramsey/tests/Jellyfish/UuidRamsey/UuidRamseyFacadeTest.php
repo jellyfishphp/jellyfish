@@ -19,9 +19,9 @@ class UuidRamseyFacadeTest extends Unit
     protected $uuidGeneratorMock;
 
     /**
-     * @var \Jellyfish\UuidRamsey\UuidRamseyFacade|null
+     * @var \Jellyfish\UuidRamsey\UuidRamseyFacade
      */
-    protected ?UuidRamseyFacade $uuidRamseyFacade = null;
+    protected UuidRamseyFacade $uuidRamseyFacade;
 
     /**
      * @return void

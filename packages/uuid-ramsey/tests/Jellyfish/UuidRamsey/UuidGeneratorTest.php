@@ -21,9 +21,9 @@ class UuidGeneratorTest extends Unit
     protected $uuidMock;
 
     /**
-     * @var \Jellyfish\UuidRamsey\UuidGenerator|null
+     * @var \Jellyfish\UuidRamsey\UuidGenerator
      */
-    protected ?UuidGenerator $uuidGenerator = null;
+    protected UuidGenerator $uuidGenerator;
 
     /**
      * @return void
