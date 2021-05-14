@@ -20,22 +20,22 @@ class Kernel implements KernelInterface
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var string
      */
-    protected $rootDir;
+    protected string $rootDir;
 
     /**
      * @var string
      */
-    protected $appDir;
+    protected string $appDir;
 
     /**
      * @var string
      */
-    protected $environment;
+    protected string $environment;
 
     /**
      * @param string $rootDir
