@@ -32,7 +32,7 @@ class ConsoleTest extends Unit
     /**
      * @var \Jellyfish\Application\Console
      */
-    protected $console;
+    protected Console $console;
 
     /**
      * @return void
