@@ -18,9 +18,9 @@ class Jellyfish extends Module
     ];
 
     /**
-     * @var \Jellyfish\Transfer\TransferFacadeInterface
+     * @var \Jellyfish\Transfer\TransferFacadeInterface|null
      */
-    protected $transferFacade;
+    protected ?TransferFacadeInterface $transferFacade = null;
 
     /**
      * @return \Jellyfish\Transfer\TransferFacadeInterface

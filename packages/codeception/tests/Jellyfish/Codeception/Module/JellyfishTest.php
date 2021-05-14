@@ -18,7 +18,7 @@ class JellyfishTest extends Unit
     /**
      * @var array
      */
-    protected $config;
+    protected array $config;
 
     /**
      * @var \Jellyfish\Transfer\TransferFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
