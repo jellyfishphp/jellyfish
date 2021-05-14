@@ -28,7 +28,7 @@ class ConsoleFacadeTest extends Unit
     /**
      * @var \Jellyfish\Console\ConsoleFacade
      */
-    protected $consoleFacade;
+    protected ConsoleFacade $consoleFacade;
 
     /**
      * @return void

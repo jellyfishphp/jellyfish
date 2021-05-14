@@ -11,7 +11,7 @@ class ConsoleFacade implements ConsoleFacadeInterface
     /**
      * @var \Jellyfish\Console\ConsoleFactory
      */
-    protected $factory;
+    protected ConsoleFactory $factory;
 
     /**
      * @param \Jellyfish\Console\ConsoleFactory $factory

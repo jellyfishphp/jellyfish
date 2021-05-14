@@ -12,12 +12,12 @@ class ConsoleServiceProviderTest extends Unit
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Jellyfish\Console\ConsoleServiceProvider
      */
-    protected $consoleServiceProvider;
+    protected ConsoleServiceProvider $consoleServiceProvider;
 
     /**
      * @return void

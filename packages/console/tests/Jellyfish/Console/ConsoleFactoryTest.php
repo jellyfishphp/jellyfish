@@ -11,7 +11,7 @@ class ConsoleFactoryTest extends Unit
     /**
      * @var \Jellyfish\Console\ConsoleFactory
      */
-    protected $consoleFactory;
+    protected ConsoleFactory $consoleFactory;
 
     /**
      * @return void
