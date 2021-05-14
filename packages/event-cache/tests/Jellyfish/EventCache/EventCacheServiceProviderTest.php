@@ -14,6 +14,7 @@ use Jellyfish\EventCache\EventErrorHandler\CacheEventErrorHandler;
 use Jellyfish\Serializer\SerializerConstants;
 use Jellyfish\Serializer\SerializerFacadeInterface;
 use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
 class EventCacheServiceProviderTest extends Unit
 {
@@ -25,12 +26,12 @@ class EventCacheServiceProviderTest extends Unit
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Pimple\ServiceProviderInterface
      */
-    protected $eventCacheServiceProvider;
+    protected ServiceProviderInterface $eventCacheServiceProvider;
 
     /**
      * @return void
@@ -49,21 +50,15 @@ class EventCacheServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet(EventConstants::FACADE, static function () use ($self) {
-            return $self->eventFacadeMock;
-        });
+        $this->container->offsetSet(EventConstants::FACADE, static fn() => $self->eventFacadeMock);
 
-        $this->container->offsetSet(CacheConstants::FACADE, static function () use ($self) {
-            return $self->getMockBuilder(CacheFacadeInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet(CacheConstants::FACADE, static fn() => $self->getMockBuilder(CacheFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
-        $this->container->offsetSet(SerializerConstants::FACADE, static function () use ($self) {
-            return $self->getMockBuilder(SerializerFacadeInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet(SerializerConstants::FACADE, static fn() => $self->getMockBuilder(SerializerFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
         $this->eventCacheServiceProvider = new EventCacheServiceProvider();
     }
@@ -77,9 +72,7 @@ class EventCacheServiceProviderTest extends Unit
             ->method('addDefaultEventErrorHandler')
             ->with(
                 static::callback(
-                    static function (EventErrorHandlerInterface $eventErrorHandler) {
-                        return $eventErrorHandler instanceof CacheEventErrorHandler;
-                    }
+                    static fn(EventErrorHandlerInterface $eventErrorHandler) => $eventErrorHandler instanceof CacheEventErrorHandler
                 )
             )->willReturn($this->eventFacadeMock);
 

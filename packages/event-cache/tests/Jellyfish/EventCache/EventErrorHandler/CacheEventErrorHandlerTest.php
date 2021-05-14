@@ -31,17 +31,17 @@ class CacheEventErrorHandlerTest extends Unit
     /**
      * @var \Exception
      */
-    protected $exception;
+    protected Exception $exception;
 
     /**
      * @var string
      */
-    protected $eventListenerIdentifier;
+    protected string $eventListenerIdentifier;
 
     /**
      * @var \Jellyfish\EventCache\EventErrorHandler\CacheEventErrorHandler
      */
-    protected $cacheEventErrorHandler;
+    protected CacheEventErrorHandler $cacheEventErrorHandler;
 
     /**
      * @return void
