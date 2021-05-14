@@ -59,22 +59,22 @@ class EventQueueConsumerTest extends Unit
     /**
      * @var \Jellyfish\Event\EventQueueConsumerInterface
      */
-    protected $eventQueueConsumer;
+    protected EventQueueConsumerInterface $eventQueueConsumer;
 
     /**
      * @var string
      */
-    protected $eventName;
+    protected string $eventName;
 
     /**
      * @var string
      */
-    protected $eventListenerIdentifier;
+    protected string $eventListenerIdentifier;
 
     /**
      * @var string
      */
-    protected $eventQueueName;
+    protected string $eventQueueName;
 
     /**
      * @return void

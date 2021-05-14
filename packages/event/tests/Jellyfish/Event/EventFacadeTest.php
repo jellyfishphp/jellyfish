@@ -56,7 +56,7 @@ class EventFacadeTest extends Unit
     /**
      * @var \Jellyfish\Event\EventFacade
      */
-    protected $eventFacade;
+    protected EventFacade $eventFacade;
 
     /**
      * @return void

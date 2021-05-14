@@ -25,11 +25,6 @@ class EventMapperTest extends Unit
     protected $queueFacadeMock;
 
     /**
-     * @var \Jellyfish\Event\EventMapper
-     */
-    protected $eventMapper;
-
-    /**
      * @var \Jellyfish\Event\EventInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $eventMock;
@@ -43,6 +38,11 @@ class EventMapperTest extends Unit
      * @var \Jellyfish\Serializer\SerializerFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $serializerFacadeMock;
+
+    /**
+     * @var \Jellyfish\Event\EventMapper
+     */
+    protected EventMapper $eventMapper;
 
     /**
      * @return void

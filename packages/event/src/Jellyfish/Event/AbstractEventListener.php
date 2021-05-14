@@ -13,7 +13,7 @@ abstract class AbstractEventListener implements EventListenerInterface
     /**
      * @var \Jellyfish\Event\EventErrorHandlerInterface[]
      */
-    protected $errorHandlers;
+    protected array $errorHandlers;
 
     /**
      * @param \Jellyfish\Event\EventErrorHandlerInterface[] $errorHandlers

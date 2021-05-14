@@ -9,16 +9,16 @@ use function usleep;
 
 class EventQueueWorker implements EventQueueWorkerInterface
 {
-    protected const DELAY_INTERVAL = 1000000;
+    protected const DELAY_INTERVAL = 1_000_000;
 
     /**
      * @var \Jellyfish\Event\EventQueueConsumerInterface
      */
-    protected $eventQueueConsumer;
+    protected EventQueueConsumerInterface $eventQueueConsumer;
     /**
      * @var \Jellyfish\Event\EventListenerProviderInterface
      */
-    protected $eventListenerProvider;
+    protected EventListenerProviderInterface $eventListenerProvider;
 
     /**
      * @param \Jellyfish\Event\EventListenerProviderInterface $eventListenerProvider

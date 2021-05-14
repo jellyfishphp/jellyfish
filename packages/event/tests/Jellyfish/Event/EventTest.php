@@ -12,17 +12,17 @@ class EventTest extends Unit
     /**
      * @var \Jellyfish\Event\EventInterface
      */
-    protected $event;
+    protected EventInterface $event;
 
     /**
      * @var \stdClass
      */
-    protected $payload;
+    protected stdClass $payload;
 
     /**
      * @var string
      */
-    protected $uuid;
+    protected string $uuid;
 
     /**
      * @return void

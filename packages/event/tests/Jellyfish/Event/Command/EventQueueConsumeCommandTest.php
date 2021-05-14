@@ -73,22 +73,22 @@ class EventQueueConsumeCommandTest extends Unit
     /**
      * @var \Jellyfish\Event\Command\EventQueueConsumeCommand
      */
-    protected $eventQueueConsumeCommand;
+    protected EventQueueConsumeCommand $eventQueueConsumeCommand;
 
     /**
      * @var string
      */
-    protected $eventName;
+    protected string $eventName;
 
     /**
      * @var string
      */
-    protected $listenerIdentifier;
+    protected string $listenerIdentifier;
 
     /**
      * @var array
      */
-    protected $lockIdentifierParts;
+    protected array $lockIdentifierParts;
 
     /**
      * @return void

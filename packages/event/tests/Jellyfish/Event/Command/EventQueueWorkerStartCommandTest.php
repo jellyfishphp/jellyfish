@@ -29,7 +29,7 @@ class EventQueueWorkerStartCommandTest extends Unit
     /**
      * @var \Jellyfish\Event\Command\EventQueueWorkerStartCommand
      */
-    protected $eventQueueWorkerStartCommand;
+    protected EventQueueWorkerStartCommand $eventQueueWorkerStartCommand;
 
     /**
      * @return void

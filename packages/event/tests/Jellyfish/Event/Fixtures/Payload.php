@@ -9,7 +9,7 @@ class Payload
     /**
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @return string

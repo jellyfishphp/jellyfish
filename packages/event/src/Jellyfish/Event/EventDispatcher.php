@@ -9,12 +9,12 @@ class EventDispatcher implements EventDispatcherInterface
     /**
      * @var \Jellyfish\Event\EventListenerProviderInterface
      */
-    protected $eventListenerProvider;
+    protected EventListenerProviderInterface $eventListenerProvider;
 
     /**
      * @var \Jellyfish\Event\EventQueueProducerInterface
      */
-    protected $eventQueueProducer;
+    protected EventQueueProducerInterface $eventQueueProducer;
 
     /**
      * @param \Jellyfish\Event\EventListenerProviderInterface $eventListenerProvider

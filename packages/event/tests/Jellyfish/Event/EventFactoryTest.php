@@ -15,7 +15,7 @@ class EventFactoryTest extends Unit
     /**
      * @var \Jellyfish\Event\EventFactory
      */
-    protected $eventFactory;
+    protected EventFactory $eventFactory;
 
     /**
      * @var \Jellyfish\Process\ProcessFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
