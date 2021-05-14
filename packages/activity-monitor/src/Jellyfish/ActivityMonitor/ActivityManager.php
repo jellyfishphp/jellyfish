@@ -9,7 +9,7 @@ class ActivityManager implements ActivityManagerInterface
     /**
      * @var \Jellyfish\ActivityMonitor\Pm2Interface
      */
-    protected $pm2;
+    protected Pm2Interface $pm2;
 
     /**
      * @param \Jellyfish\ActivityMonitor\Pm2Interface $pm2

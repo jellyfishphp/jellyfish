@@ -32,37 +32,37 @@ class ActivityMonitorFacadeTest extends Unit
     /**
      * @var \Generated\Transfer\ActivityMonitor\Activity[]|\PHPUnit\Framework\MockObject\MockObject[]
      */
-    protected $activityMocks;
+    protected array $activityMocks;
 
     /**
      * @var string
      */
-    protected $format;
+    protected string $format;
 
     /**
      * @var string
      */
-    protected $class;
+    protected string $class;
 
     /**
      * @var string
      */
-    protected $camelCasedPropertyName;
+    protected string $camelCasedPropertyName;
 
     /**
      * @var string
      */
-    protected $snakeCasedPropertyName;
+    protected string $snakeCasedPropertyName;
 
     /**
      * @var int
      */
-    protected $activityId;
+    protected int $activityId;
 
     /**
      * @var \Jellyfish\ActivityMonitor\ActivityMonitorFacade
      */
-    protected $activityMonitorFacade;
+    protected ActivityMonitorFacade $activityMonitorFacade;
 
     /**
      * @return void

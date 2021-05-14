@@ -11,27 +11,27 @@ class PropertyNameConverterTest extends Unit
     /**
      * @var string
      */
-    protected $format;
+    protected string $format;
 
     /**
      * @var string
      */
-    protected $class;
+    protected string $class;
 
     /**
      * @var string
      */
-    protected $camelCasedPropertyName;
+    protected string $camelCasedPropertyName;
 
     /**
      * @var string
      */
-    protected $snakeCasedPropertyName;
+    protected string $snakeCasedPropertyName;
 
     /**
      * @var \Jellyfish\ActivityMonitor\PropertyNameConverter
      */
-    protected $propertyNameConverter;
+    protected PropertyNameConverter $propertyNameConverter;
 
     /**
      * @return void

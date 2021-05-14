@@ -32,12 +32,12 @@ class Pm2Test extends Unit
     /**
      * @var \Generated\Transfer\Pm2\Activity[]|\PHPUnit\Framework\MockObject\MockObject[]
      */
-    protected $pm2ActivityMocks;
+    protected array $pm2ActivityMocks;
 
     /**
      * @var \Jellyfish\ActivityMonitor\Pm2
      */
-    protected $pm2;
+    protected Pm2 $pm2;
 
     /**
      * @return void

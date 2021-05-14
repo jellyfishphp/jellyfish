@@ -51,9 +51,11 @@ class PropertyNameConverter implements PropertyNameConverterInterface
             return null;
         }
 
-        $camelCasedName = preg_replace_callback('/(^|_|\.)+(.)/', static function (array $match) {
-            return ('.' === $match[1] ? '_' : '') . strtoupper($match[2]);
-        }, $propertyName);
+        $camelCasedName = preg_replace_callback(
+            '/(^|_|\.)+(.)/',
+            static fn(array $match) => ('.' === $match[1] ? '_' : '') . strtoupper($match[2]),
+            $propertyName
+        );
 
         if (!is_string($camelCasedName)) {
             // @codeCoverageIgnoreStart

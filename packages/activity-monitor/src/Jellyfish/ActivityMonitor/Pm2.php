@@ -25,12 +25,12 @@ class Pm2 implements Pm2Interface
     /**
      * @var \Jellyfish\Process\ProcessFacadeInterface
      */
-    protected $processFacade;
+    protected ProcessFacadeInterface $processFacade;
 
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializerFacade;
+    protected SerializerFacadeInterface $serializerFacade;
 
     /**
      * @param \Jellyfish\Process\ProcessFacadeInterface $processFacade

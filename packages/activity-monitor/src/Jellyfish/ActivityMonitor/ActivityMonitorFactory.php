@@ -12,32 +12,32 @@ class ActivityMonitorFactory
     /**
      * @var \Jellyfish\Process\ProcessFacadeInterface
      */
-    protected $processFacade;
+    protected ProcessFacadeInterface $processFacade;
 
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializerFacade;
+    protected SerializerFacadeInterface $serializerFacade;
 
     /**
-     * @var \Jellyfish\ActivityMonitor\ActivityReaderInterface
+     * @var \Jellyfish\ActivityMonitor\ActivityReaderInterface|null
      */
-    protected $activityReader;
+    protected ?ActivityReaderInterface $activityReader = null;
 
     /**
-     * @var \Jellyfish\ActivityMonitor\PropertyNameConverterInterface
+     * @var \Jellyfish\ActivityMonitor\PropertyNameConverterInterface|null
      */
-    protected $propertyNameConverter;
+    protected ?PropertyNameConverterInterface $propertyNameConverter = null;
 
     /**
-     * @var \Jellyfish\ActivityMonitor\ActivityManagerInterface
+     * @var \Jellyfish\ActivityMonitor\ActivityManagerInterface|null
      */
-    protected $activityManager;
+    protected ?ActivityManagerInterface $activityManager = null;
 
     /**
-     * @var \Jellyfish\ActivityMonitor\Pm2Interface
+     * @var \Jellyfish\ActivityMonitor\Pm2Interface|null
      */
-    protected $pm2;
+    protected ?Pm2Interface $pm2 = null;
 
     /**
      * @param \Jellyfish\Process\ProcessFacadeInterface $processFacade

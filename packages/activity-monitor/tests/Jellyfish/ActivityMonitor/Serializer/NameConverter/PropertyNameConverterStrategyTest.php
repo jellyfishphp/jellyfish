@@ -12,22 +12,22 @@ class PropertyNameConverterStrategyTest extends Unit
     /**
      * @var string
      */
-    protected $class;
+    protected string $class;
 
     /**
      * @var string
      */
-    protected $format;
+    protected string $format;
 
     /**
      * @var string
      */
-    protected $camelCasedPropertyName;
+    protected string $camelCasedPropertyName;
 
     /**
      * @var string
      */
-    protected $snakeCasedPropertyName;
+    protected string $snakeCasedPropertyName;
 
     /**
      * @var \Jellyfish\ActivityMonitor\ActivityMonitorFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -37,7 +37,7 @@ class PropertyNameConverterStrategyTest extends Unit
     /**
      * @var \Jellyfish\ActivityMonitor\Serializer\NameConverter\PropertyNameConverterStrategy
      */
-    protected $propertyNameConverterStrategy;
+    protected PropertyNameConverterStrategy $propertyNameConverterStrategy;
 
     /**
      * @return void

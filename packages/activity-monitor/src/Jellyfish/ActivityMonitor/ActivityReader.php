@@ -11,12 +11,12 @@ class ActivityReader implements ActivityReaderInterface
     /**
      * @var \Jellyfish\ActivityMonitor\Pm2Interface
      */
-    protected $pm2;
+    protected Pm2Interface $pm2;
 
     /**
      * @var \Jellyfish\ActivityMonitor\ActivityMapperInterface
      */
-    protected $activityMapper;
+    protected ActivityMapperInterface $activityMapper;
 
     /**
      * @param \Jellyfish\ActivityMonitor\Pm2Interface $pm2
