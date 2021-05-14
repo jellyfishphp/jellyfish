@@ -27,9 +27,10 @@ class FinderSymfonyServiceProvider implements ServiceProviderInterface
      */
     protected function registerFinderFacade(Container $container): FinderSymfonyServiceProvider
     {
-        $container->offsetSet(FinderConstants::FACADE, function () {
-            return new FinderSymfonyFacade(new FinderSymfonyFactory());
-        });
+        $container->offsetSet(
+            FinderConstants::FACADE,
+            static fn() => new FinderSymfonyFacade(new FinderSymfonyFactory())
+        );
 
         return $this;
     }

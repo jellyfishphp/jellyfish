@@ -6,6 +6,7 @@ namespace Jellyfish\FinderSymfony;
 
 use Codeception\Test\Unit;
 use Iterator;
+use Jellyfish\Finder\FinderInterface;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 
@@ -24,7 +25,7 @@ class FinderTest extends Unit
     /**
      * @var \Jellyfish\Finder\FinderInterface
      */
-    protected $finder;
+    protected FinderInterface $finder;
 
     /**
      * @return void
