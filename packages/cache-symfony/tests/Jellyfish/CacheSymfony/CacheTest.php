@@ -17,14 +17,14 @@ class CacheTest extends Unit
     protected $cacheAdapterMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Contracts\Cache\ItemInterface
      */
     protected $cacheItemMock;
 
     /**
      * @var \Jellyfish\CacheSymfony\CacheInterface
      */
-    protected $cache;
+    protected CacheInterface $cache;
 
     /**
      * @return void

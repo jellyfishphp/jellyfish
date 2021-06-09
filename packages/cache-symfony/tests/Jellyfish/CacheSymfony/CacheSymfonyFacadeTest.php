@@ -21,7 +21,7 @@ class CacheSymfonyFacadeTest extends Unit
     /**
      * @var \Jellyfish\CacheSymfony\CacheSymfonyFacade
      */
-    protected $cacheSymfonyFacade;
+    protected CacheSymfonyFacade $cacheSymfonyFacade;
 
     /**
      * @return void

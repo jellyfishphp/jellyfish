@@ -11,7 +11,7 @@ class CacheSymfonyFacade implements CacheFacadeInterface
     /**
      * @var \Jellyfish\CacheSymfony\CacheSymfonyFactory
      */
-    protected $factory;
+    protected CacheSymfonyFactory $factory;
 
     /**
      * @param \Jellyfish\CacheSymfony\CacheSymfonyFactory $factory
