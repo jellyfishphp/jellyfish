@@ -17,7 +17,7 @@ class KernelTest extends Unit
     /**
      * @var string
      */
-    protected $rootDir;
+    protected string $rootDir;
 
     /**
      * @return void
