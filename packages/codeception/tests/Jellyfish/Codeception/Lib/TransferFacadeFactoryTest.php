@@ -12,7 +12,7 @@ class TransferFacadeFactoryTest extends Unit
     /**
      * @var \Jellyfish\Codeception\Lib\TransferFacadeFactory
      */
-    protected $transferFacadeFactory;
+    protected TransferFacadeFactory $transferFacadeFactory;
 
     /**
      * @return void
