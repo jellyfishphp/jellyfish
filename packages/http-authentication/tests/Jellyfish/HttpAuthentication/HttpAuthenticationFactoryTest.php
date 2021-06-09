@@ -19,7 +19,7 @@ class HttpAuthenticationFactoryTest extends Unit
     /**
      * @var \Jellyfish\HttpAuthentication\HttpAuthenticationFactory
      */
-    protected $httpAuthenticationFactory;
+    protected HttpAuthenticationFactory $httpAuthenticationFactory;
 
     /**
      * @return void

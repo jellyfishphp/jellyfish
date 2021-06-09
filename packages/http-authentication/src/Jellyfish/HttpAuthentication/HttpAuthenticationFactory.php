@@ -9,12 +9,12 @@ class HttpAuthenticationFactory
     /**
      * @var string
      */
-    protected $appDir;
+    protected string $appDir;
 
     /**
-     * @var \Jellyfish\HttpAuthentication\AuthenticationInterface
+     * @var \Jellyfish\HttpAuthentication\AuthenticationInterface|null
      */
-    protected $authentication;
+    protected ?AuthenticationInterface $authentication = null;
 
     /**
      * @param string $appDir

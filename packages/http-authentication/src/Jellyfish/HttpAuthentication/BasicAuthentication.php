@@ -21,7 +21,7 @@ class BasicAuthentication implements AuthenticationInterface
     /**
      * @var \Jellyfish\HttpAuthentication\UserReaderInterface
      */
-    protected $userReader;
+    protected UserReaderInterface $userReader;
 
     /**
      * @param \Jellyfish\HttpAuthentication\UserReaderInterface $userReader

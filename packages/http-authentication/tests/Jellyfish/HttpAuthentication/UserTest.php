@@ -11,7 +11,7 @@ class UserTest extends Unit
     /**
      * @var \Jellyfish\HttpAuthentication\UserInterface
      */
-    protected $user;
+    protected UserInterface $user;
 
     /**
      * @return void

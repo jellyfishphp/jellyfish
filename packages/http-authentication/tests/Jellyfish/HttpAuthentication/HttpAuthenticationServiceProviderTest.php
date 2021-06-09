@@ -21,12 +21,12 @@ class HttpAuthenticationServiceProviderTest extends Unit
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Jellyfish\HttpAuthentication\HttpAuthenticationServiceProvider
      */
-    protected $httpAuthenticationServiceProvider;
+    protected HttpAuthenticationServiceProvider $httpAuthenticationServiceProvider;
 
     /**
      * @return void
@@ -41,15 +41,11 @@ class HttpAuthenticationServiceProviderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->container->offsetSet('app_dir', static function () {
-            return DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR;
-        });
+        $this->container->offsetSet('app_dir', static fn() => DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR);
 
         $self = $this;
 
-        $this->container->offsetSet(HttpConstants::FACADE, static function () use ($self) {
-            return $self->httpFacadeMock;
-        });
+        $this->container->offsetSet(HttpConstants::FACADE, static fn() => $self->httpFacadeMock);
 
         $this->httpAuthenticationServiceProvider = new HttpAuthenticationServiceProvider();
     }
@@ -63,9 +59,7 @@ class HttpAuthenticationServiceProviderTest extends Unit
             ->method('addMiddleware')
             ->with(
                 static::callback(
-                    static function (MiddlewareInterface $middleware) {
-                        return $middleware instanceof AuthenticationMiddleware;
-                    }
+                    static fn(MiddlewareInterface $middleware) => $middleware instanceof AuthenticationMiddleware
                 )
             )->willReturn($this->httpFacadeMock);
 
