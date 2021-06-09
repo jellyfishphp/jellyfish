@@ -42,7 +42,7 @@ class HttpTest extends Unit
     /**
      * @var \Jellyfish\Application\Http
      */
-    protected $http;
+    protected Http $http;
 
     /**
      * @return void

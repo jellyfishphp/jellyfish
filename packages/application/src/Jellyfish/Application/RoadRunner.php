@@ -14,7 +14,7 @@ class RoadRunner
     /**
      * @var \Jellyfish\Kernel\KernelInterface
      */
-    protected $kernel;
+    protected KernelInterface $kernel;
 
     /**
      * @param \Jellyfish\Kernel\KernelInterface $kernel
