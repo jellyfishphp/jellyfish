@@ -27,9 +27,7 @@ class UuidRamseyServiceProvider implements ServiceProviderInterface
      */
     protected function registerUuidFacade(Container $container): UuidRamseyServiceProvider
     {
-        $container->offsetSet(UuidConstants::FACADE, static function () {
-            return new UuidRamseyFacade(new UuidRamseyFactory());
-        });
+        $container->offsetSet(UuidConstants::FACADE, static fn () => new UuidRamseyFacade(new UuidRamseyFactory()));
 
         return $this;
     }

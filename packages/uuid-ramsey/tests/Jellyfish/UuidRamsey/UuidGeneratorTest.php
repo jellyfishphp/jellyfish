@@ -23,7 +23,7 @@ class UuidGeneratorTest extends Unit
     /**
      * @var \Jellyfish\UuidRamsey\UuidGenerator
      */
-    protected $uuidGenerator;
+    protected UuidGenerator $uuidGenerator;
 
     /**
      * @return void

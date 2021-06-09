@@ -11,7 +11,7 @@ class UuidRamseyFacade implements UuidFacadeInterface
     /**
      * @var \Jellyfish\UuidRamsey\UuidRamseyFactory
      */
-    protected $factory;
+    protected UuidRamseyFactory $factory;
 
     /**
      * @param \Jellyfish\UuidRamsey\UuidRamseyFactory $factory
