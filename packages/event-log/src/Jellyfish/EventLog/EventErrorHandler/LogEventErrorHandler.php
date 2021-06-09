@@ -14,7 +14,7 @@ class LogEventErrorHandler implements EventErrorHandlerInterface
     /**
      * @var \Jellyfish\Log\LogFacadeInterface
      */
-    protected $logFacade;
+    protected LogFacadeInterface $logFacade;
 
     /**
      * @param \Jellyfish\Log\LogFacadeInterface $logFacade
