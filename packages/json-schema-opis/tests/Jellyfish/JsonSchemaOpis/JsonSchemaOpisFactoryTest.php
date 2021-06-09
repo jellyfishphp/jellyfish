@@ -11,12 +11,12 @@ class JsonSchemaOpisFactoryTest extends Unit
     /**
      * @var string
      */
-    protected $schema;
+    protected string $schema;
 
     /**
      * @var \Jellyfish\JsonSchemaOpis\JsonSchemaOpisFactory
      */
-    protected $jsonSchemaOpisFactory;
+    protected JsonSchemaOpisFactory $jsonSchemaOpisFactory;
 
     /**
      * @return void

@@ -14,12 +14,12 @@ class Validator implements ValidatorInterface
     /**
      * @var \Opis\JsonSchema\IValidator
      */
-    protected $opisValidator;
+    protected OpisValidatorInterface $opisValidator;
 
     /**
      * @var \Opis\JsonSchema\ISchema
      */
-    protected $opisSchema;
+    protected OpisSchemaInterface $opisSchema;
 
     /**
      * @param \Opis\JsonSchema\IValidator $opisValidator

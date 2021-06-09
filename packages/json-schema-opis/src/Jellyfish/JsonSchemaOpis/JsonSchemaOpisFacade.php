@@ -11,7 +11,7 @@ class JsonSchemaOpisFacade implements JsonSchemaFacadeInterface
     /**
      * @var \Jellyfish\JsonSchemaOpis\JsonSchemaOpisFactory
      */
-    protected $factory;
+    protected JsonSchemaOpisFactory $factory;
 
     /**
      * @param \Jellyfish\JsonSchemaOpis\JsonSchemaOpisFactory $factory
