@@ -27,11 +27,9 @@ class SerializerSymfonyServiceProvider implements ServiceProviderInterface
      */
     protected function registerSerializerFacade(Container $container): SerializerSymfonyServiceProvider
     {
-        $container->offsetSet(SerializerConstants::FACADE, static function () {
-            return new SerializerSymfonyFacade(
-                new SerializerSymfonyFactory()
-            );
-        });
+        $container->offsetSet(SerializerConstants::FACADE, static fn() => new SerializerSymfonyFacade(
+            new SerializerSymfonyFactory()
+        ));
 
         return $this;
     }

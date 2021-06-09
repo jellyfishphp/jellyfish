@@ -14,12 +14,12 @@ class SerializerServiceProviderTest extends Unit
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Jellyfish\SerializerSymfony\SerializerSymfonyServiceProvider
      */
-    protected $serializerSymfonyServiceProvider;
+    protected SerializerSymfonyServiceProvider $serializerSymfonyServiceProvider;
 
     /**
      * @return void

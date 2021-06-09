@@ -17,12 +17,12 @@ class PropertyNameConverterStrategyProviderTest extends Unit
     /**
      * @var string
      */
-    protected $propertyNameConverterStrategyKey;
+    protected string $propertyNameConverterStrategyKey;
 
     /**
      * @var \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterStrategyProvider
      */
-    protected $propertyNameConverterStrategyProvider;
+    protected PropertyNameConverterStrategyProvider $propertyNameConverterStrategyProvider;
 
     /**
      * @return void

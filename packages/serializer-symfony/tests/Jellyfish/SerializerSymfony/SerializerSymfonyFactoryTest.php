@@ -12,7 +12,7 @@ class SerializerSymfonyFactoryTest extends Unit
     /**
      * @var \Jellyfish\SerializerSymfony\SerializerSymfonyFactory
      */
-    protected $serializerSymfonyFactory;
+    protected SerializerSymfonyFactory $serializerSymfonyFactory;
 
     /**
      * @return void

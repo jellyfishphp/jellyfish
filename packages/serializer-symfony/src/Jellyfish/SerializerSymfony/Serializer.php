@@ -14,7 +14,7 @@ class Serializer implements SerializerInterface
     /**
      * @var \Symfony\Component\Serializer\SerializerInterface
      */
-    protected $symfonySerializer;
+    protected SymfonySerializerInterface $symfonySerializer;
 
     /**
      * @param \Symfony\Component\Serializer\SerializerInterface $symfonySerializer
