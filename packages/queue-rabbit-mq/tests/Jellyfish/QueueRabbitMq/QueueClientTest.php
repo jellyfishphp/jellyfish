@@ -34,7 +34,7 @@ class QueueClientTest extends Unit
     /**
      * @var \Jellyfish\QueueRabbitMq\QueueClientInterface
      */
-    protected $queueClient;
+    protected QueueClientInterface $queueClient;
 
     /**
      * @return void

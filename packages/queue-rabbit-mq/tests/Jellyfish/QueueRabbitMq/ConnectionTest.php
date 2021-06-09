@@ -32,7 +32,7 @@ class ConnectionTest extends Unit
     /**
      * @var \Jellyfish\QueueRabbitMq\ConnectionInterface
      */
-    protected $connection;
+    protected ConnectionInterface $connection;
 
     /**
      * @return void

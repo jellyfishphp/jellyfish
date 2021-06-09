@@ -11,17 +11,17 @@ class Destination implements DestinationInterface
     /**
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @var string
      */
-    protected $type;
+    protected string $type;
 
     /**
      * @var string[]
      */
-    protected $properties;
+    protected array $properties;
 
     public function __construct()
     {

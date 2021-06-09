@@ -50,17 +50,17 @@ class FanoutProducerTest extends Unit
     /**
      * @var string
      */
-    protected $queueName;
+    protected string $queueName;
 
     /**
      * @var string
      */
-    protected $json;
+    protected string $json;
 
     /**
      * @var \Jellyfish\QueueRabbitMq\FanoutProducer
      */
-    protected $fanoutProducer;
+    protected FanoutProducer $fanoutProducer;
 
     /**
      * @return void

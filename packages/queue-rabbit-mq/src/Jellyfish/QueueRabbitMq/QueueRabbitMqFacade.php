@@ -13,7 +13,7 @@ class QueueRabbitMqFacade implements QueueFacadeInterface
     /**
      * @var \Jellyfish\QueueRabbitMq\QueueRabbitMqFactory
      */
-    protected $factory;
+    protected QueueRabbitMqFactory $factory;
 
     /**
      * @param \Jellyfish\QueueRabbitMq\QueueRabbitMqFactory $factory

@@ -13,7 +13,7 @@ class FanoutConsumer extends AbstractConsumer
     /**
      * @var \Jellyfish\QueueRabbitMq\DestinationFactoryInterface
      */
-    protected $destinationFactory;
+    protected DestinationFactoryInterface $destinationFactory;
 
     /**
      * @param \Jellyfish\QueueRabbitMq\ConnectionInterface $connection

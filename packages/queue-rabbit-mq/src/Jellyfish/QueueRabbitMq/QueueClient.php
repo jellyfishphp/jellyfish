@@ -16,12 +16,12 @@ class QueueClient implements QueueClientInterface
     /**
      * @var \Jellyfish\QueueRabbitMq\ConsumerInterface[]
      */
-    protected $consumers;
+    protected array $consumers;
 
     /**
      * @var \Jellyfish\QueueRabbitMq\ProducerInterface[]
      */
-    protected $producers;
+    protected array $producers;
 
     /**
      * @param \Jellyfish\QueueRabbitMq\ConsumerInterface[] $consumers

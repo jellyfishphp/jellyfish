@@ -23,12 +23,12 @@ class MessageMapperTest extends Unit
     /**
      * @var string
      */
-    protected $json;
+    protected string $json;
 
     /**
      * @var \Jellyfish\QueueRabbitMq\MessageMapperInterface
      */
-    protected $messageMapper;
+    protected MessageMapperInterface $messageMapper;
 
     /**
      * @return void

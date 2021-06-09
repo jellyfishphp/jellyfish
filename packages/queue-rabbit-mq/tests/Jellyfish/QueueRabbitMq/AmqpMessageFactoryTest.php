@@ -12,7 +12,7 @@ class AmqpMessageFactoryTest extends Unit
     /**
      * @var \Jellyfish\QueueRabbitMq\AmqpMessageFactory
      */
-    protected $amqpMessageFactory;
+    protected AmqpMessageFactory $amqpMessageFactory;
 
     /**
      * @return void
