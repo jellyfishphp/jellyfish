@@ -12,7 +12,7 @@ class LogMonologFacade implements LogFacadeInterface
     /**
      * @var \Jellyfish\LogMonolog\LogMonologFactory
      */
-    protected $factory;
+    protected LogMonologFactory $factory;
 
     /**
      * @param \Jellyfish\LogMonolog\LogMonologFactory $factory
