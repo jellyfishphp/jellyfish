@@ -12,7 +12,7 @@ class PropertyNameConverterStrategy implements PropertyNameConverterStrategyInte
     /**
      * @var \Jellyfish\ActivityMonitor\ActivityMonitorFacadeInterface
      */
-    protected $activityMonitorFacade;
+    protected ActivityMonitorFacadeInterface $activityMonitorFacade;
 
     /**
      * @param \Jellyfish\ActivityMonitor\ActivityMonitorFacadeInterface $activityMonitorFacade
@@ -21,7 +21,6 @@ class PropertyNameConverterStrategy implements PropertyNameConverterStrategyInte
     {
         $this->activityMonitorFacade = $activityMonitorFacade;
     }
-
 
     /**
      * @param string $propertyName

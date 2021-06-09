@@ -16,7 +16,7 @@ class ActivityManagerTest extends Unit
     /**
      * @var \Jellyfish\ActivityMonitor\ActivityManager
      */
-    protected $activityManager;
+    protected ActivityManager $activityManager;
 
     /**
      * @return void

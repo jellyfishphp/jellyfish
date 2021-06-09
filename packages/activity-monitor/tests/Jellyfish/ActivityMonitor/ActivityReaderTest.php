@@ -23,17 +23,17 @@ class ActivityReaderTest extends Unit
     /**
      * @var \Generated\Transfer\Pm2\Activity[]|\PHPUnit\Framework\MockObject\MockObject[]
      */
-    protected $pm2ActivityMocks;
+    protected array $pm2ActivityMocks;
 
     /**
      * @var \Generated\Transfer\ActivityMonitor\Activity[]|\PHPUnit\Framework\MockObject\MockObject[]
      */
-    protected $activityMocks;
+    protected array $activityMocks;
 
     /**
      * @var \Jellyfish\ActivityMonitor\ActivityReader
      */
-    protected $activityReader;
+    protected ActivityReader $activityReader;
 
     /**
      * @return void

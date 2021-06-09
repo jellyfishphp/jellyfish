@@ -16,7 +16,7 @@ class ActivityMonitorServiceProviderTest extends Unit
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -26,8 +26,7 @@ class ActivityMonitorServiceProviderTest extends Unit
     /**
      * @var \Jellyfish\ActivityMonitor\ActivityMonitorServiceProvider
      */
-    protected $activityMonitorServiceProvider;
-
+    protected ActivityMonitorServiceProvider $activityMonitorServiceProvider;
 
     /**
      * @return void
@@ -44,15 +43,11 @@ class ActivityMonitorServiceProviderTest extends Unit
 
         $self = $this;
 
-        $this->container->offsetSet(SerializerConstants::FACADE, static function () use ($self) {
-            return $self->serializerFacadeMock;
-        });
+        $this->container->offsetSet(SerializerConstants::FACADE, static fn() => $self->serializerFacadeMock);
 
-        $this->container->offsetSet(ProcessConstants::FACADE, static function () use ($self) {
-            return $self->getMockBuilder(ProcessFacadeInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet(ProcessConstants::FACADE, static fn() => $self->getMockBuilder(ProcessFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
         $this->activityMonitorServiceProvider = new ActivityMonitorServiceProvider();
     }

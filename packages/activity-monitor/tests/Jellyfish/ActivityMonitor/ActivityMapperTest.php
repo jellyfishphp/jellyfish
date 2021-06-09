@@ -23,27 +23,27 @@ class ActivityMapperTest extends Unit
     /**
      * @var int
      */
-    protected $activityId;
+    protected int $activityId;
 
     /**
      * @var int
      */
-    protected $activityPid;
+    protected int $activityPid;
 
     /**
      * @var string
      */
-    protected $activityName;
+    protected string $activityName;
 
     /**
      * @var string
      */
-    protected $activityStatus;
+    protected string $activityStatus;
 
     /**
      * @var \Jellyfish\ActivityMonitor\ActivityMapper
      */
-    protected $activityMapper;
+    protected ActivityMapper $activityMapper;
 
     /**
      * @return void

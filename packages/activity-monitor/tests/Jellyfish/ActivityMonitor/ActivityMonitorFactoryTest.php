@@ -23,7 +23,7 @@ class ActivityMonitorFactoryTest extends Unit
     /**
      * @var \Jellyfish\ActivityMonitor\ActivityMonitorFactory
      */
-    protected $activityMonitorFactory;
+    protected ActivityMonitorFactory $activityMonitorFactory;
 
     /**
      * @return void

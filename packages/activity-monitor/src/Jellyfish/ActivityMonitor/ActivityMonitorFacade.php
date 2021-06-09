@@ -9,7 +9,7 @@ class ActivityMonitorFacade implements ActivityMonitorFacadeInterface
     /**
      * @var \Jellyfish\ActivityMonitor\ActivityMonitorFactory
      */
-    protected $factory;
+    protected ActivityMonitorFactory $factory;
 
     /**
      * @param \Jellyfish\ActivityMonitor\ActivityMonitorFactory $factory
