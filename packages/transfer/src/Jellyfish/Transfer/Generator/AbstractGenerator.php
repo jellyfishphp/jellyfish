@@ -14,17 +14,17 @@ abstract class AbstractGenerator
     /**
      * @var \Jellyfish\Filesystem\FilesystemFacadeInterface
      */
-    protected $filesystemFacade;
+    protected FilesystemFacadeInterface $filesystemFacade;
 
     /**
      * @var \Twig\Environment
      */
-    protected $twig;
+    protected Environment $twig;
 
     /**
      * @var string
      */
-    protected $targetDirectory;
+    protected string $targetDirectory;
 
     /**
      * @param \Jellyfish\Filesystem\FilesystemFacadeInterface $filesystemFacade

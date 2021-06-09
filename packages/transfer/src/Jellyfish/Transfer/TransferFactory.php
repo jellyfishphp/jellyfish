@@ -26,32 +26,32 @@ class TransferFactory
     /**
      * @var \Jellyfish\Filesystem\FilesystemFacadeInterface
      */
-    protected $filesystemFacade;
+    protected FilesystemFacadeInterface $filesystemFacade;
 
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializerFacade;
+    protected SerializerFacadeInterface $serializerFacade;
 
     /**
      * @var \Jellyfish\Finder\FinderFacadeInterface
      */
-    protected $finderFacade;
+    protected FinderFacadeInterface $finderFacade;
 
     /**
      * @var string
      */
-    protected $rootDir;
+    protected string $rootDir;
 
     /**
-     * @var \Jellyfish\Transfer\TransferGeneratorInterface
+     * @var \Jellyfish\Transfer\TransferGeneratorInterface|null
      */
-    protected $transferGenerate;
+    protected ?TransferGeneratorInterface $transferGenerate = null;
 
     /**
-     * @var \Jellyfish\Transfer\TransferCleanerInterface
+     * @var \Jellyfish\Transfer\TransferCleanerInterface|null
      */
-    protected $transferCleaner;
+    protected ?TransferCleanerInterface $transferCleaner = null;
 
     /**
      * @param \Jellyfish\Filesystem\FilesystemFacadeInterface $filesystemFacade

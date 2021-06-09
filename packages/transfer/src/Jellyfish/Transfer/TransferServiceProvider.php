@@ -8,7 +8,6 @@ use Jellyfish\Console\ConsoleConstants;
 use Jellyfish\Console\ConsoleFacadeInterface;
 use Jellyfish\Filesystem\FilesystemConstants;
 use Jellyfish\Finder\FinderConstants;
-use Jellyfish\Log\LogConstants;
 use Jellyfish\Serializer\SerializerConstants;
 use Jellyfish\Transfer\Command\TransferGenerateCommand;
 use Pimple\Container;
@@ -60,8 +59,7 @@ class TransferServiceProvider implements ServiceProviderInterface
             static function (ConsoleFacadeInterface $consoleFacade, Container $container) {
                 $consoleFacade->addCommand(
                     new TransferGenerateCommand(
-                        $container->offsetGet(TransferConstants::FACADE),
-                        $container->offsetGet(LogConstants::FACADE)
+                        $container->offsetGet(TransferConstants::FACADE)
                     )
                 );
 

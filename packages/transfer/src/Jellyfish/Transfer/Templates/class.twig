@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 {% include('namespace.twig') with { namespaceStatement: classDefinition.getNamespaceStatement() } only %}
 
 {% include('use-statements.twig') with { useStatements: classDefinition.getUseStatements() } only %}

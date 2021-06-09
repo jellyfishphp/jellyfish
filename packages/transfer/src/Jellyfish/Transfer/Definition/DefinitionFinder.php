@@ -20,12 +20,12 @@ class DefinitionFinder implements DefinitionFinderInterface
     /**
      * @var string
      */
-    protected $rootDir;
+    protected string $rootDir;
 
     /**
      * @var \Jellyfish\Finder\FinderFacadeInterface
      */
-    protected $finderFacade;
+    protected FinderFacadeInterface $finderFacade;
 
     /**
      * @param \Jellyfish\Finder\FinderFacadeInterface $finderFacade

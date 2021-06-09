@@ -13,7 +13,7 @@ class ClassDefinitionMapMapperTest extends Unit
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMapper
      */
-    protected $classDefinitionMapMapper;
+    protected ClassDefinitionMapMapper $classDefinitionMapMapper;
 
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -21,14 +21,14 @@ class ClassDefinitionMapMapperTest extends Unit
     protected $serializerFacadeMock;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinition[]|\PHPUnit\Framework\MockObject\MockObject[]
+     * @var \Jellyfish\Transfer\Definition\ClassDefinition[]|\PHPUnit\Framework\MockObject\MockObject[]|\ArrayObject
      */
-    protected $classDefinitionMocks;
+    protected ArrayObject $classDefinitionMocks;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassPropertyDefinition[]|\PHPUnit\Framework\MockObject\MockObject[]
      */
-    protected $classPropertyDefinitionMocks;
+    protected array $classPropertyDefinitionMocks;
 
     /**
      * @return void

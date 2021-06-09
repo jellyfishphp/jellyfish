@@ -9,7 +9,7 @@ class TransferFacade implements TransferFacadeInterface
     /**
      * @var \Jellyfish\Transfer\TransferFactory
      */
-    protected $factory;
+    protected TransferFactory $factory;
 
     /**
      * @param \Jellyfish\Transfer\TransferFactory $factory
@@ -18,7 +18,6 @@ class TransferFacade implements TransferFacadeInterface
     {
         $this->factory = $factory;
     }
-
 
     /**
      * @return \Jellyfish\Transfer\TransferFacadeInterface

@@ -14,12 +14,12 @@ class ClassGeneratorTest extends Unit
     /**
      * @var string
      */
-    protected $targetDirectory;
+    protected string $targetDirectory;
 
     /**
      * @var \Jellyfish\Transfer\Generator\ClassGenerator
      */
-    protected $classGenerator;
+    protected ClassGenerator $classGenerator;
 
     /**
      * @var \Jellyfish\Filesystem\FilesystemFacadeInterface|\PHPUnit\Framework\MockObject\MockObject

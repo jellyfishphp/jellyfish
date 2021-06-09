@@ -11,27 +11,27 @@ class ClassDefinitionMapMergerTest extends Unit
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMerger
      */
-    protected $classDefinitionMapMerger;
+    protected ClassDefinitionMapMerger $classDefinitionMapMerger;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
      */
-    protected $classDefinitionMapAMock;
+    protected array $classDefinitionMapAMock;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
      */
-    protected $classDefinitionMapBMock;
+    protected array $classDefinitionMapBMock;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
      */
-    protected $classDefinitionPropertyMapAMock;
+    protected array $classDefinitionPropertyMapAMock;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
      */
-    protected $classDefinitionPropertyMapBMock;
+    protected array $classDefinitionPropertyMapBMock;
 
     /**
      * @return void

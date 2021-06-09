@@ -26,7 +26,7 @@ class TransferFacadeTest extends Unit
     /**
      * @var \Jellyfish\Transfer\TransferFacade
      */
-    protected $transferFacade;
+    protected TransferFacade $transferFacade;
 
     /**
      * @return void

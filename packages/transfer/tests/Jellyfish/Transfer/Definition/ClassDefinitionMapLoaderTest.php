@@ -15,7 +15,7 @@ class ClassDefinitionMapLoaderTest extends Unit
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapLoader
      */
-    protected $classDefinitionMapLoader;
+    protected ClassDefinitionMapLoader $classDefinitionMapLoader;
 
     /**
      * @var \Jellyfish\Transfer\Definition\DefinitionFinderInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -55,7 +55,7 @@ class ClassDefinitionMapLoaderTest extends Unit
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
      */
-    protected $classDefinitionMapMock;
+    protected array $classDefinitionMapMock;
 
     /**
      * @return void

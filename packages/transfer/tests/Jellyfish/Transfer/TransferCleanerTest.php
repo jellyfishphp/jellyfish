@@ -17,12 +17,12 @@ class TransferCleanerTest extends Unit
     /**
      * @var \Jellyfish\Transfer\TransferCleaner
      */
-    protected $transferCleaner;
+    protected TransferCleaner $transferCleaner;
 
     /**
      * @var string
      */
-    protected $targetDirectory;
+    protected string $targetDirectory;
 
     /**
      * @var \Jellyfish\Filesystem\FilesystemFacadeInterface|\PHPUnit\Framework\MockObject\MockObject

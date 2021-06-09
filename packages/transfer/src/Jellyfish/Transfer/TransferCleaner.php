@@ -15,17 +15,17 @@ class TransferCleaner implements TransferCleanerInterface
     /**
      * @var string
      */
-    protected $targetDirectory;
+    protected string $targetDirectory;
 
     /**
      * @var \Jellyfish\Filesystem\FilesystemFacadeInterface
      */
-    protected $filesystemFacade;
+    protected FilesystemFacadeInterface $filesystemFacade;
 
     /**
      * @var \Jellyfish\Finder\FinderFacadeInterface
      */
-    protected $finderFacade;
+    protected FinderFacadeInterface $finderFacade;
 
     /**
      * @param \Jellyfish\Finder\FinderFacadeInterface $finderFacade

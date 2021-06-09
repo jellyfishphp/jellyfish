@@ -23,17 +23,17 @@ class ClassDefinition implements ClassDefinitionInterface
     /**
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @var string|null
      */
-    protected $namespace;
+    protected ?string $namespace = null;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassPropertyDefinition[]
      */
-    protected $properties;
+    protected array $properties;
 
     /**
      * @return string
