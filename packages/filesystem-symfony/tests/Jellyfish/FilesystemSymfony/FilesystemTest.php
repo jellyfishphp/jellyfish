@@ -19,7 +19,7 @@ class FilesystemTest extends Unit
     /**
      * @var \Jellyfish\FilesystemSymfony\Filesystem
      */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     /**
      * @return void

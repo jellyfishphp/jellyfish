@@ -16,7 +16,7 @@ class Filesystem implements FilesystemInterface
     /**
      * @var \Symfony\Component\Filesystem\Filesystem
      */
-    protected $symfonyFilesystem;
+    protected SymfonyFilesystem $symfonyFilesystem;
 
     /**
      * @param \Symfony\Component\Filesystem\Filesystem $symfonyFilesystem
