@@ -11,7 +11,7 @@ class SchedulerTest extends Unit
     /**
      * @var \Jellyfish\Scheduler\SchedulerInterface
      */
-    protected $scheduler;
+    protected SchedulerInterface $scheduler;
 
     /**
      * @var \Jellyfish\Scheduler\JobInterface|\PHPUnit\Framework\MockObject\MockObject

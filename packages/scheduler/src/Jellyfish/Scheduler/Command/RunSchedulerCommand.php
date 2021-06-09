@@ -23,12 +23,12 @@ class RunSchedulerCommand extends Command
     /**
      * @var \Jellyfish\Scheduler\SchedulerFacadeInterface
      */
-    protected $schedulerFacade;
+    protected SchedulerFacadeInterface $schedulerFacade;
 
     /**
      * @var \Jellyfish\Log\LogFacadeInterface
      */
-    protected $logFacade;
+    protected LogFacadeInterface $logFacade;
 
     /**
      * @param \Jellyfish\Scheduler\SchedulerFacadeInterface $schedulerFacade

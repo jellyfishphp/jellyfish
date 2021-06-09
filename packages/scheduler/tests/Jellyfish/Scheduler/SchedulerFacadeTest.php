@@ -25,7 +25,7 @@ class SchedulerFacadeTest extends Unit
     /**
      * @var \Jellyfish\Scheduler\SchedulerFacade
      */
-    protected $schedulerFacade;
+    protected SchedulerFacade $schedulerFacade;
 
     /**
      * @return void

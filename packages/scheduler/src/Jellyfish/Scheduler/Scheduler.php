@@ -10,17 +10,17 @@ use function count;
 
 class Scheduler implements SchedulerInterface
 {
-    protected const DELAY_INTERVAL = 1000000;
+    protected const DELAY_INTERVAL = 1_000_000;
 
     /**
      * @var JobInterface[]
      */
-    protected $jobs;
+    protected array $jobs;
 
     /**
      * @var JobInterface[]
      */
-    protected $runningJobs = [];
+    protected array $runningJobs;
 
     /**
      * Scheduler constructor

@@ -12,12 +12,12 @@ class SchedulerFactory
     /**
      * @var \Jellyfish\Process\ProcessFacadeInterface
      */
-    protected $processFacade;
+    protected ProcessFacadeInterface $processFacade;
 
     /**
-     * @var \Jellyfish\Scheduler\SchedulerInterface
+     * @var \Jellyfish\Scheduler\SchedulerInterface|null
      */
-    protected $scheduler;
+    protected ?SchedulerInterface $scheduler = null;
 
     /**
      * @param \Jellyfish\Process\ProcessFacadeInterface $processFacade
