@@ -17,19 +17,19 @@ use Psr\Http\Message\ServerRequestInterface;
 class HttpLeagueFactory
 {
     /**
-     * @var \Psr\Http\Message\ServerRequestInterface
+     * @var \Psr\Http\Message\ServerRequestInterface|null
      */
-    protected $request;
+    protected ?ServerRequestInterface $request = null;
 
     /**
-     * @var \League\Route\Router
+     * @var \League\Route\Router|null
      */
-    protected $router;
+    protected ?Router $router = null;
 
     /**
-     * @var \Laminas\HttpHandlerRunner\Emitter\EmitterInterface
+     * @var \Laminas\HttpHandlerRunner\Emitter\EmitterInterface|null
      */
-    protected $emitter;
+    protected ?EmitterInterface $emitter = null;
 
     /**
      * @SuppressWarnings(PHPMD.StaticAccess)

@@ -8,18 +8,19 @@ use Codeception\Test\Unit;
 use Jellyfish\Http\HttpConstants;
 use Jellyfish\Http\HttpFacadeInterface;
 use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
 class HttpLeagueServiceProviderTest extends Unit
 {
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Pimple\ServiceProviderInterface
      */
-    protected $routeServiceProvider;
+    protected ServiceProviderInterface $routeServiceProvider;
 
     /**
      * @return void
