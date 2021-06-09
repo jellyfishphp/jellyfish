@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\LockSymfony;
 
 use Codeception\Test\Unit;
+use Jellyfish\Lock\LockInterface;
 use Symfony\Component\Lock\LockInterface as SymfonyLockInterface;
 
 class LockTest extends Unit
@@ -17,7 +18,7 @@ class LockTest extends Unit
     /**
      * @var \Jellyfish\Lock\LockInterface
      */
-    protected $lock;
+    protected LockInterface $lock;
 
     /**
      * @return void
@@ -40,11 +41,11 @@ class LockTest extends Unit
      */
     public function testAcquire(): void
     {
-        $this->symfonyLockMock->expects($this->atLeastOnce())
+        $this->symfonyLockMock->expects(static::atLeastOnce())
             ->method('acquire')
             ->willReturn(true);
 
-        $this->assertTrue($this->lock->acquire());
+        static::assertTrue($this->lock->acquire());
     }
 
     /**
@@ -52,7 +53,7 @@ class LockTest extends Unit
      */
     public function testRelease(): void
     {
-        $this->symfonyLockMock->expects($this->atLeastOnce())
+        $this->symfonyLockMock->expects(static::atLeastOnce())
             ->method('release');
 
         $this->lock->release();

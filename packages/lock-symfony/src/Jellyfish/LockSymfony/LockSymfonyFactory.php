@@ -16,17 +16,17 @@ class LockSymfonyFactory
     /**
      * @var \Jellyfish\Config\ConfigFacadeInterface
      */
-    protected $configFacade;
+    protected ConfigFacadeInterface $configFacade;
 
     /**
-     * @var \Jellyfish\LockSymfony\LockIdentifierGeneratorInterface
+     * @var \Jellyfish\LockSymfony\LockIdentifierGeneratorInterface|null
      */
-    protected $lockIdentifierGenerator;
+    protected ?LockIdentifierGeneratorInterface $lockIdentifierGenerator = null;
 
     /**
-     * @var \Symfony\Component\Lock\LockFactory
+     * @var \Symfony\Component\Lock\LockFactory|null
      */
-    protected $symfonyLockFactory;
+    protected ?SymfonyLockFactory $symfonyLockFactory = null;
 
     /**
      * @param \Jellyfish\Config\ConfigFacadeInterface $configFacade
