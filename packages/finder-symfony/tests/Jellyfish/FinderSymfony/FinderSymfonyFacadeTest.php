@@ -22,7 +22,7 @@ class FinderSymfonyFacadeTest extends Unit
     /**
      * @var \Jellyfish\FinderSymfony\FinderSymfonyFacade
      */
-    protected $finderSymfonyFacade;
+    protected FinderSymfonyFacade $finderSymfonyFacade;
 
     /**
      * @return void

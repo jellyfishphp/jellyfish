@@ -14,7 +14,7 @@ class Finder implements FinderInterface
     /**
      * @var \Symfony\Component\Finder\Finder
      */
-    protected $symfonyFinder;
+    protected SymfonyFinder $symfonyFinder;
 
     /**
      * @param \Symfony\Component\Finder\Finder $symfonyFinder

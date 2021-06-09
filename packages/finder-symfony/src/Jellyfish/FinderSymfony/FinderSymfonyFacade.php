@@ -12,7 +12,7 @@ class FinderSymfonyFacade implements FinderFacadeInterface
     /**
      * @var \Jellyfish\FinderSymfony\FinderSymfonyFactory
      */
-    protected $factory;
+    protected FinderSymfonyFactory $factory;
 
     /**
      * @param \Jellyfish\FinderSymfony\FinderSymfonyFactory $factory

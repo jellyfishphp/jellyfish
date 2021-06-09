@@ -13,12 +13,12 @@ class FinderSymfonyServiceProviderTest extends Unit
     /**
      * @var \Jellyfish\FinderSymfony\FinderSymfonyServiceProvider
      */
-    protected $finderSymfonyServiceProvider;
+    protected FinderSymfonyServiceProvider $finderSymfonyServiceProvider;
 
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @return void

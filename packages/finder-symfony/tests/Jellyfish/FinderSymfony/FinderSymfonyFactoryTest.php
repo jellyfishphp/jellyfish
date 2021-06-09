@@ -9,9 +9,9 @@ use Codeception\Test\Unit;
 class FinderSymfonyFactoryTest extends Unit
 {
     /**
-     * @var \Jellyfish\FinderSymfony\FinderSymfonyFacade
+     * @var \Jellyfish\FinderSymfony\FinderSymfonyFactory
      */
-    protected $finderSymfonyFactory;
+    protected FinderSymfonyFactory $finderSymfonyFactory;
 
     /**
      * @return void
