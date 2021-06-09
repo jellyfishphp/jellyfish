@@ -16,12 +16,12 @@ class CacheEventErrorHandler implements EventErrorHandlerInterface
     /**
      * @var \Jellyfish\Cache\CacheFacadeInterface
      */
-    protected $cacheFacade;
+    protected CacheFacadeInterface $cacheFacade;
 
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializerFacade;
+    protected SerializerFacadeInterface $serializerFacade;
 
     /**
      * @param \Jellyfish\Cache\CacheFacadeInterface $cacheFacade
