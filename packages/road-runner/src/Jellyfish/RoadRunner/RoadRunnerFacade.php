@@ -12,7 +12,7 @@ class RoadRunnerFacade implements RoadRunnerFacadeInterface
     /**
      * @var \Jellyfish\RoadRunner\RoadRunnerFactory
      */
-    protected $factory;
+    protected RoadRunnerFactory $factory;
 
     /**
      * @param \Jellyfish\RoadRunner\RoadRunnerFactory $factory

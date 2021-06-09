@@ -12,12 +12,12 @@ class RoadRunnerServiceProviderTest extends Unit
     /**
      * @var \Pimple\Container
      */
-    protected $container;
+    protected Container $container;
 
     /**
      * @var \Jellyfish\RoadRunner\RoadRunnerServiceProvider
      */
-    protected $roadRunnerServiceProvider;
+    protected RoadRunnerServiceProvider $roadRunnerServiceProvider;
 
     /**
      * @return void

@@ -13,24 +13,24 @@ use Spiral\RoadRunner\Worker as RoadRunnerWorker;
 class RoadRunnerFactory
 {
     /**
-     * @var \Jellyfish\RoadRunner\WorkerInterface
+     * @var \Jellyfish\RoadRunner\WorkerInterface|null
      */
-    protected $worker;
+    protected ?WorkerInterface $worker = null;
 
     /**
-     * @var \Spiral\RoadRunner\Http\PSR7WorkerInterface
+     * @var \Spiral\RoadRunner\Http\PSR7WorkerInterface|null
      */
-    protected $psr7Worker;
+    protected ?PSR7WorkerInterface $psr7Worker = null;
 
     /**
-     * @var \Spiral\RoadRunner\WorkerInterface
+     * @var \Spiral\RoadRunner\WorkerInterface|null
      */
-    protected $roadRunnerWorker;
+    protected ?RoadRunnerWorkerInterface $roadRunnerWorker = null;
 
     /**
-     * @var \Nyholm\Psr7\Factory\Psr17Factory
+     * @var \Nyholm\Psr7\Factory\Psr17Factory|null
      */
-    protected $psr17Factory;
+    protected ?Psr17Factory $psr17Factory = null;
 
     /**
      * @return \Jellyfish\RoadRunner\WorkerInterface

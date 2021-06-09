@@ -13,7 +13,7 @@ class Worker implements WorkerInterface
     /**
      * @var \Spiral\RoadRunner\Http\PSR7WorkerInterface
      */
-    protected $psr7Worker;
+    protected PSR7WorkerInterface $psr7Worker;
 
     /**
      * @param \Spiral\RoadRunner\Http\PSR7WorkerInterface $psr7Worker
