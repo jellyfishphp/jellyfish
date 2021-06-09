@@ -21,7 +21,7 @@ class ProcessSymfonyFacadeTest extends Unit
     /**
      * @var \Jellyfish\ProcessSymfony\ProcessSymfonyFacade
      */
-    protected $processSymfonyFacade;
+    protected ProcessSymfonyFacade $processSymfonyFacade;
 
     /**
      * @return void

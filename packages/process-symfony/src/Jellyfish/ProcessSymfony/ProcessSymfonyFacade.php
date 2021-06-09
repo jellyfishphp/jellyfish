@@ -12,7 +12,7 @@ class ProcessSymfonyFacade implements ProcessFacadeInterface
     /**
      * @var \Jellyfish\ProcessSymfony\ProcessSymfonyFactory
      */
-    protected $factory;
+    protected ProcessSymfonyFactory $factory;
 
     /**
      * @param \Jellyfish\ProcessSymfony\ProcessSymfonyFactory $factory
