@@ -26,9 +26,7 @@ class ConsoleServiceProvider implements ServiceProviderInterface
      */
     protected function registerConsoleFacade(Container $container): ConsoleServiceProvider
     {
-        $container->offsetSet(ConsoleConstants::FACADE, static function () {
-            return new ConsoleFacade(new ConsoleFactory());
-        });
+        $container->offsetSet(ConsoleConstants::FACADE, static fn() => new ConsoleFacade(new ConsoleFactory()));
 
         return $this;
     }

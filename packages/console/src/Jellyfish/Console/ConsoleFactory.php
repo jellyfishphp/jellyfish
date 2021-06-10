@@ -9,9 +9,9 @@ use ArrayObject;
 class ConsoleFactory
 {
     /**
-     * @var \ArrayObject
+     * @var \ArrayObject|null
      */
-    protected $commandList;
+    protected ?ArrayObject $commandList = null;
 
     /**
      * @return \ArrayObject
