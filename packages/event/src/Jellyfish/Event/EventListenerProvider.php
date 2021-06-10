@@ -14,7 +14,7 @@ class EventListenerProvider implements EventListenerProviderInterface
     /**
      * @var array
      */
-    protected $listeners = [
+    protected array $listeners = [
         EventListenerInterface::TYPE_SYNC => [],
         EventListenerInterface::TYPE_ASYNC => []
     ];

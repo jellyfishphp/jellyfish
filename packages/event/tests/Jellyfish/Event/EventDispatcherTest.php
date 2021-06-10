@@ -31,12 +31,12 @@ class EventDispatcherTest extends Unit
     /**
      * @var string
      */
-    protected $eventName;
+    protected string $eventName;
 
     /**
      * @var \Jellyfish\Event\EventDispatcherInterface
      */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * @return void

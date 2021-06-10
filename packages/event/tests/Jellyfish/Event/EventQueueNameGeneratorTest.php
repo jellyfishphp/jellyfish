@@ -13,7 +13,7 @@ class EventQueueNameGeneratorTest extends Unit
     /**
      * @var \Jellyfish\Event\EventQueueNameGeneratorInterface
      */
-    protected $eventQueueNameGenerator;
+    protected EventQueueNameGeneratorInterface $eventQueueNameGenerator;
 
     /**
      * @return void

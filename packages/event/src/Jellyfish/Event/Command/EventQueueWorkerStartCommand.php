@@ -17,7 +17,7 @@ class EventQueueWorkerStartCommand extends Command
     /**
      * @var \Jellyfish\Event\EventFacadeInterface
      */
-    protected $eventFacade;
+    protected EventFacadeInterface $eventFacade;
 
     /**
      * @param \Jellyfish\Event\EventFacadeInterface $eventFacade

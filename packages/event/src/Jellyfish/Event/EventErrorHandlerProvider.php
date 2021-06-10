@@ -9,7 +9,7 @@ class EventErrorHandlerProvider implements EventErrorHandlerProviderInterface
     /**
      * @var \Jellyfish\Event\EventErrorHandlerInterface[]
      */
-    protected $eventErrorHandlers;
+    protected array $eventErrorHandlers;
 
     public function __construct()
     {

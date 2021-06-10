@@ -41,11 +41,10 @@ class EventQueueProducerTest extends Unit
      */
     protected $messageMock;
 
-
     /**
      * @var \Jellyfish\Event\EventQueueProducerInterface
      */
-    protected $eventQueueProducer;
+    protected EventQueueProducerInterface $eventQueueProducer;
 
     /**
      * @return void

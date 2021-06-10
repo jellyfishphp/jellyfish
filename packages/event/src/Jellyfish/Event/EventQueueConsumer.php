@@ -17,32 +17,32 @@ class EventQueueConsumer implements EventQueueConsumerInterface
     /**
      * @var \Jellyfish\Process\ProcessFacadeInterface
      */
-    protected $processFacade;
+    protected ProcessFacadeInterface $processFacade;
 
     /**
      * @var \Jellyfish\Event\EventMapperInterface
      */
-    protected $eventMapper;
+    protected EventMapperInterface $eventMapper;
 
     /**
      * @var \Jellyfish\Event\EventQueueNameGeneratorInterface
      */
-    protected $eventQueueNameGenerator;
+    protected EventQueueNameGeneratorInterface $eventQueueNameGenerator;
 
     /**
      * @var \Jellyfish\Queue\QueueFacadeInterface
      */
-    protected $queueFacade;
+    protected QueueFacadeInterface $queueFacade;
 
     /**
      * @var \Jellyfish\Process\ProcessInterface[]
      */
-    protected $processList;
+    protected array $processList;
 
     /**
      * @var string
      */
-    protected $pathToConsole;
+    protected string $pathToConsole;
 
     /**
      * @param \Jellyfish\Process\ProcessFacadeInterface $processFacade

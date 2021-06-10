@@ -12,12 +12,12 @@ class EventQueueProducer implements EventQueueProducerInterface
     /**
      * @var \Jellyfish\Event\EventMapperInterface
      */
-    protected $eventMapper;
+    protected EventMapperInterface $eventMapper;
 
     /**
      * @var \Jellyfish\Queue\QueueFacadeInterface
      */
-    protected $queueFacade;
+    protected QueueFacadeInterface $queueFacade;
 
     /**
      * @param \Jellyfish\Event\EventMapperInterface $eventMapper

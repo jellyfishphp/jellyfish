@@ -12,7 +12,7 @@ class EventListenerProviderTest extends Unit
     /**
      * @var \Jellyfish\Event\EventListenerProviderInterface
      */
-    protected $eventListenerProvider;
+    protected EventListenerProviderInterface $eventListenerProvider;
 
     /**
      * @var \Jellyfish\Event\EventListenerInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -22,7 +22,7 @@ class EventListenerProviderTest extends Unit
     /**
      * @var string
      */
-    protected $eventName;
+    protected string $eventName;
 
     /**
      * @return void

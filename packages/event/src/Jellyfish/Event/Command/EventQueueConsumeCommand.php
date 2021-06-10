@@ -29,12 +29,12 @@ class EventQueueConsumeCommand extends Command
     /**
      * @var \Jellyfish\Event\EventFacadeInterface
      */
-    protected $eventFacade;
+    protected EventFacadeInterface $eventFacade;
 
     /**
      * @var \Jellyfish\Log\LogFacadeInterface
      */
-    protected $logFacade;
+    protected LogFacadeInterface $logFacade;
 
     /**
      * @param \Jellyfish\Event\EventFacadeInterface $eventFacade

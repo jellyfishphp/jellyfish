@@ -16,7 +16,7 @@ class EventErrorHandlerProviderTest extends Unit
     /**
      * @var \Jellyfish\Event\EventErrorHandlerProvider
      */
-    protected $eventErrorHandlerProvider;
+    protected EventErrorHandlerProvider $eventErrorHandlerProvider;
 
     /**
      * @return void

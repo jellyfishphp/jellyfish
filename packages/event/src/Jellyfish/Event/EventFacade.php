@@ -9,7 +9,7 @@ class EventFacade implements EventFacadeInterface
     /**
      * @var \Jellyfish\Event\EventFactory
      */
-    protected $factory;
+    protected EventFactory $factory;
 
     /**
      * @param \Jellyfish\Event\EventFactory $factory

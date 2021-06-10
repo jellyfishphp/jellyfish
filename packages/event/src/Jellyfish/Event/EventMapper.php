@@ -17,17 +17,17 @@ class EventMapper implements EventMapperInterface
     /**
      * @var \Jellyfish\Event\EventFactory
      */
-    protected $eventFactory;
+    protected EventFactory $eventFactory;
 
     /**
      * @var \Jellyfish\Queue\QueueFacadeInterface
      */
-    protected $queueFacade;
+    protected QueueFacadeInterface $queueFacade;
 
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializerFacade;
+    protected SerializerFacadeInterface $serializerFacade;
 
     /**
      * @param \Jellyfish\Event\EventFactory $eventFactory

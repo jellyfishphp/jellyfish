@@ -14,47 +14,47 @@ class EventFactory
     /**
      * @var \Jellyfish\Process\ProcessFacadeInterface
      */
-    protected $processFacade;
+    protected ProcessFacadeInterface $processFacade;
 
     /**
      * @var \Jellyfish\Queue\QueueFacadeInterface
      */
-    protected $queueFacade;
+    protected QueueFacadeInterface $queueFacade;
 
     /**
      * @var \Jellyfish\Serializer\SerializerFacadeInterface
      */
-    protected $serializerFacade;
+    protected SerializerFacadeInterface $serializerFacade;
 
     /**
      * @var \Jellyfish\Uuid\UuidFacadeInterface
      */
-    protected $uuidFacade;
+    protected UuidFacadeInterface $uuidFacade;
 
     /**
      * @var string
      */
-    protected $rootDir;
+    protected string $rootDir;
 
     /**
-     * @var \Jellyfish\Event\EventDispatcherInterface
+     * @var \Jellyfish\Event\EventDispatcherInterface|null
      */
-    protected $eventDispatcher;
+    protected ?EventDispatcherInterface $eventDispatcher = null;
 
     /**
-     * @var \Jellyfish\Event\EventListenerProviderInterface
+     * @var \Jellyfish\Event\EventListenerProviderInterface|null
      */
-    protected $eventListenerProvider;
+    protected ?EventListenerProviderInterface $eventListenerProvider = null;
 
     /**
-     * @var \Jellyfish\Event\EventQueueConsumerInterface
+     * @var \Jellyfish\Event\EventQueueConsumerInterface|null
      */
-    protected $eventQueueConsumer;
+    protected ?EventQueueConsumerInterface $eventQueueConsumer = null;
 
     /**
-     * @var \Jellyfish\Event\EventErrorHandlerProviderInterface
+     * @var \Jellyfish\Event\EventErrorHandlerProviderInterface|null
      */
-    protected $defaultEventErrorHandlerProvider;
+    protected ?EventErrorHandlerProviderInterface $defaultEventErrorHandlerProvider = null;
 
     /**
      * @param \Jellyfish\Process\ProcessFacadeInterface $processFacade
