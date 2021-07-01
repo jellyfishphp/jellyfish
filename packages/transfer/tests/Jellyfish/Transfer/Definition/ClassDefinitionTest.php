@@ -101,6 +101,15 @@ class ClassDefinitionTest extends Unit
     /**
      * @return void
      */
+    public function testGetNamespaceStatementWithNullableNamespace(): void
+    {
+        $expectedNamespaceStatement = sprintf('namespace %s;', ClassDefinition::NAMESPACE_PREFIX);
+        static::assertEquals($expectedNamespaceStatement, $this->classDefinition->getNamespaceStatement());
+    }
+
+    /**
+     * @return void
+     */
     public function testUseStatements(): void
     {
         $propertyMocks = [
