@@ -1,0 +1,109 @@
+[
+  {
+    "name": "Mail",
+    "properties": [
+      {
+        "name": "from",
+        "type": "Contact",
+        "typeNamespace": "Mail",
+        "isNullable": false
+      },
+      {
+        "name": "toList",
+        "type": "Contact",
+        "typeNamespace": "Mail",
+        "isNullable": false,
+        "singular": "to",
+        "isArray": true
+      },
+      {
+        "name": "ccList",
+        "type": "Contact",
+        "typeNamespace": "Mail",
+        "isNullable": true,
+        "singular": "cc",
+        "isArray": true
+      },
+      {
+        "name": "bccList",
+        "type": "Contact",
+        "typeNamespace": "Mail",
+        "isNullable": true,
+        "singular": "bcc",
+        "isArray": true
+      },
+      {
+        "name": "subject",
+        "type": "string",
+        "isNullable": false
+      },
+      {
+        "name": "body",
+        "type": "Body",
+        "typeNamespace": "Mail",
+        "isNullable": false
+      },
+      {
+        "name": "attachments",
+        "type": "Attachment",
+        "typeNamespace": "Mail",
+        "isNullable": true,
+        "singular": "attachment",
+        "isArray": true
+      }
+    ]
+  },
+  {
+    "name": "Contact",
+    "namespace": "Mail",
+    "properties": [
+      {
+        "name": "name",
+        "type": "string",
+        "isNullable": true
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "isNullable": false
+      }
+    ]
+  },
+  {
+    "name": "Body",
+    "namespace": "Mail",
+    "properties": [
+      {
+        "name": "plainText",
+        "type": "string",
+        "isNullable": false
+      },
+      {
+        "name": "html",
+        "type": "string",
+        "isNullable": false
+      }
+    ]
+  },
+  {
+    "name": "Attachment",
+    "namespace": "Mail",
+    "properties": [
+      {
+        "name": "content",
+        "type": "string",
+        "isNullable": false
+      },
+      {
+        "name": "fileName",
+        "type": "string",
+        "isNullable": false
+      },
+      {
+        "name": "mimeType",
+        "type": "string",
+        "isNullable": false
+      }
+    ]
+  }
+]
