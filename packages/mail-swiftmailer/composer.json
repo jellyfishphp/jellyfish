@@ -10,6 +10,7 @@
   ],
   "require": {
     "php": ">=7.4",
+    "jellyfish/config": "^1.0.0",
     "jellyfish/mail": "^1.0.0",
     "swiftmailer/swiftmailer": "^6.0.0"
   },

@@ -100,6 +100,14 @@
       "path": "packages/log-monolog",
       "version": "1.0.0"
     },
+    "mail": {
+      "path": "packages/mail",
+      "version": "1.0.0"
+    },
+    "mail-swiftmailer": {
+      "path": "packages/mail-swiftmailer",
+      "version": "1.0.0"
+    },
     "pimple": {
       "path": "packages/pimple",
       "version": "1.0.0"
