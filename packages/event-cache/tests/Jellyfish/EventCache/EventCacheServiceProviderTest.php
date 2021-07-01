@@ -50,13 +50,13 @@ class EventCacheServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet(EventConstants::FACADE, static fn() => $self->eventFacadeMock);
+        $this->container->offsetSet(EventConstants::FACADE, static fn () => $self->eventFacadeMock);
 
-        $this->container->offsetSet(CacheConstants::FACADE, static fn() => $self->getMockBuilder(CacheFacadeInterface::class)
+        $this->container->offsetSet(CacheConstants::FACADE, static fn () => $self->getMockBuilder(CacheFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet(SerializerConstants::FACADE, static fn() => $self->getMockBuilder(SerializerFacadeInterface::class)
+        $this->container->offsetSet(SerializerConstants::FACADE, static fn () => $self->getMockBuilder(SerializerFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
@@ -72,7 +72,7 @@ class EventCacheServiceProviderTest extends Unit
             ->method('addDefaultEventErrorHandler')
             ->with(
                 static::callback(
-                    static fn(EventErrorHandlerInterface $eventErrorHandler) => $eventErrorHandler instanceof CacheEventErrorHandler
+                    static fn (EventErrorHandlerInterface $eventErrorHandler) => $eventErrorHandler instanceof CacheEventErrorHandler
                 )
             )->willReturn($this->eventFacadeMock);
 

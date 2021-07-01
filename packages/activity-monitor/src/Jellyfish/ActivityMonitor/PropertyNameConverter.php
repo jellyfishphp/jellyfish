@@ -53,7 +53,7 @@ class PropertyNameConverter implements PropertyNameConverterInterface
 
         $camelCasedName = preg_replace_callback(
             '/(^|_|\.)+(.)/',
-            static fn(array $match) => ('.' === $match[1] ? '_' : '') . strtoupper($match[2]),
+            static fn (array $match) => ('.' === $match[1] ? '_' : '') . strtoupper($match[2]),
             $propertyName
         );
 

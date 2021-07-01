@@ -29,7 +29,7 @@ class FilesystemSymfonyServiceProvider implements ServiceProviderInterface
     {
         $container->offsetSet(
             FilesystemConstants::FACADE,
-            static fn() => new FilesystemSymfonyFacade(new FilesystemSymfonyFactory())
+            static fn () => new FilesystemSymfonyFacade(new FilesystemSymfonyFactory())
         );
 
         return $this;

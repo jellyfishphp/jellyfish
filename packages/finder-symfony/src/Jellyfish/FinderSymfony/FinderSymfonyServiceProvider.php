@@ -29,7 +29,7 @@ class FinderSymfonyServiceProvider implements ServiceProviderInterface
     {
         $container->offsetSet(
             FinderConstants::FACADE,
-            static fn() => new FinderSymfonyFacade(new FinderSymfonyFactory())
+            static fn () => new FinderSymfonyFacade(new FinderSymfonyFactory())
         );
 
         return $this;

@@ -41,11 +41,11 @@ class HttpAuthenticationServiceProviderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->container->offsetSet('app_dir', static fn() => DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR);
+        $this->container->offsetSet('app_dir', static fn () => DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR);
 
         $self = $this;
 
-        $this->container->offsetSet(HttpConstants::FACADE, static fn() => $self->httpFacadeMock);
+        $this->container->offsetSet(HttpConstants::FACADE, static fn () => $self->httpFacadeMock);
 
         $this->httpAuthenticationServiceProvider = new HttpAuthenticationServiceProvider();
     }
@@ -59,7 +59,7 @@ class HttpAuthenticationServiceProviderTest extends Unit
             ->method('addMiddleware')
             ->with(
                 static::callback(
-                    static fn(MiddlewareInterface $middleware) => $middleware instanceof AuthenticationMiddleware
+                    static fn (MiddlewareInterface $middleware) => $middleware instanceof AuthenticationMiddleware
                 )
             )->willReturn($this->httpFacadeMock);
 

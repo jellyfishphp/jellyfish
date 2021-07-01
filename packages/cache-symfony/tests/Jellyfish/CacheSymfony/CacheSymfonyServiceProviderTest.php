@@ -43,7 +43,7 @@ class CacheSymfonyServiceProviderTest extends Unit
 
         $self = $this;
 
-        $this->container->offsetSet(ConfigConstants::FACADE, static fn() => $self->configFacadeMock);
+        $this->container->offsetSet(ConfigConstants::FACADE, static fn () => $self->configFacadeMock);
 
         $this->cacheSymfonyServiceProvider = new CacheSymfonyServiceProvider();
     }

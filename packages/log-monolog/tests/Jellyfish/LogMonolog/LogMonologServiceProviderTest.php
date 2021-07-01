@@ -48,7 +48,7 @@ class LogMonologServiceProviderTest extends Unit
 
         $this->container->offsetSet('root_dir', DIRECTORY_SEPARATOR);
 
-        $this->container->offsetSet(ConfigConstants::FACADE, static fn() => $self->configFacadeMock);
+        $this->container->offsetSet(ConfigConstants::FACADE, static fn () => $self->configFacadeMock);
 
         $this->logMonologServiceProvider = new LogMonologServiceProvider();
     }

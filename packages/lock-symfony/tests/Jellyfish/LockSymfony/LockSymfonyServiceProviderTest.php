@@ -43,7 +43,7 @@ class LockSymfonyServiceProviderTest extends Unit
 
         $self = $this;
 
-        $this->container->offsetSet(ConfigConstants::FACADE, static fn() => $self->configFacadeMock);
+        $this->container->offsetSet(ConfigConstants::FACADE, static fn () => $self->configFacadeMock);
 
         $this->lockSymfonyServiceProvider = new LockSymfonyServiceProvider();
     }
