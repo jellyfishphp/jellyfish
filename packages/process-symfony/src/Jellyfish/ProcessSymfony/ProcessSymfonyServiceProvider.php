@@ -29,7 +29,7 @@ class ProcessSymfonyServiceProvider implements ServiceProviderInterface
     {
         $container->offsetSet(
             ProcessConstants::FACADE,
-            static fn() => new ProcessSymfonyFacade(new ProcessSymfonyFactory())
+            static fn () => new ProcessSymfonyFacade(new ProcessSymfonyFactory())
         );
 
         return $this;

@@ -27,7 +27,7 @@ class JsonSchemaOpisServiceProvider implements ServiceProviderInterface
      */
     protected function registerJsonSchemaFacade(Container $container): JsonSchemaOpisServiceProvider
     {
-        $container->offsetSet(JsonSchemaConstants::FACADE, static fn() => new JsonSchemaOpisFacade(
+        $container->offsetSet(JsonSchemaConstants::FACADE, static fn () => new JsonSchemaOpisFacade(
             new JsonSchemaOpisFactory()
         ));
 

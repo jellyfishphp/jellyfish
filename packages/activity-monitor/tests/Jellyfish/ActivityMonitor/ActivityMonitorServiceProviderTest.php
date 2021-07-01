@@ -43,9 +43,9 @@ class ActivityMonitorServiceProviderTest extends Unit
 
         $self = $this;
 
-        $this->container->offsetSet(SerializerConstants::FACADE, static fn() => $self->serializerFacadeMock);
+        $this->container->offsetSet(SerializerConstants::FACADE, static fn () => $self->serializerFacadeMock);
 
-        $this->container->offsetSet(ProcessConstants::FACADE, static fn() => $self->getMockBuilder(ProcessFacadeInterface::class)
+        $this->container->offsetSet(ProcessConstants::FACADE, static fn () => $self->getMockBuilder(ProcessFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 

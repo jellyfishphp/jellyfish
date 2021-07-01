@@ -51,17 +51,17 @@ class SchedulerServiceProviderTest extends Unit
 
         $self = $this;
 
-        $this->container->offsetSet(ConsoleConstants::FACADE, static fn() => $self->consoleFacadeMock);
+        $this->container->offsetSet(ConsoleConstants::FACADE, static fn () => $self->consoleFacadeMock);
 
-        $this->container->offsetSet(LockConstants::FACADE, static fn() => $self->getMockBuilder(LockFacadeInterface::class)
+        $this->container->offsetSet(LockConstants::FACADE, static fn () => $self->getMockBuilder(LockFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet(LogConstants::FACADE, static fn() => $self->getMockBuilder(LogFacadeInterface::class)
+        $this->container->offsetSet(LogConstants::FACADE, static fn () => $self->getMockBuilder(LogFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet(ProcessConstants::FACADE, static fn() => $self->getMockBuilder(ProcessFacadeInterface::class)
+        $this->container->offsetSet(ProcessConstants::FACADE, static fn () => $self->getMockBuilder(ProcessFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
@@ -76,7 +76,7 @@ class SchedulerServiceProviderTest extends Unit
         $this->consoleFacadeMock->expects(static::atLeastOnce())
             ->method('addCommand')
             ->with(
-                static::callback(static fn(Command $command) => $command instanceof RunSchedulerCommand)
+                static::callback(static fn (Command $command) => $command instanceof RunSchedulerCommand)
             )->willReturn($this->consoleFacadeMock);
 
         $this->schedulerServiceProvider->register($this->container);

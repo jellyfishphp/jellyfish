@@ -38,11 +38,11 @@ class QueueRabbitMqServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet(ConfigConstants::FACADE, static fn() => $self->getMockBuilder(ConfigFacadeInterface::class)
+        $this->container->offsetSet(ConfigConstants::FACADE, static fn () => $self->getMockBuilder(ConfigFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet(SerializerConstants::FACADE, static fn() => $self->getMockBuilder(SerializerFacadeInterface::class)
+        $this->container->offsetSet(SerializerConstants::FACADE, static fn () => $self->getMockBuilder(SerializerFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 

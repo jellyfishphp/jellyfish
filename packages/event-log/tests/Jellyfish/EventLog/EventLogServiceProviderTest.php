@@ -53,9 +53,9 @@ class EventLogServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet(EventConstants::FACADE, static fn() => $self->eventFacadeMock);
+        $this->container->offsetSet(EventConstants::FACADE, static fn () => $self->eventFacadeMock);
 
-        $this->container->offsetSet(LogConstants::FACADE, static fn() => $self->getMockBuilder(LogFacadeInterface::class)
+        $this->container->offsetSet(LogConstants::FACADE, static fn () => $self->getMockBuilder(LogFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
@@ -71,7 +71,7 @@ class EventLogServiceProviderTest extends Unit
             ->method('addDefaultEventErrorHandler')
             ->with(
                 static::callback(
-                    static fn(EventErrorHandlerInterface $eventErrorHandler) => $eventErrorHandler instanceof LogEventErrorHandler
+                    static fn (EventErrorHandlerInterface $eventErrorHandler) => $eventErrorHandler instanceof LogEventErrorHandler
                 )
             )->willReturn($this->eventFacadeMock);
 
