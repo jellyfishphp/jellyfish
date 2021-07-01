@@ -102,6 +102,10 @@ class ClassDefinition implements ClassDefinitionInterface
      */
     public function getNamespaceStatement(): string
     {
+        if ($this->namespace === null) {
+            return sprintf('namespace %s;', static::NAMESPACE_PREFIX);
+        }
+
         return sprintf('namespace %s\\%s;', static::NAMESPACE_PREFIX, $this->namespace);
     }
 
