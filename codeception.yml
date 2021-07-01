@@ -23,6 +23,8 @@ include:
   - packages/lock-symfony/
   - packages/log/
   - packages/log-monolog/
+  - packages/mail/
+  - packages/mail-swiftmailer/
   - packages/process/
   - packages/process-symfony/
   - packages/queue/
