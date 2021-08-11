@@ -9,7 +9,7 @@ use Jellyfish\Console\ConsoleFacadeInterface;
 use Jellyfish\Lock\LockConstants;
 use Jellyfish\Log\LogConstants;
 use Jellyfish\Process\ProcessConstants;
-use Jellyfish\Scheduler\Command\RunSchedulerCommand;
+use Jellyfish\Scheduler\Command\SchedulerRunCommand;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -53,7 +53,7 @@ class SchedulerServiceProvider implements ServiceProviderInterface
             ConsoleConstants::FACADE,
             static function (ConsoleFacadeInterface $consoleFacade, Container $container) {
                 $consoleFacade->addCommand(
-                    new RunSchedulerCommand(
+                    new SchedulerRunCommand(
                         $container->offsetGet(SchedulerConstants::FACADE),
                         $container->offsetGet(LockConstants::FACADE),
                         $container->offsetGet(LogConstants::FACADE)

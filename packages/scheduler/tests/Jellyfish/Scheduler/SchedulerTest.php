@@ -47,27 +47,6 @@ class SchedulerTest extends Unit
      *
      * @return void
      */
-    public function testQueueJobAndRun(): void
-    {
-        static::assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));
-
-        $this->jobMock->expects(static::atLeastOnce())
-            ->method('run')
-            ->withAnyParameters()
-            ->willReturn($this->jobMock);
-
-        $this->jobMock->expects(static::atLeastOnce())
-            ->method('isRunning')
-            ->willReturnOnConsecutiveCalls(true, false);
-
-        static::assertEquals($this->scheduler, $this->scheduler->run());
-    }
-
-    /**
-     * @depends testQueueJobAndGetQueuedJobs
-     *
-     * @return void
-     */
     public function testGetQueuedJobsAfterQueueJobAndClearJobs(): void
     {
         static::assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));

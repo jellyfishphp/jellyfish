@@ -90,8 +90,7 @@ class SchedulerFacadeTest extends Unit
             ->willReturn($this->schedulerMock);
 
         $this->schedulerMock->expects(static::atLeastOnce())
-            ->method('run')
-            ->willReturn($this->schedulerMock);
+            ->method('run');
 
         static::assertEquals($this->schedulerFacade, $this->schedulerFacade->runScheduler());
     }
