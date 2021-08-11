@@ -15,7 +15,7 @@
     "laminas/laminas-diactoros": "^2.0.0",
     "laminas/laminas-httphandlerrunner": "^1.0.0",
     "league/route": "^4.0.0 || ^5.0.0",
-    "monolog/monolog": "^2.0.0",
+    "monolog/monolog": "^2.0.0 <=2.2.0",
     "nyholm/psr7": "^1.0.0",
     "opis/json-schema": "^1.0.0",
     "php-amqplib/php-amqplib": "^2.0.0 || ^3.0.0",

@@ -10,7 +10,7 @@ use function count;
 
 class Scheduler implements SchedulerInterface
 {
-    protected const DELAY_INTERVAL = 1_000_000;
+    protected const DELAY_INTERVAL = 60_000_000;
 
     /**
      * @var JobInterface[]
@@ -18,17 +18,11 @@ class Scheduler implements SchedulerInterface
     protected array $jobs;
 
     /**
-     * @var JobInterface[]
-     */
-    protected array $runningJobs;
-
-    /**
      * Scheduler constructor
      */
     public function __construct()
     {
         $this->jobs = [];
-        $this->runningJobs = [];
     }
 
     /**
@@ -54,31 +48,27 @@ class Scheduler implements SchedulerInterface
     }
 
     /**
-     * @return \Jellyfish\Scheduler\SchedulerInterface
+     * @return void
      *
      * @throws \Exception
+     *
+     * @codeCoverageIgnore
      */
-    public function run(): SchedulerInterface
+    public function run(): void
     {
-        $dateTime = new DateTime();
+        while (true) {
+            $dateTime = new DateTime();
 
-        foreach ($this->jobs as $job) {
-            $this->runningJobs[] = $job->run($dateTime);
-        }
-
-        while (count($this->runningJobs) !== 0) {
-            foreach ($this->runningJobs as $index => $runningJob) {
-                if ($runningJob->isRunning()) {
+            foreach ($this->jobs as $job) {
+                if ($job->isRunning()) {
                     continue;
                 }
 
-                unset($this->runningJobs[$index]);
+                $job->run($dateTime);
             }
 
             usleep(static::DELAY_INTERVAL);
         }
-
-        return $this;
     }
 
     /**

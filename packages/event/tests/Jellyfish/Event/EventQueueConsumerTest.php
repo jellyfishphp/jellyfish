@@ -245,6 +245,10 @@ class EventQueueConsumerTest extends Unit
             ->willReturn($this->processMock);
 
         $this->processMock->expects(static::atLeastOnce())
+            ->method('isRunning')
+            ->willReturn(false);
+
+        $this->processMock->expects(static::atLeastOnce())
             ->method('start')
             ->willReturn($this->processMock);
 

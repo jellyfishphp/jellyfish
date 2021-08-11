@@ -82,6 +82,13 @@ class EventQueueConsumer implements EventQueueConsumerInterface
         }
 
         $process = $this->processList[$eventQueueName];
+
+        if ($process->isRunning()) {
+            // @codeCoverageIgnoreStart
+            return $this;
+            // @codeCoverageIgnoreEnd
+        }
+
         $process->start();
 
         return $this;

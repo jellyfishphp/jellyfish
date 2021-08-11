@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-class RunSchedulerCommand extends Command
+class SchedulerRunCommand extends Command
 {
     use LockTrait;
 

@@ -24,7 +24,7 @@ interface SchedulerInterface
     public function clearJobs(): SchedulerInterface;
 
     /**
-     * @return \Jellyfish\Scheduler\SchedulerInterface
+     * @return void
      */
-    public function run(): SchedulerInterface;
+    public function run(): void;
 }

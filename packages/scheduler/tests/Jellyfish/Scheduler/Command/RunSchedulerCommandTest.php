@@ -52,9 +52,9 @@ class RunSchedulerCommandTest extends Unit
     protected $loggerMock;
 
     /**
-     * @var \Jellyfish\Scheduler\Command\RunSchedulerCommand
+     * @var \Jellyfish\Scheduler\Command\SchedulerRunCommand
      */
-    protected RunSchedulerCommand $runSchedulerCommand;
+    protected SchedulerRunCommand $runSchedulerCommand;
 
     /**
      * @var array
@@ -96,9 +96,9 @@ class RunSchedulerCommandTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->lockIdentifierParts = [RunSchedulerCommand::NAME];
+        $this->lockIdentifierParts = [SchedulerRunCommand::NAME];
 
-        $this->runSchedulerCommand = new RunSchedulerCommand(
+        $this->runSchedulerCommand = new SchedulerRunCommand(
             $this->schedulerFacadeMock,
             $this->lockFacadeMock,
             $this->logFacadeMock
@@ -110,7 +110,7 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testGetName(): void
     {
-        static::assertEquals(RunSchedulerCommand::NAME, $this->runSchedulerCommand->getName());
+        static::assertEquals(SchedulerRunCommand::NAME, $this->runSchedulerCommand->getName());
     }
 
     /**
@@ -118,7 +118,7 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testGetDescription(): void
     {
-        static::assertEquals(RunSchedulerCommand::DESCRIPTION, $this->runSchedulerCommand->getDescription());
+        static::assertEquals(SchedulerRunCommand::DESCRIPTION, $this->runSchedulerCommand->getDescription());
     }
 
     /**

@@ -13,7 +13,7 @@ use Jellyfish\Log\LogConstants;
 use Jellyfish\Log\LogFacadeInterface;
 use Jellyfish\Process\ProcessConstants;
 use Jellyfish\Process\ProcessFacadeInterface;
-use Jellyfish\Scheduler\Command\RunSchedulerCommand;
+use Jellyfish\Scheduler\Command\SchedulerRunCommand;
 use Pimple\Container;
 use Symfony\Component\Console\Command\Command;
 
@@ -76,7 +76,7 @@ class SchedulerServiceProviderTest extends Unit
         $this->consoleFacadeMock->expects(static::atLeastOnce())
             ->method('addCommand')
             ->with(
-                static::callback(static fn (Command $command) => $command instanceof RunSchedulerCommand)
+                static::callback(static fn (Command $command) => $command instanceof SchedulerRunCommand)
             )->willReturn($this->consoleFacadeMock);
 
         $this->schedulerServiceProvider->register($this->container);
