@@ -17,16 +17,6 @@ class MailSwiftmailerFactory
     protected ConfigFacadeInterface $configFacade;
 
     /**
-     * @var \Swift_Mailer|null
-     */
-    protected ?SwiftMailer $swiftMailer = null;
-
-    /**
-     * @var \Swift_Transport|null
-     */
-    protected ?SwiftTransport $swiftTransport = null;
-
-    /**
      * @var \Jellyfish\MailSwiftmailer\SwiftAttachmentFactory|null
      */
     protected ?SwiftAttachmentFactory $swiftAttachmentFactory = null;
@@ -45,7 +35,7 @@ class MailSwiftmailerFactory
     public function createMailHandler(): MailHandlerInterface
     {
         return new MailHandler(
-            $this->getSwiftMailer(),
+            $this->createSwiftMailer(),
             $this->createSwiftMessage(),
             $this->getSwiftAttachmentFactory()
         );
@@ -54,37 +44,31 @@ class MailSwiftmailerFactory
     /**
      * @return \Swift_Mailer
      */
-    protected function getSwiftMailer(): SwiftMailer
+    protected function createSwiftMailer(): SwiftMailer
     {
-        if ($this->swiftMailer === null) {
-            $this->swiftMailer = new SwiftMailer($this->getSwiftTransport());
-        }
-
-        return $this->swiftMailer;
+        return new SwiftMailer($this->createSwiftTransport());
     }
 
     /**
      * @return \Swift_Transport
      */
-    protected function getSwiftTransport(): SwiftTransport
+    protected function createSwiftTransport(): SwiftTransport
     {
-        if ($this->swiftTransport === null) {
-            $this->swiftTransport = new SwiftSmtpTransport(
-                $this->configFacade->get(MailConstants::SMTP_HOST, MailConstants::DEFAULT_SMTP_HOST),
-                (int)$this->configFacade->get(MailConstants::SMTP_PORT, MailConstants::DEFAULT_SMTP_PORT),
-                $this->configFacade->get(MailConstants::SMTP_ENCRYPTION, MailConstants::DEFAULT_SMTP_ENCRYPTION)
-            );
+        $swiftTransport = new SwiftSmtpTransport(
+            $this->configFacade->get(MailConstants::SMTP_HOST, MailConstants::DEFAULT_SMTP_HOST),
+            (int)$this->configFacade->get(MailConstants::SMTP_PORT, MailConstants::DEFAULT_SMTP_PORT),
+            $this->configFacade->get(MailConstants::SMTP_ENCRYPTION, MailConstants::DEFAULT_SMTP_ENCRYPTION)
+        );
 
-            $authMode = $this->configFacade->get(MailConstants::SMTP_AUTH_MODE, MailConstants::DEFAULT_SMTP_AUTH_MODE);
+        $authMode = $this->configFacade->get(MailConstants::SMTP_AUTH_MODE, MailConstants::DEFAULT_SMTP_AUTH_MODE);
 
-            if ($authMode !== '') {
-                $this->swiftTransport->setAuthMode($authMode)
-                    ->setUsername($this->configFacade->get(MailConstants::SMTP_USERNAME, MailConstants::DEFAULT_SMTP_USERNAME))
-                    ->setPassword($this->configFacade->get(MailConstants::SMTP_PASSWORD, MailConstants::DEFAULT_SMTP_PASSWORD));
-            }
+        if ($authMode !== '') {
+            $swiftTransport->setAuthMode($authMode)
+                ->setUsername($this->configFacade->get(MailConstants::SMTP_USERNAME, MailConstants::DEFAULT_SMTP_USERNAME))
+                ->setPassword($this->configFacade->get(MailConstants::SMTP_PASSWORD, MailConstants::DEFAULT_SMTP_PASSWORD));
         }
 
-        return $this->swiftTransport;
+        return $swiftTransport;
     }
 
     /**
