@@ -78,7 +78,7 @@ class ConsoleTest extends Unit
             ->method('getCommands')
             ->willReturn([]);
 
-        static::assertCount(2, $this->console->all());
+        static::assertGreaterThan(1, $this->console->all());
     }
 
     /**
@@ -97,10 +97,13 @@ class ConsoleTest extends Unit
             ->with(ConsoleConstants::FACADE)
             ->willReturn($this->consoleFacadeMock);
 
+        $command = new Command('foo:bar');
+
         $this->consoleFacadeMock->expects(static::atLeastOnce())
             ->method('getCommands')
-            ->willReturn([new Command('foo:bar'), new stdClass()]);
+            ->willReturn([$command, new stdClass()]);
 
-        static::assertCount(3, $this->console->all());
+        $commands = $this->console->all();
+        self::assertContains($command, $commands);
     }
 }

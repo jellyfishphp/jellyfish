@@ -124,7 +124,7 @@ class QueueRabbitMqFactory
 
         return new AMQPLazyConnection(
             $rabbitMqHost,
-            $rabbitMqPort,
+            (int)$rabbitMqPort,
             $rabbitMqUser,
             $rabbitMqPassword,
             $rabbitMqVhost
