@@ -10,8 +10,8 @@
   ],
   "require": {
     "php": ">=7.4",
-    "open-telemetry/opentelemetry": "0.0.10",
-    "open-telemetry/opentelemetry-php-contrib": "0.0.2"
+    "open-telemetry/opentelemetry": "^0.0.10",
+    "open-telemetry/opentelemetry-php-contrib": "^0.0.2"
   },
   "require-dev": {
     "codeception/codeception": "^4.0",

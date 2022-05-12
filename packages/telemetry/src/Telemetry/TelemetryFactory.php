@@ -18,7 +18,9 @@ class TelemetryFactory
      */
     private ConfigFacadeInterface $configFacade;
 
-
+    /**
+     * @var \OpenTelemetry\API\Trace\TracerInterface|null
+     */
     protected ?TracerInterface $tracer = null;
 
     /**
