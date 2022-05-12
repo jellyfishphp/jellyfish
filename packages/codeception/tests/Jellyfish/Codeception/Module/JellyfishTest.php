@@ -50,7 +50,7 @@ class JellyfishTest extends Unit
      */
     protected function getJellyfish(): Jellyfish
     {
-        return new class($this->transferFacadeMock, $this->moduleContainerMock, $this->config) extends Jellyfish {
+        return new class ($this->transferFacadeMock, $this->moduleContainerMock, $this->config) extends Jellyfish {
             /**
              * @param \Jellyfish\Transfer\TransferFacadeInterface $transferFacade
              * @param \Codeception\Lib\ModuleContainer $moduleContainer
