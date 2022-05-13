@@ -42,7 +42,7 @@ class TelemetryFactory
     public function createTracer(): TracerInterface
     {
         if ($this->tracer === null) {
-            $exporter = new Exporter($this->configFacade->get(TelemetryConstants::OTLP_ENDPOINT));
+            $exporter = new Exporter($this->configFacade->get(TelemetryConstants::OTLP_ENDPOINT, 'localhost:4317'));
             $this->tracer = (new TracerProvider(new SimpleSpanProcessor($exporter), null, null, null, new IdGenerator()))->getTracer();
         }
 
