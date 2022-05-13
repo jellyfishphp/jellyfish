@@ -130,7 +130,7 @@
       "Jellyfish\\Scheduler\\": "packages/scheduler/src/Jellyfish/Scheduler",
       "Jellyfish\\Serializer\\": "packages/serializer/src/Jellyfish/Serializer",
       "Jellyfish\\SerializerSymfony\\": "packages/serializer-symfony/src/Jellyfish/SerializerSymfony",
-      "Jellyfish\\Telemetry\\": "packages/transfer/src/Jellyfish/Telemetry",
+      "Jellyfish\\Telemetry\\": "packages/telemetry/src/Jellyfish/Telemetry",
       "Jellyfish\\Transfer\\": "packages/transfer/src/Jellyfish/Transfer",
       "Jellyfish\\Uuid\\": "packages/uuid/src/Jellyfish/Uuid",
       "Jellyfish\\UuidRamsey\\": "packages/uuid-ramsey/src/Jellyfish/UuidRamsey"
@@ -172,7 +172,7 @@
       "Jellyfish\\Scheduler\\": "packages/scheduler/tests/Jellyfish/Scheduler",
       "Jellyfish\\Serializer\\": "packages/serializer/tests/Jellyfish/Serializer",
       "Jellyfish\\SerializerSymfony\\": "packages/serializer-symfony/tests/Jellyfish/SerializerSymfony",
-      "Jellyfish\\Telemetry\\": "packages/transfer/tests/Jellyfish/Telemetry",
+      "Jellyfish\\Telemetry\\": "packages/telemetry/src/Jellyfish/Telemetry",
       "Jellyfish\\Transfer\\": "packages/transfer/tests/Jellyfish/Transfer",
       "Jellyfish\\Uuid\\": "packages/uuid/tests/Jellyfish/Uuid",
       "Jellyfish\\UuidRamsey\\": "packages/uuid-ramsey/tests/Jellyfish/UuidRamsey",
