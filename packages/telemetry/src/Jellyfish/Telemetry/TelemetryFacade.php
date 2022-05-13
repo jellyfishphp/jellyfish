@@ -12,14 +12,14 @@ class TelemetryFacade implements TelemetryFacadeInterface
     /**
      * @var \Jellyfish\Telemetry\TelemetryFactory
      */
-    protected TelemetryFactory $otelFactory;
+    protected TelemetryFactory $telemetryFactory;
 
     /**
-     * @param \Jellyfish\Telemetry\TelemetryFactory $otelFactory
+     * @param \Jellyfish\Telemetry\TelemetryFactory $telemetryFactory
      */
-    public function __construct(TelemetryFactory $otelFactory)
+    public function __construct(TelemetryFactory $telemetryFactory)
     {
-        $this->otelFactory = $otelFactory;
+        $this->telemetryFactory = $telemetryFactory;
     }
 
     /**
@@ -30,7 +30,7 @@ class TelemetryFacade implements TelemetryFacadeInterface
      */
     public function createTracer(): TracerInterface
     {
-        return $this->otelFactory->createTracer();
+        return $this->telemetryFactory->createTracer();
     }
 
     /**
@@ -39,6 +39,6 @@ class TelemetryFacade implements TelemetryFacadeInterface
      */
     public function createPropagator(): TextMapPropagatorInterface
     {
-        return $this->otelFactory->createPropagator();
+        return $this->telemetryFactory->createPropagator();
     }
 }

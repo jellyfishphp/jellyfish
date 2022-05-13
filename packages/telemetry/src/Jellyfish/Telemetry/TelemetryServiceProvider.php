@@ -17,7 +17,7 @@ class TelemetryServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple): void
     {
-        $this->registerOTelFacade($pimple);
+        $this->registerTelemetryFacade($pimple);
     }
 
     /**
@@ -25,7 +25,7 @@ class TelemetryServiceProvider implements ServiceProviderInterface
      *
      * @return \Jellyfish\Telemetry\TelemetryServiceProvider
      */
-    protected function registerOTelFacade(Container $container): TelemetryServiceProvider
+    protected function registerTelemetryFacade(Container $container): TelemetryServiceProvider
     {
         $container->offsetSet(
             TelemetryConstants::FACADE,
