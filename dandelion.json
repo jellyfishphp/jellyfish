@@ -148,6 +148,10 @@
       "path": "packages/serializer-symfony",
       "version": "1.0.0"
     },
+    "telemetry": {
+      "path": "packages/telemetry",
+      "version": "0.0.1"
+    },
     "transfer": {
       "path": "packages/transfer",
       "version": "1.0.0"
