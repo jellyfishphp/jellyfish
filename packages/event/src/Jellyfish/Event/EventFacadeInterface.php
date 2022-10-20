@@ -40,6 +40,11 @@ interface EventFacadeInterface
     ): ?EventListenerInterface;
 
     /**
+     * @return array<string, array<int, \Jellyfish\Event\EventListenerInterface>>
+     */
+    public function getEventListenersByType(string $type): array;
+
+    /**
      * @param string $eventName
      * @param string $listenerIdentifier
      *

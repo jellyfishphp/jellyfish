@@ -6,6 +6,7 @@ namespace Jellyfish\Event;
 
 use Jellyfish\Console\ConsoleConstants;
 use Jellyfish\Console\ConsoleFacadeInterface;
+use Jellyfish\Event\Command\EventListenerGetCommand;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
 use Jellyfish\Lock\LockConstants;
@@ -73,6 +74,13 @@ class EventServiceProvider implements ServiceProviderInterface
                 $consoleFacade->addCommand(
                     new EventQueueWorkerStartCommand(
                         $container->offsetGet(EventConstants::FACADE)
+                    )
+                );
+
+                $consoleFacade->addCommand(
+                    new EventListenerGetCommand(
+                        $container->offsetGet(EventConstants::FACADE),
+                        $container->offsetGet(SerializerConstants::FACADE)
                     )
                 );
 

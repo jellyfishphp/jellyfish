@@ -7,6 +7,7 @@ namespace Jellyfish\Event;
 use Codeception\Test\Unit;
 use Jellyfish\Console\ConsoleConstants;
 use Jellyfish\Console\ConsoleFacadeInterface;
+use Jellyfish\Event\Command\EventListenerGetCommand;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
 use Jellyfish\Lock\LockConstants;
@@ -102,6 +103,9 @@ class EventServiceProviderTest extends Unit
                 ],
                 [
                     static::callback(static fn (Command $command) => $command instanceof EventQueueWorkerStartCommand)
+                ],
+                [
+                    static::callback(static fn (Command $command) => $command instanceof EventListenerGetCommand)
                 ]
             )->willReturn($this->consoleFacadeMock);
 

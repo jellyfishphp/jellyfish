@@ -288,4 +288,31 @@ class EventFacadeTest extends Unit
             $this->eventFacade->getDefaultEventErrorHandlers()
         );
     }
+
+    /**
+     * @return void
+     */
+    public function testGetEventListenersByType(): void
+    {
+        $type = 'async';
+        $asyncEventListeners = [
+            'eventA' => [
+                $this->eventListenerMock
+            ]
+        ];
+
+        $this->eventFactoryMock->expects(static::atLeastOnce())
+            ->method('getEventListenerProvider')
+            ->willReturn($this->eventListenerProviderMock);
+
+        $this->eventListenerProviderMock->expects(static::atLeastOnce())
+            ->method('getListenersByType')
+            ->with($type)
+            ->willReturn($asyncEventListeners);
+
+        static::assertEquals(
+            $asyncEventListeners,
+            $this->eventFacade->getEventListenersByType($type)
+        );
+    }
 }

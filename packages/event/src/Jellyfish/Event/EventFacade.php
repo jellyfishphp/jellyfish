@@ -119,4 +119,12 @@ class EventFacade implements EventFacadeInterface
     {
         return $this->factory->createEvent();
     }
+
+    /**
+     * @return array<string, array<int, \Jellyfish\Event\EventListenerInterface>>
+     */
+    public function getEventListenersByType(string $type): array
+    {
+        return $this->factory->getEventListenerProvider()->getListenersByType($type);
+    }
 }
