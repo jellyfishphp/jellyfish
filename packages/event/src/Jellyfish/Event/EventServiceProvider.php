@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
+use Jellyfish\Event\Command\EventListenerGetCommand;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
 use Jellyfish\Queue\QueueConstants;
@@ -191,6 +192,11 @@ class EventServiceProvider implements ServiceProviderInterface
 
             $commands[] = new EventQueueWorkerStartCommand(
                 $self->createEventQueueWorker($container)
+            );
+
+            $commands[] = new EventListenerGetCommand(
+                $container->offsetGet('event_dispatcher')->getEventListenerProvider(),
+                $container->offsetGet('serializer')
             );
 
             return $commands;

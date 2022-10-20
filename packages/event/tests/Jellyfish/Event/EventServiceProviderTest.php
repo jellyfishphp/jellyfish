@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jellyfish\Event;
 
 use Codeception\Test\Unit;
+use Jellyfish\Event\Command\EventListenerGetCommand;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
 use Jellyfish\Lock\LockFactoryInterface;
@@ -131,8 +132,9 @@ class EventServiceProviderTest extends Unit
 
         $commands = $this->container->offsetGet('commands');
 
-        self::assertCount(2, $commands);
+        self::assertCount(3, $commands);
         self::assertInstanceOf(EventQueueConsumeCommand::class, $commands[0]);
         self::assertInstanceOf(EventQueueWorkerStartCommand::class, $commands[1]);
+        self::assertInstanceOf(EventListenerGetCommand::class, $commands[2]);
     }
 }
