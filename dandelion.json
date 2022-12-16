@@ -100,6 +100,10 @@
       "path": "packages/log-monolog",
       "version": "1.0.0"
     },
+    "log-road-runner": {
+      "path": "packages/log-road-runner",
+      "version": "1.0.0"
+    },
     "mail": {
       "path": "packages/mail",
       "version": "1.0.0"

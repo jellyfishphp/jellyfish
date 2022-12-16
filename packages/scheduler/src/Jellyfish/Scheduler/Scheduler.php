@@ -54,6 +54,7 @@ class Scheduler implements SchedulerInterface
      */
     public function run(): void
     {
+        // @phpstan-ignore-next-line
         while (true) {
             $dateTime = new DateTime();
 
