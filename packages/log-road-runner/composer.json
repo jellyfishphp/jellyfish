@@ -1,0 +1,36 @@
+{
+  "name": "jellyfish/log-road-runner",
+  "description": "Jellyfish log road runner bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Rose",
+      "email": "daniel-rose@gmx.de"
+    }
+  ],
+  "require": {
+    "php": ">=8.1",
+    "jellyfish/config": "^1.0.0",
+    "jellyfish/log": "^1.0.0",
+    "jellyfish/pimple": "^1.0.0",
+    "roadrunner-php/app-logger": "^1.0.0"
+  },
+  "require-dev": {
+    "codeception/codeception": "^4.0",
+    "mikey179/vfsstream": "*",
+    "phpstan/phpstan": "*",
+    "sebastian/phpcpd": "*",
+    "squizlabs/php_codesniffer": "*",
+    "friendsofphp/php-cs-fixer": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jellyfish\\LogRoadRunner\\": "src/Jellyfish/LogRoadRunner"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jellyfish\\LogRoadRunner\\": "tests/Jellyfish/LogRoadRunner"
+    }
+  }
+}

@@ -43,6 +43,7 @@ class EventQueueWorker implements EventQueueWorkerInterface
             return;
         }
 
+        // @phpstan-ignore-next-line
         while (true) {
             foreach ($listeners as $eventName => $listenersPerEvent) {
                 foreach ($listenersPerEvent as $listenerIdentifier => $listener) {
