@@ -26,12 +26,12 @@ class TransferCleanerTest extends Unit
     protected $targetDirectory;
 
     /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Filesystem\FilesystemInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $filesystemMock;
 
     /**
-     * @var \Jellyfish\Finder\FinderFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Finder\FinderFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $finderFactoryMock;
 

@@ -16,32 +16,32 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RunSchedulerCommandTest extends Unit
 {
     /**
-     * @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Console\Input\InputInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $inputMock;
 
     /**
-     * @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Console\Output\OutputInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $outputMock;
 
     /**
-     * @var \Jellyfish\Scheduler\SchedulerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Scheduler\SchedulerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $schedulerMock;
 
     /**
-     * @var \Jellyfish\Lock\LockFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Lock\LockFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $lockFactoryMock;
 
     /**
-     * @var \Jellyfish\Lock\LockInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Lock\LockInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $lockMock;
 
     /**
-     * @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $loggerMock;
 

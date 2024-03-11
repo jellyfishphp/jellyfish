@@ -25,7 +25,7 @@ use Psr\Log\LoggerInterface;
 class EventServiceProviderTest extends Unit
 {
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Serializer\SerializerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $serializerMock;
 

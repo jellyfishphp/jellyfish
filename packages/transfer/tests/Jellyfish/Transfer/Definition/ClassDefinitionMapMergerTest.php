@@ -9,29 +9,26 @@ use Codeception\Test\Unit;
 class ClassDefinitionMapMergerTest extends Unit
 {
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMerger
+     * @var array<\Jellyfish\Transfer\Definition\ClassDefinitionInterface&\PHPUnit\Framework\MockObject\MockObject>
      */
-    protected $classDefinitionMapMerger;
+    protected array $classDefinitionMapAMock;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
+     * @var array<\Jellyfish\Transfer\Definition\ClassDefinitionInterface&\PHPUnit\Framework\MockObject\MockObject>
      */
-    protected $classDefinitionMapAMock;
+    protected array $classDefinitionMapBMock;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
+     * @var array<\Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface&\PHPUnit\Framework\MockObject\MockObject>
      */
-    protected $classDefinitionMapBMock;
+    protected array $classDefinitionPropertyMapAMock;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
+     * @var array<\Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface&\PHPUnit\Framework\MockObject\MockObject>
      */
-    protected $classDefinitionPropertyMapAMock;
+    protected array $classDefinitionPropertyMapBMock;
 
-    /**
-     * @var \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
-     */
-    protected $classDefinitionPropertyMapBMock;
+    protected ClassDefinitionMapMerger $classDefinitionMapMerger;
 
     /**
      * @return void

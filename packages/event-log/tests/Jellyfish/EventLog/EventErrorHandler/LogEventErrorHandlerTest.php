@@ -10,12 +10,12 @@ use Psr\Log\LoggerInterface;
 class LogEventErrorHandlerTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Psr\Log\LoggerInterface
      */
     protected $loggerMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Event\EventInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Event\EventInterface
      */
     protected $eventMock;
 

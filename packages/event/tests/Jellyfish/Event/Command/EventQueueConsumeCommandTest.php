@@ -22,59 +22,26 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class EventQueueConsumeCommandTest extends Unit
 {
-    /**
-     * @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected InputInterface|MockObject $inputMock;
+    protected InputInterface&MockObject $inputMock;
 
-    /**
-     * @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected OutputInterface|MockObject $outputMock;
+    protected OutputInterface&MockObject $outputMock;
 
-    /**
-     * @var \Jellyfish\Event\EventListenerProviderInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected MockObject|EventListenerProviderInterface $eventListenerProviderMock;
+    protected MockObject&EventListenerProviderInterface $eventListenerProviderMock;
 
-    /**
-     * @var \Jellyfish\Event\EventQueueConsumerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected MockObject|EventQueueConsumerInterface $eventQueueConsumerMock;
+    protected MockObject&EventQueueConsumerInterface $eventQueueConsumerMock;
 
-    /**
-     * @var \Jellyfish\Event\EventInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected EventInterface|MockObject $eventMock;
+    protected EventInterface&MockObject $eventMock;
 
-    /**
-     * @var \Jellyfish\Event\EventBulkListenerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected EventBulkListenerInterface|MockObject $eventBulkListenerMock;
+    protected EventBulkListenerInterface&MockObject $eventBulkListenerMock;
 
-    /**
-     * @var \Jellyfish\Event\EventListenerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected EventListenerInterface|MockObject $eventListenerMock;
+    protected EventListenerInterface&MockObject $eventListenerMock;
 
-    /**
-     * @var \Jellyfish\Lock\LockFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected LockFactoryInterface|MockObject $lockFactoryMock;
+    protected LockFactoryInterface&MockObject $lockFactoryMock;
 
-    /**
-     * @var \Jellyfish\Lock\LockInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected MockObject|LockInterface $lockMock;
+    protected MockObject&LockInterface $lockMock;
 
-    /**
-     * @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected LoggerInterface|MockObject $loggerMock;
+    protected LoggerInterface&MockObject $loggerMock;
 
-    /**
-     * @var \Jellyfish\Event\Command\EventQueueConsumeCommand
-     */
     protected EventQueueConsumeCommand $eventQueueConsumeCommand;
 
     /**

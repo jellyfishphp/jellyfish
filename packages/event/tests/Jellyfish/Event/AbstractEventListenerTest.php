@@ -10,17 +10,17 @@ use Exception;
 class AbstractEventListenerTest extends Unit
 {
     /**
-     * @var \Jellyfish\Event\AbstractEventListener|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Event\AbstractEventListener&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $abstractEventListenerMock;
 
     /**
-     * @var \Jellyfish\Event\EventInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Event\EventInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $eventMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Event\EventErrorHandlerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Event\EventErrorHandlerInterface
      */
     protected $errorHandlerMock;
 

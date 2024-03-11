@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\QueueRabbitMq;
 
+use Exception;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
 
@@ -55,7 +56,13 @@ class FanoutConsumer extends AbstractConsumer
     protected function createExchange(DestinationInterface $destination): void
     {
         $exchange = clone $destination;
-        $exchange->setName($destination->getProperty('bind'));
+        $bindProperty = $destination->getProperty('bind');
+
+        if ($bindProperty === null) {
+            throw new Exception('Property "bind" is required for fanout exchange.');
+        }
+
+        $exchange->setName($bindProperty);
         $this->connection->createExchange($exchange);
     }
 }

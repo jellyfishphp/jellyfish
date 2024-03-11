@@ -9,9 +9,9 @@ use Ramsey\Uuid\UuidInterface;
 
 class UuidGeneratorTest extends Unit
 {
-    protected MockObject|UuidFactoryInterface $uuidFactoryMock;
+    protected MockObject&UuidFactoryInterface $uuidFactoryMock;
 
-    protected MockObject|UuidInterface $uuidMock;
+    protected MockObject&UuidInterface $uuidMock;
 
     protected UuidGenerator $uuidGenerator;
 

@@ -18,42 +18,42 @@ class ClassDefinitionMapLoaderTest extends Unit
     protected $classDefinitionMapLoader;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\DefinitionFinderInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Transfer\Definition\DefinitionFinderInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $definitionFinderMock;
 
     /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Filesystem\FilesystemInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $filesystemMock;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMapperInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMapperInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $classDefinitionMapMapperMock;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMergerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMergerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $classDefinitionMapMergerMock;
 
     /**
-     * @var \Iterator|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Iterator&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $iteratorMock;
 
     /**
-     * @var \stdClass|\PHPUnit\Framework\MockObject\MockObject
+     * @var \stdClass&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $stdClassMock;
 
     /**
-     * @var \SplFileInfo|\PHPUnit\Framework\MockObject\MockObject
+     * @var \SplFileInfo&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $splFileInfoMock;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
+     * @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface[]&\PHPUnit\Framework\MockObject\MockObject[]
      */
     protected $classDefinitionMapMock;
 

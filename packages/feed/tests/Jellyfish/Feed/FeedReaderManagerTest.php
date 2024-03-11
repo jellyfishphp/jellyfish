@@ -15,7 +15,7 @@ class FeedReaderManagerTest extends Unit
     protected $feedReaderManager;
 
     /**
-     * @var \Jellyfish\Feed\FeedReaderInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Feed\FeedReaderInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $feedReaderMock;
 

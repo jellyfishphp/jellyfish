@@ -11,7 +11,7 @@ use Pimple\Container;
 class SerializerServiceProviderTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface
      */
     protected $propertyNameConverterStrategyProviderMock;
 

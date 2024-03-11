@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 class EventLogServiceProviderTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Psr\Log\LoggerInterface
      */
     protected $loggerMock;
 

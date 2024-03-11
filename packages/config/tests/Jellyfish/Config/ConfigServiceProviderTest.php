@@ -6,9 +6,7 @@ namespace Jellyfish\Config;
 
 use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
-use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
-
 use function file_get_contents;
 use function rtrim;
 
@@ -16,7 +14,7 @@ class ConfigServiceProviderTest extends Unit
 {
     protected ConfigServiceProvider $configServiceProvider;
 
-    protected MockObject|Container $container;
+    protected Container $container;
 
     /**
      * @return void

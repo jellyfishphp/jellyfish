@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class SerializerTest extends Unit
 {
     /**
-     * @var \Symfony\Component\Serializer\SerializerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Serializer\SerializerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $symfonySerializerMock;
 

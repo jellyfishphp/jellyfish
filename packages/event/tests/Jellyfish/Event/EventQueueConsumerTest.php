@@ -18,47 +18,47 @@ use function sprintf;
 class EventQueueConsumerTest extends Unit
 {
     /**
-     * @var \Jellyfish\Process\ProcessFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Process\ProcessFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $processFactoryMock;
 
     /**
-     * @var \Jellyfish\Event\EventMapperInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Event\EventMapperInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $eventMapperMock;
 
     /**
-     * @var \Jellyfish\Event\EventQueueNameGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Event\EventQueueNameGeneratorInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $eventQueueNameGeneratorMock;
 
     /**
-     * @var \Jellyfish\Queue\QueueClientInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\QueueClientInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $queueClientMock;
 
     /**
-     * @var \Jellyfish\Queue\DestinationFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\DestinationFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $destinationFactoryMock;
 
     /**
-     * @var \Jellyfish\Queue\DestinationInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\DestinationInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $destinationMock;
 
     /**
-     * @var \Jellyfish\Queue\MessageInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\MessageInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $messageMock;
 
     /**
-     * @var \Jellyfish\Event\EventInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Event\EventInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $eventMock;
 
     /**
-     * @var \Jellyfish\Process\ProcessInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Process\ProcessInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $processMock;
 

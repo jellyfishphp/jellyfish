@@ -20,7 +20,7 @@ class JsonSchemaOpisServiceProviderTest extends Unit
     protected $container;
 
     /**
-     * @var \Jellyfish\Config\ConfigInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Config\ConfigInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $configMock;
 

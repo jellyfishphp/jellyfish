@@ -17,12 +17,12 @@ class JobTest extends Unit
     protected $job;
 
     /**
-     * @var \Cron\CronExpression|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Cron\CronExpression&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $cronExpressionMock;
 
     /**
-     * @var \Jellyfish\Process\ProcessInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Process\ProcessInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $processMock;
 

@@ -14,37 +14,37 @@ use PhpAmqpLib\Message\AMQPMessage;
 class QueueProducerTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\QueueRabbitMq\ConnectionInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\QueueRabbitMq\ConnectionInterface
      */
     protected $connectionMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\MessageMapperInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\MessageMapperInterface
      */
     protected $messageMapperMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\PhpAmqpLib\Channel\AMQPChannel
+     * @var \PHPUnit\Framework\MockObject\MockObject&\PhpAmqpLib\Channel\AMQPChannel
      */
     protected $amqpChannelMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\MessageInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\MessageInterface
      */
     protected $messageMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\PhpAmqpLib\Message\AMQPMessage
+     * @var \PHPUnit\Framework\MockObject\MockObject&\PhpAmqpLib\Message\AMQPMessage
      */
     protected $amqpMessageMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface
      */
     protected $amqpMessageFactoryMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\DestinationInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\DestinationInterface
      */
     protected $destinationMock;
 

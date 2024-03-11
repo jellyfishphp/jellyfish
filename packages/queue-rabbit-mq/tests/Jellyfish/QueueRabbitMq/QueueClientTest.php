@@ -19,22 +19,22 @@ use PhpAmqpLib\Message\AMQPMessage;
 class QueueClientTest extends Unit
 {
     /**
-     * @var \Jellyfish\Queue\ConsumerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\ConsumerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $consumerMock;
 
     /**
-     * @var \Jellyfish\Queue\ProducerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\ProducerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $producerMock;
 
     /**
-     * @var \Jellyfish\Queue\DestinationInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\DestinationInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $destinationMock;
 
     /**
-     * @var \Jellyfish\Queue\MessageInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\MessageInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $messageMock;
 
@@ -215,7 +215,7 @@ class QueueClientTest extends Unit
      */
     public function testSetConsumer(): void
     {
-        /** @var \Jellyfish\Queue\ConsumerInterface|\PHPUnit\Framework\MockObject\MockObject $consumerMock */
+        /** @var \Jellyfish\Queue\ConsumerInterface&\PHPUnit\Framework\MockObject\MockObject $consumerMock */
         $consumerMock = $this->getMockBuilder(ConsumerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -231,7 +231,7 @@ class QueueClientTest extends Unit
      */
     public function testSetProducer(): void
     {
-        /** @var \Jellyfish\Queue\ProducerInterface|\PHPUnit\Framework\MockObject\MockObject $producerMock */
+        /** @var \Jellyfish\Queue\ProducerInterface&\PHPUnit\Framework\MockObject\MockObject $producerMock */
         $producerMock = $this->getMockBuilder(ProducerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();

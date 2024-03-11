@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 class FilesystemTest extends Unit
 {
     /**
-     * @var \Symfony\Component\Filesystem\Filesystem|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Filesystem\Filesystem&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $symfonyFilesystemMock;
 

@@ -10,7 +10,7 @@ use Symfony\Component\Lock\LockInterface as SymfonyLockInterface;
 class LockTest extends Unit
 {
     /**
-     * @var \Symfony\Component\Lock\LockInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Lock\LockInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $symfonyLockMock;
 

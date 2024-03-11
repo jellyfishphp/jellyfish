@@ -22,17 +22,17 @@ class ClassGeneratorTest extends Unit
     protected $classGenerator;
 
     /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Filesystem\FilesystemInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $filesystemMock;
 
     /**
-     * @var \Twig\Environment|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Twig\Environment&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $twigEnvironmentMock;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $classDefinitionMock;
 

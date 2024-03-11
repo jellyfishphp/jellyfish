@@ -11,12 +11,12 @@ class LockTraitTest extends Unit
     use LockTrait;
 
     /**
-     * @var \Jellyfish\Lock\LockFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Lock\LockFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $lockFactoryMock;
 
     /**
-     * @var \Jellyfish\Lock\LockInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Lock\LockInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $lockMock;
 

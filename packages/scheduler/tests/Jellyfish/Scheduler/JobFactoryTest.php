@@ -13,7 +13,7 @@ use Jellyfish\Process\ProcessInterface;
 class JobFactoryTest extends Unit
 {
     /**
-     * @var \Jellyfish\Scheduler\CronExpressionFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Scheduler\CronExpressionFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $cronExpressionFactoryMock;
 

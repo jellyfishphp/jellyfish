@@ -22,17 +22,17 @@ class DefinitionFinderTest extends Unit
     protected $rootDir;
 
     /**
-     * @var \Jellyfish\Finder\FinderFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Finder\FinderFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $finderFactoryMock;
 
     /**
-     * @var \Jellyfish\Finder\FinderInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Finder\FinderInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $finderMock;
 
     /**
-     * @var \Iterator|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Iterator&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $iteratorMock;
 

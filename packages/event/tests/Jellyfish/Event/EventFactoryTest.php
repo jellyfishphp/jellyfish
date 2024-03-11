@@ -10,7 +10,7 @@ use Jellyfish\Uuid\UuidGeneratorInterface;
 class EventFactoryTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Uuid\UuidGeneratorInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Uuid\UuidGeneratorInterface
      */
     protected $uuidGeneratorMock;
 

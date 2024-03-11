@@ -12,17 +12,17 @@ use Jellyfish\Event\Exception\NotSupportedTypeException;
 class AbstractEventBulkListenerTest extends Unit
 {
     /**
-     * @var \Jellyfish\Event\EventInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Event\EventInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $eventMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Event\EventErrorHandlerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Event\EventErrorHandlerInterface
      */
     protected $errorHandlerMock;
 
     /**
-     * @var \Jellyfish\Event\AbstractEventBulkListener|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Event\AbstractEventBulkListener&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $abstractEventBulkListenerMock;
 

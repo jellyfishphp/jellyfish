@@ -10,17 +10,17 @@ use Jellyfish\Serializer\SerializerInterface;
 class MessageMapperTest extends Unit
 {
     /**
-     * @var \Jellyfish\Queue\MessageFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\MessageFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $messageFactoryMock;
 
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Serializer\SerializerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $serializerMock;
 
     /**
-     * @var \Jellyfish\Queue\MessageInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Queue\MessageInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $messageMock;
 

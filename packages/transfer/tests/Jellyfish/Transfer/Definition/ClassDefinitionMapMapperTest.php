@@ -11,23 +11,17 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ClassDefinitionMapMapperTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMapper
-     */
     protected ClassDefinitionMapMapper $classDefinitionMapMapper;
 
-    /**
-     * @var \Jellyfish\Serializer\SerializerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected MockObject|SerializerInterface $serializerMock;
+    protected MockObject&SerializerInterface $serializerMock;
 
     /**
-     * @var \ArrayObject<\Jellyfish\Transfer\Definition\ClassDefinition|\PHPUnit\Framework\MockObject\MockObject>
+     * @var \ArrayObject<\Jellyfish\Transfer\Definition\ClassDefinition&\PHPUnit\Framework\MockObject\MockObject>
      */
     protected ArrayObject $classDefinitionMocks;
 
     /**
-     * @var array<\Jellyfish\Transfer\Definition\ClassPropertyDefinition|\PHPUnit\Framework\MockObject\MockObject>
+     * @var array<\Jellyfish\Transfer\Definition\ClassPropertyDefinition&\PHPUnit\Framework\MockObject\MockObject>
      */
     protected array $classPropertyDefinitionMocks;
 

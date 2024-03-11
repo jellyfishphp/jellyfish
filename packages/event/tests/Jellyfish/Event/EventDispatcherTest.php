@@ -10,13 +10,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class EventDispatcherTest extends Unit
 {
-    protected MockObject|EventListenerProviderInterface $eventListenerProviderMock;
+    protected MockObject&EventListenerProviderInterface $eventListenerProviderMock;
 
-    protected EventQueueProducerInterface|MockObject $eventQueueProducerMock;
+    protected EventQueueProducerInterface&MockObject $eventQueueProducerMock;
 
-    protected EventListenerInterface|MockObject $eventListenerMock;
+    protected EventListenerInterface&MockObject $eventListenerMock;
 
-    protected EventInterface|MockObject $eventMock;
+    protected EventInterface&MockObject $eventMock;
 
 
     protected string $eventName;

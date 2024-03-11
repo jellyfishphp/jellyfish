@@ -12,15 +12,9 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 class CacheTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Cache\Adapter\AbstractAdapter
-     */
-    protected AbstractAdapter|MockObject $cacheAdapterMock;
+    protected AbstractAdapter&MockObject $cacheAdapterMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Cache\CacheItem
-     */
-    protected ItemInterface|MockObject $cacheItemMock;
+    protected ItemInterface&MockObject $cacheItemMock;
 
     /**
      * @var \Jellyfish\Cache\CacheInterface

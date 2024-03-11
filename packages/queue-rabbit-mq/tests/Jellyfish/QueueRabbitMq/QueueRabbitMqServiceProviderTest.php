@@ -18,12 +18,12 @@ use Pimple\Container;
 class QueueRabbitMqServiceProviderTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Config\ConfigInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Config\ConfigInterface
      */
     protected $configMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\MessageMapperInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\MessageMapperInterface
      */
     protected $messageMapperMock;
 

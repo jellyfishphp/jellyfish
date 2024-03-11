@@ -16,7 +16,7 @@ use function sprintf;
 class LockFactoryTest extends Unit
 {
     /**
-     * @var \Symfony\Component\Lock\LockFactory|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Lock\LockFactory&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $symfonyLockFactoryMock;
 
@@ -26,12 +26,12 @@ class LockFactoryTest extends Unit
     protected $lockFactory;
 
     /**
-     * @var \Symfony\Component\Lock\LockInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Lock\LockInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $symfonyLockMock;
 
     /**
-     * @var \Jellyfish\Lock\LockIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Lock\LockIdentifierGeneratorInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $lockIdentifierGeneratorMock;
 

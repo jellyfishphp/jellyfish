@@ -17,12 +17,12 @@ use Psr\Log\LoggerInterface;
 class EventCacheServiceProviderTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Serializer\SerializerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Serializer\SerializerInterface
      */
     protected $serializerMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Cache\CacheInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Cache\CacheInterface
      */
     protected $cacheMock;
 

@@ -13,28 +13,19 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class TransferGeneratorTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Transfer\TransferGeneratorInterface
-     */
     protected TransferGeneratorInterface $transferGenerator;
 
-    /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected ClassDefinitionMapLoaderInterface|MockObject $classDefinitionMapLoaderMock;
+    protected ClassDefinitionMapLoaderInterface&MockObject $classDefinitionMapLoaderMock;
+
+    protected MockObject&FactoryRegistryGeneratorInterface $factoryRegistryGeneratorMock;
 
     /**
-     * @var \Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected MockObject|FactoryRegistryGeneratorInterface $factoryRegistryGeneratorMock;
-
-    /**
-     * @var array<\Jellyfish\Transfer\Generator\ClassGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject>
+     * @var array<\Jellyfish\Transfer\Generator\ClassGeneratorInterface&\PHPUnit\Framework\MockObject\MockObject>
      */
     protected array $classGeneratorMocks;
 
     /**
-     * @var array<\Jellyfish\Transfer\Definition\ClassDefinition|\PHPUnit\Framework\MockObject\MockObject>
+     * @var array<\Jellyfish\Transfer\Definition\ClassDefinition&\PHPUnit\Framework\MockObject\MockObject>
      */
     protected array $classDefinitionMapMock;
 

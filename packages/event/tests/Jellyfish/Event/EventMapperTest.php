@@ -16,15 +16,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class EventMapperTest extends Unit
 {
-    protected EventFactoryInterface|MockObject $eventFactoryMock;
+    protected EventFactoryInterface&MockObject $eventFactoryMock;
 
-    protected MockObject|MessageFactoryInterface $messageFactoryMock;
+    protected MockObject&MessageFactoryInterface $messageFactoryMock;
 
-    protected EventInterface|MockObject $eventMock;
+    protected EventInterface&MockObject $eventMock;
 
-    protected MockObject|MessageInterface $messageMock;
+    protected MockObject&MessageInterface $messageMock;
 
-    protected MockObject|SerializerInterface $serializerMock;
+    protected MockObject&SerializerInterface $serializerMock;
 
     protected EventMapper $eventMapper;
 

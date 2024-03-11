@@ -5,18 +5,14 @@ declare(strict_types=1);
 namespace Jellyfish\JsonSchemaOpis;
 
 use Codeception\Test\Unit;
+use Exception;
+use Jellyfish\JsonSchema\ValidatorFactoryInterface;
 
 class ValidatorFactoryTest extends Unit
 {
-    /**
-     * @var \Jellyfish\JsonSchema\ValidatorFactoryInterface
-     */
-    protected $validatorFactory;
+    protected ValidatorFactoryInterface $validatorFactory;
 
-    /**
-     * @var string
-     */
-    protected $schema;
+    protected string $schema;
 
     /**
      * @return void
@@ -25,7 +21,13 @@ class ValidatorFactoryTest extends Unit
     {
         parent::_before();
 
-        $this->schema = \file_get_contents(\codecept_data_dir('person.schema.json'));
+        $schema = \file_get_contents(\codecept_data_dir('person.schema.json'));
+
+        if ($schema === false) {
+            throw new Exception('Person schema not found.');
+        }
+
+        $this->schema = $schema;
         $this->validatorFactory = new ValidatorFactory();
     }
 

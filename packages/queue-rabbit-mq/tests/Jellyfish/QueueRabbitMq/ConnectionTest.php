@@ -15,11 +15,11 @@ use function strtolower;
 
 class ConnectionTest extends Unit
 {
-    protected MockObject|AbstractConnection $amqpConnectionMock;
+    protected MockObject&AbstractConnection $amqpConnectionMock;
 
-    protected MockObject|AMQPChannel $amqpChannelMock;
+    protected MockObject&AMQPChannel $amqpChannelMock;
 
-    protected MockObject|DestinationInterface $destinationMock;
+    protected MockObject&DestinationInterface $destinationMock;
 
     protected ConnectionInterface $connection;
 

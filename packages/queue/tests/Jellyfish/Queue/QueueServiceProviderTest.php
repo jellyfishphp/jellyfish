@@ -11,7 +11,7 @@ use Pimple\Container;
 class QueueServiceProviderTest extends Unit
 {
     /**
-     * @var \Jellyfish\Serializer\SerializerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Serializer\SerializerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $serializerMock;
 

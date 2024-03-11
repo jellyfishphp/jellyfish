@@ -9,7 +9,7 @@ use Codeception\Test\Unit;
 class PropertyNameConverterStrategyProviderTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface
      */
     protected $propertyNameConverterStrategyMock;
 

@@ -7,38 +7,24 @@ namespace Jellyfish\SerializerSymfony\NameConverter;
 use Codeception\Test\Unit;
 use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface;
 use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class PropertyNameConverterTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface
-     */
-    protected $propertyNameConverterStrategyProviderMock;
+    protected PropertyNameConverterStrategyProviderInterface&MockObject $propertyNameConverterStrategyProviderMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject[]|\Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface[]
+     * @var array<\PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface>
      */
-    protected $propertyNameConverterStrategyMocks;
+    protected array $propertyNameConverterStrategyMocks;
 
-    /**
-     * @var string
-     */
-    protected $propertyName;
+    protected string $propertyName;
 
-    /**
-     * @var string
-     */
-    protected $class;
+    protected string $class;
 
-    /**
-     * @var string
-     */
-    protected $format;
+    protected string $format;
 
-    /**
-     * @var \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverter
-     */
-    protected $propertyNameConverter;
+    protected PropertyNameConverter $propertyNameConverter;
 
     /**
      * @return void

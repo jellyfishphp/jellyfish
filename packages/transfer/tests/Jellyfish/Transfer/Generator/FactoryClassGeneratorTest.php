@@ -17,12 +17,12 @@ class FactoryClassGeneratorTest extends Unit
     protected $targetDirectory;
 
     /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Filesystem\FilesystemInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $filesystemMock;
 
     /**
-     * @var \Twig\Environment|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Twig\Environment&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $twigEnvironmentMock;
 

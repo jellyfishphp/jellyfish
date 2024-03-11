@@ -12,17 +12,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 class EventQueueWorkerStartCommandTest extends Unit
 {
     /**
-     * @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Console\Input\InputInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $inputMock;
 
     /**
-     * @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Console\Output\OutputInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $outputMock;
 
     /**
-     * @var \Jellyfish\Event\EventQueueWorkerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Event\EventQueueWorkerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $eventQueueWorkerMock;
 

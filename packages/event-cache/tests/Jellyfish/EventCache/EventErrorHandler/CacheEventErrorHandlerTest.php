@@ -16,17 +16,17 @@ use function sprintf;
 class CacheEventErrorHandlerTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Serializer\SerializerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Serializer\SerializerInterface
      */
     protected $serializerMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Cache\CacheInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Cache\CacheInterface
      */
     protected $cacheMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Event\EventInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Event\EventInterface
      */
     protected $eventMock;
 

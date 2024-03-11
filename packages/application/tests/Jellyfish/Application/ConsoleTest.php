@@ -13,9 +13,9 @@ use Symfony\Component\Console\Command\Command;
 
 class ConsoleTest extends Unit
 {
-    protected MockObject|KernelInterface $kernelMock;
+    protected MockObject&KernelInterface $kernelMock;
 
-    protected MockObject|Container $containerMock;
+    protected MockObject&Container $containerMock;
 
     protected Console $console;
 

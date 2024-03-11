@@ -16,17 +16,17 @@ use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 
 class HttpTest extends Unit
 {
-    protected MockObject|KernelInterface $kernelMock;
+    protected MockObject&KernelInterface $kernelMock;
 
-    protected MockObject|Container $containerMock;
+    protected MockObject&Container $containerMock;
 
-    protected ServerRequestInterface|MockObject $requestMock;
+    protected ServerRequestInterface&MockObject $requestMock;
 
-    protected ResponseInterface|MockObject $responseMock;
+    protected ResponseInterface&MockObject $responseMock;
 
-    protected Router|MockObject $routerMock;
+    protected Router&MockObject $routerMock;
 
-    protected MockObject|EmitterInterface $emitterMock;
+    protected MockObject&EmitterInterface $emitterMock;
 
     protected Http $http;
 

@@ -13,17 +13,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RunFeedReaderCommandTest extends Unit
 {
     /**
-     * @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Console\Input\InputInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $inputMock;
 
     /**
-     * @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Console\Output\OutputInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $outputMock;
 
     /**
-     * @var \Jellyfish\Feed\FeedReaderManagerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Feed\FeedReaderManagerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $feedReaderManagerMock;
 

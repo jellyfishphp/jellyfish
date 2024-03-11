@@ -14,27 +14,27 @@ use Symfony\Component\Console\Output\OutputInterface;
 class TransferGenerateCommandTest extends Unit
 {
     /**
-     * @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $loggerMock;
 
     /**
-     * @var \Jellyfish\Transfer\TransferGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Transfer\TransferGeneratorInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $transferGeneratorMock;
 
     /**
-     * @var \Jellyfish\Transfer\TransferCleanerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Transfer\TransferCleanerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $transferCleanerMock;
 
     /**
-     * @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Console\Input\InputInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $inputMock;
 
     /**
-     * @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Console\Output\OutputInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $outputMock;
 

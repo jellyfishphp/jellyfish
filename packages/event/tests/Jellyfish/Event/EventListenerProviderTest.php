@@ -15,7 +15,7 @@ class EventListenerProviderTest extends Unit
     protected $eventListenerProvider;
 
     /**
-     * @var \Jellyfish\Event\EventListenerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Jellyfish\Event\EventListenerInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $eventListenerMock;
 

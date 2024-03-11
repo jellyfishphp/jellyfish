@@ -11,12 +11,12 @@ use Symfony\Component\Finder\Finder as SymfonyFinder;
 class FinderTest extends Unit
 {
     /**
-     * @var \Symfony\Component\Finder\Finder|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Finder\Finder&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $symfonyFinderMock;
 
     /**
-     * @var \Iterator|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Iterator&\PHPUnit\Framework\MockObject\MockObject
      */
     protected $iteratorMock;
 
