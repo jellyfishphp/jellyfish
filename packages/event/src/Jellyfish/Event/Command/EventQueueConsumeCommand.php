@@ -24,23 +24,21 @@ class EventQueueConsumeCommand extends Command
 {
     use LockTrait;
 
+    /**
+     * @var string
+     */
     public const NAME = 'event:queue:consume';
+
+    /**
+     * @var string
+     */
     public const DESCRIPTION = 'Consume from event queue';
 
-    /**
-     * @var \Jellyfish\Event\EventListenerProviderInterface $eventDispatcher
-     */
-    protected $eventDispatcher;
+    protected EventListenerProviderInterface $eventDispatcher;
 
-    /**
-     * @var \Jellyfish\Event\EventQueueConsumerInterface $eventQueueConsumer
-     */
-    protected $eventQueueConsumer;
+    protected EventQueueConsumerInterface $eventQueueConsumer;
 
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     /**
      * @param \Jellyfish\Event\EventListenerProviderInterface $eventDispatcher
@@ -80,9 +78,9 @@ class EventQueueConsumeCommand extends Command
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return int|null
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $eventName = $input->getArgument('eventName');
         $listenerIdentifier = $input->getArgument('listenerIdentifier');
@@ -94,9 +92,9 @@ class EventQueueConsumeCommand extends Command
         $lockIdentifierParts = [static::NAME, $eventName, $listenerIdentifier];
 
         if (!$this->acquire($lockIdentifierParts)) {
-            return null;
+            return 0;
         }
-
+// TODO: Check before merge
         $result = null;
 
         try {
@@ -107,7 +105,7 @@ class EventQueueConsumeCommand extends Command
             $this->release();
         }
 
-        return $result;
+        return 0;
     }
 
     /**

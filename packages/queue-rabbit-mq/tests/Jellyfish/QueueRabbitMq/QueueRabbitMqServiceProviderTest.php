@@ -12,6 +12,7 @@ use Jellyfish\Queue\MessageMapperInterface;
 use Jellyfish\Queue\QueueConstants;
 use Jellyfish\Queue\QueueServiceProvider;
 use Jellyfish\Serializer\SerializerInterface;
+use LogicException;
 use Pimple\Container;
 
 class QueueRabbitMqServiceProviderTest extends Unit
@@ -73,21 +74,16 @@ class QueueRabbitMqServiceProviderTest extends Unit
      */
     public function testRegister(): void
     {
-        $this->configMock->expects(self::atLeastOnce())
+        $this->configMock->expects($this->atLeastOnce())
             ->method('get')
-            ->withConsecutive(
-                [QueueRabbitMqConstants::RABBIT_MQ_HOST, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST],
-                [QueueRabbitMqConstants::RABBIT_MQ_PORT, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PORT],
-                [QueueRabbitMqConstants::RABBIT_MQ_USER, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_USER],
-                [QueueRabbitMqConstants::RABBIT_MQ_PASSWORD, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PASSWORD],
-                [QueueRabbitMqConstants::RABBIT_MQ_VHOST, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_VHOST]
-            )->willReturnOnConsecutiveCalls(
-                QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST,
-                QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PORT,
-                QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_USER,
-                QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PASSWORD,
-                QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_VHOST
-            );
+            ->willReturnCallback(fn(string $key, ?string $default = null) => match([$key, $default]) {
+                [QueueRabbitMqConstants::RABBIT_MQ_HOST, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST] => QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST,
+                [QueueRabbitMqConstants::RABBIT_MQ_PORT, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PORT] => QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PORT,
+                [QueueRabbitMqConstants::RABBIT_MQ_USER, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_USER] => QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_USER,
+                [QueueRabbitMqConstants::RABBIT_MQ_PASSWORD, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PASSWORD] => QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PASSWORD,
+                [QueueRabbitMqConstants::RABBIT_MQ_VHOST, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_VHOST] => QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_VHOST,
+                default => new LogicException('Unsupported Parameter')
+            });
 
         $this->queueRabbitMqServiceProvider->register($this->container);
 

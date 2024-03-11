@@ -51,7 +51,7 @@ interface ClassDefinitionInterface
     public function getProperties(): array;
 
     /**
-     * @param \Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface[] $properties
+     * @param array<\Jellyfish\Transfer\Definition\ClassPropertyDefinitionInterface> $properties
      *
      * @return \Jellyfish\Transfer\Definition\ClassDefinitionInterface
      */

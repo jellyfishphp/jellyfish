@@ -4,7 +4,10 @@ namespace Jellyfish\CacheSymfony;
 
 use Codeception\Test\Unit;
 use Exception;
+use Jellyfish\Cache\CacheInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
+use Symfony\Component\Cache\CacheItem;
 use Symfony\Contracts\Cache\ItemInterface;
 
 class CacheTest extends Unit
@@ -12,17 +15,17 @@ class CacheTest extends Unit
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Cache\Adapter\AbstractAdapter
      */
-    protected $cacheAdapterMock;
+    protected AbstractAdapter|MockObject $cacheAdapterMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Cache\CacheItem
      */
-    protected $cacheItemMock;
+    protected ItemInterface|MockObject $cacheItemMock;
 
     /**
      * @var \Jellyfish\Cache\CacheInterface
      */
-    protected $cache;
+    protected CacheInterface $cache;
 
     /**
      * @return void
@@ -35,7 +38,8 @@ class CacheTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->cacheItemMock = $this->getMockBuilder(ItemInterface::class)
+        /** @phpstan-ignore-next-line */
+        $this->cacheItemMock = $this->getMockBuilder(CacheItem::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -50,20 +54,20 @@ class CacheTest extends Unit
         $key = 'key';
         $value = '{}';
 
-        $this->cacheAdapterMock->expects(self::atLeastOnce())
+        $this->cacheAdapterMock->expects($this->atLeastOnce())
             ->method('getItem')
             ->with($key)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheItemMock->expects(self::atLeastOnce())
+        $this->cacheItemMock->expects($this->atLeastOnce())
             ->method('isHit')
             ->willReturn(true);
 
-        $this->cacheItemMock->expects(self::atLeastOnce())
+        $this->cacheItemMock->expects($this->atLeastOnce())
             ->method('get')
             ->willReturn($value);
 
-        self::assertEquals(
+        static::assertEquals(
             $value,
             $this->cache->get($key)
         );
@@ -76,16 +80,16 @@ class CacheTest extends Unit
     {
         $key = 'key';
 
-        $this->cacheAdapterMock->expects(self::atLeastOnce())
+        $this->cacheAdapterMock->expects($this->atLeastOnce())
             ->method('getItem')
             ->with($key)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheItemMock->expects(self::atLeastOnce())
+        $this->cacheItemMock->expects($this->atLeastOnce())
             ->method('isHit')
             ->willReturn(false);
 
-        self::assertEquals(
+        static::assertEquals(
             null,
             $this->cache->get($key)
         );
@@ -100,26 +104,26 @@ class CacheTest extends Unit
         $value = '{}';
         $lifeTime = null;
 
-        $this->cacheAdapterMock->expects(self::atLeastOnce())
+        $this->cacheAdapterMock->expects($this->atLeastOnce())
             ->method('getItem')
             ->with($key)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheItemMock->expects(self::atLeastOnce())
+        $this->cacheItemMock->expects($this->atLeastOnce())
             ->method('set')
             ->with($value)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheItemMock->expects(self::atLeastOnce())
+        $this->cacheItemMock->expects($this->atLeastOnce())
             ->method('expiresAfter')
             ->with($lifeTime)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheAdapterMock->expects(self::atLeastOnce())
+        $this->cacheAdapterMock->expects($this->atLeastOnce())
             ->method('save')
             ->with($this->cacheItemMock);
 
-        self::assertEquals(
+        static::assertEquals(
             $this->cache,
             $this->cache->set($key, $value, $lifeTime)
         );
@@ -134,28 +138,28 @@ class CacheTest extends Unit
         $value = '{}';
         $lifeTime = 0;
 
-        $this->cacheAdapterMock->expects(self::never())
+        $this->cacheAdapterMock->expects($this->never())
             ->method('getItem')
             ->with($key)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheItemMock->expects(self::never())
+        $this->cacheItemMock->expects($this->never())
             ->method('set')
             ->with($value)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheItemMock->expects(self::never())
+        $this->cacheItemMock->expects($this->never())
             ->method('expiresAfter')
             ->with($lifeTime)
             ->willReturn($this->cacheItemMock);
 
-        $this->cacheAdapterMock->expects(self::never())
+        $this->cacheAdapterMock->expects($this->never())
             ->method('save')
             ->with($this->cacheItemMock);
 
         try {
             $this->cache->set($key, $value, $lifeTime);
-            self::fail();
+            static::fail();
         } catch (Exception $exception) {
         }
     }

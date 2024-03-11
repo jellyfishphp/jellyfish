@@ -5,38 +5,23 @@ declare(strict_types=1);
 namespace Jellyfish\Event;
 
 use Codeception\Test\Unit;
+use LogicException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class EventDispatcherTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Event\EventListenerProviderInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventListenerProviderMock;
+    protected MockObject|EventListenerProviderInterface $eventListenerProviderMock;
 
-    /**
-     * @var \Jellyfish\Event\EventQueueProducerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventQueueProducerMock;
+    protected EventQueueProducerInterface|MockObject $eventQueueProducerMock;
 
-    /**
-     * @var \Jellyfish\Event\EventListenerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventListenerMock;
+    protected EventListenerInterface|MockObject $eventListenerMock;
 
-    /**
-     * @var \Jellyfish\Event\EventInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventMock;
+    protected EventInterface|MockObject $eventMock;
 
-    /**
-     * @var string
-     */
-    protected $eventName;
 
-    /**
-     * @var \Jellyfish\Event\EventDispatcherInterface
-     */
-    protected $eventDispatcher;
+    protected string $eventName;
+
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * @return void
@@ -77,13 +62,19 @@ class EventDispatcherTest extends Unit
 
         $this->eventListenerProviderMock->expects($this->atLeastOnce())
             ->method('getListenersByTypeAndEventName')
-            ->withConsecutive([
-                EventListenerInterface::TYPE_SYNC,
-                $this->eventName
-            ], [
-                EventListenerInterface::TYPE_ASYNC,
-                $this->eventName
-            ])->willReturnOnConsecutiveCalls([], []);
+            ->willReturnCallback(
+                fn(string $type, string $eventName) => match([$type, $eventName]) {
+                    [
+                        EventListenerInterface::TYPE_SYNC,
+                        $this->eventName
+                    ] => [],
+                    [
+                        EventListenerInterface::TYPE_ASYNC,
+                        $this->eventName
+                    ] => [],
+                    default => new LogicException('Unsupported parameters.')
+                }
+            );
 
         $result = $this->eventDispatcher->dispatch($this->eventMock);
 
@@ -101,13 +92,19 @@ class EventDispatcherTest extends Unit
 
         $this->eventListenerProviderMock->expects($this->atLeastOnce())
             ->method('getListenersByTypeAndEventName')
-            ->withConsecutive([
-                EventListenerInterface::TYPE_SYNC,
-                $this->eventName
-            ], [
-                EventListenerInterface::TYPE_ASYNC,
-                $this->eventName
-            ])->willReturnOnConsecutiveCalls([$this->eventListenerMock], []);
+            ->willReturnCallback(
+                fn(string $type, string $eventName) => match([$type, $eventName]) {
+                    [
+                        EventListenerInterface::TYPE_SYNC,
+                        $this->eventName
+                    ] => [$this->eventListenerMock],
+                    [
+                        EventListenerInterface::TYPE_ASYNC,
+                        $this->eventName
+                    ] => [],
+                    default => new LogicException('Unsupported parameters.')
+                }
+            );
 
         $this->eventListenerMock->expects($this->atLeastOnce())
             ->method('handle')
@@ -124,7 +121,7 @@ class EventDispatcherTest extends Unit
      */
     public function testDispatchAsyncListeners(): void
     {
-        $this->eventQueueProducerMock->expects(self::atLeastOnce())
+        $this->eventQueueProducerMock->expects($this->atLeastOnce())
             ->method('enqueue')
             ->with($this->eventMock);
 

@@ -11,38 +11,22 @@ use Jellyfish\Event\Fixtures\Payload;
 use Jellyfish\Queue\MessageFactoryInterface;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Serializer\SerializerInterface;
+use LogicException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class EventMapperTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Event\EventFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventFactoryMock;
+    protected EventFactoryInterface|MockObject $eventFactoryMock;
 
-    /**
-     * @var \Jellyfish\Queue\MessageFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $messageFactoryMock;
+    protected MockObject|MessageFactoryInterface $messageFactoryMock;
 
-    /**
-     * @var \Jellyfish\Event\EventMapper
-     */
-    protected $eventMapper;
+    protected EventInterface|MockObject $eventMock;
 
-    /**
-     * @var \Jellyfish\Event\EventInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventMock;
+    protected MockObject|MessageInterface $messageMock;
 
-    /**
-     * @var \Jellyfish\Queue\MessageInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $messageMock;
+    protected MockObject|SerializerInterface $serializerMock;
 
-    /**
-     * @var \Jellyfish\Serializer\SerializerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $serializerMock;
+    protected EventMapper $eventMapper;
 
     /**
      * @return void
@@ -95,8 +79,13 @@ class EventMapperTest extends Unit
 
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getHeader')
-            ->withConsecutive(['body_type'], ['event_name'])
-            ->willReturnOnConsecutiveCalls($headers['body_type'], $headers['event_name']);
+            ->willReturnCallback(
+                fn (string $key) => match ($key) {
+                    'body_type' => $headers['body_type'],
+                    'event_name' => $headers['event_name'],
+                    default => throw new LogicException('Unsupported parameter.')
+                }
+            );
 
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getHeaders')
@@ -142,8 +131,11 @@ class EventMapperTest extends Unit
     {
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getHeader')
-            ->withConsecutive(['body_type'], ['event_name'])
-            ->willReturnOnConsecutiveCalls(null, null);
+            ->willReturnCallback(fn(string $key) => match($key) {
+                'body_type'=> null,
+                'event_name' => null,
+                default => throw new LogicException('Unsupported parameter.')
+            });
 
         $this->messageMock->expects($this->never())
             ->method('getHeaders');
@@ -191,8 +183,13 @@ class EventMapperTest extends Unit
 
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getHeader')
-            ->withConsecutive(['body_type'], ['event_name'])
-            ->willReturnOnConsecutiveCalls($headers['body_type'], $headers['event_name']);
+            ->willReturnCallback(
+                fn($key) => match ($key) {
+                    'body_type' => $headers['body_type'],
+                    'event_name' => $headers['event_name'],
+                    default => throw new LogicException('Unsupported parameter.')
+                }
+            );
 
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getHeaders')
@@ -267,8 +264,12 @@ class EventMapperTest extends Unit
 
         $this->messageMock->expects($this->atLeastOnce())
             ->method('setHeader')
-            ->withConsecutive(['event_name', $eventName], ['body_type', 'ArrayObject'], ['body_type', 'stdClass[]'])
-            ->willReturnOnConsecutiveCalls($this->messageMock, $this->messageMock, $this->messageMock);
+            ->willReturnCallback(fn(string $key, string $value) => match([$key, $value]) {
+                ['event_name', $eventName] => $this->messageMock,
+                ['body_type', 'ArrayObject'] => $this->messageMock,
+                ['body_type', 'stdClass[]'] => $this->messageMock,
+                default => throw new LogicException('Unsupported parameters.')
+            });
 
         $this->messageMock->expects($this->atLeastOnce())
             ->method('setBody')
@@ -317,11 +318,14 @@ class EventMapperTest extends Unit
 
         $this->messageMock->expects($this->atLeastOnce())
             ->method('setHeader')
-            ->withConsecutive(
-                ['event_name', $eventName],
-                ['body_type', 'ArrayObject'],
-                ['body_type', 'Jellyfish\Event\Fixtures\Payload[]']
-            )->willReturnOnConsecutiveCalls($this->messageMock, $this->messageMock, $this->messageMock);
+            ->willReturnCallback(
+                fn(string $key, string $value) => match([$key, $value]) {
+                    ['event_name', $eventName] => $this->messageMock,
+                    ['body_type', 'ArrayObject'] => $this->messageMock,
+                    ['body_type', 'Jellyfish\Event\Fixtures\Payload[]'] => $this->messageMock,
+                    default => throw new LogicException('Unsupported parameters.')
+                }
+            );
 
         $this->serializerMock->expects($this->atLeastOnce())
             ->method('serialize')
@@ -372,8 +376,13 @@ class EventMapperTest extends Unit
 
         $this->messageMock->expects($this->atLeastOnce())
             ->method('setHeader')
-            ->withConsecutive(['event_name', $eventName], ['body_type', Payload::class])
-            ->willReturnOnConsecutiveCalls($this->messageMock, $this->messageMock);
+            ->willReturnCallback(
+                fn(string $key, string $value) => match([$key, $value]) {
+                    ['event_name', $eventName] => $this->messageMock,
+                    ['body_type', Payload::class] => $this->messageMock,
+                    default => throw new LogicException('Unsupported parameters.')
+                }
+            );
 
         $this->serializerMock->expects($this->atLeastOnce())
             ->method('serialize')

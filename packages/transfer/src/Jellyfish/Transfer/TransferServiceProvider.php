@@ -25,10 +25,7 @@ use Twig\Loader\FilesystemLoader;
 
 class TransferServiceProvider implements ServiceProviderInterface
 {
-    /**
-     * @var \Twig\Environment|null
-     */
-    protected $twigEnvironment;
+    protected ?Environment $twigEnvironment = null;
 
     /**
      * @param \Pimple\Container $pimple
@@ -213,11 +210,8 @@ class TransferServiceProvider implements ServiceProviderInterface
         if (\file_exists($pathToFactoryRegistry)) {
             include $pathToFactoryRegistry;
         }
-
         foreach ($factoryRegistry as $factoryId => $factory) {
-            $container->offsetSet((string)$factoryId, function () use ($factory) {
-                return $factory;
-            });
+            $container->offsetSet((string)$factoryId, fn() => $factory);
         }
 
         return $this;

@@ -8,9 +8,9 @@ use Jellyfish\Lock\LockIdentifierGeneratorInterface;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Predis\Client;
-use Symfony\Component\Lock\Factory as SymfonyLockFactory;
+use Symfony\Component\Lock\LockFactory as SymfonyLockFactory;
+use Symfony\Component\Lock\PersistingStoreInterface;
 use Symfony\Component\Lock\Store\RedisStore;
-use Symfony\Component\Lock\StoreInterface;
 
 class LockSymfonyServiceProvider implements ServiceProviderInterface
 {
@@ -46,7 +46,7 @@ class LockSymfonyServiceProvider implements ServiceProviderInterface
     /**
      * @param \Pimple\Container $container
      *
-     * @return \Symfony\Component\Lock\Factory
+     * @return \Symfony\Component\Lock\LockFactory
      */
     protected function createSymfonyLockFactory(Container $container): SymfonyLockFactory
     {
@@ -59,9 +59,9 @@ class LockSymfonyServiceProvider implements ServiceProviderInterface
     /**
      * @param \Predis\Client $redisClient
      *
-     * @return \Symfony\Component\Lock\StoreInterface
+     * @return \Symfony\Component\Lock\PersistingStoreInterface
      */
-    protected function createRedisStore(Client $redisClient): StoreInterface
+    protected function createRedisStore(Client $redisClient): PersistingStoreInterface
     {
         return new RedisStore($redisClient);
     }

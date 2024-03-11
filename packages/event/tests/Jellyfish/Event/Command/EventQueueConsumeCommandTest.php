@@ -14,6 +14,8 @@ use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventQueueConsumerInterface;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockInterface;
+use LogicException;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,72 +25,72 @@ class EventQueueConsumeCommandTest extends Unit
     /**
      * @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $inputMock;
+    protected InputInterface|MockObject $inputMock;
 
     /**
      * @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $outputMock;
+    protected OutputInterface|MockObject $outputMock;
 
     /**
      * @var \Jellyfish\Event\EventListenerProviderInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $eventListenerProviderMock;
+    protected MockObject|EventListenerProviderInterface $eventListenerProviderMock;
 
     /**
      * @var \Jellyfish\Event\EventQueueConsumerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $eventQueueConsumerMock;
+    protected MockObject|EventQueueConsumerInterface $eventQueueConsumerMock;
 
     /**
      * @var \Jellyfish\Event\EventInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $eventMock;
+    protected EventInterface|MockObject $eventMock;
+
+    /**
+     * @var \Jellyfish\Event\EventBulkListenerInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected EventBulkListenerInterface|MockObject $eventBulkListenerMock;
 
     /**
      * @var \Jellyfish\Event\EventListenerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $eventBulkListenerMock;
-
-    /**
-     * @var \Jellyfish\Event\EventListenerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventListenerMock;
+    protected EventListenerInterface|MockObject $eventListenerMock;
 
     /**
      * @var \Jellyfish\Lock\LockFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $lockFactoryMock;
+    protected LockFactoryInterface|MockObject $lockFactoryMock;
 
     /**
      * @var \Jellyfish\Lock\LockInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $lockMock;
+    protected MockObject|LockInterface $lockMock;
 
     /**
      * @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $loggerMock;
+    protected LoggerInterface|MockObject $loggerMock;
 
     /**
      * @var \Jellyfish\Event\Command\EventQueueConsumeCommand
      */
-    protected $eventQueueConsumeCommand;
+    protected EventQueueConsumeCommand $eventQueueConsumeCommand;
 
     /**
      * @var string
      */
-    protected $eventName;
+    protected string $eventName;
 
     /**
      * @var string
      */
-    protected $listenerIdentifier;
+    protected string $listenerIdentifier;
 
     /**
      * @var array
      */
-    protected $lockIdentifierParts;
+    protected array $lockIdentifierParts;
 
     /**
      * @return void
@@ -175,8 +177,13 @@ class EventQueueConsumeCommandTest extends Unit
     {
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
-            ->withConsecutive(['eventName'], ['listenerIdentifier'])
-            ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
+            ->willReturnCallback(
+                fn (string $argument) => match($argument) {
+                    'eventName' => $this->eventName,
+                    'listenerIdentifier' => $this->listenerIdentifier,
+                    default => new LogicException('Unsupported parameter.')
+                }
+            );
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
@@ -201,8 +208,13 @@ class EventQueueConsumeCommandTest extends Unit
     {
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
-            ->withConsecutive(['eventName'], ['listenerIdentifier'])
-            ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
+            ->willReturnCallback(
+                fn (string $argument) => match($argument) {
+                    'eventName' => $this->eventName,
+                    'listenerIdentifier' => $this->listenerIdentifier,
+                    default => new LogicException('Unsupported parameter.')
+                }
+            );
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
@@ -241,8 +253,13 @@ class EventQueueConsumeCommandTest extends Unit
     {
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
-            ->withConsecutive(['eventName'], ['listenerIdentifier'])
-            ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
+            ->willReturnCallback(
+                fn (string $argument) => match($argument) {
+                    'eventName' => $this->eventName,
+                    'listenerIdentifier' => $this->listenerIdentifier,
+                    default => new LogicException('Unsupported parameter.')
+                }
+            );
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
@@ -282,8 +299,13 @@ class EventQueueConsumeCommandTest extends Unit
     {
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
-            ->withConsecutive(['eventName'], ['listenerIdentifier'])
-            ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
+            ->willReturnCallback(
+                fn (string $argument) => match($argument) {
+                    'eventName' => $this->eventName,
+                    'listenerIdentifier' => $this->listenerIdentifier,
+                    default => new LogicException('Unsupported parameter.')
+                }
+            );
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
@@ -332,8 +354,13 @@ class EventQueueConsumeCommandTest extends Unit
 
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
-            ->withConsecutive(['eventName'], ['listenerIdentifier'])
-            ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
+            ->willReturnCallback(
+                fn (string $argument) => match($argument) {
+                    'eventName' => $this->eventName,
+                    'listenerIdentifier' => $this->listenerIdentifier,
+                    default => new LogicException('Unsupported parameter.')
+                }
+            );
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
@@ -386,8 +413,13 @@ class EventQueueConsumeCommandTest extends Unit
 
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
-            ->withConsecutive(['eventName'], ['listenerIdentifier'])
-            ->willReturnOnConsecutiveCalls($this->eventName, $this->listenerIdentifier);
+            ->willReturnCallback(
+                fn (string $argument) => match($argument) {
+                    'eventName' => $this->eventName,
+                    'listenerIdentifier' => $this->listenerIdentifier,
+                    default => new LogicException('Unsupported parameter.')
+                }
+            );
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
             ->method('create')
@@ -434,8 +466,13 @@ class EventQueueConsumeCommandTest extends Unit
     {
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
-            ->withConsecutive(['eventName'], ['listenerIdentifier'])
-            ->willReturnOnConsecutiveCalls(null, $this->listenerIdentifier);
+            ->willReturnCallback(
+                fn (string $argument) => match($argument) {
+                    'eventName' => null,
+                    'listenerIdentifier' => $this->listenerIdentifier,
+                    default => new LogicException('Unsupported parameter.')
+                }
+            );
 
         $this->lockFactoryMock->expects($this->never())
             ->method('create');

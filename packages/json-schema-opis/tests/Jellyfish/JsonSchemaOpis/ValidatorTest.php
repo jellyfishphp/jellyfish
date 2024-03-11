@@ -5,31 +5,27 @@ declare(strict_types=1);
 namespace Jellyfish\JsonSchemaOpis;
 
 use Codeception\Test\Unit;
-use Opis\JsonSchema\ISchema as OpisSchemaInterface;
-use Opis\JsonSchema\IValidator as OpisValidatorInterface;
+use Opis\JsonSchema\Validator as OpisValidator;
 use Opis\JsonSchema\ValidationResult as OpisValidationResult;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ValidatorTest extends Unit
 {
-    /**
-     * @var \Opis\JsonSchema\ISchema|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $opisSchemaMock;
+    protected string $schema;
 
     /**
-     * @var \Opis\JsonSchema\IValidator|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Opis\JsonSchema\Validator|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $opisValidatorMock;
 
-    /**
-     * @var \Opis\JsonSchema\ValidationResult|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $opisValidationResult;
+    protected MockObject|OpisValidationResult $opisValidationResultMock;
 
     /**
      * @var \Jellyfish\JsonSchema\ValidatorInterface
      */
     protected $validator;
+
+
 
     /**
      * @return void
@@ -40,17 +36,17 @@ class ValidatorTest extends Unit
     {
         parent::_before();
 
-        $this->opisSchemaMock = $this->getMockBuilder(OpisSchemaInterface::class)
+        $this->schema = '{}';
+
+        $this->opisValidatorMock = $this->getMockBuilder(OpisValidator::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->opisValidatorMock = $this->getMockBuilder(OpisValidatorInterface::class)
+        $this->opisValidationResultMock = $this->getMockBuilder(OpisValidationResult::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->opisValidationResult = new OpisValidationResult();
-
-        $this->validator = new Validator($this->opisValidatorMock, $this->opisSchemaMock);
+        $this->validator = new Validator($this->opisValidatorMock, $this->schema);
     }
 
     /**
@@ -61,9 +57,13 @@ class ValidatorTest extends Unit
         $json = '{"name", "test"}';
 
         $this->opisValidatorMock->expects($this->atLeastOnce())
-            ->method('schemaValidation')
-            ->with(\json_decode($json), $this->opisSchemaMock)
-            ->willReturn($this->opisValidationResult);
+            ->method('validate')
+            ->with(\json_decode($json), $this->schema)
+            ->willReturn($this->opisValidationResultMock);
+
+        $this->opisValidationResultMock->expects($this->atLeastOnce())
+            ->method('isValid')
+            ->willReturn(true);
 
         $this->assertTrue($this->validator->validate($json));
     }

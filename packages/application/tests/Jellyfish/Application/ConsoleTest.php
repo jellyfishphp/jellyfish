@@ -6,26 +6,18 @@ namespace Jellyfish\Application;
 
 use Codeception\Test\Unit;
 use Jellyfish\Kernel\KernelInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
 use stdClass;
 use Symfony\Component\Console\Command\Command;
 
 class ConsoleTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Application\Console
-     */
-    protected $console;
+    protected MockObject|KernelInterface $kernelMock;
 
-    /**
-     * @var \Jellyfish\Kernel\KernelInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $kernelMock;
+    protected MockObject|Container $containerMock;
 
-    /**
-     * @var \Pimple\Container|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $containerMock;
+    protected Console $console;
 
     /**
      * @return void
@@ -67,7 +59,7 @@ class ConsoleTest extends Unit
             ->method('offsetGet')
             ->with('commands');
 
-        $this->assertCount(2, $this->console->all());
+        static::assertCount(4, $this->console->all());
     }
 
     /**
@@ -87,7 +79,7 @@ class ConsoleTest extends Unit
             ->with('commands')
             ->willReturn(0);
 
-        $this->assertCount(2, $this->console->all());
+        static::assertCount(4, $this->console->all());
     }
 
     /**
@@ -107,6 +99,6 @@ class ConsoleTest extends Unit
             ->with('commands')
             ->willReturn([new Command('foo:bar'), new stdClass()]);
 
-        $this->assertCount(3, $this->console->all());
+        static::assertCount(5, $this->console->all());
     }
 }

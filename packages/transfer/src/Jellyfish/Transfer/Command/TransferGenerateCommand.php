@@ -63,13 +63,13 @@ class TransferGenerateCommand extends Command
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return int|null
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->transferCleaner->clean();
         $this->transferGenerator->generate();
 
-        return null;
+        return 0;
     }
 }

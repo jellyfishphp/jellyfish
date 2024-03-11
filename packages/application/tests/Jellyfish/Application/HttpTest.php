@@ -7,47 +7,28 @@ namespace Jellyfish\Application;
 use Codeception\Test\Unit;
 use Jellyfish\Kernel\KernelInterface;
 use League\Route\Router;
+use LogicException;
+use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 
 class HttpTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Application\Http
-     */
-    protected $http;
+    protected MockObject|KernelInterface $kernelMock;
 
-    /**
-     * @var \Jellyfish\Kernel\KernelInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $kernelMock;
+    protected MockObject|Container $containerMock;
 
-    /**
-     * @var \Pimple\Container|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $containerMock;
+    protected ServerRequestInterface|MockObject $requestMock;
 
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $requestMock;
+    protected ResponseInterface|MockObject $responseMock;
 
-    /**
-     * @var \Psr\Http\Message\ResponseInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $responseMock;
+    protected Router|MockObject $routerMock;
 
-    /**
-     * @var \League\Route\Router|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $routerMock;
+    protected MockObject|EmitterInterface $emitterMock;
 
-    /**
-     * @var \Zend\HttpHandlerRunner\Emitter\EmitterInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $emitterMock;
+    protected Http $http;
 
     /**
      * @return void
@@ -98,8 +79,14 @@ class HttpTest extends Unit
 
         $this->containerMock->expects($this->atLeastOnce())
             ->method('offsetGet')
-            ->withConsecutive(['request'], ['router'], ['emitter'])
-            ->willReturnOnConsecutiveCalls($this->requestMock, $this->routerMock, $this->emitterMock);
+            ->willReturnCallback(
+                fn(string $index) => match($index) {
+                    'request' => $this->requestMock,
+                    'router' => $this->routerMock,
+                    'emitter' => $this->emitterMock,
+                    default => throw new LogicException('Unsupported parameter.')
+                }
+            );
 
         $this->routerMock->expects($this->atLeastOnce())
             ->method('dispatch')

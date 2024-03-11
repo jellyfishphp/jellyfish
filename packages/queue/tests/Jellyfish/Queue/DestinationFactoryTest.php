@@ -6,10 +6,7 @@ use Codeception\Test\Unit;
 
 class DestinationFactoryTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Queue\DestinationFactory
-     */
-    protected $destinationFactory;
+    protected DestinationFactory $destinationFactory;
 
     /**
      * @return void
@@ -26,8 +23,8 @@ class DestinationFactoryTest extends Unit
      */
     public function testCreate(): void
     {
-        $destination = $this->destinationFactory->create(DestinationInterface::TYPE_FANOUT);
+        $destination = $this->destinationFactory->create();
 
-        self::assertInstanceOf(Destination::class, $destination);
+        static::assertInstanceOf(Destination::class, $destination);
     }
 }

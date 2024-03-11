@@ -3,25 +3,17 @@
 namespace Jellyfish\UuidRamsey;
 
 use Codeception\Test\Unit;
+use PHPUnit\Framework\MockObject\MockObject;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Ramsey\Uuid\UuidInterface;
 
 class UuidGeneratorTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Ramsey\Uuid\UuidFactoryInterface
-     */
-    protected $uuidFactoryMock;
+    protected MockObject|UuidFactoryInterface $uuidFactoryMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Ramsey\Uuid\UuidInterface
-     */
-    protected $uuidMock;
+    protected MockObject|UuidInterface $uuidMock;
 
-    /**
-     * @var \Jellyfish\UuidRamsey\UuidGenerator
-     */
-    protected $uuidGenerator;
+    protected UuidGenerator $uuidGenerator;
 
     /**
      * @return void
@@ -48,11 +40,11 @@ class UuidGeneratorTest extends Unit
     {
         $uuid4 = 'c470aa7e-0e14-4fa4-83bb-2e95c85fe1f7';
 
-        $this->uuidFactoryMock->expects(self::atLeastOnce())
+        $this->uuidFactoryMock->expects($this->atLeastOnce())
             ->method('uuid4')
             ->willReturn($this->uuidMock);
 
-        $this->uuidMock->expects(self::atLeastOnce())
+        $this->uuidMock->expects($this->atLeastOnce())
             ->method('toString')
             ->willReturn($uuid4);
 

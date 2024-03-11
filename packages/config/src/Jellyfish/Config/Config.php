@@ -9,6 +9,7 @@ use Exception;
 use Jellyfish\Config\Exception\ConfigKeyNotFoundException;
 use Jellyfish\Config\Exception\NotSupportedConfigValueTypeException;
 
+use function file_exists;
 use function is_bool;
 use function is_float;
 use function is_int;
@@ -20,20 +21,11 @@ class Config implements ConfigInterface
     protected const CONFIG_FILE = 'default';
     protected const CONFIG_FILE_SUFFIX = '.php';
 
-    /**
-     * @var \ArrayObject
-     */
-    protected $config;
+    protected ArrayObject $config;
 
-    /**
-     * @var string
-     */
-    protected $appDir;
+    protected string $appDir;
 
-    /**
-     * @var string
-     */
-    protected $environment;
+    protected string $environment;
 
     /**
      * @param string $appDir
@@ -132,7 +124,7 @@ class Config implements ConfigInterface
         $fileName = self::CONFIG_FILE_PREFIX . $configFile . self::CONFIG_FILE_SUFFIX;
         $pathToConfigFile = $this->appDir . $fileName;
 
-        if (\file_exists($pathToConfigFile)) {
+        if (file_exists($pathToConfigFile)) {
             include $pathToConfigFile;
         }
 

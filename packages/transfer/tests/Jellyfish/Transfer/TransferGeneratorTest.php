@@ -5,37 +5,38 @@ declare(strict_types=1);
 namespace Jellyfish\Transfer;
 
 use Codeception\Test\Unit;
-use Jellyfish\Transfer\Definition\ClassDefinitionInterface;
+use Jellyfish\Transfer\Definition\ClassDefinition;
 use Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface;
 use Jellyfish\Transfer\Generator\ClassGeneratorInterface;
 use Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class TransferGeneratorTest extends Unit
 {
     /**
      * @var \Jellyfish\Transfer\TransferGeneratorInterface
      */
-    protected $transferGenerator;
+    protected TransferGeneratorInterface $transferGenerator;
 
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $classDefinitionMapLoaderMock;
+    protected ClassDefinitionMapLoaderInterface|MockObject $classDefinitionMapLoaderMock;
 
     /**
      * @var \Jellyfish\Transfer\Generator\FactoryRegistryGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $factoryRegistryGeneratorMock;
+    protected MockObject|FactoryRegistryGeneratorInterface $factoryRegistryGeneratorMock;
 
     /**
-     * @var \Jellyfish\Transfer\Generator\ClassGeneratorInterface[]|\PHPUnit\Framework\MockObject\MockObject[]
+     * @var array<\Jellyfish\Transfer\Generator\ClassGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject>
      */
-    protected $classGeneratorMocks;
+    protected array $classGeneratorMocks;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinition[]\PHPUnit\Framework\MockObject\MockObject[]
+     * @var array<\Jellyfish\Transfer\Definition\ClassDefinition|\PHPUnit\Framework\MockObject\MockObject>
      */
-    protected $classDefinitionMapMock;
+    protected array $classDefinitionMapMock;
 
     /**
      * @return void
@@ -45,9 +46,9 @@ class TransferGeneratorTest extends Unit
         parent::_before();
 
         $this->classDefinitionMapMock = [
-            $this->classDefinitionMapLoaderMock = $this->getMockBuilder(ClassDefinitionInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock(),
+            $this->getMockBuilder(ClassDefinition::class)
+            ->disableOriginalConstructor()
+            ->getMock()
         ];
 
         $this->classDefinitionMapLoaderMock = $this->getMockBuilder(ClassDefinitionMapLoaderInterface::class)

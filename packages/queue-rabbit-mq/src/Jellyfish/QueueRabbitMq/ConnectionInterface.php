@@ -34,4 +34,9 @@ interface ConnectionInterface
      * @return \Jellyfish\QueueRabbitMq\ConnectionInterface
      */
     public function createQueueAndBind(DestinationInterface $destination): ConnectionInterface;
+
+    /**
+     * @return \Jellyfish\QueueRabbitMq\ConnectionInterface
+     */
+    public function close(): ConnectionInterface;
 }

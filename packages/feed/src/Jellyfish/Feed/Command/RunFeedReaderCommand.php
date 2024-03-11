@@ -18,10 +18,7 @@ class RunFeedReaderCommand extends Command
     public const NAME = 'feed:feed-reader:run';
     public const DESCRIPTION = 'Run feed reader.';
 
-    /**
-     * @var \Jellyfish\Feed\FeedReaderManagerInterface
-     */
-    protected $feedReaderManager;
+    protected FeedReaderManagerInterface $feedReaderManager;
 
     /**
      * @param \Jellyfish\Feed\FeedReaderManagerInterface $feedReaderManager
@@ -49,9 +46,9 @@ class RunFeedReaderCommand extends Command
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return int|null
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $identifier = $input->getArgument('identifier');
 
@@ -61,6 +58,6 @@ class RunFeedReaderCommand extends Command
 
         $this->feedReaderManager->readFromFeedReader($identifier);
 
-        return null;
+        return 0;
     }
 }

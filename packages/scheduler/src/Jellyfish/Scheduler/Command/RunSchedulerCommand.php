@@ -62,14 +62,14 @@ class RunSchedulerCommand extends Command
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return int|null
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $lockIdentifierParts = [static::NAME];
 
         if (!$this->acquire($lockIdentifierParts)) {
-            return null;
+            return 0;
         }
 
         try {
@@ -80,6 +80,6 @@ class RunSchedulerCommand extends Command
             $this->release();
         }
 
-        return null;
+        return 0;
     }
 }

@@ -4,7 +4,6 @@ namespace Jellyfish\CacheSymfony;
 
 use Jellyfish\Cache\CacheConstants;
 use Jellyfish\Config\ConfigConstants;
-use Jellyfish\Config\ConfigServiceProvider;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Predis\Client;

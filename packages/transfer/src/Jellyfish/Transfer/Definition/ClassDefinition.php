@@ -28,7 +28,7 @@ class ClassDefinition implements ClassDefinitionInterface
     protected $namespace;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassPropertyDefinition[]
+     * @var array<\Jellyfish\Transfer\Definition\ClassPropertyDefinition>
      */
     protected $properties;
 
@@ -164,7 +164,7 @@ class ClassDefinition implements ClassDefinitionInterface
     }
 
     /**
-     * @return \Jellyfish\Transfer\Definition\ClassPropertyDefinition[]
+     * @return array<\Jellyfish\Transfer\Definition\ClassPropertyDefinition>
      */
     public function getProperties(): array
     {
@@ -172,7 +172,7 @@ class ClassDefinition implements ClassDefinitionInterface
     }
 
     /**
-     * @param \Jellyfish\Transfer\Definition\ClassPropertyDefinition[] $properties
+     * @param array<\Jellyfish\Transfer\Definition\ClassPropertyDefinition> $properties
      *
      * @return \Jellyfish\Transfer\Definition\ClassDefinitionInterface
      */

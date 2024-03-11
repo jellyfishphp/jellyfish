@@ -8,10 +8,7 @@ use Jellyfish\Kernel\KernelInterface;
 
 class Http
 {
-    /**
-     * @var \Jellyfish\Kernel\KernelInterface
-     */
-    protected $kernel;
+    protected KernelInterface $kernel;
 
     /**
      * @param \Jellyfish\Kernel\KernelInterface $kernel
@@ -30,7 +27,7 @@ class Http
         $request = $this->kernel->getContainer()->offsetGet('request');
         /** @var \League\Route\Router $router */
         $router = $this->kernel->getContainer()->offsetGet('router');
-        /** @var \Zend\HttpHandlerRunner\Emitter\EmitterInterface $emitter */
+        /** @var \Laminas\HttpHandlerRunner\Emitter\EmitterInterface $emitter */
         $emitter = $this->kernel->getContainer()->offsetGet('emitter');
 
         $response = $router->dispatch($request);

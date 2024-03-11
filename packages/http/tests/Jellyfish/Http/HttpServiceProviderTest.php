@@ -8,7 +8,7 @@ use Codeception\Test\Unit;
 use League\Route\Router;
 use Pimple\Container;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 
 class HttpServiceProviderTest extends Unit
 {

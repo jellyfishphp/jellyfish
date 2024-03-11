@@ -7,6 +7,7 @@ namespace Jellyfish\Log;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
+use Monolog\Level;
 use Monolog\Logger;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -56,7 +57,7 @@ class LogServiceProvider implements ServiceProviderInterface
         $logLevel = $container->offsetGet('config')
             ->get(LogConstants::LOG_LEVEL, (string) LogConstants::DEFAULT_LOG_LEVEL);
 
-        return new StreamHandler('php://stdout', (int) $logLevel);
+        return new StreamHandler('php://stdout', Level::from((int) $logLevel));
     }
 
     /**
@@ -71,6 +72,6 @@ class LogServiceProvider implements ServiceProviderInterface
 
         $filename = $container->offsetGet('root_dir') . 'var/log/jellyfish.log';
 
-        return new RotatingFileHandler($filename, 0, (int) $logLevel);
+        return new RotatingFileHandler($filename, 0, Level::from((int) $logLevel));
     }
 }

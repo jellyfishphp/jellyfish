@@ -65,8 +65,6 @@ class ClassGeneratorTest extends Unit
     }
 
     /**
-     * @throws
-     *
      * @return void
      */
     public function testGenerate(): void
@@ -103,8 +101,6 @@ class ClassGeneratorTest extends Unit
     }
 
     /**
-     * @throws
-     *
      * @return void
      */
     public function testGenerateDefaultNamespace(): void
@@ -141,8 +137,6 @@ class ClassGeneratorTest extends Unit
     }
 
     /**
-     * @throws
-     *
      * @return void
      */
     public function testGenerateWithExistingDirectory(): void

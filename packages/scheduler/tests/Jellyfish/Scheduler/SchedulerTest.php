@@ -56,13 +56,9 @@ class SchedulerTest extends Unit
             ->withAnyParameters()
             ->willReturn($this->jobMock); // TODO: only DateTime
 
-        $this->jobMock->expects($this->at(1))
+        $this->jobMock->expects($this->exactly(2))
             ->method('isRunning')
-            ->willReturn(true);
-
-        $this->jobMock->expects($this->at(2))
-            ->method('isRunning')
-            ->willReturn(false);
+            ->willReturnOnConsecutiveCalls(true, false);
 
         $this->assertEquals($this->scheduler, $this->scheduler->run());
     }

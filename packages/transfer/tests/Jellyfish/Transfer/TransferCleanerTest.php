@@ -9,6 +9,7 @@ use Iterator;
 use Jellyfish\Filesystem\FilesystemInterface;
 use Jellyfish\Finder\FinderFactoryInterface;
 use Jellyfish\Finder\FinderInterface;
+use LogicException;
 use SplFileInfo;
 use stdClass;
 
@@ -141,10 +142,11 @@ class TransferCleanerTest extends Unit
 
         $this->filesystemMock->expects($this->atLeastOnce())
             ->method('remove')
-            ->withConsecutive(
-                [$this->targetDirectory . 'Product/AttributeTransfer.php'],
-                [$this->targetDirectory . 'Product']
-            )->willReturn($this->filesystemMock);
+            ->willReturnCallback(fn(string $path) => match($path) {
+                $this->targetDirectory . 'Product/AttributeTransfer.php' => $this->filesystemMock,
+                $this->targetDirectory . 'Product' => $this->filesystemMock,
+                default => throw new LogicException('Unsupported parameter.')
+            });
 
         $finderMocks[1]->expects($this->atLeastOnce())
             ->method('in')

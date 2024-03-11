@@ -14,7 +14,7 @@ class ClassDefinitionTest extends Unit
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinition
      */
-    protected $classDefinition;
+    protected ClassDefinition $classDefinition;
 
     /**
      * @return void
@@ -105,16 +105,16 @@ class ClassDefinitionTest extends Unit
     public function testUseStatements(): void
     {
         $propertyMocks = [
-            $this->getMockBuilder(ClassPropertyDefinitionInterface::class)
+            $this->getMockBuilder(ClassPropertyDefinition::class)
                 ->disableOriginalConstructor()
                 ->getMock(),
-            $this->getMockBuilder(ClassPropertyDefinitionInterface::class)
+            $this->getMockBuilder(ClassPropertyDefinition::class)
                 ->disableOriginalConstructor()
                 ->getMock(),
-            $this->getMockBuilder(ClassPropertyDefinitionInterface::class)
+            $this->getMockBuilder(ClassPropertyDefinition::class)
                 ->disableOriginalConstructor()
                 ->getMock(),
-            $this->getMockBuilder(ClassPropertyDefinitionInterface::class)
+            $this->getMockBuilder(ClassPropertyDefinition::class)
                 ->disableOriginalConstructor()
                 ->getMock()
         ];
@@ -183,10 +183,10 @@ class ClassDefinitionTest extends Unit
     public function testSetAndGetProperties(): void
     {
         $propertyMocks = [
-            $this->getMockBuilder(ClassPropertyDefinitionInterface::class)
+            $this->getMockBuilder(ClassPropertyDefinition::class)
                 ->disableOriginalConstructor()
                 ->getMock(),
-            $this->getMockBuilder(ClassPropertyDefinitionInterface::class)
+            $this->getMockBuilder(ClassPropertyDefinition::class)
                 ->disableOriginalConstructor()
                 ->getMock()
         ];

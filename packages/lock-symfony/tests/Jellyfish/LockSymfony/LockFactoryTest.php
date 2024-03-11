@@ -6,8 +6,8 @@ namespace Jellyfish\LockSymfony;
 
 use Codeception\Test\Unit;
 use Jellyfish\Lock\LockIdentifierGeneratorInterface;
-use Symfony\Component\Lock\Factory as SymfonyLockFactory;
-use Symfony\Component\Lock\LockInterface as SymfonyLockInterface;
+use Symfony\Component\Lock\LockFactory as SymfonyLockFactory;
+use Symfony\Component\Lock\SharedLockInterface as SymfonySharedLockInterface;
 
 use function implode;
 use function sha1;
@@ -16,7 +16,7 @@ use function sprintf;
 class LockFactoryTest extends Unit
 {
     /**
-     * @var \Symfony\Component\Lock\Factory|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Symfony\Component\Lock\LockFactory|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $symfonyLockFactoryMock;
 
@@ -46,7 +46,7 @@ class LockFactoryTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->symfonyLockMock = $this->getMockBuilder(SymfonyLockInterface::class)
+        $this->symfonyLockMock = $this->getMockBuilder(SymfonySharedLockInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -68,7 +68,6 @@ class LockFactoryTest extends Unit
         $lockIdentifierParts = ['x', 'y'];
         $lockIdentifierWithoutPrefix = sha1(implode(' ', $lockIdentifierParts));
         $lockIdentifier = sprintf('%s:%s', 'lock', $lockIdentifierWithoutPrefix);
-
 
         $this->lockIdentifierGeneratorMock->expects($this->atLeastOnce())
             ->method('generate')

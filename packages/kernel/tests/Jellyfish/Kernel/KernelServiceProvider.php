@@ -10,14 +10,11 @@ use Pimple\ServiceProviderInterface;
 class KernelServiceProvider implements ServiceProviderInterface
 {
     /**
-     * Registers services on the given container.
+     * @param Container $pimple
      *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
-     *
-     * @param Container $pimple A container instance
+     * @return void
      */
-    public function register(Container $pimple)
+    public function register(Container $pimple): void
     {
         $pimple['key'] = 'value';
     }

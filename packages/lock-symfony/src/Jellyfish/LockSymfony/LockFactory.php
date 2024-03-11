@@ -7,12 +7,12 @@ namespace Jellyfish\LockSymfony;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockIdentifierGeneratorInterface;
 use Jellyfish\Lock\LockInterface;
-use Symfony\Component\Lock\Factory as SymfonyLockFactory;
+use Symfony\Component\Lock\LockFactory as SymfonyLockFactory;
 
 class LockFactory implements LockFactoryInterface
 {
     /**
-     * @var \Symfony\Component\Lock\Factory
+     * @var \Symfony\Component\Lock\LockFactory
      */
     protected $symfonyLockFactory;
 
@@ -22,7 +22,7 @@ class LockFactory implements LockFactoryInterface
     protected $lockIdentifierGenerator;
 
     /**
-     * @param \Symfony\Component\Lock\Factory $symfonyLockFactory
+     * @param \Symfony\Component\Lock\LockFactory $symfonyLockFactory
      * @param \Jellyfish\Lock\LockIdentifierGeneratorInterface $lockIdentifierGenerator
      */
     public function __construct(

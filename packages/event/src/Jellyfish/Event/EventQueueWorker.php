@@ -11,14 +11,9 @@ class EventQueueWorker implements EventQueueWorkerInterface
 {
     protected const DELAY_INTERVAL = 1000000;
 
-    /**
-     * @var \Jellyfish\Event\EventQueueConsumerInterface
-     */
-    protected $eventQueueConsumer;
-    /**
-     * @var \Jellyfish\Event\EventListenerProviderInterface
-     */
-    protected $eventListenerProvider;
+    protected EventQueueConsumerInterface $eventQueueConsumer;
+
+    protected EventListenerProviderInterface $eventListenerProvider;
 
     /**
      * @param \Jellyfish\Event\EventListenerProviderInterface $eventListenerProvider
@@ -43,6 +38,7 @@ class EventQueueWorker implements EventQueueWorkerInterface
             return;
         }
 
+        /** @phpstan-ignore-next-line */
         while (true) {
             foreach ($listeners as $eventName => $listenersPerEvent) {
                 foreach ($listenersPerEvent as $listenerIdentifier => $listener) {

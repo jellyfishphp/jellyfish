@@ -10,29 +10,18 @@ use Jellyfish\Queue\DestinationInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AbstractConnection;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use function strtolower;
 
 class ConnectionTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\PhpAmqpLib\Connection\AbstractConnection
-     */
-    protected $amqpConnectionMock;
+    protected MockObject|AbstractConnection $amqpConnectionMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\PhpAmqpLib\Channel\AMQPChannel
-     */
-    protected $amqpChannelMock;
+    protected MockObject|AMQPChannel $amqpChannelMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Jellyfish\Queue\DestinationInterface
-     */
-    protected $destinationMock;
+    protected MockObject|DestinationInterface $destinationMock;
 
-    /**
-     * @var \Jellyfish\QueueRabbitMq\ConnectionInterface
-     */
-    protected $connection;
+    protected ConnectionInterface $connection;
 
     /**
      * @return void
@@ -61,11 +50,11 @@ class ConnectionTest extends Unit
      */
     public function testGetChannel(): void
     {
-        $this->amqpConnectionMock->expects(self::atLeastOnce())
+        $this->amqpConnectionMock->expects($this->atLeastOnce())
             ->method('channel')
             ->willReturn($this->amqpChannelMock);
 
-        self::assertEquals($this->amqpChannelMock, $this->connection->getChannel());
+        static::assertEquals($this->amqpChannelMock, $this->connection->getChannel());
     }
 
     /**
@@ -73,11 +62,11 @@ class ConnectionTest extends Unit
      */
     public function testGetChannelTwoTimes(): void
     {
-        $this->amqpConnectionMock->expects(self::once())
+        $this->amqpConnectionMock->expects($this->once())
             ->method('channel')
             ->willReturn($this->amqpChannelMock);
 
-        self::assertEquals($this->amqpChannelMock, $this->connection->getChannel());
+        static::assertEquals($this->amqpChannelMock, $this->connection->getChannel());
     }
 
     /**
@@ -87,19 +76,19 @@ class ConnectionTest extends Unit
     {
         $destinationName = 'Foo';
 
-        $this->amqpConnectionMock->expects(self::once())
+        $this->amqpConnectionMock->expects($this->once())
             ->method('channel')
             ->willReturn($this->amqpChannelMock);
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects($this->atLeastOnce())
             ->method('getName')
             ->willReturn($destinationName);
 
-        $this->amqpChannelMock->expects(self::atLeastOnce())
+        $this->amqpChannelMock->expects($this->atLeastOnce())
             ->method('queue_declare')
             ->with($destinationName, false, true, false, false);
 
-        self::assertEquals($this->connection, $this->connection->createQueue($this->destinationMock));
+        static::assertEquals($this->connection, $this->connection->createQueue($this->destinationMock));
     }
 
     /**
@@ -110,28 +99,28 @@ class ConnectionTest extends Unit
         $destinationName = 'Foo';
         $destinationPropertyBind = 'Bar';
 
-        $this->amqpConnectionMock->expects(self::once())
+        $this->amqpConnectionMock->expects($this->once())
             ->method('channel')
             ->willReturn($this->amqpChannelMock);
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects($this->atLeastOnce())
             ->method('getName')
             ->willReturn($destinationName);
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects($this->atLeastOnce())
             ->method('getProperty')
             ->with('bind')
             ->willReturn($destinationPropertyBind);
 
-        $this->amqpChannelMock->expects(self::atLeastOnce())
+        $this->amqpChannelMock->expects($this->atLeastOnce())
             ->method('queue_declare')
             ->with($destinationName, false, true, false, false);
 
-        $this->amqpChannelMock->expects(self::atLeastOnce())
+        $this->amqpChannelMock->expects($this->atLeastOnce())
             ->method('queue_bind')
             ->with($destinationName, $destinationPropertyBind);
 
-        self::assertEquals($this->connection, $this->connection->createQueueAndBind($this->destinationMock));
+        static::assertEquals($this->connection, $this->connection->createQueueAndBind($this->destinationMock));
     }
 
     /**
@@ -141,30 +130,30 @@ class ConnectionTest extends Unit
     {
         $destinationName = 'Foo';
 
-        $this->amqpConnectionMock->expects(self::once())
+        $this->amqpConnectionMock->expects($this->once())
             ->method('channel')
             ->willReturn($this->amqpChannelMock);
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects($this->atLeastOnce())
             ->method('getName')
             ->willReturn($destinationName);
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects($this->atLeastOnce())
             ->method('getProperty')
             ->with('bind')
             ->willReturn(null);
 
-        $this->amqpChannelMock->expects(self::atLeastOnce())
+        $this->amqpChannelMock->expects($this->atLeastOnce())
             ->method('queue_declare')
             ->with($destinationName, false, true, false, false);
 
-        $this->amqpChannelMock->expects(self::never())
+        $this->amqpChannelMock->expects($this->never())
             ->method('queue_bind')
             ->with($destinationName, self::anything());
 
         try {
             $this->connection->createQueueAndBind($this->destinationMock);
-            self::fail();
+            $this->fail();
         } catch (Exception $exception) {
         }
     }
@@ -176,23 +165,23 @@ class ConnectionTest extends Unit
     {
         $destinationName = 'Foo';
 
-        $this->amqpConnectionMock->expects(self::once())
+        $this->amqpConnectionMock->expects($this->once())
             ->method('channel')
             ->willReturn($this->amqpChannelMock);
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects($this->atLeastOnce())
             ->method('getName')
             ->willReturn($destinationName);
 
-        $this->destinationMock->expects(self::atLeastOnce())
+        $this->destinationMock->expects($this->atLeastOnce())
             ->method('getType')
             ->willReturn(DestinationInterface::TYPE_FANOUT);
 
-        $this->amqpChannelMock->expects(self::atLeastOnce())
+        $this->amqpChannelMock->expects($this->atLeastOnce())
             ->method('exchange_declare')
             ->with($destinationName, strtolower(DestinationInterface::TYPE_FANOUT), false, true, false);
 
-        self::assertEquals($this->connection, $this->connection->createExchange($this->destinationMock));
+        static::assertEquals($this->connection, $this->connection->createExchange($this->destinationMock));
     }
 
     /**
@@ -200,20 +189,20 @@ class ConnectionTest extends Unit
      */
     public function testClose(): void
     {
-        $this->amqpConnectionMock->expects(self::atLeastOnce())
+        $this->amqpConnectionMock->expects($this->atLeastOnce())
             ->method('channel')
             ->willReturn($this->amqpChannelMock);
 
-        self::assertEquals($this->amqpChannelMock, $this->connection->getChannel());
+        static::assertEquals($this->amqpChannelMock, $this->connection->getChannel());
 
-        $this->amqpConnectionMock->expects(self::atLeastOnce())
+        $this->amqpConnectionMock->expects($this->atLeastOnce())
             ->method('isConnected')
             ->willReturn(true);
 
-        $this->amqpConnectionMock->expects(self::atLeastOnce())
+        $this->amqpConnectionMock->expects($this->atLeastOnce())
             ->method('close');
 
-        self::assertEquals($this->connection, $this->connection->close());
+        static::assertEquals($this->connection, $this->connection->close());
     }
 
     /**
@@ -221,17 +210,17 @@ class ConnectionTest extends Unit
      */
     public function testDestruct(): void
     {
-        $this->amqpConnectionMock->expects(self::atLeastOnce())
+        $this->amqpConnectionMock->expects($this->atLeastOnce())
             ->method('channel')
             ->willReturn($this->amqpChannelMock);
 
-        self::assertEquals($this->amqpChannelMock, $this->connection->getChannel());
+        static::assertEquals($this->amqpChannelMock, $this->connection->getChannel());
 
-        $this->amqpConnectionMock->expects(self::atLeastOnce())
+        $this->amqpConnectionMock->expects($this->atLeastOnce())
             ->method('isConnected')
             ->willReturn(true);
 
-        $this->amqpConnectionMock->expects(self::atLeastOnce())
+        $this->amqpConnectionMock->expects($this->atLeastOnce())
             ->method('close');
 
         unset($this->connection);
@@ -242,17 +231,17 @@ class ConnectionTest extends Unit
      */
     public function testDestructWithError(): void
     {
-        $this->amqpConnectionMock->expects(self::atLeastOnce())
+        $this->amqpConnectionMock->expects($this->atLeastOnce())
             ->method('channel')
             ->willReturn($this->amqpChannelMock);
 
-        self::assertEquals($this->amqpChannelMock, $this->connection->getChannel());
+        static::assertEquals($this->amqpChannelMock, $this->connection->getChannel());
 
-        $this->amqpConnectionMock->expects(self::atLeastOnce())
+        $this->amqpConnectionMock->expects($this->atLeastOnce())
             ->method('isConnected')
             ->willReturn(true);
 
-        $this->amqpConnectionMock->expects(self::atLeastOnce())
+        $this->amqpConnectionMock->expects($this->atLeastOnce())
             ->method('close')
             ->willThrowException(new Exception('Foo'));
 

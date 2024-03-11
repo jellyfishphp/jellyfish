@@ -7,28 +7,29 @@ namespace Jellyfish\Transfer\Definition;
 use ArrayObject;
 use Codeception\Test\Unit;
 use Jellyfish\Serializer\SerializerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ClassDefinitionMapMapperTest extends Unit
 {
     /**
      * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMapper
      */
-    protected $classDefinitionMapMapper;
+    protected ClassDefinitionMapMapper $classDefinitionMapMapper;
 
     /**
      * @var \Jellyfish\Serializer\SerializerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $serializerMock;
+    protected MockObject|SerializerInterface $serializerMock;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinition[]|\PHPUnit\Framework\MockObject\MockObject[]
+     * @var \ArrayObject<\Jellyfish\Transfer\Definition\ClassDefinition|\PHPUnit\Framework\MockObject\MockObject>
      */
-    protected $classDefinitionMocks;
+    protected ArrayObject $classDefinitionMocks;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\ClassPropertyDefinition[]|\PHPUnit\Framework\MockObject\MockObject[]
+     * @var array<\Jellyfish\Transfer\Definition\ClassPropertyDefinition|\PHPUnit\Framework\MockObject\MockObject>
      */
-    protected $classPropertyDefinitionMocks;
+    protected array $classPropertyDefinitionMocks;
 
     /**
      * @return void

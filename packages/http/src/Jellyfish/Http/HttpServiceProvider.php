@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Jellyfish\Http;
 
-use Http\Factory\Diactoros\ResponseFactory;
+use Laminas\Diactoros\ResponseFactory;
 use League\Route\Router;
 use League\Route\Strategy\JsonStrategy;
 use League\Route\Strategy\StrategyInterface;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\HttpHandlerRunner\Emitter\SapiStreamEmitter;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiStreamEmitter;
 
 class HttpServiceProvider implements ServiceProviderInterface
 {
