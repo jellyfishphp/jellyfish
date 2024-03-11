@@ -9,15 +9,9 @@ use Pimple\Container;
 
 class FinderSymfonyServiceProviderTest extends Unit
 {
-    /**
-     * @var \Jellyfish\FinderSymfony\FinderSymfonyServiceProvider
-     */
-    protected $finderSymfonyServiceProvider;
+    protected Container $container;
 
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected FinderSymfonyServiceProvider $finderSymfonyServiceProvider;
 
     /**
      * @return void

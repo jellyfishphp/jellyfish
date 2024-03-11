@@ -10,58 +10,29 @@ use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\MessageMapperInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class QueueProducerTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\QueueRabbitMq\ConnectionInterface
-     */
-    protected $connectionMock;
+    protected ConnectionInterface&MockObject $connectionMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\MessageMapperInterface
-     */
-    protected $messageMapperMock;
+    protected MockObject&MessageMapperInterface $messageMapperMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\PhpAmqpLib\Channel\AMQPChannel
-     */
-    protected $amqpChannelMock;
+    protected AMQPChannel&MockObject $amqpChannelMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\MessageInterface
-     */
-    protected $messageMock;
+    protected MessageInterface&MockObject $messageMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\PhpAmqpLib\Message\AMQPMessage
-     */
-    protected $amqpMessageMock;
+    protected MockObject&AMQPMessage $amqpMessageMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface
-     */
-    protected $amqpMessageFactoryMock;
+    protected AmqpMessageFactoryInterface&MockObject $amqpMessageFactoryMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\DestinationInterface
-     */
-    protected $destinationMock;
+    protected DestinationInterface&MockObject $destinationMock;
 
-    /**
-     * @var string
-     */
-    protected $queueName;
+    protected string $queueName;
 
-    /**
-     * @var string
-     */
-    protected $json;
+    protected string $json;
 
-    /**
-     * @var \Jellyfish\Queue\ProducerInterface
-     */
-    protected $queueProducer;
+    protected QueueProducer $queueProducer;
 
     /**
      * @return void

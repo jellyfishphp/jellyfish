@@ -10,30 +10,19 @@ use Jellyfish\Filesystem\FilesystemInterface;
 use Jellyfish\Finder\FinderFactoryInterface;
 use Jellyfish\Finder\FinderInterface;
 use LogicException;
+use PHPUnit\Framework\MockObject\MockObject;
 use SplFileInfo;
 use stdClass;
 
 class TransferCleanerTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Transfer\TransferCleaner
-     */
-    protected $transferCleaner;
+    protected string $targetDirectory;
 
-    /**
-     * @var string
-     */
-    protected $targetDirectory;
+    protected FilesystemInterface&MockObject $filesystemMock;
 
-    /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $filesystemMock;
+    protected MockObject&FinderFactoryInterface $finderFactoryMock;
 
-    /**
-     * @var \Jellyfish\Finder\FinderFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $finderFactoryMock;
+    protected TransferCleaner $transferCleaner;
 
     /**
      * @return void

@@ -5,23 +5,15 @@ declare(strict_types=1);
 namespace Jellyfish\Serializer\NameConverter;
 
 use Codeception\Test\Unit;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class PropertyNameConverterStrategyProviderTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyInterface
-     */
-    protected $propertyNameConverterStrategyMock;
+    protected PropertyNameConverterStrategyInterface&MockObject $propertyNameConverterStrategyMock;
 
-    /**
-     * @var string
-     */
-    protected $propertyNameConverterStrategyKey;
+    protected string $propertyNameConverterStrategyKey;
 
-    /**
-     * @var \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProvider
-     */
-    protected $propertyNameConverterStrategyProvider;
+    protected PropertyNameConverterStrategyProvider $propertyNameConverterStrategyProvider;
 
     /**
      * @return void

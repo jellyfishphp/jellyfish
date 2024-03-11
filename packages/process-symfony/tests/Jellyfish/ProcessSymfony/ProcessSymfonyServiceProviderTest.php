@@ -9,15 +9,9 @@ use Pimple\Container;
 
 class ProcessSymfonyServiceProviderTest extends Unit
 {
-    /**
-     * @var \Jellyfish\ProcessSymfony\ProcessSymfonyServiceProvider
-     */
-    protected $processSymfonyServiceProvider;
+    protected Container $container;
 
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected ProcessSymfonyServiceProvider $processSymfonyServiceProvider;
 
     /**
      * @return void

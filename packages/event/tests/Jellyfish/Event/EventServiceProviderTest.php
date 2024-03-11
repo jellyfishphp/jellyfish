@@ -19,25 +19,17 @@ use Jellyfish\Queue\QueueServiceProvider;
 use Jellyfish\Serializer\SerializerInterface;
 use Jellyfish\Uuid\UuidConstants;
 use Jellyfish\Uuid\UuidGeneratorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
 
 class EventServiceProviderTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Serializer\SerializerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $serializerMock;
+    protected SerializerInterface&MockObject $serializerMock;
 
-    /**
-     * @var \Pimple\Container;
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var \Jellyfish\Event\EventServiceProvider
-     */
-    protected $eventServiceProvider;
+    protected EventServiceProvider $eventServiceProvider;
 
     /**
      * @return void

@@ -8,15 +8,9 @@ use Pimple\Container;
 
 class UuidRamseyServiceProviderTest extends Unit
 {
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var \Jellyfish\UuidRamsey\UuidRamseyServiceProvider
-     */
-    protected $uuidRamseyServiceProvider;
+    protected UuidRamseyServiceProvider $uuidRamseyServiceProvider;
 
     /**
      * @return void

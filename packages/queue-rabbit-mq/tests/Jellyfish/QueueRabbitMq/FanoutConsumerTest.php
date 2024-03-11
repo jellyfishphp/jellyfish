@@ -10,57 +10,29 @@ use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\MessageMapperInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class FanoutConsumerTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\QueueRabbitMq\ConnectionInterface
-     */
-    protected $connectionMock;
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\MessageMapperInterface
-     */
-    protected $messageMapperMock;
+    protected ConnectionInterface&MockObject $connectionMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\PhpAmqpLib\Channel\AMQPChannel
-     */
-    protected $amqpChannelMock;
+    protected MockObject&MessageMapperInterface $messageMapperMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\MessageInterface
-     */
-    protected $messageMock;
+    protected AMQPChannel&MockObject $amqpChannelMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\PhpAmqpLib\Message\AMQPMessage
-     */
-    protected $amqpMessageMock;
+    protected MessageInterface&MockObject $messageMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\DestinationInterface
-     */
-    protected $destinationMock;
+    protected MockObject&AMQPMessage $amqpMessageMock;
 
-    /**
-     * @var string
-     */
-    protected $queueName;
+    protected DestinationInterface&MockObject $destinationMock;
 
-    /**
-     * @var string
-     */
-    protected $propertyName;
+    protected string $queueName;
 
-    /**
-     * @var string
-     */
-    protected $json;
+    protected string $propertyName;
 
-    /**
-     * @var \Jellyfish\Queue\ConsumerInterface
-     */
-    protected $fanoutConsumer;
+    protected string $json;
+
+    protected FanoutConsumer $fanoutConsumer;
 
     /**
      * @return void

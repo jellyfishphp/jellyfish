@@ -9,51 +9,31 @@ use Exception;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Lock\LockInterface;
 use Jellyfish\Scheduler\SchedulerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RunSchedulerCommandTest extends Unit
 {
-    /**
-     * @var \Symfony\Component\Console\Input\InputInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $inputMock;
+    protected MockObject&InputInterface $inputMock;
+
+    protected MockObject&OutputInterface $outputMock;
+
+    protected SchedulerInterface&MockObject $schedulerMock;
+
+    protected MockObject&LockFactoryInterface $lockFactoryMock;
+
+    protected LockInterface&MockObject $lockMock;
+
+    protected MockObject&LoggerInterface $loggerMock;
 
     /**
-     * @var \Symfony\Component\Console\Output\OutputInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @var array<string>
      */
-    protected $outputMock;
+    protected array $lockIdentifierParts;
 
-    /**
-     * @var \Jellyfish\Scheduler\SchedulerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $schedulerMock;
-
-    /**
-     * @var \Jellyfish\Lock\LockFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $lockFactoryMock;
-
-    /**
-     * @var \Jellyfish\Lock\LockInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $lockMock;
-
-    /**
-     * @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $loggerMock;
-
-    /**
-     * @var \Jellyfish\Scheduler\Command\RunSchedulerCommand
-     */
-    protected $runSchedulerCommand;
-
-    /**
-     * @var array
-     */
-    protected $lockIdentifierParts;
+    protected RunSchedulerCommand $runSchedulerCommand;
 
     /**
      * @return void

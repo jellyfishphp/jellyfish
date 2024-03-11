@@ -10,15 +10,9 @@ use Pimple\Container;
 
 class FeedServiceProviderTest extends Unit
 {
-    /**
-     * @var \Pimple\Container;
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var \Jellyfish\Feed\FeedServiceProvider
-     */
-    protected $feedServiceProvider;
+    protected FeedServiceProvider $feedServiceProvider;
 
     /**
      * @return void

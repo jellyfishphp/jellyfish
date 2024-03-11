@@ -9,20 +9,11 @@ use stdClass;
 
 class EventTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Event\EventInterface
-     */
-    protected $event;
+    protected stdClass $payload;
 
-    /**
-     * @var \stdClass
-     */
-    protected $payload;
+    protected string $uuid;
 
-    /**
-     * @var string
-     */
-    protected $uuid;
+    protected Event $event;
 
     /**
      * @return void

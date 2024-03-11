@@ -5,25 +5,20 @@ declare(strict_types=1);
 namespace Jellyfish\Lock;
 
 use Codeception\Test\Unit;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class LockTraitTest extends Unit
 {
     use LockTrait;
 
-    /**
-     * @var \Jellyfish\Lock\LockFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $lockFactoryMock;
+    protected MockObject&LockFactoryInterface $lockFactoryMock;
+
+    protected LockInterface&MockObject $lockMock;
 
     /**
-     * @var \Jellyfish\Lock\LockInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @var array<string>
      */
-    protected $lockMock;
-
-    /**
-     * @var array
-     */
-    protected $identifierParts = ['test1', 'test2'];
+    protected array $identifierParts = ['test1', 'test2'];
 
     /**
      * @return void

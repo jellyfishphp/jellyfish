@@ -6,24 +6,17 @@ namespace Jellyfish\FinderSymfony;
 
 use Codeception\Test\Unit;
 use Iterator;
+use Jellyfish\Finder\FinderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 
 class FinderTest extends Unit
 {
-    /**
-     * @var \Symfony\Component\Finder\Finder&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $symfonyFinderMock;
+    protected MockObject&SymfonyFinder $symfonyFinderMock;
 
-    /**
-     * @var \Iterator&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $iteratorMock;
+    protected MockObject&Iterator $iteratorMock;
 
-    /**
-     * @var \Jellyfish\Finder\FinderInterface
-     */
-    protected $finder;
+    protected Finder $finder;
 
     /**
      * @return void

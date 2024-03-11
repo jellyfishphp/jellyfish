@@ -7,55 +7,32 @@ namespace Jellyfish\Transfer\Definition;
 use Codeception\Test\Unit;
 use Iterator;
 use Jellyfish\Filesystem\FilesystemInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use SplFileInfo;
 use stdClass;
 
 class ClassDefinitionMapLoaderTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapLoader
-     */
-    protected $classDefinitionMapLoader;
+    protected MockObject&DefinitionFinderInterface $definitionFinderMock;
+
+    protected FilesystemInterface&MockObject $filesystemMock;
+
+    protected MockObject&ClassDefinitionMapMapperInterface $classDefinitionMapMapperMock;
+
+    protected MockObject&ClassDefinitionMapMergerInterface $classDefinitionMapMergerMock;
+
+    protected MockObject&Iterator $iteratorMock;
+
+    protected MockObject&stdClass $stdClassMock;
+
+    protected SplFileInfo&MockObject $splFileInfoMock;
 
     /**
-     * @var \Jellyfish\Transfer\Definition\DefinitionFinderInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @var array<\Jellyfish\Transfer\Definition\ClassDefinitionInterface&\PHPUnit\Framework\MockObject\MockObject>
      */
-    protected $definitionFinderMock;
+    protected array $classDefinitionMapMock;
 
-    /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $filesystemMock;
-
-    /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMapperInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $classDefinitionMapMapperMock;
-
-    /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMergerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $classDefinitionMapMergerMock;
-
-    /**
-     * @var \Iterator&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $iteratorMock;
-
-    /**
-     * @var \stdClass&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $stdClassMock;
-
-    /**
-     * @var \SplFileInfo&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $splFileInfoMock;
-
-    /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface[]&\PHPUnit\Framework\MockObject\MockObject[]
-     */
-    protected $classDefinitionMapMock;
+    protected ClassDefinitionMapLoader $classDefinitionMapLoader;
 
     /**
      * @return void

@@ -5,27 +5,16 @@ declare(strict_types=1);
 namespace Jellyfish\Scheduler;
 
 use Codeception\Test\Unit;
-use Cron\CronExpression;
-use DateTime;
 use Jellyfish\Process\ProcessFactoryInterface;
-use Jellyfish\Process\ProcessInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class JobFactoryTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Scheduler\CronExpressionFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $cronExpressionFactoryMock;
+    protected CronExpressionFactoryInterface&MockObject $cronExpressionFactoryMock;
 
-    /**
-     * @var \Jellyfish\Process\ProcessFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $processFactoryMock;
+    protected MockObject&ProcessFactoryInterface $processFactoryMock;
 
-    /**
-     * @var \Jellyfish\Scheduler\JobFactoryInterface
-     */
-    protected $jobFactory;
+    protected JobFactory $jobFactory;
 
     /**
      * @return void

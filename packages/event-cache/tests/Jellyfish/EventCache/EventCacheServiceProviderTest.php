@@ -6,35 +6,21 @@ use Codeception\Test\Unit;
 use Jellyfish\Cache\CacheConstants;
 use Jellyfish\Cache\CacheInterface;
 use Jellyfish\Event\EventConstants;
-use Jellyfish\Event\EventServiceProvider;
 use Jellyfish\EventCache\EventErrorHandler\CacheEventErrorHandler;
-use Jellyfish\Log\LogServiceProvider;
 use Jellyfish\Serializer\SerializerConstants;
 use Jellyfish\Serializer\SerializerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
-use Psr\Log\LoggerInterface;
 
 class EventCacheServiceProviderTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Serializer\SerializerInterface
-     */
-    protected $serializerMock;
+    protected SerializerInterface&MockObject $serializerMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Cache\CacheInterface
-     */
-    protected $cacheMock;
+    protected CacheInterface&MockObject $cacheMock;
 
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var \Pimple\ServiceProviderInterface
-     */
-    protected $eventCacheServiceProvider;
+    protected EventCacheServiceProvider $eventCacheServiceProvider;
 
     /**
      * @return void

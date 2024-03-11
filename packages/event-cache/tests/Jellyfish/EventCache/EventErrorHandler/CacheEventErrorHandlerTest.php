@@ -7,43 +7,22 @@ use Exception;
 use Jellyfish\Cache\CacheInterface;
 use Jellyfish\Event\EventInterface;
 use Jellyfish\EventCache\EventCacheConstants;
-use Jellyfish\EventLog\EventErrorHandler\LogEventErrorHandler;
 use Jellyfish\Serializer\SerializerInterface;
-use Psr\Log\LoggerInterface;
-
-use function sprintf;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class CacheEventErrorHandlerTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Serializer\SerializerInterface
-     */
-    protected $serializerMock;
+    protected SerializerInterface&MockObject $serializerMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Cache\CacheInterface
-     */
-    protected $cacheMock;
+    protected CacheInterface&MockObject $cacheMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Event\EventInterface
-     */
-    protected $eventMock;
+    protected MockObject&EventInterface $eventMock;
 
-    /**
-     * @var \Exception
-     */
-    protected $exception;
+    protected Exception $exception;
 
-    /**
-     * @var string
-     */
-    protected $eventListenerIdentifier;
+    protected string $eventListenerIdentifier;
 
-    /**
-     * @var \Jellyfish\EventCache\EventErrorHandler\CacheEventErrorHandler
-     */
-    protected $cacheEventErrorHandler;
+    protected CacheEventErrorHandler $cacheEventErrorHandler;
 
     /**
      * @return void
@@ -82,21 +61,21 @@ class CacheEventErrorHandlerTest extends Unit
         $json = '{}';
         $id = '97c2dcc3-bbcb-4890-bb50-a78f6bb748c9';
 
-        $this->eventMock->expects(self::atLeastOnce())
+        $this->eventMock->expects($this->atLeastOnce())
             ->method('getId')
             ->willReturn($id);
 
-        $this->serializerMock->expects(self::atLeastOnce())
+        $this->serializerMock->expects($this->atLeastOnce())
             ->method('serialize')
             ->with($this->eventMock, 'json')
             ->willReturn($json);
 
-        $this->cacheMock->expects(self::atLeastOnce())
+        $this->cacheMock->expects($this->atLeastOnce())
             ->method('set')
             ->with($id, $json, EventCacheConstants::LIFE_TIME)
             ->willReturn($this->cacheMock);
 
-        self::assertEquals(
+        static::assertEquals(
             $this->cacheEventErrorHandler,
             $this->cacheEventErrorHandler->handle($this->exception, $this->eventListenerIdentifier, $this->eventMock)
         );

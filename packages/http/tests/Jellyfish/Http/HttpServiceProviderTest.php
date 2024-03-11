@@ -12,15 +12,9 @@ use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 
 class HttpServiceProviderTest extends Unit
 {
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var \Pimple\ServiceProviderInterface
-     */
-    protected $routeServiceProvider;
+    protected HttpServiceProvider $routeServiceProvider;
 
     /**
      * @return void

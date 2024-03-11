@@ -9,20 +9,9 @@ use Pimple\Container;
 
 class JsonSchemaOpisServiceProviderTest extends Unit
 {
-    /**
-     * @var \Pimple\ServiceProviderInterface
-     */
-    protected $jsonSchemaOpisServiceProvider;
+    protected Container $container;
 
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
-
-    /**
-     * @var \Jellyfish\Config\ConfigInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $configMock;
+    protected JsonSchemaOpisServiceProvider $jsonSchemaOpisServiceProvider;
 
     /**
      * @return void

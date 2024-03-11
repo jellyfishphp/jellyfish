@@ -10,10 +10,7 @@ use org\bovigo\vfs\vfsStream;
 
 class KernelTest extends Unit
 {
-    /**
-     * @var string
-     */
-    protected $rootDir;
+    protected string $rootDir;
 
     /**
      * @return void

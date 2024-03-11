@@ -7,34 +7,20 @@ namespace Jellyfish\Transfer\Generator;
 use Codeception\Test\Unit;
 use Jellyfish\Filesystem\FilesystemInterface;
 use Jellyfish\Transfer\Definition\ClassDefinitionInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Twig\Environment;
 
 class FactoryClassGeneratorTest extends Unit
 {
-    /**
-     * @var string
-     */
-    protected $targetDirectory;
+    protected string $targetDirectory;
 
-    /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $filesystemMock;
+    protected FilesystemInterface&MockObject $filesystemMock;
 
-    /**
-     * @var \Twig\Environment&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $twigEnvironmentMock;
+    protected Environment&MockObject $twigEnvironmentMock;
 
-    /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $classDefinitionMock;
+    protected ClassDefinitionInterface&MockObject $classDefinitionMock;
 
-    /**
-     * @var \Jellyfish\Transfer\Generator\FactoryClassGenerator
-     */
-    protected $factoryClassGenerator;
+    protected FactoryClassGenerator $factoryClassGenerator;
 
     /**
      * @return void

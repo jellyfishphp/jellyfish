@@ -15,33 +15,19 @@ use Jellyfish\Queue\ProducerInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AbstractConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class QueueClientTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Queue\ConsumerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $consumerMock;
+    protected MockObject&ConsumerInterface $consumerMock;
 
-    /**
-     * @var \Jellyfish\Queue\ProducerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $producerMock;
+    protected MockObject&ProducerInterface $producerMock;
 
-    /**
-     * @var \Jellyfish\Queue\DestinationInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $destinationMock;
+    protected DestinationInterface&MockObject $destinationMock;
 
-    /**
-     * @var \Jellyfish\Queue\MessageInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $messageMock;
+    protected MessageInterface&MockObject $messageMock;
 
-    /**
-     * @var \Jellyfish\Queue\QueueClientInterface
-     */
-    protected $queueClient;
+    protected QueueClient $queueClient;
 
     /**
      * @return void

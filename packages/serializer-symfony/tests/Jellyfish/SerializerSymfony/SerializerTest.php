@@ -6,20 +6,15 @@ namespace Jellyfish\SerializerSymfony;
 
 use ArrayObject;
 use Codeception\Test\Unit;
+use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class SerializerTest extends Unit
 {
-    /**
-     * @var \Symfony\Component\Serializer\SerializerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $symfonySerializerMock;
+    protected SerializerInterface&MockObject $symfonySerializerMock;
 
-    /**
-     * @var \Jellyfish\Serializer\SerializerInterface
-     */
-    protected $serializer;
+    protected Serializer $serializer;
 
     /**
      * @return void

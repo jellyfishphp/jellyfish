@@ -10,10 +10,7 @@ use function sprintf;
 
 class EventQueueNameGeneratorTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Event\EventQueueNameGeneratorInterface
-     */
-    protected $eventQueueNameGenerator;
+    protected EventQueueNameGenerator $eventQueueNameGenerator;
 
     /**
      * @return void

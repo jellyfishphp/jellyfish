@@ -21,7 +21,7 @@ class EventDispatcherTest extends Unit
 
     protected string $eventName;
 
-    protected EventDispatcherInterface $eventDispatcher;
+    protected EventDispatcher $eventDispatcher;
 
     /**
      * @return void

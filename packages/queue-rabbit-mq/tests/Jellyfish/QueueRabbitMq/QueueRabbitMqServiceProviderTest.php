@@ -7,35 +7,21 @@ namespace Jellyfish\QueueRabbitMq;
 use Codeception\Test\Unit;
 use Jellyfish\Config\ConfigConstants;
 use Jellyfish\Config\ConfigInterface;
-use Jellyfish\Config\ConfigServiceProvider;
 use Jellyfish\Queue\MessageMapperInterface;
 use Jellyfish\Queue\QueueConstants;
-use Jellyfish\Queue\QueueServiceProvider;
-use Jellyfish\Serializer\SerializerInterface;
 use LogicException;
+use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
 
 class QueueRabbitMqServiceProviderTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Config\ConfigInterface
-     */
-    protected $configMock;
+    protected MockObject&ConfigInterface $configMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\MessageMapperInterface
-     */
-    protected $messageMapperMock;
+    protected MockObject&MessageMapperInterface $messageMapperMock;
 
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var \Jellyfish\QueueRabbitMq\QueueRabbitMqServiceProvider
-     */
-    protected $queueRabbitMqServiceProvider;
+    protected QueueRabbitMqServiceProvider $queueRabbitMqServiceProvider;
 
     /**
      * @return void

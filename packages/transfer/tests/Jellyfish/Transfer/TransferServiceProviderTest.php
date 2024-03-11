@@ -16,15 +16,9 @@ use stdClass;
 
 class TransferServiceProviderTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Transfer\TransferServiceProvider
-     */
-    protected $transferServiceProvider;
+    protected Container $container;
 
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected TransferServiceProvider $transferServiceProvider;
 
     /**
      * @return void

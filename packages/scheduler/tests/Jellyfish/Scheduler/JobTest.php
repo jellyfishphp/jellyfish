@@ -8,28 +8,17 @@ use Codeception\Test\Unit;
 use Cron\CronExpression;
 use DateTime;
 use Jellyfish\Process\ProcessInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class JobTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Scheduler\JobInterface
-     */
-    protected $job;
+    protected CronExpression&MockObject $cronExpressionMock;
 
-    /**
-     * @var \Cron\CronExpression&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $cronExpressionMock;
+    protected ProcessInterface&MockObject $processMock;
 
-    /**
-     * @var \Jellyfish\Process\ProcessInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $processMock;
+    protected DateTime $dateTime;
 
-    /**
-     * @var DateTime
-     */
-    protected $dateTime;
+    protected Job $job;
 
     /**
      * @return void

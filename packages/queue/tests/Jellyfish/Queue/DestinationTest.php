@@ -6,10 +6,7 @@ use Codeception\Test\Unit;
 
 class DestinationTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Queue\DestinationInterface
-     */
-    protected $destination;
+    protected Destination $destination;
 
     /**
      * @return void

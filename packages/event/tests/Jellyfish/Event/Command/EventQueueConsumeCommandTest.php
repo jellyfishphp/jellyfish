@@ -42,8 +42,6 @@ class EventQueueConsumeCommandTest extends Unit
 
     protected LoggerInterface&MockObject $loggerMock;
 
-    protected EventQueueConsumeCommand $eventQueueConsumeCommand;
-
     /**
      * @var string
      */
@@ -58,6 +56,8 @@ class EventQueueConsumeCommandTest extends Unit
      * @var array
      */
     protected array $lockIdentifierParts;
+
+    protected EventQueueConsumeCommand $eventQueueConsumeCommand;
 
     /**
      * @return void

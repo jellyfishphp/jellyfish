@@ -6,18 +6,13 @@ namespace Jellyfish\Event;
 
 use Codeception\Test\Unit;
 use Jellyfish\Uuid\UuidGeneratorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class EventFactoryTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Uuid\UuidGeneratorInterface
-     */
-    protected $uuidGeneratorMock;
+    protected MockObject&UuidGeneratorInterface $uuidGeneratorMock;
 
-    /**
-     * @var \Jellyfish\Event\EventFactoryInterface
-     */
-    protected $eventFactory;
+    protected EventFactory $eventFactory;
 
     /**
      * @return void

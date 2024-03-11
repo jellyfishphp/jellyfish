@@ -12,10 +12,7 @@ use function sprintf;
 
 class LockIdentifierGeneratorTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Lock\LockIdentifierGeneratorInterface
-     */
-    protected $lockIdentifierGenerator;
+    protected LockIdentifierGenerator $lockIdentifierGenerator;
 
     /**
      * @return void

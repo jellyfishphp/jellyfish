@@ -6,24 +6,16 @@ namespace Jellyfish\Queue;
 
 use Codeception\Test\Unit;
 use Jellyfish\Serializer\SerializerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
 
 class QueueServiceProviderTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Serializer\SerializerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $serializerMock;
+    protected SerializerInterface&MockObject $serializerMock;
 
-    /**
-     * @var \Pimple\Container;
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var \Jellyfish\Queue\QueueServiceProvider
-     */
-    protected $queueServiceProvider;
+    protected QueueServiceProvider $queueServiceProvider;
 
     /**
      * @return void

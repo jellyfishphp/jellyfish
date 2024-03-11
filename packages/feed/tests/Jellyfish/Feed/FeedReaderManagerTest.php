@@ -6,18 +6,13 @@ namespace Jellyfish\Feed;
 
 use Codeception\Test\Unit;
 use Jellyfish\Feed\Exception\FeedReaderNotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class FeedReaderManagerTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Feed\FeedReaderManagerInterface
-     */
-    protected $feedReaderManager;
+    protected MockObject&FeedReaderInterface $feedReaderMock;
 
-    /**
-     * @var \Jellyfish\Feed\FeedReaderInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $feedReaderMock;
+    protected FeedReaderManager $feedReaderManager;
 
     /**
      * @return void

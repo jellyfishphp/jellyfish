@@ -8,10 +8,7 @@ use Codeception\Test\Unit;
 
 class ProcessFactoryTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Process\ProcessFactoryInterface
-     */
-    protected $symfonyProcessFactory;
+    protected ProcessFactory $symfonyProcessFactory;
 
     /**
      * @return void
@@ -19,6 +16,7 @@ class ProcessFactoryTest extends Unit
     protected function _before(): void
     {
         parent::_before();
+
         $this->symfonyProcessFactory = new ProcessFactory();
     }
 

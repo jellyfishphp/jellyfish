@@ -12,10 +12,7 @@ use Jellyfish\Process\ProcessInterface;
 
 class CronExpressionFactoryTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Scheduler\CronExpressionFactoryInterface
-     */
-    protected $cronExpressionFactory;
+    protected CronExpressionFactory $cronExpressionFactory;
 
     /**
      * @return void

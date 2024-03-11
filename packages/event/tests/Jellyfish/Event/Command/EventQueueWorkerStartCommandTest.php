@@ -6,30 +6,19 @@ namespace Jellyfish\Event\Command;
 
 use Codeception\Test\Unit;
 use Jellyfish\Event\EventQueueWorkerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class EventQueueWorkerStartCommandTest extends Unit
 {
-    /**
-     * @var \Symfony\Component\Console\Input\InputInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $inputMock;
+    protected MockObject&InputInterface $inputMock;
 
-    /**
-     * @var \Symfony\Component\Console\Output\OutputInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $outputMock;
+    protected MockObject&OutputInterface $outputMock;
 
-    /**
-     * @var \Jellyfish\Event\EventQueueWorkerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventQueueWorkerMock;
+    protected EventQueueWorkerInterface&MockObject $eventQueueWorkerMock;
 
-    /**
-     * @var \Jellyfish\Event\Command\EventQueueWorkerStartCommand
-     */
-    protected $eventQueueWorkerStartCommand;
+    protected EventQueueWorkerStartCommand $eventQueueWorkerStartCommand;
 
     /**
      * @return void

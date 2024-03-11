@@ -10,15 +10,9 @@ use Pimple\Container;
 
 class SerializerServiceProviderTest extends Unit
 {
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var \Jellyfish\Serializer\SerializerServiceProvider
-     */
-    protected $serializerServiceProvider;
+    protected SerializerServiceProvider $serializerServiceProvider;
 
     /**
      * @return void

@@ -8,10 +8,7 @@ use Codeception\Test\Unit;
 
 class MessageFactoryTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Queue\MessageFactoryInterface
-     */
-    protected $messageFactory;
+    protected MessageFactory $messageFactory;
 
     /**
      * @return void

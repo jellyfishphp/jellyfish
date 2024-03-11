@@ -8,10 +8,7 @@ use Codeception\Test\Unit;
 
 class FinderFactoryTest extends Unit
 {
-    /**
-     * @var \Jellyfish\FinderSymfony\FinderFactory
-     */
-    protected $finderFactory;
+    protected FinderFactory $finderFactory;
 
     /**
      * @return void

@@ -6,33 +6,19 @@ namespace Jellyfish\Queue;
 
 use Codeception\Test\Unit;
 use Jellyfish\Serializer\SerializerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class MessageMapperTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Queue\MessageFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $messageFactoryMock;
+    protected MessageFactoryInterface&MockObject $messageFactoryMock;
 
-    /**
-     * @var \Jellyfish\Serializer\SerializerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $serializerMock;
+    protected SerializerInterface&MockObject $serializerMock;
 
-    /**
-     * @var \Jellyfish\Queue\MessageInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $messageMock;
+    protected MessageInterface&MockObject $messageMock;
 
-    /**
-     * @var string
-     */
-    protected $json;
+    protected string $json;
 
-    /**
-     * @var \Jellyfish\Queue\MessageMapperInterface
-     */
-    protected $messageMapper;
+    protected MessageMapper $messageMapper;
 
     /**
      * @return void

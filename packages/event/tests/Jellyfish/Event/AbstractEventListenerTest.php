@@ -6,23 +6,15 @@ namespace Jellyfish\Event;
 
 use Codeception\Test\Unit;
 use Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AbstractEventListenerTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Event\AbstractEventListener&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $abstractEventListenerMock;
+    protected MockObject&AbstractEventListener $abstractEventListenerMock;
 
-    /**
-     * @var \Jellyfish\Event\EventInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventMock;
+    protected MockObject&EventInterface $eventMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Event\EventErrorHandlerInterface
-     */
-    protected $errorHandlerMock;
+    protected EventErrorHandlerInterface&MockObject $errorHandlerMock;
 
     /**
      * @return void

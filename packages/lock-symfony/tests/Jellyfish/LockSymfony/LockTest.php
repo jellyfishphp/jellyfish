@@ -5,19 +5,14 @@ declare(strict_types=1);
 namespace Jellyfish\LockSymfony;
 
 use Codeception\Test\Unit;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Lock\LockInterface as SymfonyLockInterface;
 
 class LockTest extends Unit
 {
-    /**
-     * @var \Symfony\Component\Lock\LockInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $symfonyLockMock;
+    protected MockObject&SymfonyLockInterface $symfonyLockMock;
 
-    /**
-     * @var \Jellyfish\Lock\LockInterface
-     */
-    protected $lock;
+    protected Lock $lock;
 
     /**
      * @return void

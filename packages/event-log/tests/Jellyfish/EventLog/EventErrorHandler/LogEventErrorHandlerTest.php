@@ -5,34 +5,20 @@ namespace Jellyfish\EventLog\EventErrorHandler;
 use Codeception\Test\Unit;
 use Exception;
 use Jellyfish\Event\EventInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class LogEventErrorHandlerTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Psr\Log\LoggerInterface
-     */
-    protected $loggerMock;
+    protected MockObject&LoggerInterface $loggerMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Event\EventInterface
-     */
-    protected $eventMock;
+    protected MockObject&EventInterface $eventMock;
 
-    /**
-     * @var \Exception
-     */
-    protected $exception;
+    protected Exception $exception;
 
-    /**
-     * @var string
-     */
-    protected $eventListenerIdentifier;
+    protected string $eventListenerIdentifier;
 
-    /**
-     * @var \Jellyfish\EventLog\EventErrorHandler\LogEventErrorHandler
-     */
-    protected $logEventErrorHandler;
+    protected LogEventErrorHandler $logEventErrorHandler;
 
     /**
      * @return void

@@ -6,7 +6,9 @@ namespace Jellyfish\LockSymfony;
 
 use Codeception\Test\Unit;
 use Jellyfish\Lock\LockIdentifierGeneratorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Lock\LockFactory as SymfonyLockFactory;
+use Symfony\Component\Lock\LockInterface;
 use Symfony\Component\Lock\SharedLockInterface as SymfonySharedLockInterface;
 
 use function implode;
@@ -15,25 +17,13 @@ use function sprintf;
 
 class LockFactoryTest extends Unit
 {
-    /**
-     * @var \Symfony\Component\Lock\LockFactory&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $symfonyLockFactoryMock;
+    protected MockObject&SymfonyLockFactory $symfonyLockFactoryMock;
 
-    /**
-     * @var \Jellyfish\Lock\LockFactoryInterface
-     */
-    protected $lockFactory;
+    protected MockObject&LockInterface $symfonyLockMock;
 
-    /**
-     * @var \Symfony\Component\Lock\LockInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $symfonyLockMock;
+    protected MockObject&LockIdentifierGeneratorInterface $lockIdentifierGeneratorMock;
 
-    /**
-     * @var \Jellyfish\Lock\LockIdentifierGeneratorInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $lockIdentifierGeneratorMock;
+    protected LockFactory $lockFactory;
 
     /**
      * @return void

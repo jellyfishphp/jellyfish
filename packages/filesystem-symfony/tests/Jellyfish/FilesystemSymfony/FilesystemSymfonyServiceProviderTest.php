@@ -9,15 +9,9 @@ use Pimple\Container;
 
 class FilesystemSymfonyServiceProviderTest extends Unit
 {
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var \Jellyfish\FilesystemSymfony\FilesystemSymfonyServiceProvider
-     */
-    protected $filesystemSymfonyServiceProvider;
+    protected FilesystemSymfonyServiceProvider $filesystemSymfonyServiceProvider;
 
     /**
      * @return void

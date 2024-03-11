@@ -9,15 +9,12 @@ use Jellyfish\Process\Exception\RuntimeException;
 
 class ProcessTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Process\ProcessInterface
-     */
-    protected $symfonyProcess;
+    protected Process $symfonyProcess;
 
     /**
-     * @var array
+     * @var array<string>
      */
-    protected $command;
+    protected array $command;
 
     /**
      * @return void

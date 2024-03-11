@@ -8,33 +8,34 @@ use Codeception\Test\Unit;
 use Iterator;
 use Jellyfish\Finder\FinderFactoryInterface;
 use Jellyfish\Finder\FinderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class DefinitionFinderTest extends Unit
 {
     /**
      * @var \Jellyfish\Transfer\Definition\DefinitionFinder
      */
-    protected $definitionFinder;
+    protected DefinitionFinder $definitionFinder;
 
     /**
      * @var string
      */
-    protected $rootDir;
+    protected string $rootDir;
 
     /**
      * @var \Jellyfish\Finder\FinderFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $finderFactoryMock;
+    protected MockObject&FinderFactoryInterface $finderFactoryMock;
 
     /**
      * @var \Jellyfish\Finder\FinderInterface&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $finderMock;
+    protected MockObject&FinderInterface $finderMock;
 
     /**
      * @var \Iterator&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $iteratorMock;
+    protected MockObject&Iterator $iteratorMock;
 
     /**
      * @return void

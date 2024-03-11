@@ -6,23 +6,15 @@ namespace Jellyfish\Event;
 
 use Codeception\Test\Unit;
 use Jellyfish\Event\Exception\NotSupportedTypeException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class EventListenerProviderTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Event\EventListenerProviderInterface
-     */
-    protected $eventListenerProvider;
+    protected MockObject&EventListenerInterface $eventListenerMock;
 
-    /**
-     * @var \Jellyfish\Event\EventListenerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventListenerMock;
+    protected string $eventName;
 
-    /**
-     * @var string
-     */
-    protected $eventName;
+    protected EventListenerProvider $eventListenerProvider;
 
     /**
      * @return void

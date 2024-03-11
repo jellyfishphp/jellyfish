@@ -16,9 +16,6 @@ class CacheTest extends Unit
 
     protected ItemInterface&MockObject $cacheItemMock;
 
-    /**
-     * @var \Jellyfish\Cache\CacheInterface
-     */
     protected CacheInterface $cache;
 
     /**

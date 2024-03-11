@@ -5,18 +5,13 @@ declare(strict_types=1);
 namespace Jellyfish\Scheduler;
 
 use Codeception\Test\Unit;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SchedulerTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Scheduler\SchedulerInterface
-     */
-    protected $scheduler;
+    protected MockObject&JobInterface $jobMock;
 
-    /**
-     * @var \Jellyfish\Scheduler\JobInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $jobMock;
+    protected Scheduler $scheduler;
 
     /**
      * @return void

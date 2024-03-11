@@ -10,9 +10,9 @@ use Jellyfish\JsonSchema\ValidatorFactoryInterface;
 
 class ValidatorFactoryTest extends Unit
 {
-    protected ValidatorFactoryInterface $validatorFactory;
-
     protected string $schema;
+
+    protected ValidatorFactory $validatorFactory;
 
     /**
      * @return void

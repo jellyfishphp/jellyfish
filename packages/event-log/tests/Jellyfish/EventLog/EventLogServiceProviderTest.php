@@ -4,29 +4,19 @@ namespace Jellyfish\EventLog;
 
 use Codeception\Test\Unit;
 use Jellyfish\Event\EventConstants;
-use Jellyfish\Event\EventServiceProvider;
 use Jellyfish\EventLog\EventErrorHandler\LogEventErrorHandler;
 use Jellyfish\Log\LogConstants;
-use Jellyfish\Log\LogServiceProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
 
 class EventLogServiceProviderTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Psr\Log\LoggerInterface
-     */
-    protected $loggerMock;
+    protected MockObject&LoggerInterface $loggerMock;
 
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var \Pimple\ServiceProviderInterface
-     */
-    protected $eventLogServiceProvider;
+    protected EventLogServiceProvider $eventLogServiceProvider;
 
     /**
      * @return void

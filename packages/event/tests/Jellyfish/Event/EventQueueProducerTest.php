@@ -9,49 +9,25 @@ use Jellyfish\Queue\DestinationFactoryInterface;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\QueueClientInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class EventQueueProducerTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Event\EventMapperInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventMapperMock;
+    protected EventMapperInterface&MockObject $eventMapperMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\DestinationFactoryInterface
-     */
-    protected $destinationFactoryMock;
+    protected MockObject&DestinationFactoryInterface $destinationFactoryMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Queue\DestinationInterface
-     */
-    protected $destinationMock;
+    protected DestinationInterface&MockObject $destinationMock;
 
-    /**
-     * @var \Jellyfish\Queue\QueueClientInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $queueClientMock;
+    protected MockObject&QueueClientInterface $queueClientMock;
 
-    /**
-     * @var \Jellyfish\Event\EventInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventMock;
+    protected MockObject&EventInterface $eventMock;
 
-    /**
-     * @var \Jellyfish\Event\EventListenerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventListenerMock;
+    protected MockObject&EventListenerInterface $eventListenerMock;
 
-    /**
-     * @var \Jellyfish\Queue\MessageInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $messageMock;
+    protected MessageInterface&MockObject $messageMock;
 
-
-    /**
-     * @var \Jellyfish\Event\EventQueueProducerInterface
-     */
-    protected $eventQueueProducer;
+    protected EventQueueProducerInterface $eventQueueProducer;
 
     /**
      * @return void

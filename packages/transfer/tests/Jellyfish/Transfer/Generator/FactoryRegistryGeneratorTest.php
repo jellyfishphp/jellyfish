@@ -12,10 +12,7 @@ use Twig\Environment;
 
 class FactoryRegistryGeneratorTest extends Unit
 {
-    /**
-     * @var string
-     */
-    protected $targetDirectory;
+    protected string $targetDirectory;
 
     protected MockObject&FilesystemInterface $filesystemMock;
 

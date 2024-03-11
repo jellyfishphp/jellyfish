@@ -8,23 +8,15 @@ use Codeception\Test\Unit;
 use Exception;
 use Jellyfish\Event\Exception\NotSupportedMethodException;
 use Jellyfish\Event\Exception\NotSupportedTypeException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AbstractEventBulkListenerTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Event\EventInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventMock;
+    protected MockObject&EventInterface $eventMock;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Event\EventErrorHandlerInterface
-     */
-    protected $errorHandlerMock;
+    protected EventErrorHandlerInterface&MockObject $errorHandlerMock;
 
-    /**
-     * @var \Jellyfish\Event\AbstractEventBulkListener&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $abstractEventBulkListenerMock;
+    protected MockObject&AbstractEventBulkListener $abstractEventBulkListenerMock;
 
     /**
      * @return void
@@ -49,7 +41,7 @@ class AbstractEventBulkListenerTest extends Unit
     {
         try {
             $this->abstractEventBulkListenerMock->handle($this->eventMock);
-            $this->fail();
+            static::fail();
         } catch (NotSupportedMethodException $exception) {
         }
     }

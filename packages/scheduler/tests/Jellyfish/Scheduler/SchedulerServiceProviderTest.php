@@ -14,15 +14,9 @@ use Psr\Log\LoggerInterface;
 
 class SchedulerServiceProviderTest extends Unit
 {
-    /**
-     * @var \Pimple\Container;
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var \Jellyfish\Scheduler\SchedulerServiceProvider
-     */
-    protected $schedulerServiceProvider;
+    protected SchedulerServiceProvider $schedulerServiceProvider;
 
     /**
      * @return void

@@ -6,20 +6,15 @@ namespace Jellyfish\FilesystemSymfony;
 
 use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 
 class FilesystemTest extends Unit
 {
-    /**
-     * @var \Symfony\Component\Filesystem\Filesystem&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $symfonyFilesystemMock;
+    protected MockObject&SymfonyFilesystem $symfonyFilesystemMock;
 
-    /**
-     * @var \Jellyfish\FilesystemSymfony\Filesystem
-     */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     /**
      * @return void

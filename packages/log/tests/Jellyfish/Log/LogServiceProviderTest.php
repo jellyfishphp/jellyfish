@@ -9,25 +9,17 @@ use Jellyfish\Config\ConfigInterface;
 use Jellyfish\Event\EventConstants;
 use Jellyfish\Event\EventServiceProvider;
 use Monolog\Logger;
+use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
 
 class LogServiceProviderTest extends Unit
 {
-    /**
-     * @var \Pimple\ServiceProviderInterface
-     */
-    protected $logServiceProvider;
+    protected Container $container;
 
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected MockObject&ConfigInterface $configMock;
 
-    /**
-     * @var \Jellyfish\Config\ConfigInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $configMock;
+    protected LogServiceProvider $logServiceProvider;
 
     /**
      * @return void

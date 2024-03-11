@@ -7,41 +7,24 @@ namespace Jellyfish\Transfer\Command;
 use Codeception\Test\Unit;
 use Jellyfish\Transfer\TransferCleanerInterface;
 use Jellyfish\Transfer\TransferGeneratorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TransferGenerateCommandTest extends Unit
 {
-    /**
-     * @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $loggerMock;
+    protected MockObject&LoggerInterface $loggerMock;
 
-    /**
-     * @var \Jellyfish\Transfer\TransferGeneratorInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $transferGeneratorMock;
+    protected TransferGeneratorInterface&MockObject $transferGeneratorMock;
 
-    /**
-     * @var \Jellyfish\Transfer\TransferCleanerInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $transferCleanerMock;
+    protected TransferCleanerInterface&MockObject $transferCleanerMock;
 
-    /**
-     * @var \Symfony\Component\Console\Input\InputInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $inputMock;
+    protected MockObject&InputInterface $inputMock;
 
-    /**
-     * @var \Symfony\Component\Console\Output\OutputInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $outputMock;
+    protected MockObject&OutputInterface $outputMock;
 
-    /**
-     * @var \Jellyfish\Transfer\Command\TransferGenerateCommand
-     */
-    protected $transferGenerateCommand;
+    protected TransferGenerateCommand $transferGenerateCommand;
 
     /**
      * @return void

@@ -13,74 +13,36 @@ use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\QueueClientInterface;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use function sprintf;
 
 class EventQueueConsumerTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Process\ProcessFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $processFactoryMock;
+    protected MockObject&ProcessFactoryInterface $processFactoryMock;
 
-    /**
-     * @var \Jellyfish\Event\EventMapperInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventMapperMock;
+    protected EventMapperInterface&MockObject $eventMapperMock;
 
-    /**
-     * @var \Jellyfish\Event\EventQueueNameGeneratorInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventQueueNameGeneratorMock;
+    protected EventQueueNameGeneratorInterface&MockObject $eventQueueNameGeneratorMock;
 
-    /**
-     * @var \Jellyfish\Queue\QueueClientInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $queueClientMock;
+    protected MockObject&QueueClientInterface $queueClientMock;
 
-    /**
-     * @var \Jellyfish\Queue\DestinationFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $destinationFactoryMock;
+    protected MockObject&DestinationFactoryInterface $destinationFactoryMock;
 
-    /**
-     * @var \Jellyfish\Queue\DestinationInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $destinationMock;
+    protected DestinationInterface&MockObject $destinationMock;
 
-    /**
-     * @var \Jellyfish\Queue\MessageInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $messageMock;
+    protected MessageInterface&MockObject $messageMock;
 
-    /**
-     * @var \Jellyfish\Event\EventInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventMock;
+    protected MockObject&EventInterface $eventMock;
 
-    /**
-     * @var \Jellyfish\Process\ProcessInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $processMock;
+    protected ProcessInterface&MockObject $processMock;
 
-    /**
-     * @var \Jellyfish\Event\EventQueueConsumerInterface
-     */
-    protected $eventQueueConsumer;
+    protected string $eventName;
 
-    /**
-     * @var string
-     */
-    protected $eventName;
+    protected string $eventListenerIdentifier;
 
-    /**
-     * @var string
-     */
-    protected $eventListenerIdentifier;
+    protected string $eventQueueName;
 
-    /**
-     * @var string
-     */
-    protected $eventQueueName;
+    protected EventQueueConsumer $eventQueueConsumer;
 
     /**
      * @return void

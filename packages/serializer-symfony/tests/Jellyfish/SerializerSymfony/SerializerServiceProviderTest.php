@@ -6,24 +6,16 @@ namespace Jellyfish\SerializerSymfony;
 
 use Codeception\Test\Unit;
 use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
 
 class SerializerServiceProviderTest extends Unit
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface
-     */
-    protected $propertyNameConverterStrategyProviderMock;
+    protected PropertyNameConverterStrategyProviderInterface&MockObject $propertyNameConverterStrategyProviderMock;
 
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var \Jellyfish\SerializerSymfony\SerializerSymfonyServiceProvider
-     */
-    protected $serializerSymfonyServiceProvider;
+    protected SerializerSymfonyServiceProvider $serializerSymfonyServiceProvider;
 
     /**
      * @return void
