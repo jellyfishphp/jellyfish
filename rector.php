@@ -12,12 +12,11 @@ use Rector\Php80\Rector\FunctionLike\MixedTypeRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
-use Rector\TypeDeclaration\Rector\Property\AddPropertyTypeDeclarationRector;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
         __DIR__ . '/packages/*/src',
-        __DIR__ . '/packages/*/tests',
+        //__DIR__ . '/packages/*/tests',
     ]);
 
     $rectorConfig->sets([

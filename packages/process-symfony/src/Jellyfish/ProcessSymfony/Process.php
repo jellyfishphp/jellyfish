@@ -7,17 +7,14 @@ namespace Jellyfish\ProcessSymfony;
 use Jellyfish\Process\ProcessInterface;
 use Symfony\Component\Process\Process as SymfonyProcess;
 
+/**
+ * @see \Jellyfish\ProcessSymfony\ProcessTest
+ */
 class Process implements ProcessInterface
 {
-    /**
-     * @var array
-     */
-    protected $command;
+    protected array $command;
 
-    /**
-     * @var \Symfony\Component\Process\Process
-     */
-    protected $process;
+    protected SymfonyProcess $process;
 
     /**
      * @param array $command

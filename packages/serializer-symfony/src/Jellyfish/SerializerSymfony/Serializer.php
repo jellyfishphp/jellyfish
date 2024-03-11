@@ -10,12 +10,15 @@ use Symfony\Component\Serializer\SerializerInterface as SymfonySerializerInterfa
 
 use function is_array;
 
+/**
+ * @see \Jellyfish\SerializerSymfony\SerializerTest
+ */
 class Serializer implements SerializerInterface
 {
     /**
      * @var \Symfony\Component\Serializer\SerializerInterface
      */
-    protected $symfonySerializer;
+    protected SymfonySerializerInterface $symfonySerializer;
 
     /**
      * @param \Symfony\Component\Serializer\SerializerInterface $symfonySerializer

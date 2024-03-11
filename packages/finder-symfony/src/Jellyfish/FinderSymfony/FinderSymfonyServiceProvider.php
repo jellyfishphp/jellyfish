@@ -7,6 +7,9 @@ namespace Jellyfish\FinderSymfony;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * @see \Jellyfish\FinderSymfony\FinderSymfonyServiceProviderTest
+ */
 class FinderSymfonyServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -26,9 +29,7 @@ class FinderSymfonyServiceProvider implements ServiceProviderInterface
      */
     protected function registerFinderFactory(Container $container): FinderSymfonyServiceProvider
     {
-        $container->offsetSet('finder_factory', function () {
-            return new FinderFactory();
-        });
+        $container->offsetSet('finder_factory', static fn(): FinderFactory => new FinderFactory());
 
         return $this;
     }

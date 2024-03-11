@@ -8,6 +8,9 @@ use Jellyfish\Finder\FinderFactoryInterface;
 use Jellyfish\Finder\FinderInterface;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 
+/**
+ * @see \Jellyfish\FinderSymfony\FinderFactoryTest
+ */
 class FinderFactory implements FinderFactoryInterface
 {
     /**

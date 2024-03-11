@@ -9,22 +9,16 @@ use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\MessageMapperInterface;
 use Jellyfish\Queue\ProducerInterface;
 
+/**
+ * @see \Jellyfish\QueueRabbitMq\FanoutProducerTest
+ */
 class FanoutProducer implements ProducerInterface
 {
-    /**
-     * @var \Jellyfish\QueueRabbitMq\ConnectionInterface
-     */
-    protected $connection;
+    protected ConnectionInterface $connection;
 
-    /**
-     * @var \Jellyfish\Queue\MessageMapperInterface
-     */
-    protected $messageMapper;
+    protected MessageMapperInterface $messageMapper;
 
-    /**
-     * @var \Jellyfish\QueueRabbitMq\AmqpMessageFactoryInterface
-     */
-    protected $amqpMessageFactory;
+    protected AmqpMessageFactoryInterface $amqpMessageFactory;
 
     /**
      * @param \Jellyfish\QueueRabbitMq\ConnectionInterface $connection

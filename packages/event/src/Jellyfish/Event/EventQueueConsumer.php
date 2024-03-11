@@ -13,42 +13,27 @@ use Jellyfish\Queue\QueueClientInterface;
 use function array_key_exists;
 use function sprintf;
 
+/**
+ * @see \Jellyfish\Event\EventQueueConsumerTest
+ */
 class EventQueueConsumer implements EventQueueConsumerInterface
 {
-    /**
-     * @var \Jellyfish\Process\ProcessFactoryInterface
-     */
-    protected $processFactory;
+    protected ProcessFactoryInterface $processFactory;
 
-    /**
-     * @var \Jellyfish\Event\EventMapperInterface
-     */
-    protected $eventMapper;
+    protected EventMapperInterface $eventMapper;
 
-    /**
-     * @var \Jellyfish\Event\EventQueueNameGeneratorInterface
-     */
-    protected $eventQueueNameGenerator;
+    protected EventQueueNameGeneratorInterface $eventQueueNameGenerator;
 
-    /**
-     * @var \Jellyfish\Queue\QueueClientInterface
-     */
-    protected $queueClient;
+    protected QueueClientInterface $queueClient;
 
     /**
      * @var \Jellyfish\Process\ProcessInterface[]
      */
-    protected $processList;
+    protected $processList = [];
 
-    /**
-     * @var string
-     */
-    protected $pathToConsole;
+    protected string $pathToConsole;
 
-    /**
-     * @var \Jellyfish\Queue\DestinationFactoryInterface
-     */
-    protected $destinationFactory;
+    protected DestinationFactoryInterface $destinationFactory;
 
     /**
      * @param \Jellyfish\Process\ProcessFactoryInterface $processFactory
@@ -71,7 +56,6 @@ class EventQueueConsumer implements EventQueueConsumerInterface
         $this->eventQueueNameGenerator = $eventQueueNameGenerator;
         $this->queueClient = $queueClient;
         $this->destinationFactory = $destinationFactory;
-        $this->processList = [];
         $this->pathToConsole = sprintf('%svendor/bin/console', $rootDir);
     }
 

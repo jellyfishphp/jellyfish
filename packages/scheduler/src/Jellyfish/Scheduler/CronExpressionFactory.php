@@ -6,6 +6,9 @@ namespace Jellyfish\Scheduler;
 
 use Cron\CronExpression;
 
+/**
+ * @see \Jellyfish\Scheduler\CronExpressionFactoryTest
+ */
 class CronExpressionFactory implements CronExpressionFactoryInterface
 {
     /**

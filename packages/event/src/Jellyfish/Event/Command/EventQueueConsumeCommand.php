@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event\Command;
 
+use Jellyfish\Event\EventInterface;
 use InvalidArgumentException;
 use Jellyfish\Event\EventBulkListenerInterface;
 use Jellyfish\Event\EventListenerInterface;
@@ -20,6 +21,9 @@ use Throwable;
 
 use function is_string;
 
+/**
+ * @see \Jellyfish\Event\Command\EventQueueConsumeCommandTest
+ */
 class EventQueueConsumeCommand extends Command
 {
     use LockTrait;
@@ -94,13 +98,14 @@ class EventQueueConsumeCommand extends Command
         if (!$this->acquire($lockIdentifierParts)) {
             return 0;
         }
+
 // TODO: Check before merge
         $result = null;
 
         try {
             $result = $this->executeLockablePart($eventName, $listenerIdentifier);
-        } catch (Throwable $e) {
-            $this->logger->error((string)$e);
+        } catch (Throwable $throwable) {
+            $this->logger->error((string)$throwable);
         } finally {
             $this->release();
         }
@@ -119,7 +124,7 @@ class EventQueueConsumeCommand extends Command
         $listener = $this->eventDispatcher
             ->getListener(EventListenerInterface::TYPE_ASYNC, $eventName, $listenerIdentifier);
 
-        if ($listener === null) {
+        if (!$listener instanceof EventListenerInterface) {
             return null;
         }
 
@@ -134,7 +139,7 @@ class EventQueueConsumeCommand extends Command
 
         $event = $this->eventQueueConsumer->dequeue($eventName, $listenerIdentifier);
 
-        if ($event === null) {
+        if (!$event instanceof EventInterface) {
             return null;
         }
 

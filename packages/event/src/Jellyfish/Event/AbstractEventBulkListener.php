@@ -10,6 +10,9 @@ use Throwable;
 
 use function sprintf;
 
+/**
+ * @see \Jellyfish\Event\AbstractEventBulkListenerTest
+ */
 abstract class AbstractEventBulkListener extends AbstractEventListener implements EventBulkListenerInterface
 {
     /**
@@ -23,7 +26,7 @@ abstract class AbstractEventBulkListener extends AbstractEventListener implement
     {
         if ($this->getType() === self::TYPE_SYNC) {
             throw new NotSupportedTypeException(
-                sprintf('Event listeners that extend from "%s" only support type "%s"', __CLASS__, self::TYPE_ASYNC)
+                sprintf('Event listeners that extend from "%s" only support type "%s"', self::class, self::TYPE_ASYNC)
             );
         }
 

@@ -15,10 +15,15 @@ use function is_float;
 use function is_int;
 use function is_string;
 
+/**
+ * @see \Jellyfish\Config\ConfigTest
+ */
 class Config implements ConfigInterface
 {
     protected const CONFIG_FILE_PREFIX = 'config-';
+
     protected const CONFIG_FILE = 'default';
+
     protected const CONFIG_FILE_SUFFIX = '.php';
 
     protected ArrayObject $config;
@@ -59,7 +64,7 @@ class Config implements ConfigInterface
         }
 
         if (!$this->hasValue($key)) {
-            throw new ConfigKeyNotFoundException(sprintf('Could not find key "%s" in "%s"', $key, __CLASS__));
+            throw new ConfigKeyNotFoundException(sprintf('Could not find key "%s" in "%s"', $key, self::class));
         }
 
         return $this->getValue($key);

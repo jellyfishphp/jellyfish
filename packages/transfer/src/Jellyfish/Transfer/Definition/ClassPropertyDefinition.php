@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Definition;
 
+/**
+ * @see \Jellyfish\Transfer\Definition\ClassPropertyDefinitionTest
+ */
 class ClassPropertyDefinition implements ClassPropertyDefinitionInterface
 {
     /**

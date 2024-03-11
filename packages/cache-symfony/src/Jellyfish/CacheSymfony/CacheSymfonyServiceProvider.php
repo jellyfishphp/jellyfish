@@ -30,9 +30,7 @@ class CacheSymfonyServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet(CacheConstants::CONTAINER_KEY_CACHE, static function (Container $container) use ($self) {
-            return new Cache($self->createRedisAdapter($container));
-        });
+        $container->offsetSet(CacheConstants::CONTAINER_KEY_CACHE, static fn(Container $container): Cache => new Cache($self->createRedisAdapter($container)));
 
         return $this;
     }

@@ -9,6 +9,9 @@ use Jellyfish\Serializer\SerializerConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * @see \Jellyfish\EventCache\EventCacheServiceProviderTest
+ */
 class EventCacheServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -34,7 +37,7 @@ class EventCacheServiceProvider implements ServiceProviderInterface
 
         $container->extend(
             EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS,
-            static function (array $defaultEventErrorHandlers, Container $container) {
+            static function (array $defaultEventErrorHandlers, Container $container): array {
                 $defaultEventErrorHandlers[] = new CacheEventErrorHandler(
                     $container->offsetGet(CacheConstants::CONTAINER_KEY_CACHE),
                     $container->offsetGet(SerializerConstants::CONTAINER_KEY_SERIALIZER)

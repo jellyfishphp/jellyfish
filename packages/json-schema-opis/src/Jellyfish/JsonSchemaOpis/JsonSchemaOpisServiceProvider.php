@@ -7,6 +7,9 @@ namespace Jellyfish\JsonSchemaOpis;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * @see \Jellyfish\JsonSchemaOpis\JsonSchemaOpisServiceProviderTest
+ */
 class JsonSchemaOpisServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -26,9 +29,7 @@ class JsonSchemaOpisServiceProvider implements ServiceProviderInterface
      */
     protected function registerValidatorFactory(Container $container): JsonSchemaOpisServiceProvider
     {
-        $container->offsetSet('json_schema_validator_factory', function () {
-            return new ValidatorFactory();
-        });
+        $container->offsetSet('json_schema_validator_factory', static fn(): ValidatorFactory => new ValidatorFactory());
 
         return $this;
     }

@@ -8,13 +8,19 @@ use RuntimeException;
 
 use function sprintf;
 
+/**
+ * @see \Jellyfish\Transfer\Definition\ClassDefinitionTest
+ */
 class ClassDefinition implements ClassDefinitionInterface
 {
     public const NAMESPACE_PREFIX = 'Generated\\Transfer';
+
     public const NAMESPACE_SEPARATOR = '\\';
+
     public const FACTORY_NAME_SUFFIX = 'Factory';
 
     protected const PATTERN_ID = '/(?<=\\w)(?=[A-Z])/';
+
     protected const REPLACEMENT_ID = '_$1';
 
     /**
@@ -45,7 +51,7 @@ class ClassDefinition implements ClassDefinitionInterface
 
         $id .= $this->name;
         $id = \str_replace('\\', '', $id);
-        $id = @\preg_replace(static::PATTERN_ID, static::REPLACEMENT_ID, $id);
+        $id = @\preg_replace(static::PATTERN_ID, (string) static::REPLACEMENT_ID, $id);
 
         if ($id === null) {
             throw new RuntimeException('Could not perform a regular expression search and replace.');

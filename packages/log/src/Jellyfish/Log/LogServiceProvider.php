@@ -12,6 +12,9 @@ use Monolog\Logger;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * @see \Jellyfish\Log\LogServiceProviderTest
+ */
 class LogServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -33,7 +36,7 @@ class LogServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet(LogConstants::CONTAINER_KEY_LOGGER, static function (Container $container) use ($self) {
+        $container->offsetSet(LogConstants::CONTAINER_KEY_LOGGER, static function (Container $container) use ($self): Logger {
             $logger = new Logger('jellyfish');
 
             $logger->pushHandler($self->createStreamHandler($container));

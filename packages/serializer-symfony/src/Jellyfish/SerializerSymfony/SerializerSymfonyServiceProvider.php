@@ -39,11 +39,9 @@ class SerializerSymfonyServiceProvider implements ServiceProviderInterface
 
         $container->offsetSet(
             SerializerConstants::CONTAINER_KEY_SERIALIZER,
-            static function (Container $container) use ($self) {
-                return new Serializer(
-                    $self->createSymfonySerializer($container)
-                );
-            }
+            static fn(Container $container): \Jellyfish\SerializerSymfony\Serializer => new Serializer(
+                $self->createSymfonySerializer($container)
+            )
         );
 
         return $this;

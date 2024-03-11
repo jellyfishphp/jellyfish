@@ -6,6 +6,9 @@ namespace Jellyfish\Application;
 
 use Jellyfish\Kernel\KernelInterface;
 
+/**
+ * @see \Jellyfish\Application\HttpTest
+ */
 class Http
 {
     protected KernelInterface $kernel;

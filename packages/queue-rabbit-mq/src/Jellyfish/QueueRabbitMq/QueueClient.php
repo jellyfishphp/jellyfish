@@ -14,6 +14,9 @@ use Jellyfish\Queue\QueueClientInterface;
 
 use function sprintf;
 
+/**
+ * @see \Jellyfish\QueueRabbitMq\QueueClientTest
+ */
 class QueueClient implements QueueClientInterface
 {
     /**

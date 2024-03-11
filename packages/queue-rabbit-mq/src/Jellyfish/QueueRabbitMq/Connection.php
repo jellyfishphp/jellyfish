@@ -12,6 +12,9 @@ use PhpAmqpLib\Connection\AbstractConnection;
 
 use function strtolower;
 
+/**
+ * @see \Jellyfish\QueueRabbitMq\ConnectionTest
+ */
 class Connection implements ConnectionInterface
 {
     /**
@@ -19,10 +22,7 @@ class Connection implements ConnectionInterface
      */
     protected $channel;
 
-    /**
-     * @var \PhpAmqpLib\Connection\AbstractConnection
-     */
-    protected $connection;
+    protected AbstractConnection $connection;
 
     /**
      * @param \PhpAmqpLib\Connection\AbstractConnection $connection
@@ -122,7 +122,7 @@ class Connection implements ConnectionInterface
     {
         try {
             $this->close();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             return;
         }
     }

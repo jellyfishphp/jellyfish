@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jellyfish\Queue;
 
+/**
+ * @see \Jellyfish\Queue\MessageFactoryTest
+ */
 class MessageFactory implements MessageFactoryInterface
 {
     /**

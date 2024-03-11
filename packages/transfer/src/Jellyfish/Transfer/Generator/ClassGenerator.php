@@ -6,6 +6,9 @@ namespace Jellyfish\Transfer\Generator;
 
 use Jellyfish\Transfer\Definition\ClassDefinitionInterface;
 
+/**
+ * @see \Jellyfish\Transfer\Generator\ClassGeneratorTest
+ */
 class ClassGenerator extends AbstractClassGenerator
 {
     protected const TEMPLATE_NAME = 'class.twig';

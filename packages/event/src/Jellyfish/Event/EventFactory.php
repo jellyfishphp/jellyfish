@@ -6,12 +6,12 @@ namespace Jellyfish\Event;
 
 use Jellyfish\Uuid\UuidGeneratorInterface;
 
+/**
+ * @see \Jellyfish\Event\EventFactoryTest
+ */
 class EventFactory implements EventFactoryInterface
 {
-    /**
-     * @var \Jellyfish\Uuid\UuidGeneratorInterface
-     */
-    protected $uuidGenerator;
+    protected UuidGeneratorInterface $uuidGenerator;
 
     /**
      * @param \Jellyfish\Uuid\UuidGeneratorInterface $uuidGenerator

@@ -8,30 +8,22 @@ use ArrayObject;
 use Jellyfish\Kernel\Exception\EnvVarNotSetException;
 use Pimple\Container;
 
+/**
+ * @see \Jellyfish\Kernel\KernelTest
+ */
 class Kernel implements KernelInterface
 {
     protected const SERVICE_PROVIDERS_FILE_NAME = 'service_providers.php';
+
     protected const APP_DIRECTORY_NAME = 'app';
 
-    /**
-     * @var \Pimple\Container
-     */
-    protected $container;
+    protected Container $container;
 
-    /**
-     * @var string
-     */
-    protected $rootDir;
+    protected string $rootDir;
 
-    /**
-     * @var string
-     */
-    protected $appDir;
+    protected string $appDir;
 
-    /**
-     * @var string
-     */
-    protected $environment;
+    protected string $environment;
 
     /**
      * @param string $rootDir
@@ -71,9 +63,7 @@ class Kernel implements KernelInterface
             'root_dir' => $this->rootDir,
             'app_dir' => $this->appDir,
             'environment' => $this->environment,
-            'commands' => function () {
-                return [];
-            }
+            'commands' => static fn(): array => []
         ]);
 
         $serviceProviders = $this->buildServiceProviders();

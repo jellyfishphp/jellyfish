@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jellyfish\Queue;
 
+/**
+ * @see \Jellyfish\Queue\DestinationTest
+ */
 class Destination implements DestinationInterface
 {
     /**
@@ -19,12 +22,7 @@ class Destination implements DestinationInterface
     /**
      * @var string[]
      */
-    protected $properties;
-
-    public function __construct()
-    {
-        $this->properties = [];
-    }
+    protected $properties = [];
 
     /**
      * @return string

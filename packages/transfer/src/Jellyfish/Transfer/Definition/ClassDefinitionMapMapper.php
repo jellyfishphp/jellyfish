@@ -8,15 +8,16 @@ use Jellyfish\Serializer\SerializerInterface;
 
 use function sprintf;
 
+/**
+ * @see \Jellyfish\Transfer\Definition\ClassDefinitionMapMapperTest
+ */
 class ClassDefinitionMapMapper implements ClassDefinitionMapMapperInterface
 {
     protected const TYPE = ClassDefinition::class . '[]';
+
     protected const FORMAT = 'json';
 
-    /**
-     * @var \Jellyfish\Serializer\SerializerInterface
-     */
-    protected $serializer;
+    protected SerializerInterface $serializer;
 
     /**
      * @param \Jellyfish\Serializer\SerializerInterface $serializer

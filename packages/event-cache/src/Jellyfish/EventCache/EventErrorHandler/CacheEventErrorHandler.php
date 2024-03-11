@@ -11,17 +11,14 @@ use Throwable;
 
 use function sprintf;
 
+/**
+ * @see \Jellyfish\EventCache\EventErrorHandler\CacheEventErrorHandlerTest
+ */
 class CacheEventErrorHandler implements EventErrorHandlerInterface
 {
-    /**
-     * @var \Jellyfish\Cache\CacheInterface
-     */
-    protected $cache;
+    protected CacheInterface $cache;
 
-    /**
-     * @var \Jellyfish\Serializer\SerializerInterface
-     */
-    protected $serializer;
+    protected SerializerInterface $serializer;
 
     /**
      * @param \Jellyfish\Cache\CacheInterface $cache

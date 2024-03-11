@@ -6,12 +6,12 @@ use Jellyfish\Cache\CacheInterface;
 use Jellyfish\Cache\Exception\InvalidLifeTimeException;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 
+/**
+ * @see \Jellyfish\CacheSymfony\CacheTest
+ */
 class Cache implements CacheInterface
 {
-    /**
-     * @var \Symfony\Component\Cache\Adapter\AbstractAdapter
-     */
-    protected $cacheAdapter;
+    protected AbstractAdapter $cacheAdapter;
 
     /**
      * @param \Symfony\Component\Cache\Adapter\AbstractAdapter $cacheAdapter

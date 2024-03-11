@@ -33,12 +33,10 @@ class LockSymfonyServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet('lock_factory', function (Container $container) use ($self) {
-            return new LockFactory(
-                $self->createSymfonyLockFactory($container),
-                $self->createLockIdentifierGenerator()
-            );
-        });
+        $container->offsetSet('lock_factory', static fn(Container $container): \Jellyfish\LockSymfony\LockFactory => new LockFactory(
+            $self->createSymfonyLockFactory($container),
+            $self->createLockIdentifierGenerator()
+        ));
 
         return $this;
     }

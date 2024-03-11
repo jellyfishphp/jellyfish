@@ -9,6 +9,9 @@ use Jellyfish\Scheduler\Command\RunSchedulerCommand;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * @see \Jellyfish\Scheduler\SchedulerServiceProviderTest
+ */
 class SchedulerServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -30,9 +33,7 @@ class SchedulerServiceProvider implements ServiceProviderInterface
      */
     protected function registerScheduler(Container $container): SchedulerServiceProvider
     {
-        $container->offsetSet(SchedulerConstants::CONTAINER_KEY_SCHEDULER, function () {
-            return new Scheduler();
-        });
+        $container->offsetSet(SchedulerConstants::CONTAINER_KEY_SCHEDULER, static fn(): Scheduler => new Scheduler());
 
         return $this;
     }
@@ -44,7 +45,7 @@ class SchedulerServiceProvider implements ServiceProviderInterface
      */
     protected function registerCommands(Container $container): SchedulerServiceProvider
     {
-        $container->extend('commands', static function (array $commands, Container $container) {
+        $container->extend('commands', static function (array $commands, Container $container): array {
             $commands[] = new RunSchedulerCommand(
                 $container->offsetGet(SchedulerConstants::CONTAINER_KEY_SCHEDULER),
                 $container->offsetGet('lock_factory'),
@@ -66,11 +67,12 @@ class SchedulerServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet(SchedulerConstants::CONTAINER_KEY_JOB_FACTORY, static function (Container $container) use ($self) {
+        $container->offsetSet(SchedulerConstants::CONTAINER_KEY_JOB_FACTORY, static function (Container $container) use ($self): ?JobFactory {
             $processFactory = $self->getProcessFactory($container);
-            if ($processFactory === null) {
+            if (!$processFactory instanceof ProcessFactoryInterface) {
                 return null;
             }
+
             return new JobFactory($processFactory, $self->createCronExpressionFactory());
         });
 

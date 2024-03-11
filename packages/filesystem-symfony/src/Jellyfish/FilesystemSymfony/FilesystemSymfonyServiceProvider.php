@@ -8,6 +8,9 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 
+/**
+ * @see \Jellyfish\FilesystemSymfony\FilesystemSymfonyServiceProviderTest
+ */
 class FilesystemSymfonyServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -27,9 +30,8 @@ class FilesystemSymfonyServiceProvider implements ServiceProviderInterface
      */
     protected function registerFilesystem(Container $container): FilesystemSymfonyServiceProvider
     {
-        $container->offsetSet('filesystem', function () {
+        $container->offsetSet('filesystem', static function () : \Jellyfish\FilesystemSymfony\Filesystem {
             $symfonyFilesystem = new SymfonyFilesystem();
-
             return new Filesystem($symfonyFilesystem);
         });
 

@@ -6,12 +6,12 @@ namespace Jellyfish\SerializerSymfony\NameConverter;
 
 use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface;
 
+/**
+ * @see \Jellyfish\SerializerSymfony\NameConverter\PropertyNameConverterTest
+ */
 class PropertyNameConverter implements PropertyNameConverterInterface
 {
-    /**
-     * @var \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface
-     */
-    protected $strategyProvider;
+    protected PropertyNameConverterStrategyProviderInterface $strategyProvider;
 
     /**
      * @param \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderInterface $strategyProvider

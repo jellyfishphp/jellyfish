@@ -8,24 +8,18 @@ use Jellyfish\Filesystem\FilesystemInterface;
 use Jellyfish\Finder\FinderFactoryInterface;
 use SplFileInfo;
 
+/**
+ * @see \Jellyfish\Transfer\TransferCleanerTest
+ */
 class TransferCleaner implements TransferCleanerInterface
 {
     protected const EXCLUDED_FILE = 'factory-registry.php';
 
-    /**
-     * @var string
-     */
-    protected $targetDirectory;
+    protected string $targetDirectory;
 
-    /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface
-     */
-    protected $filesystem;
+    protected FilesystemInterface $filesystem;
 
-    /**
-     * @var \Jellyfish\Finder\FinderFactoryInterface
-     */
-    protected $finderFactory;
+    protected FinderFactoryInterface $finderFactory;
 
     /**
      * @param \Jellyfish\Finder\FinderFactoryInterface $finderFactory
@@ -74,10 +68,12 @@ class TransferCleaner implements TransferCleanerInterface
         $iterator = $finder->in($directory)->depth(0)->getIterator();
 
         foreach ($iterator as $item) {
-            if (!($item instanceof SplFileInfo) || !is_string($item->getRealPath())) {
+            if (!($item instanceof SplFileInfo)) {
                 continue;
             }
-
+            if (!is_string($item->getRealPath())) {
+                continue;
+            }
             $itemRealPath = $item->getRealPath();
 
             if (!$this->canRemove($itemRealPath)) {

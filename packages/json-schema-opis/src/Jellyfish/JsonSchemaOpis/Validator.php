@@ -7,17 +7,17 @@ namespace Jellyfish\JsonSchemaOpis;
 use Jellyfish\JsonSchema\ValidatorInterface;
 use Opis\JsonSchema\Validator as OpisValidator;
 
+/**
+ * @see \Jellyfish\JsonSchemaOpis\ValidatorTest
+ */
 class Validator implements ValidatorInterface
 {
     /**
      * @var \Opis\JsonSchema\Validator
      */
-    protected $opisValidator;
+    protected OpisValidator $opisValidator;
 
-    /**
-     * @var string
-     */
-    protected $schema;
+    protected string $schema;
 
     /**
      * @param \Opis\JsonSchema\Validator $opisValidator

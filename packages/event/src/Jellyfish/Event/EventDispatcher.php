@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
+/**
+ * @see \Jellyfish\Event\EventDispatcherTest
+ */
 class EventDispatcher implements EventDispatcherInterface
 {
-    /**
-     * @var \Jellyfish\Event\EventListenerProviderInterface
-     */
-    protected $eventListenerProvider;
+    protected EventListenerProviderInterface $eventListenerProvider;
 
-    /**
-     * @var \Jellyfish\Event\EventQueueProducerInterface
-     */
-    protected $eventQueueProducer;
+    protected EventQueueProducerInterface $eventQueueProducer;
 
     /**
      * @param \Jellyfish\Event\EventListenerProviderInterface $eventListenerProvider

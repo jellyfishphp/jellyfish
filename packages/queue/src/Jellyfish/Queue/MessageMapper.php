@@ -6,6 +6,9 @@ namespace Jellyfish\Queue;
 
 use Jellyfish\Serializer\SerializerInterface;
 
+/**
+ * @see \Jellyfish\Queue\MessageMapperTest
+ */
 class MessageMapper implements MessageMapperInterface
 {
     /**
@@ -13,10 +16,7 @@ class MessageMapper implements MessageMapperInterface
      */
     protected $messageFactory;
 
-    /**
-     * @var \Jellyfish\Serializer\SerializerInterface
-     */
-    protected $serializer;
+    protected SerializerInterface $serializer;
 
     /**
      * @param \Jellyfish\Serializer\SerializerInterface $serializer

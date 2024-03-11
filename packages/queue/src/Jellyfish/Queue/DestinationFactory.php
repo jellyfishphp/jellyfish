@@ -2,6 +2,9 @@
 
 namespace Jellyfish\Queue;
 
+/**
+ * @see \Jellyfish\Queue\DestinationFactoryTest
+ */
 class DestinationFactory implements DestinationFactoryInterface
 {
     /**

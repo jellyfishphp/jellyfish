@@ -8,12 +8,15 @@ use Iterator;
 use Jellyfish\Finder\FinderInterface;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 
+/**
+ * @see \Jellyfish\FinderSymfony\FinderTest
+ */
 class Finder implements FinderInterface
 {
     /**
      * @var \Symfony\Component\Finder\Finder
      */
-    protected $symfonyFinder;
+    protected SymfonyFinder $symfonyFinder;
 
     /**
      * @param \Symfony\Component\Finder\Finder $symfonyFinder

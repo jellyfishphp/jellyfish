@@ -11,20 +11,11 @@ abstract class AbstractGenerator
 {
     protected const FILE_EXTENSION = '.php';
 
-    /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface
-     */
-    protected $filesystem;
+    protected FilesystemInterface $filesystem;
 
-    /**
-     * @var \Twig\Environment
-     */
-    protected $twig;
+    protected Environment $twig;
 
-    /**
-     * @var string
-     */
-    protected $targetDirectory;
+    protected string $targetDirectory;
 
     /**
      * @param \Jellyfish\Filesystem\FilesystemInterface $filesystem

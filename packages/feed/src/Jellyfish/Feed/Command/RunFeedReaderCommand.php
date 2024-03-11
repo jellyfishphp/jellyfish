@@ -13,9 +13,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use function is_string;
 
+/**
+ * @see \Jellyfish\Feed\Command\RunFeedReaderCommandTest
+ */
 class RunFeedReaderCommand extends Command
 {
     public const NAME = 'feed:feed-reader:run';
+
     public const DESCRIPTION = 'Run feed reader.';
 
     protected FeedReaderManagerInterface $feedReaderManager;

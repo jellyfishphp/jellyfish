@@ -7,6 +7,9 @@ namespace Jellyfish\Config;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * @see \Jellyfish\Config\ConfigServiceProviderTest
+ */
 class ConfigServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -18,9 +21,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $pimple->offsetSet(ConfigConstants::CONTAINER_KEY_CONFIG, static function (Container $container) use ($self) {
-            return $self->createConfig($container);
-        });
+        $pimple->offsetSet(ConfigConstants::CONTAINER_KEY_CONFIG, static fn(Container $container): ConfigInterface => $self->createConfig($container));
     }
 
     /**

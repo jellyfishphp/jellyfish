@@ -8,12 +8,15 @@ use Jellyfish\Filesystem\FilesystemInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 
+/**
+ * @see \Jellyfish\FilesystemSymfony\FilesystemTest
+ */
 class Filesystem implements FilesystemInterface
 {
     /**
      * @var \Symfony\Component\Filesystem\Filesystem
      */
-    protected $symfonyFilesystem;
+    protected SymfonyFilesystem $symfonyFilesystem;
 
     /**
      * @param \Symfony\Component\Filesystem\Filesystem $symfonyFilesystem

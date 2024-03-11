@@ -12,22 +12,16 @@ use Jellyfish\Serializer\SerializerInterface;
 
 use function get_class;
 
+/**
+ * @see \Jellyfish\Event\EventMapperTest
+ */
 class EventMapper implements EventMapperInterface
 {
-    /**
-     * @var \Jellyfish\Event\EventFactoryInterface
-     */
-    protected $eventFactory;
+    protected EventFactoryInterface $eventFactory;
 
-    /**
-     * @var \Jellyfish\Queue\MessageFactoryInterface
-     */
-    protected $messageFactory;
+    protected MessageFactoryInterface $messageFactory;
 
-    /**
-     * @var \Jellyfish\Serializer\SerializerInterface
-     */
-    protected $serializer;
+    protected SerializerInterface $serializer;
 
     /**
      * @param \Jellyfish\Event\EventFactoryInterface $eventFactory

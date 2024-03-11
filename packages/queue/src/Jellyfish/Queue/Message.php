@@ -6,22 +6,20 @@ namespace Jellyfish\Queue;
 
 use function array_key_exists;
 
+/**
+ * @see \Jellyfish\Queue\MessageTest
+ */
 class Message implements MessageInterface
 {
     /**
      * @var array
      */
-    protected $headers;
+    protected $headers = [];
 
     /**
      * @var string
      */
     protected $body;
-
-    public function __construct()
-    {
-        $this->headers = [];
-    }
 
     /**
      * @return array

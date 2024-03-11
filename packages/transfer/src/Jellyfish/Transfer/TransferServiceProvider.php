@@ -23,6 +23,9 @@ use Pimple\ServiceProviderInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
+/**
+ * @see \Jellyfish\Transfer\TransferServiceProviderTest
+ */
 class TransferServiceProvider implements ServiceProviderInterface
 {
     protected ?Environment $twigEnvironment = null;
@@ -47,13 +50,12 @@ class TransferServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->extend('commands', function (array $commands, Container $container) use ($self) {
+        $container->extend('commands', static function (array $commands, Container $container) use ($self) : array {
             $commands[] = new TransferGenerateCommand(
                 $self->createTransferGenerator($container),
                 $self->createTransferCleaner($container),
                 $container->offsetGet('logger')
             );
-
             return $commands;
         });
 
@@ -162,7 +164,7 @@ class TransferServiceProvider implements ServiceProviderInterface
      */
     protected function getTwigEnvironment(): Environment
     {
-        if ($this->twigEnvironment === null) {
+        if (!$this->twigEnvironment instanceof Environment) {
             $pathToTemplates = __DIR__ . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
             $loader = new FilesystemLoader($pathToTemplates);
             $this->twigEnvironment = new Environment($loader, []);
@@ -210,8 +212,9 @@ class TransferServiceProvider implements ServiceProviderInterface
         if (\file_exists($pathToFactoryRegistry)) {
             include $pathToFactoryRegistry;
         }
+
         foreach ($factoryRegistry as $factoryId => $factory) {
-            $container->offsetSet((string)$factoryId, fn() => $factory);
+            $container->offsetSet((string)$factoryId, static fn() => $factory);
         }
 
         return $this;

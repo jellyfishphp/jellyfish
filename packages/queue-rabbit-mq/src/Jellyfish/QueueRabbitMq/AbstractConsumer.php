@@ -12,15 +12,9 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 abstract class AbstractConsumer implements ConsumerInterface
 {
-    /**
-     * @var \Jellyfish\QueueRabbitMq\ConnectionInterface
-     */
-    protected $connection;
+    protected ConnectionInterface $connection;
 
-    /**
-     * @var \Jellyfish\Queue\MessageMapperInterface
-     */
-    protected $messageMapper;
+    protected MessageMapperInterface $messageMapper;
 
     /**
      * @param \Jellyfish\QueueRabbitMq\ConnectionInterface $connection

@@ -6,6 +6,9 @@ namespace Jellyfish\Event;
 
 use function sprintf;
 
+/**
+ * @see \Jellyfish\Event\EventQueueNameGeneratorTest
+ */
 class EventQueueNameGenerator implements EventQueueNameGeneratorInterface
 {
     /**

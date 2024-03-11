@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer\Generator;
 
+/**
+ * @see \Jellyfish\Transfer\Generator\FactoryRegistryGeneratorTest
+ */
 class FactoryRegistryGenerator extends AbstractGenerator implements FactoryRegistryGeneratorInterface
 {
     protected const FILE_NAME = 'factory-registry';
+
     protected const TEMPLATE_NAME = 'factory-registry.twig';
 
     /**

@@ -6,12 +6,12 @@ use Jellyfish\Uuid\UuidGeneratorInterface;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
 
+/**
+ * @see \Jellyfish\UuidRamsey\UuidGeneratorTest
+ */
 class UuidGenerator implements UuidGeneratorInterface
 {
-    /**
-     * @var \Ramsey\Uuid\UuidFactoryInterface
-     */
-    protected $uuidFactory;
+    protected UuidFactoryInterface $uuidFactory;
 
     /**
      * @param \Ramsey\Uuid\UuidFactoryInterface $uuidFactory

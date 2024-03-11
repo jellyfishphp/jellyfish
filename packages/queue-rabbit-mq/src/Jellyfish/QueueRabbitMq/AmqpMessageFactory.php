@@ -6,6 +6,9 @@ namespace Jellyfish\QueueRabbitMq;
 
 use PhpAmqpLib\Message\AMQPMessage;
 
+/**
+ * @see \Jellyfish\QueueRabbitMq\AmqpMessageFactoryTest
+ */
 class AmqpMessageFactory implements AmqpMessageFactoryInterface
 {
     /**

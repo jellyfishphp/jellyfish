@@ -7,6 +7,9 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Ramsey\Uuid\UuidFactory;
 
+/**
+ * @see \Jellyfish\UuidRamsey\UuidRamseyServiceProviderTest
+ */
 class UuidRamseyServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -26,9 +29,7 @@ class UuidRamseyServiceProvider implements ServiceProviderInterface
      */
     protected function registerUuidGenerator(Container $container): UuidRamseyServiceProvider
     {
-        $container->offsetSet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR, static function () {
-            return new UuidGenerator(new UuidFactory());
-        });
+        $container->offsetSet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR, static fn(): UuidGenerator => new UuidGenerator(new UuidFactory()));
 
         return $this;
     }

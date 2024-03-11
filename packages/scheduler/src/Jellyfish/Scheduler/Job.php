@@ -8,17 +8,14 @@ use Cron\CronExpression;
 use DateTime;
 use Jellyfish\Process\ProcessInterface;
 
+/**
+ * @see \Jellyfish\Scheduler\JobTest
+ */
 class Job implements JobInterface
 {
-    /**
-     * @var \Jellyfish\Process\ProcessInterface
-     */
-    protected $process;
+    protected ProcessInterface $process;
 
-    /**
-     * @var \Cron\CronExpression
-     */
-    protected $cronExpression;
+    protected CronExpression $cronExpression;
 
     /**
      * @param \Jellyfish\Process\ProcessInterface $process
@@ -67,7 +64,7 @@ class Job implements JobInterface
      */
     public function run(?DateTime $dateTime = null): JobInterface
     {
-        if ($dateTime === null) {
+        if (!$dateTime instanceof DateTime) {
             $dateTime = new DateTime();
         }
 

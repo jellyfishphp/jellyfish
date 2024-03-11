@@ -7,12 +7,12 @@ use Jellyfish\Event\EventInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
+/**
+ * @see \Jellyfish\EventLog\EventErrorHandler\LogEventErrorHandlerTest
+ */
 class LogEventErrorHandler implements EventErrorHandlerInterface
 {
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     /**
      * @param \Psr\Log\LoggerInterface $logger

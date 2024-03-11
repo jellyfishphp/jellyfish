@@ -8,6 +8,9 @@ use Jellyfish\Feed\Command\RunFeedReaderCommand;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * @see \Jellyfish\Feed\FeedServiceProviderTest
+ */
 class FeedServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -28,9 +31,7 @@ class FeedServiceProvider implements ServiceProviderInterface
      */
     protected function registerFeedReaderManager(Container $container): FeedServiceProvider
     {
-        $container->offsetSet('feed_reader_manager', function () {
-            return new FeedReaderManager();
-        });
+        $container->offsetSet('feed_reader_manager', static fn(): FeedReaderManager => new FeedReaderManager());
 
         return $this;
     }
@@ -42,9 +43,8 @@ class FeedServiceProvider implements ServiceProviderInterface
      */
     protected function registerCommands(Container $container): FeedServiceProvider
     {
-        $container->extend('commands', function (array $commands, Container $container) {
+        $container->extend('commands', static function (array $commands, Container $container) : array {
             $commands[] = new RunFeedReaderCommand($container->offsetGet('feed_reader_manager'));
-
             return $commands;
         });
 

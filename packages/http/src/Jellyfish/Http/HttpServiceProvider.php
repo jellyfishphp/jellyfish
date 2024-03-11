@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Http;
 
+use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\ResponseFactory;
 use League\Route\Router;
 use League\Route\Strategy\JsonStrategy;
@@ -14,6 +15,9 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiStreamEmitter;
 
+/**
+ * @see \Jellyfish\Http\HttpServiceProviderTest
+ */
 class HttpServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -37,9 +41,7 @@ class HttpServiceProvider implements ServiceProviderInterface
      */
     protected function registerRequest(Container $container): HttpServiceProvider
     {
-        $container->offsetSet('request', function () {
-            return ServerRequestFactory::fromGlobals();
-        });
+        $container->offsetSet('request', static fn(): ServerRequest => ServerRequestFactory::fromGlobals());
 
         return $this;
     }
@@ -53,11 +55,9 @@ class HttpServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet('router', function () use ($self) {
+        $container->offsetSet('router', static function () use ($self) : Router {
             $router = new Router();
-
             $router->setStrategy($self->createStrategy());
-
             return $router;
         });
 
@@ -71,9 +71,7 @@ class HttpServiceProvider implements ServiceProviderInterface
      */
     protected function registerEmitter(Container $container): HttpServiceProvider
     {
-        $container->offsetSet('emitter', function () {
-            return new SapiStreamEmitter();
-        });
+        $container->offsetSet('emitter', static fn(): SapiStreamEmitter => new SapiStreamEmitter());
 
         return $this;
     }

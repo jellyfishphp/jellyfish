@@ -11,25 +11,20 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @see \Jellyfish\Transfer\Command\TransferGenerateCommandTest
+ */
 class TransferGenerateCommand extends Command
 {
     public const NAME = 'transfer:generate';
+
     public const DESCRIPTION = 'Generate transfer classes and factories';
 
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /**
-     * @var \Jellyfish\Transfer\TransferGeneratorInterface
-     */
-    protected $transferGenerator;
+    protected TransferGeneratorInterface $transferGenerator;
 
-    /**
-     * @var \Jellyfish\Transfer\TransferCleanerInterface
-     */
-    protected $transferCleaner;
+    protected TransferCleanerInterface $transferCleaner;
 
     /**
      * @param \Jellyfish\Transfer\TransferGeneratorInterface $transferGenerator

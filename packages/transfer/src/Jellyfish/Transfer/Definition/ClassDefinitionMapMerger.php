@@ -6,6 +6,9 @@ namespace Jellyfish\Transfer\Definition;
 
 use function array_key_exists;
 
+/**
+ * @see \Jellyfish\Transfer\Definition\ClassDefinitionMapMergerTest
+ */
 class ClassDefinitionMapMerger implements ClassDefinitionMapMergerInterface
 {
     /**

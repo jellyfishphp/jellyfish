@@ -9,17 +9,17 @@ use Jellyfish\Lock\LockIdentifierGeneratorInterface;
 use Jellyfish\Lock\LockInterface;
 use Symfony\Component\Lock\LockFactory as SymfonyLockFactory;
 
+/**
+ * @see \Jellyfish\LockSymfony\LockFactoryTest
+ */
 class LockFactory implements LockFactoryInterface
 {
     /**
      * @var \Symfony\Component\Lock\LockFactory
      */
-    protected $symfonyLockFactory;
+    protected SymfonyLockFactory $symfonyLockFactory;
 
-    /**
-     * @var \Jellyfish\Lock\LockIdentifierGeneratorInterface
-     */
-    protected $lockIdentifierGenerator;
+    protected LockIdentifierGeneratorInterface $lockIdentifierGenerator;
 
     /**
      * @param \Symfony\Component\Lock\LockFactory $symfonyLockFactory

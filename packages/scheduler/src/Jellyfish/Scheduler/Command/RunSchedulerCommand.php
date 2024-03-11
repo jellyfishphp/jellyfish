@@ -13,22 +13,20 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
+/**
+ * @see \Jellyfish\Scheduler\Command\RunSchedulerCommandTest
+ */
 class RunSchedulerCommand extends Command
 {
     use LockTrait;
 
     public const NAME = 'scheduler:run';
+
     public const DESCRIPTION = 'Run scheduler.';
 
-    /**
-     * @var \Jellyfish\Scheduler\SchedulerInterface
-     */
-    protected $scheduler;
+    protected SchedulerInterface $scheduler;
 
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     /**
      * @param \Jellyfish\Scheduler\SchedulerInterface $scheduler
@@ -74,8 +72,8 @@ class RunSchedulerCommand extends Command
 
         try {
             $this->scheduler->run();
-        } catch (Throwable $e) {
-            $this->logger->error($e->getMessage());
+        } catch (Throwable $throwable) {
+            $this->logger->error($throwable->getMessage());
         } finally {
             $this->release();
         }

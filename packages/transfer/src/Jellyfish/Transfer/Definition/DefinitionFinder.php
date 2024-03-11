@@ -7,20 +7,18 @@ namespace Jellyfish\Transfer\Definition;
 use Iterator;
 use Jellyfish\Finder\FinderFactoryInterface;
 
+/**
+ * @see \Jellyfish\Transfer\Definition\DefinitionFinderTest
+ */
 class DefinitionFinder implements DefinitionFinderInterface
 {
     protected const IN_PATTERN = '{,vendor/*/*/}src/*/*/Transfer/';
+
     protected const NAME_PATTERN = '*.transfer.json';
 
-    /**
-     * @var string
-     */
-    protected $rootDir;
+    protected string $rootDir;
 
-    /**
-     * @var \Jellyfish\Finder\FinderFactoryInterface
-     */
-    protected $finderFactory;
+    protected FinderFactoryInterface $finderFactory;
 
     /**
      * @param \Jellyfish\Finder\FinderFactoryInterface $finderFactory

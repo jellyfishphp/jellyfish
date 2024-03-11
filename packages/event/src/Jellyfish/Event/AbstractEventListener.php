@@ -8,6 +8,9 @@ use Throwable;
 
 use function count;
 
+/**
+ * @see \Jellyfish\Event\AbstractEventListenerTest
+ */
 abstract class AbstractEventListener implements EventListenerInterface
 {
     /**
@@ -66,8 +69,8 @@ abstract class AbstractEventListener implements EventListenerInterface
     {
         try {
             $this->doHandle($event);
-        } catch (Throwable $error) {
-            $this->handleError($error, $event);
+        } catch (Throwable $throwable) {
+            $this->handleError($throwable, $event);
         }
 
         return $this;

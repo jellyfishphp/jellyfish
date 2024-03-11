@@ -8,6 +8,9 @@ use Jellyfish\Log\LogConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * @see \Jellyfish\EventLog\EventLogServiceProviderTest
+ */
 class EventLogServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -33,7 +36,7 @@ class EventLogServiceProvider implements ServiceProviderInterface
 
         $container->extend(
             EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS,
-            static function (array $defaultEventErrorHandlers, Container $container) {
+            static function (array $defaultEventErrorHandlers, Container $container): array {
                 $logger = $container->offsetGet(LogConstants::CONTAINER_KEY_LOGGER);
 
                 $defaultEventErrorHandlers[] = new LogEventErrorHandler($logger);

@@ -7,6 +7,9 @@ namespace Jellyfish\ProcessSymfony;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * @see \Jellyfish\ProcessSymfony\ProcessSymfonyServiceProviderTest
+ */
 class ProcessSymfonyServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -26,9 +29,7 @@ class ProcessSymfonyServiceProvider implements ServiceProviderInterface
      */
     protected function registerProcessFactory(Container $container): ProcessSymfonyServiceProvider
     {
-        $container->offsetSet('process_factory', function () {
-            return new ProcessFactory();
-        });
+        $container->offsetSet('process_factory', static fn(): ProcessFactory => new ProcessFactory());
 
         return $this;
     }

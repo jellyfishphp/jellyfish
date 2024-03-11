@@ -13,6 +13,7 @@ use Pimple\ServiceProviderInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @see \Jellyfish\QueueRabbitMq\QueueRabbitMqServiceProviderTest
  */
 class QueueRabbitMqServiceProvider implements ServiceProviderInterface
 {
@@ -27,6 +28,7 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
             ->registerAmqpMessageFactory($container)
             ->registerQueueClient($container);
     }
+
     /**
      * @param \Pimple\Container $container
      *
@@ -38,7 +40,7 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
 
         $container->offsetSet(
             QueueRabbitMqConstants::CONTAINER_KEY_CONNECTION,
-            static function (Container $container) use ($self) {
+            static function (Container $container) use ($self): Connection {
                 $lazyConnection = $self->createAmqpLazyConnection($container);
 
                 return new Connection($lazyConnection);
@@ -55,9 +57,7 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
      */
     protected function registerAmqpMessageFactory(Container $container): QueueRabbitMqServiceProvider
     {
-        $container->offsetSet(QueueRabbitMqConstants::CONTAINER_KEY_AMQP_MESSAGE_FACTORY, static function () {
-            return new AmqpMessageFactory();
-        });
+        $container->offsetSet(QueueRabbitMqConstants::CONTAINER_KEY_AMQP_MESSAGE_FACTORY, static fn(): AmqpMessageFactory => new AmqpMessageFactory());
 
         return $this;
     }
@@ -73,12 +73,10 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
 
         $container->offsetSet(
             QueueConstants::CONTAINER_KEY_QUEUE_CLIENT,
-            static function (Container $container) use ($self) {
-                return new QueueClient(
-                    $self->createConsumers($container),
-                    $self->createProducers($container)
-                );
-            }
+            static fn(Container $container): QueueClient => new QueueClient(
+                $self->createConsumers($container),
+                $self->createProducers($container)
+            )
         );
 
         return $this;

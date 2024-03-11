@@ -9,17 +9,14 @@ use DateTime;
 use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Process\ProcessInterface;
 
+/**
+ * @see \Jellyfish\Scheduler\JobFactoryTest
+ */
 class JobFactory implements JobFactoryInterface
 {
-    /**
-     * @var \Jellyfish\Process\ProcessFactoryInterface
-     */
-    protected $processFactory;
+    protected ProcessFactoryInterface $processFactory;
 
-    /**
-     * @var \Jellyfish\Scheduler\CronExpressionFactoryInterface
-     */
-    protected $cronExpressionFactory;
+    protected CronExpressionFactoryInterface $cronExpressionFactory;
 
     /**
      * JobFactory constructor.

@@ -7,6 +7,9 @@ namespace Jellyfish\Transfer\Generator;
 use Jellyfish\Transfer\Definition\ClassDefinition;
 use Jellyfish\Transfer\Definition\ClassDefinitionInterface;
 
+/**
+ * @see \Jellyfish\Transfer\Generator\FactoryClassGeneratorTest
+ */
 class FactoryClassGenerator extends AbstractClassGenerator
 {
     protected const TEMPLATE_NAME = 'factory-class.twig';

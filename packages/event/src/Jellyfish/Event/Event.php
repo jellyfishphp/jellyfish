@@ -6,12 +6,12 @@ namespace Jellyfish\Event;
 
 use function array_key_exists;
 
+/**
+ * @see \Jellyfish\Event\EventTest
+ */
 class Event implements EventInterface
 {
-    /**
-     * @var string
-     */
-    protected $id;
+    protected string $id;
 
     /**
      * @var string
@@ -26,14 +26,13 @@ class Event implements EventInterface
     /**
      * @var string[]
      */
-    protected $metaProperties;
+    protected $metaProperties = [];
 
     /**
      * @param string $id
      */
     public function __construct(string $id)
     {
-        $this->metaProperties = [];
         $this->id = $id;
     }
 
@@ -115,6 +114,7 @@ class Event implements EventInterface
         if (!array_key_exists($key, $this->metaProperties)) {
             return null;
         }
+
         return $this->metaProperties[$key];
     }
 

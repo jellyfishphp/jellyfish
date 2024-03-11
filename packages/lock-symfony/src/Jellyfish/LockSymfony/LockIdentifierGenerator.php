@@ -10,6 +10,9 @@ use function implode;
 use function sha1;
 use function sprintf;
 
+/**
+ * @see \Jellyfish\LockSymfony\LockIdentifierGeneratorTest
+ */
 class LockIdentifierGenerator implements LockIdentifierGeneratorInterface
 {
     protected const IDENTIFIER_PREFIX = 'lock';

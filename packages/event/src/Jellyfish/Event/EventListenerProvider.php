@@ -9,6 +9,9 @@ use Jellyfish\Event\Exception\NotSupportedTypeException;
 use function array_key_exists;
 use function sprintf;
 
+/**
+ * @see \Jellyfish\Event\EventListenerProviderTest
+ */
 class EventListenerProvider implements EventListenerProviderInterface
 {
     /**

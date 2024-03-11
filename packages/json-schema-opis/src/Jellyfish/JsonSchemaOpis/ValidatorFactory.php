@@ -8,6 +8,9 @@ use Jellyfish\JsonSchema\ValidatorFactoryInterface;
 use Jellyfish\JsonSchema\ValidatorInterface;
 use Opis\JsonSchema\Validator as OpisValidator;
 
+/**
+ * @see \Jellyfish\JsonSchemaOpis\ValidatorFactoryTest
+ */
 class ValidatorFactory implements ValidatorFactoryInterface
 {
     /**

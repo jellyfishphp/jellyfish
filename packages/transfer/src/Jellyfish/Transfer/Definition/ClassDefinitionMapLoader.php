@@ -7,27 +7,18 @@ namespace Jellyfish\Transfer\Definition;
 use Jellyfish\Filesystem\FilesystemInterface;
 use SplFileInfo;
 
+/**
+ * @see \Jellyfish\Transfer\Definition\ClassDefinitionMapLoaderTest
+ */
 class ClassDefinitionMapLoader implements ClassDefinitionMapLoaderInterface
 {
-    /**
-     * @var \Jellyfish\Transfer\Definition\DefinitionFinderInterface
-     */
-    protected $definitionFinder;
+    protected DefinitionFinderInterface $definitionFinder;
 
-    /**
-     * @var \Jellyfish\Filesystem\FilesystemInterface
-     */
-    protected $filesystem;
+    protected FilesystemInterface $filesystem;
 
-    /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMapperInterface
-     */
-    protected $classDefinitionMapMapper;
+    protected ClassDefinitionMapMapperInterface $classDefinitionMapMapper;
 
-    /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinitionMapMergerInterface
-     */
-    protected $classDefinitionMapMerger;
+    protected ClassDefinitionMapMergerInterface $classDefinitionMapMerger;
 
     /**
      * @param \Jellyfish\Transfer\Definition\DefinitionFinderInterface $definitionFinder
@@ -55,10 +46,12 @@ class ClassDefinitionMapLoader implements ClassDefinitionMapLoaderInterface
         $classDefinitionMap = [];
 
         foreach ($this->definitionFinder->find() as $definitionFile) {
-            if (!($definitionFile instanceof SplFileInfo) || !is_string($definitionFile->getRealPath())) {
+            if (!($definitionFile instanceof SplFileInfo)) {
                 continue;
             }
-
+            if (!is_string($definitionFile->getRealPath())) {
+                continue;
+            }
             $definitionFileContent = $this->filesystem->readFromFile($definitionFile->getRealPath());
 
             $currentClassDefinitionMap = $this->classDefinitionMapMapper->from($definitionFileContent);

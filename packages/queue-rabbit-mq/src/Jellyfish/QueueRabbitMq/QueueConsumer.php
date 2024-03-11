@@ -7,6 +7,9 @@ namespace Jellyfish\QueueRabbitMq;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
 
+/**
+ * @see \Jellyfish\QueueRabbitMq\QueueConsumerTest
+ */
 class QueueConsumer extends AbstractConsumer
 {
     /**
@@ -32,10 +35,10 @@ class QueueConsumer extends AbstractConsumer
         $receivedMessages = [];
         $this->connection->createQueue($destination);
 
-        for ($i = 0; $i < $limit; $i++) {
+        for ($i = 0; $i < $limit; ++$i) {
             $receivedMessage = $this->doReceiveMessage($destination);
 
-            if ($receivedMessage === null) {
+            if (!$receivedMessage instanceof MessageInterface) {
                 return $receivedMessages;
             }
 

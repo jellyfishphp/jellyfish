@@ -7,6 +7,7 @@ namespace Jellyfish\Event;
 interface EventListenerInterface
 {
     public const TYPE_SYNC = 'sync';
+
     public const TYPE_ASYNC = 'async';
 
     /**

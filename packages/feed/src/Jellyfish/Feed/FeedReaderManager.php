@@ -9,17 +9,15 @@ use Jellyfish\Feed\Exception\FeedReaderNotFoundException;
 use function array_key_exists;
 use function sprintf;
 
+/**
+ * @see \Jellyfish\Feed\FeedReaderManagerTest
+ */
 class FeedReaderManager implements FeedReaderManagerInterface
 {
     /**
      * @var \Jellyfish\Feed\FeedReaderInterface[]
      */
-    protected $feedReaders;
-
-    public function __construct()
-    {
-        $this->feedReaders = [];
-    }
+    protected $feedReaders = [];
 
     /**
      * @param string $identifier

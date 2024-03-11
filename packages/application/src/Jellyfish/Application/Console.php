@@ -11,6 +11,9 @@ use Symfony\Component\Console\Command\Command;
 use function count;
 use function is_array;
 
+/**
+ * @see \Jellyfish\Application\ConsoleTest
+ */
 class Console extends BaseApplication
 {
     protected KernelInterface $kernel;

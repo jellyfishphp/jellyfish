@@ -7,6 +7,7 @@ namespace Jellyfish\Queue;
 interface DestinationInterface
 {
     public const TYPE_QUEUE = 'QUEUE';
+
     public const TYPE_FANOUT = 'FANOUT';
 
     /**

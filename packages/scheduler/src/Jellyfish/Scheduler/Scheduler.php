@@ -6,6 +6,9 @@ namespace Jellyfish\Scheduler;
 
 use DateTime;
 
+/**
+ * @see \Jellyfish\Scheduler\SchedulerTest
+ */
 class Scheduler implements SchedulerInterface
 {
     protected const DELAY_INTERVAL = 1000000;
@@ -13,21 +16,12 @@ class Scheduler implements SchedulerInterface
     /**
      * @var JobInterface[]
      */
-    protected $jobs;
+    protected $jobs = [];
 
     /**
      * @var JobInterface[]
      */
     protected $runningJobs = [];
-
-    /**
-     * Scheduler constructor
-     */
-    public function __construct()
-    {
-        $this->jobs = [];
-        $this->runningJobs = [];
-    }
 
     /**
      * @param \Jellyfish\Scheduler\JobInterface $job

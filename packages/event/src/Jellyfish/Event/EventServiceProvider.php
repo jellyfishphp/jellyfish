@@ -11,6 +11,9 @@ use Jellyfish\Uuid\UuidConstants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * @see \Jellyfish\Event\EventServiceProviderTest
+ */
 class EventServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -143,9 +146,7 @@ class EventServiceProvider implements ServiceProviderInterface
      */
     protected function registerEventFactory(Container $container): EventServiceProvider
     {
-        $container->offsetSet(EventConstants::CONTAINER_KEY_EVENT_FACTORY, static function (Container $container) {
-            return new EventFactory($container->offsetGet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR));
-        });
+        $container->offsetSet(EventConstants::CONTAINER_KEY_EVENT_FACTORY, static fn(Container $container): EventFactory => new EventFactory($container->offsetGet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR)));
 
         return $this;
     }
@@ -161,12 +162,10 @@ class EventServiceProvider implements ServiceProviderInterface
 
         $container->offsetSet(
             EventConstants::CONTAINER_KEY_EVENT_DISPATCHER,
-            static function (Container $container) use ($self) {
-                return new EventDispatcher(
-                    new EventListenerProvider(),
-                    $self->createEventQueueProducer($container)
-                );
-            }
+            static fn(Container $container): EventDispatcher => new EventDispatcher(
+                new EventListenerProvider(),
+                $self->createEventQueueProducer($container)
+            )
         );
 
         return $this;
@@ -181,7 +180,7 @@ class EventServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->extend('commands', static function (array $commands, Container $container) use ($self) {
+        $container->extend('commands', static function (array $commands, Container $container) use ($self): array {
             $commands[] = new EventQueueConsumeCommand(
                 $container->offsetGet('event_dispatcher')->getEventListenerProvider(),
                 $self->createEventQueueConsumer($container),
@@ -206,9 +205,7 @@ class EventServiceProvider implements ServiceProviderInterface
      */
     protected function registerDefaultEventErrorHandlers(Container $container): EventServiceProvider
     {
-        $container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
-            return [];
-        });
+        $container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static fn(): array => []);
 
         return $this;
     }

@@ -8,22 +8,16 @@ use Jellyfish\Queue\DestinationFactoryInterface;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\QueueClientInterface;
 
+/**
+ * @see \Jellyfish\Event\EventQueueProducerTest
+ */
 class EventQueueProducer implements EventQueueProducerInterface
 {
-    /**
-     * @var \Jellyfish\Event\EventMapperInterface
-     */
-    protected $eventMapper;
+    protected EventMapperInterface $eventMapper;
 
-    /**
-     * @var \Jellyfish\Queue\QueueClientInterface
-     */
-    protected $queueClient;
+    protected QueueClientInterface $queueClient;
 
-    /**
-     * @var \Jellyfish\Queue\DestinationFactoryInterface
-     */
-    protected $destinationFactory;
+    protected DestinationFactoryInterface $destinationFactory;
 
     /**
      * @param \Jellyfish\Event\EventMapperInterface $eventMapper
