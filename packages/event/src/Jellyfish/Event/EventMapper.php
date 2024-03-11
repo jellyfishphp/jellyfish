@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
@@ -9,8 +9,6 @@ use Jellyfish\Event\Exception\MappingException;
 use Jellyfish\Queue\MessageFactoryInterface;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Serializer\SerializerInterface;
-
-use function get_class;
 
 /**
  * @see \Jellyfish\Event\EventMapperTest
@@ -75,7 +73,7 @@ class EventMapper implements EventMapperInterface
         $message = $this->messageFactory->create()
             ->setHeaders($metaProperties)
             ->setHeader('event_name', $event->getName())
-            ->setHeader('body_type', get_class($payload))
+            ->setHeader('body_type', \get_class($payload))
             ->setBody($this->serializer->serialize($payload, 'json'));
 
         if (!($payload instanceof ArrayObject)) {
@@ -85,7 +83,7 @@ class EventMapper implements EventMapperInterface
         $type = 'stdClass[]';
 
         if ($payload->count() !== 0) {
-            $type = get_class($payload->offsetGet(0)) . '[]';
+            $type = \get_class($payload->offsetGet(0)) . '[]';
         }
 
         $message->setHeader('body_type', $type);

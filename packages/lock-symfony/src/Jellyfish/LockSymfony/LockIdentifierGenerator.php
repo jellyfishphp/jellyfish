@@ -1,14 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\LockSymfony;
 
 use Jellyfish\Lock\LockIdentifierGeneratorInterface;
-
-use function implode;
-use function sha1;
-use function sprintf;
 
 /**
  * @see \Jellyfish\LockSymfony\LockIdentifierGeneratorTest
@@ -24,8 +20,8 @@ class LockIdentifierGenerator implements LockIdentifierGeneratorInterface
      */
     public function generate(array $identifierParts): string
     {
-        $identifierWithoutPrefix = sha1(implode(' ', $identifierParts));
+        $identifierWithoutPrefix = \sha1(\implode(' ', $identifierParts));
 
-        return sprintf('%s:%s', static::IDENTIFIER_PREFIX, $identifierWithoutPrefix);
+        return \sprintf('%s:%s', static::IDENTIFIER_PREFIX, $identifierWithoutPrefix);
     }
 }

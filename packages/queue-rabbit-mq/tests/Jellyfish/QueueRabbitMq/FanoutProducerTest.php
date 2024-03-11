@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\QueueRabbitMq;
 
@@ -73,7 +73,7 @@ class FanoutProducerTest extends Unit
         $this->fanoutProducer = new FanoutProducer(
             $this->connectionMock,
             $this->messageMapperMock,
-            $this->amqpMessageFactoryMock
+            $this->amqpMessageFactoryMock,
         );
     }
 

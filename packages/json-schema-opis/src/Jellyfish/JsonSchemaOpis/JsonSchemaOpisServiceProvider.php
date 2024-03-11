@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\JsonSchemaOpis;
 
@@ -29,7 +29,7 @@ class JsonSchemaOpisServiceProvider implements ServiceProviderInterface
      */
     protected function registerValidatorFactory(Container $container): JsonSchemaOpisServiceProvider
     {
-        $container->offsetSet('json_schema_validator_factory', static fn(): ValidatorFactory => new ValidatorFactory());
+        $container->offsetSet('json_schema_validator_factory', static fn (): ValidatorFactory => new ValidatorFactory());
 
         return $this;
     }

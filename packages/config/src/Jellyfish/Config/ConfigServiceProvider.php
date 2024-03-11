@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Config;
 
@@ -21,7 +21,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $pimple->offsetSet(ConfigConstants::CONTAINER_KEY_CONFIG, static fn(Container $container): ConfigInterface => $self->createConfig($container));
+        $pimple->offsetSet(ConfigConstants::CONTAINER_KEY_CONFIG, static fn (Container $container): ConfigInterface => $self->createConfig($container));
     }
 
     /**

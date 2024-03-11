@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Feed;
 
@@ -31,7 +31,7 @@ class FeedServiceProvider implements ServiceProviderInterface
      */
     protected function registerFeedReaderManager(Container $container): FeedServiceProvider
     {
-        $container->offsetSet('feed_reader_manager', static fn(): FeedReaderManager => new FeedReaderManager());
+        $container->offsetSet('feed_reader_manager', static fn (): FeedReaderManager => new FeedReaderManager());
 
         return $this;
     }
@@ -43,7 +43,7 @@ class FeedServiceProvider implements ServiceProviderInterface
      */
     protected function registerCommands(Container $container): FeedServiceProvider
     {
-        $container->extend('commands', static function (array $commands, Container $container) : array {
+        $container->extend('commands', static function (array $commands, Container $container): array {
             $commands[] = new RunFeedReaderCommand($container->offsetGet('feed_reader_manager'));
             return $commands;
         });

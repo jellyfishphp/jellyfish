@@ -1,16 +1,16 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use Codeception\Test\Unit;
 use Jellyfish\Filesystem\FilesystemInterface;
 use Jellyfish\Finder\FinderFactoryInterface;
 use Jellyfish\Serializer\SerializerInterface;
 use Jellyfish\Transfer\Command\TransferGenerateCommand;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
 use stdClass;
@@ -32,13 +32,13 @@ class TransferServiceProviderTest extends Unit
             'src' => [
                 'Generated' => [
                     'Transfer' => [
-                        'factory-registry.php' => file_get_contents(codecept_data_dir('factory-registry.php'))
-                    ]
-                ]
-            ]
+                        'factory-registry.php' => \file_get_contents(\codecept_data_dir('factory-registry.php')),
+                    ],
+                ],
+            ],
         ])->url();
 
-        $rootDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $rootDir = \rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
         $self = $this;
 
@@ -46,21 +46,21 @@ class TransferServiceProviderTest extends Unit
 
         $this->container->offsetSet('root_dir', $rootDir);
 
-        $this->container->offsetSet('commands', static fn(): array => []);
+        $this->container->offsetSet('commands', static fn (): array => []);
 
-        $this->container->offsetSet('serializer', static fn(): MockObject => $self->getMockBuilder(SerializerInterface::class)
+        $this->container->offsetSet('serializer', static fn (): MockObject => $self->getMockBuilder(SerializerInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet('finder_factory', static fn(): MockObject => $self->getMockBuilder(FinderFactoryInterface::class)
+        $this->container->offsetSet('finder_factory', static fn (): MockObject => $self->getMockBuilder(FinderFactoryInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet('filesystem', static fn(): MockObject => $self->getMockBuilder(FilesystemInterface::class)
+        $this->container->offsetSet('filesystem', static fn (): MockObject => $self->getMockBuilder(FilesystemInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet('logger', static fn(): MockObject => $self->getMockBuilder(LoggerInterface::class)
+        $this->container->offsetSet('logger', static fn (): MockObject => $self->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 

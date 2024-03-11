@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Jellyfish\EventCache\EventErrorHandler;
 
 use Jellyfish\Cache\CacheInterface;
@@ -8,8 +10,6 @@ use Jellyfish\Event\EventInterface;
 use Jellyfish\EventCache\EventCacheConstants;
 use Jellyfish\Serializer\SerializerInterface;
 use Throwable;
-
-use function sprintf;
 
 /**
  * @see \Jellyfish\EventCache\EventErrorHandler\CacheEventErrorHandlerTest
@@ -48,7 +48,7 @@ class CacheEventErrorHandler implements EventErrorHandlerInterface
         $this->cache->set(
             $event->getId(),
             $this->serializer->serialize($event, 'json'),
-            EventCacheConstants::LIFE_TIME
+            EventCacheConstants::LIFE_TIME,
         );
 
         return $this;

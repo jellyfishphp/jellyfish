@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer\Definition;
 
@@ -39,13 +39,13 @@ class ClassDefinitionMapMapperTest extends Unit
         $this->classDefinitionMocks = new ArrayObject([
             $this->getMockBuilder(ClassDefinition::class)
                 ->disableOriginalConstructor()
-                ->getMock()
+                ->getMock(),
         ]);
 
         $this->classPropertyDefinitionMocks = [
             $this->getMockBuilder(ClassPropertyDefinition::class)
                 ->disableOriginalConstructor()
-                ->getMock()
+                ->getMock(),
         ];
 
         $this->classDefinitionMapMapper = new ClassDefinitionMapMapper($this->serializerMock);

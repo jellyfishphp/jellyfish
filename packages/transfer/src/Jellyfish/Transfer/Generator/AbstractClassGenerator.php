@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer\Generator;
 
@@ -22,7 +22,7 @@ abstract class AbstractClassGenerator extends AbstractGenerator implements Class
         $file = $this->getFile($classDefinition);
         $pathToFile = $this->getPathToFile($classDefinition);
         $fileContent = $this->twig->render($this->getTemplateName(), [
-            'classDefinition' => $classDefinition
+            'classDefinition' => $classDefinition,
         ]);
 
         $this->createDirectories($pathToFile);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Jellyfish\EventLog;
 
 use Codeception\Test\Unit;
@@ -35,9 +37,9 @@ class EventLogServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static fn(): array => []);
+        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static fn (): array => []);
 
-        $this->container->offsetSet(LogConstants::CONTAINER_KEY_LOGGER, static fn(): MockObject&LoggerInterface => $self->loggerMock);
+        $this->container->offsetSet(LogConstants::CONTAINER_KEY_LOGGER, static fn (): MockObject&LoggerInterface => $self->loggerMock);
 
         $this->eventLogServiceProvider = new EventLogServiceProvider();
     }

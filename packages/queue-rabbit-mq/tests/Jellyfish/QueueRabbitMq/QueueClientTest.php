@@ -1,20 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\QueueRabbitMq;
 
 use Codeception\Test\Unit;
 use Exception;
 use Jellyfish\Queue\ConsumerInterface;
-use Jellyfish\Queue\Destination;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
-use Jellyfish\Queue\MessageMapperInterface;
 use Jellyfish\Queue\ProducerInterface;
-use PhpAmqpLib\Channel\AMQPChannel;
-use PhpAmqpLib\Connection\AbstractConnection;
-use PhpAmqpLib\Message\AMQPMessage;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class QueueClientTest extends Unit
@@ -52,7 +47,7 @@ class QueueClientTest extends Unit
 
         $this->queueClient = new QueueClient(
             [DestinationInterface::TYPE_QUEUE => $this->consumerMock],
-            [DestinationInterface::TYPE_QUEUE => $this->producerMock]
+            [DestinationInterface::TYPE_QUEUE => $this->producerMock],
         );
     }
 
@@ -112,7 +107,7 @@ class QueueClientTest extends Unit
     public function testReceivesMessages(): void
     {
         $messages = [
-            $this->messageMock
+            $this->messageMock,
         ];
 
         $this->destinationMock->expects(self::atLeastOnce())

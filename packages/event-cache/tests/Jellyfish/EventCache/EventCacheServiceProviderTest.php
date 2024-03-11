@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Jellyfish\EventCache;
 
 use Codeception\Test\Unit;
@@ -43,11 +45,11 @@ class EventCacheServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static fn(): array => []);
+        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static fn (): array => []);
 
-        $this->container->offsetSet(CacheConstants::CONTAINER_KEY_CACHE, static fn(): CacheInterface&MockObject => $self->cacheMock);
+        $this->container->offsetSet(CacheConstants::CONTAINER_KEY_CACHE, static fn (): CacheInterface&MockObject => $self->cacheMock);
 
-        $this->container->offsetSet(SerializerConstants::CONTAINER_KEY_SERIALIZER, static fn(): SerializerInterface&MockObject => $self->serializerMock);
+        $this->container->offsetSet(SerializerConstants::CONTAINER_KEY_SERIALIZER, static fn (): SerializerInterface&MockObject => $self->serializerMock);
 
         $this->eventCacheServiceProvider = new EventCacheServiceProvider();
     }

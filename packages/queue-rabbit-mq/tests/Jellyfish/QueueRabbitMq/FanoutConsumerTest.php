@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\QueueRabbitMq;
 
@@ -69,7 +69,7 @@ class FanoutConsumerTest extends Unit
 
         $this->fanoutConsumer = new FanoutConsumer(
             $this->connectionMock,
-            $this->messageMapperMock
+            $this->messageMapperMock,
         );
     }
 

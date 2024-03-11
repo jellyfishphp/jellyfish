@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Serializer;
 
@@ -33,7 +33,7 @@ class SerializerServiceProviderTest extends Unit
         $this->assertTrue($this->container->offsetExists('serializer_property_name_converter_strategy_provider'));
         $this->assertInstanceOf(
             PropertyNameConverterStrategyProvider::class,
-            $this->container->offsetGet('serializer_property_name_converter_strategy_provider')
+            $this->container->offsetGet('serializer_property_name_converter_strategy_provider'),
         );
     }
 }

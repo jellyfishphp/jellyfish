@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
@@ -43,12 +43,12 @@ class AbstractEventListenerTest extends Unit
 
         $this->assertEquals(
             $this->abstractEventListenerMock,
-            $this->abstractEventListenerMock->setErrorHandlers($errorHandlers)
+            $this->abstractEventListenerMock->setErrorHandlers($errorHandlers),
         );
 
         $this->assertEquals(
             $errorHandlers,
-            $this->abstractEventListenerMock->getErrorHandlers()
+            $this->abstractEventListenerMock->getErrorHandlers(),
         );
     }
 
@@ -66,7 +66,7 @@ class AbstractEventListenerTest extends Unit
 
         $this->assertEquals(
             $this->abstractEventListenerMock,
-            $this->abstractEventListenerMock->handle($this->eventMock)
+            $this->abstractEventListenerMock->handle($this->eventMock),
         );
     }
 
@@ -117,7 +117,7 @@ class AbstractEventListenerTest extends Unit
 
         $this->assertEquals(
             $this->abstractEventListenerMock,
-            $this->abstractEventListenerMock->handle($this->eventMock)
+            $this->abstractEventListenerMock->handle($this->eventMock),
         );
     }
 }

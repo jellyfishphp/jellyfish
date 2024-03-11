@@ -1,14 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Http;
 
 use Codeception\Test\Unit;
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use League\Route\Router;
 use Pimple\Container;
 use Psr\Http\Message\ServerRequestInterface;
-use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 
 class HttpServiceProviderTest extends Unit
 {

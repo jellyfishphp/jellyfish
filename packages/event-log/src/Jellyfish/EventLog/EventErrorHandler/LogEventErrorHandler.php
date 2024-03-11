@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Jellyfish\EventLog\EventErrorHandler;
 
 use Jellyfish\Event\EventErrorHandlerInterface;
@@ -39,7 +41,7 @@ class LogEventErrorHandler implements EventErrorHandlerInterface
             'eventListenerIdentifier' => $eventListenerIdentifier,
             'eventName' => $event->getName(),
             'eventMetaProperties' => $event->getMetaProperties(),
-            'trace' => $throwable->getTrace()
+            'trace' => $throwable->getTrace(),
         ];
 
         $this->logger->error($throwable->getMessage(), $context);

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Queue;
 
@@ -34,7 +34,7 @@ class MessageTest extends Unit
     public function testSetAndGetHeaders(): void
     {
         $headers = [
-            'test' => 'test'
+            'test' => 'test',
         ];
 
         $this->message->setHeaders($headers);

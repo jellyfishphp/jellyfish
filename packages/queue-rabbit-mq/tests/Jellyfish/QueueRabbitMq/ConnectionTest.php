@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\QueueRabbitMq;
 
@@ -9,9 +9,7 @@ use Exception;
 use Jellyfish\Queue\DestinationInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AbstractConnection;
-
 use PHPUnit\Framework\MockObject\MockObject;
-use function strtolower;
 
 class ConnectionTest extends Unit
 {
@@ -179,7 +177,7 @@ class ConnectionTest extends Unit
 
         $this->amqpChannelMock->expects($this->atLeastOnce())
             ->method('exchange_declare')
-            ->with($destinationName, strtolower(DestinationInterface::TYPE_FANOUT), false, true, false);
+            ->with($destinationName, \strtolower(DestinationInterface::TYPE_FANOUT), false, true, false);
 
         $this->assertEquals($this->connection, $this->connection->createExchange($this->destinationMock));
     }

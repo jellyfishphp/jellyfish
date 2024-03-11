@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\FilesystemSymfony;
 
@@ -67,7 +67,7 @@ class Filesystem implements FilesystemInterface
     public function appendToFile(string $pathToFile, string $content): FilesystemInterface
     {
         if (false === @\file_put_contents($pathToFile, $content, FILE_APPEND)) {
-            throw new IOException(sprintf('Failed to write file "%s".', $pathToFile), 0, null, $pathToFile);
+            throw new IOException(\sprintf('Failed to write file "%s".', $pathToFile), 0, null, $pathToFile);
         }
 
         return $this;
@@ -82,7 +82,7 @@ class Filesystem implements FilesystemInterface
     public function writeToFile(string $pathToFile, string $content): FilesystemInterface
     {
         if (false === @\file_put_contents($pathToFile, $content)) {
-            throw new IOException(sprintf('Failed to write file "%s".', $pathToFile), 0, null, $pathToFile);
+            throw new IOException(\sprintf('Failed to write file "%s".', $pathToFile), 0, null, $pathToFile);
         }
 
         return $this;
@@ -98,7 +98,7 @@ class Filesystem implements FilesystemInterface
         $fileContent = @\file_get_contents($pathToFile);
 
         if (false === $fileContent) {
-            throw new IOException(sprintf('Failed to read file "%s".', $pathToFile), 0, null, $pathToFile);
+            throw new IOException(\sprintf('Failed to read file "%s".', $pathToFile), 0, null, $pathToFile);
         }
 
         return $fileContent;

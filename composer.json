@@ -43,7 +43,7 @@
     "squizlabs/php_codesniffer": "*",
     "dg/bypass-finals": "*",
     "rector/rector": "*",
-    "friendsofphp/php-cs-fixer": "^3.51"
+    "slevomat/coding-standard": "*"
   },
   "bin": [
     "packages/application/bin/console"
@@ -51,7 +51,8 @@
   "scripts": {
     "test": "codecept run",
     "phpstan": "phpstan analyse --memory-limit 1G -c phpstan.neon packages",
-    "phpcs": "phpcs --standard=PSR12 packages"
+    "phpcs": "phpcs --standard=ruleset.xml --extensions=php packages/*/src/ packages/*/tests/",
+    "phpcbf": "phpcbf --standard=ruleset.xml --extensions=php packages/*/src/ packages/*/tests/"
   },
   "autoload": {
     "psr-4": {
@@ -116,6 +117,11 @@
       "Jellyfish\\Transfer\\": "packages/transfer/tests/Jellyfish/Transfer",
       "Jellyfish\\Uuid\\": "packages/uuid/tests/Jellyfish/Uuid",
       "Jellyfish\\UuidRamsey\\": "packages/uuid-ramsey/tests/Jellyfish/UuidRamsey"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   }
 }

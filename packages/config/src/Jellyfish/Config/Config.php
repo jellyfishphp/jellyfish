@@ -1,19 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Config;
 
 use ArrayObject;
-use Exception;
 use Jellyfish\Config\Exception\ConfigKeyNotFoundException;
 use Jellyfish\Config\Exception\NotSupportedConfigValueTypeException;
-
-use function file_exists;
-use function is_bool;
-use function is_float;
-use function is_int;
-use function is_string;
 
 /**
  * @see \Jellyfish\Config\ConfigTest
@@ -36,7 +29,7 @@ class Config implements ConfigInterface
      * @param string $appDir
      * @param string $environment
      *
-     * @throws Exception
+     * @throws \Jellyfish\Config\Exception
      */
     public function __construct(
         string $appDir,
@@ -64,7 +57,7 @@ class Config implements ConfigInterface
         }
 
         if (!$this->hasValue($key)) {
-            throw new ConfigKeyNotFoundException(sprintf('Could not find key "%s" in "%s"', $key, self::class));
+            throw new ConfigKeyNotFoundException(\sprintf('Could not find key "%s" in "%s"', $key, self::class));
         }
 
         return $this->getValue($key);
@@ -81,15 +74,15 @@ class Config implements ConfigInterface
     {
         $value = $this->config[$key];
 
-        if (is_string($value)) {
+        if (\is_string($value)) {
             return $value;
         }
 
-        if (is_int($value) || is_float($value) || is_bool($value)) {
+        if (\is_int($value) || \is_float($value) || \is_bool($value)) {
             return (string) $value;
         }
 
-        throw new NotSupportedConfigValueTypeException(sprintf('Value type for key "%s" is not supported.', $key));
+        throw new NotSupportedConfigValueTypeException(\sprintf('Value type for key "%s" is not supported.', $key));
     }
 
     /**
@@ -105,7 +98,7 @@ class Config implements ConfigInterface
     /**
      * @return void
      *
-     * @throws Exception
+     * @throws \Jellyfish\Config\Exception
      */
     protected function initialize(): void
     {
@@ -123,13 +116,13 @@ class Config implements ConfigInterface
      *
      * @return \ArrayObject
      */
-    protected function buildConfig(ArrayObject $config, string $environment = null): ArrayObject
+    protected function buildConfig(ArrayObject $config, ?string $environment = null): ArrayObject
     {
         $configFile = $environment ?? self::CONFIG_FILE;
         $fileName = self::CONFIG_FILE_PREFIX . $configFile . self::CONFIG_FILE_SUFFIX;
         $pathToConfigFile = $this->appDir . $fileName;
 
-        if (file_exists($pathToConfigFile)) {
+        if (\file_exists($pathToConfigFile)) {
             include $pathToConfigFile;
         }
 

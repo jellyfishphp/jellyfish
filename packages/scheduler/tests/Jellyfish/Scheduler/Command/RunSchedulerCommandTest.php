@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Scheduler\Command;
 
@@ -71,7 +71,7 @@ class RunSchedulerCommandTest extends Unit
         $this->runSchedulerCommand = new RunSchedulerCommand(
             $this->schedulerMock,
             $this->lockFactoryMock,
-            $this->loggerMock
+            $this->loggerMock,
         );
     }
 

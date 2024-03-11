@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Scheduler;
 
-use PHPUnit\Framework\Attributes\Depends;
 use Codeception\Test\Unit;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class SchedulerTest extends Unit

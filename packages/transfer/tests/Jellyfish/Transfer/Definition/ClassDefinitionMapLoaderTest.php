@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer\Definition;
 
@@ -72,14 +72,14 @@ class ClassDefinitionMapLoaderTest extends Unit
         $this->classDefinitionMapMock = [
             $this->getMockBuilder(ClassDefinitionInterface::class)
                 ->disableOriginalConstructor()
-                ->getMock()
+                ->getMock(),
         ];
 
         $this->classDefinitionMapLoader = new ClassDefinitionMapLoader(
             $this->definitionFinderMock,
             $this->filesystemMock,
             $this->classDefinitionMapMapperMock,
-            $this->classDefinitionMapMergerMock
+            $this->classDefinitionMapMergerMock,
         );
     }
 
@@ -88,7 +88,7 @@ class ClassDefinitionMapLoaderTest extends Unit
      */
     public function testLoad(): void
     {
-        $realPath = codecept_data_dir('test.transfer.json');
+        $realPath = \codecept_data_dir('test.transfer.json');
 
         $this->definitionFinderMock->expects($this->atLeastOnce())
             ->method('find')

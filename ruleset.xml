@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<ruleset name="Jellyfish">
+    <config name="installed_paths" value="../../slevomat/coding-standard"/>
+
+    <exclude-pattern>*/tests/_data/*.php</exclude-pattern>
+    <exclude-pattern>*/tests/_bootstrap.php</exclude-pattern>
+
+    <rule ref="SlevomatCodingStandard.Namespaces.NamespaceDeclaration"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation">
+        <properties>
+            <property name="ignoredAnnotationNames" type="array">
+                <element value="@SuppressWarnings"/>
+            </property>
+        </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Namespaces.RequireOneNamespaceInFile"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.UselessAlias"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
+        <properties>
+            <property name="allowFallbackGlobalFunctions" value="true"/>
+            <property name="allowFallbackGlobalConstants" value="true"/>
+        </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName">
+        <severity>0</severity>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.UseSpacing"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions"/>
+
+    <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
+    <rule ref="SlevomatCodingStandard.Arrays.SingleLineArrayWhitespace"/>
+    <rule ref="SlevomatCodingStandard.Arrays.MultiLineArrayEndBracketPlacement"/>
+
+    <rule ref="SlevomatCodingStandard.Functions.ArrowFunctionDeclaration"/>
+    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
+    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInClosureUse"/>
+
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+
+
+</ruleset>

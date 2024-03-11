@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Serializer\NameConverter;
 
@@ -61,7 +61,7 @@ class PropertyNameConverterStrategyProvider implements PropertyNameConverterStra
      */
     public function hasStrategy(string $propertyNameConverterStrategyKey): bool
     {
-        return array_key_exists($propertyNameConverterStrategyKey, $this->propertyNameConverterStrategyList);
+        return \array_key_exists($propertyNameConverterStrategyKey, $this->propertyNameConverterStrategyList);
     }
 
     /**

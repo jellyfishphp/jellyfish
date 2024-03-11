@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\QueueRabbitMq;
 
@@ -11,8 +11,6 @@ use Jellyfish\Queue\Exception\ProducerNotFoundException;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\ProducerInterface;
 use Jellyfish\Queue\QueueClientInterface;
-
-use function sprintf;
 
 /**
  * @see \Jellyfish\QueueRabbitMq\QueueClientTest
@@ -75,9 +73,9 @@ class QueueClient implements QueueClientInterface
     public function receiveMessage(DestinationInterface $destination): ?MessageInterface
     {
         if (!isset($this->consumers[$destination->getType()])) {
-            throw new ConsumerNotFoundException(sprintf(
+            throw new ConsumerNotFoundException(\sprintf(
                 'There is no consumer for type "%s".',
-                $destination->getType()
+                $destination->getType(),
             ));
         }
 
@@ -94,9 +92,9 @@ class QueueClient implements QueueClientInterface
     public function receiveMessages(DestinationInterface $destination, int $limit): array
     {
         if (!isset($this->consumers[$destination->getType()])) {
-            throw new ConsumerNotFoundException(sprintf(
+            throw new ConsumerNotFoundException(\sprintf(
                 'There is no consumer for type "%s".',
-                $destination->getType()
+                $destination->getType(),
             ));
         }
 
@@ -112,9 +110,9 @@ class QueueClient implements QueueClientInterface
     public function sendMessage(DestinationInterface $destination, MessageInterface $message): QueueClientInterface
     {
         if (!isset($this->producers[$destination->getType()])) {
-            throw new ProducerNotFoundException(sprintf(
+            throw new ProducerNotFoundException(\sprintf(
                 'There is no producer for type "%s".',
-                $destination->getType()
+                $destination->getType(),
             ));
         }
 

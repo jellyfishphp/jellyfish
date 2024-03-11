@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\JsonSchemaOpis;
 
 use Codeception\Test\Unit;
 use Exception;
-use Jellyfish\JsonSchema\ValidatorFactoryInterface;
 
 class ValidatorFactoryTest extends Unit
 {

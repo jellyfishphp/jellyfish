@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Scheduler;
 
 use Cron\CronExpression;
-use DateTime;
 use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Process\ProcessInterface;
 

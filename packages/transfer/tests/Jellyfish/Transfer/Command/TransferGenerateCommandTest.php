@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer\Command;
 
@@ -56,7 +56,7 @@ class TransferGenerateCommandTest extends Unit
         $this->transferGenerateCommand = new TransferGenerateCommand(
             $this->transferGeneratorMock,
             $this->transferCleanerMock,
-            $this->loggerMock
+            $this->loggerMock,
         );
     }
 

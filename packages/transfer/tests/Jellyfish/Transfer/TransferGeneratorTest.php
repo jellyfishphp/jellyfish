@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer;
 
@@ -39,7 +39,7 @@ class TransferGeneratorTest extends Unit
         $this->classDefinitionMapMock = [
             $this->getMockBuilder(ClassDefinition::class)
             ->disableOriginalConstructor()
-            ->getMock()
+            ->getMock(),
         ];
 
         $this->classDefinitionMapLoaderMock = $this->getMockBuilder(ClassDefinitionMapLoaderInterface::class)
@@ -59,7 +59,7 @@ class TransferGeneratorTest extends Unit
         $this->transferGenerator = new TransferGenerator(
             $this->classDefinitionMapLoaderMock,
             $this->factoryRegistryGeneratorMock,
-            $this->classGeneratorMocks
+            $this->classGeneratorMocks,
         );
     }
 
@@ -84,7 +84,7 @@ class TransferGeneratorTest extends Unit
 
         $this->assertEquals(
             $this->transferGenerator,
-            $this->transferGenerator->generate()
+            $this->transferGenerator->generate(),
         );
     }
 }

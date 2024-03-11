@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer\Definition;
 
@@ -90,7 +90,7 @@ class ClassDefinitionMapMergerTest extends Unit
 
         $mergedClassDefinitionMap = $this->classDefinitionMapMerger->merge(
             $this->classDefinitionMapAMock,
-            $this->classDefinitionMapBMock
+            $this->classDefinitionMapBMock,
         );
 
         $this->assertArrayHasKey('Product', $mergedClassDefinitionMap);

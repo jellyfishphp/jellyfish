@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
@@ -12,9 +12,7 @@ use Jellyfish\Queue\DestinationFactoryInterface;
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\QueueClientInterface;
-
 use PHPUnit\Framework\MockObject\MockObject;
-use function sprintf;
 
 class EventQueueConsumerTest extends Unit
 {
@@ -89,7 +87,7 @@ class EventQueueConsumerTest extends Unit
 
         $this->eventName = 'test';
         $this->eventListenerIdentifier = 'testListener';
-        $this->eventQueueName = sprintf('%s_%s', $this->eventName, $this->eventListenerIdentifier);
+        $this->eventQueueName = \sprintf('%s_%s', $this->eventName, $this->eventListenerIdentifier);
 
         $this->eventQueueConsumer = new EventQueueConsumer(
             $this->processFactoryMock,
@@ -97,7 +95,7 @@ class EventQueueConsumerTest extends Unit
             $this->eventQueueNameGeneratorMock,
             $this->queueClientMock,
             $this->destinationFactoryMock,
-            '/'
+            '/',
         );
     }
 
@@ -142,7 +140,7 @@ class EventQueueConsumerTest extends Unit
 
         $event = $this->eventQueueConsumer->dequeue(
             $this->eventName,
-            $this->eventListenerIdentifier
+            $this->eventListenerIdentifier,
         );
 
         $this->assertEquals($this->eventMock, $event);
@@ -189,7 +187,7 @@ class EventQueueConsumerTest extends Unit
 
         $event = $this->eventQueueConsumer->dequeue(
             $this->eventName,
-            $this->eventListenerIdentifier
+            $this->eventListenerIdentifier,
         );
 
         $this->assertNull($event);
@@ -204,7 +202,7 @@ class EventQueueConsumerTest extends Unit
             '/vendor/bin/console',
             EventQueueConsumeCommand::NAME,
             $this->eventName,
-            $this->eventListenerIdentifier
+            $this->eventListenerIdentifier,
         ];
 
         $this->eventQueueNameGeneratorMock->expects(self::atLeastOnce())
@@ -223,7 +221,7 @@ class EventQueueConsumerTest extends Unit
 
         $result = $this->eventQueueConsumer->dequeueAsProcess(
             $this->eventName,
-            $this->eventListenerIdentifier
+            $this->eventListenerIdentifier,
         );
 
         $this->assertEquals($this->eventQueueConsumer, $result);
@@ -274,7 +272,7 @@ class EventQueueConsumerTest extends Unit
         $events = $this->eventQueueConsumer->dequeueBulk(
             $this->eventName,
             $this->eventListenerIdentifier,
-            $chunkSize
+            $chunkSize,
         );
 
         $this->assertCount(1, $events);

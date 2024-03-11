@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\SerializerSymfony;
 
@@ -39,9 +39,9 @@ class SerializerSymfonyServiceProvider implements ServiceProviderInterface
 
         $container->offsetSet(
             SerializerConstants::CONTAINER_KEY_SERIALIZER,
-            static fn(Container $container): \Jellyfish\SerializerSymfony\Serializer => new Serializer(
-                $self->createSymfonySerializer($container)
-            )
+            static fn (Container $container): \Jellyfish\SerializerSymfony\Serializer => new Serializer(
+                $self->createSymfonySerializer($container),
+            ),
         );
 
         return $this;
@@ -55,7 +55,7 @@ class SerializerSymfonyServiceProvider implements ServiceProviderInterface
     protected function createSymfonySerializer(Container $container): SymfonySerializerInterface
     {
         $strategyProvider = $container->offsetGet(
-            SerializerConstants::CONTAINER_KEY_PROPERTY_NAME_CONVERTER_STRATEGY_PROVIDER
+            SerializerConstants::CONTAINER_KEY_PROPERTY_NAME_CONVERTER_STRATEGY_PROVIDER,
         );
 
         $normalizer = [
@@ -63,19 +63,19 @@ class SerializerSymfonyServiceProvider implements ServiceProviderInterface
                 null,
                 new PropertyNameConverter($strategyProvider),
                 null,
-                new PhpDocExtractor()
+                new PhpDocExtractor(),
             ),
-            new ArrayDenormalizer()
+            new ArrayDenormalizer(),
         ];
 
         $encoders = [
             new JsonEncoder(),
-            new XmlEncoder()
+            new XmlEncoder(),
         ];
 
         return new SymfonySerializer(
             $normalizer,
-            $encoders
+            $encoders,
         );
     }
 }

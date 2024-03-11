@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
 use Throwable;
-
-use function count;
 
 /**
  * @see \Jellyfish\Event\AbstractEventListenerTest
@@ -93,7 +91,7 @@ abstract class AbstractEventListener implements EventListenerInterface
      */
     protected function handleError(Throwable $error, EventInterface $event): EventListenerInterface
     {
-        if ($this->errorHandlers === null || count($this->errorHandlers) === 0) {
+        if ($this->errorHandlers === null || \count($this->errorHandlers) === 0) {
             throw $error;
         }
 

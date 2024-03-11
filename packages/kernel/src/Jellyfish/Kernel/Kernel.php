@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Kernel;
 
@@ -63,7 +63,7 @@ class Kernel implements KernelInterface
             'root_dir' => $this->rootDir,
             'app_dir' => $this->appDir,
             'environment' => $this->environment,
-            'commands' => static fn(): array => []
+            'commands' => static fn (): array => [],
         ]);
 
         $serviceProviders = $this->buildServiceProviders();

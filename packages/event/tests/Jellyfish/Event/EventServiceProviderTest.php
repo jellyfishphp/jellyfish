@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
@@ -9,13 +9,11 @@ use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Event\Command\EventQueueWorkerStartCommand;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Log\LogConstants;
-use Jellyfish\Log\LogServiceProvider;
 use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Queue\DestinationFactoryInterface;
 use Jellyfish\Queue\MessageFactoryInterface;
 use Jellyfish\Queue\QueueClientInterface;
 use Jellyfish\Queue\QueueConstants;
-use Jellyfish\Queue\QueueServiceProvider;
 use Jellyfish\Serializer\SerializerInterface;
 use Jellyfish\Uuid\UuidConstants;
 use Jellyfish\Uuid\UuidGeneratorInterface;
@@ -44,39 +42,39 @@ class EventServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet('root_dir', static fn(): string => DIRECTORY_SEPARATOR);
+        $this->container->offsetSet('root_dir', static fn (): string => DIRECTORY_SEPARATOR);
 
-        $this->container->offsetSet('commands', static fn(): array => []);
+        $this->container->offsetSet('commands', static fn (): array => []);
 
-        $this->container->offsetSet('serializer', static fn(): MockObject => $self->getMockBuilder(SerializerInterface::class)
+        $this->container->offsetSet('serializer', static fn (): MockObject => $self->getMockBuilder(SerializerInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet('lock_factory', static fn(): MockObject => $self->getMockBuilder(LockFactoryInterface::class)
+        $this->container->offsetSet('lock_factory', static fn (): MockObject => $self->getMockBuilder(LockFactoryInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet(LogConstants::CONTAINER_KEY_LOGGER, static fn(): MockObject => $self->getMockBuilder(LoggerInterface::class)
+        $this->container->offsetSet(LogConstants::CONTAINER_KEY_LOGGER, static fn (): MockObject => $self->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet('message_factory', static fn(): MockObject => $self->getMockBuilder(MessageFactoryInterface::class)
+        $this->container->offsetSet('message_factory', static fn (): MockObject => $self->getMockBuilder(MessageFactoryInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet('process_factory', static fn(): MockObject => $self->getMockBuilder(ProcessFactoryInterface::class)
+        $this->container->offsetSet('process_factory', static fn (): MockObject => $self->getMockBuilder(ProcessFactoryInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT, static fn(): MockObject => $self->getMockBuilder(QueueClientInterface::class)
+        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT, static fn (): MockObject => $self->getMockBuilder(QueueClientInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY, static fn(): MockObject => $self->getMockBuilder(DestinationFactoryInterface::class)
+        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY, static fn (): MockObject => $self->getMockBuilder(DestinationFactoryInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 
-        $this->container->offsetSet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR, static fn(): MockObject => $self->getMockBuilder(UuidGeneratorInterface::class)
+        $this->container->offsetSet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR, static fn (): MockObject => $self->getMockBuilder(UuidGeneratorInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 

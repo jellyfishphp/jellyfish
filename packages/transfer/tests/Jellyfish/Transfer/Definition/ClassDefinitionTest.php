@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer\Definition;
 
 use Codeception\Test\Unit;
 use RuntimeException;
-
-use function sprintf;
 
 class ClassDefinitionTest extends Unit
 {
@@ -90,7 +88,7 @@ class ClassDefinitionTest extends Unit
     public function testGetNamespaceStatement(): void
     {
         $namespace = 'Lorem';
-        $expectedNamespaceStatement = sprintf('namespace %s\\%s;', ClassDefinition::NAMESPACE_PREFIX, $namespace);
+        $expectedNamespaceStatement = \sprintf('namespace %s\\%s;', ClassDefinition::NAMESPACE_PREFIX, $namespace);
 
         $this->assertEquals($this->classDefinition, $this->classDefinition->setNamespace($namespace));
         $this->assertSame($expectedNamespaceStatement, $this->classDefinition->getNamespaceStatement());
@@ -113,7 +111,7 @@ class ClassDefinitionTest extends Unit
                 ->getMock(),
             $this->getMockBuilder(ClassPropertyDefinition::class)
                 ->disableOriginalConstructor()
-                ->getMock()
+                ->getMock(),
         ];
 
         $this->assertEquals($this->classDefinition, $this->classDefinition->setNamespace('Lorem'));
@@ -185,14 +183,14 @@ class ClassDefinitionTest extends Unit
                 ->getMock(),
             $this->getMockBuilder(ClassPropertyDefinition::class)
                 ->disableOriginalConstructor()
-                ->getMock()
+                ->getMock(),
         ];
 
         $this->assertEquals($this->classDefinition, $this->classDefinition->setProperties($propertyMocks));
 
         $properties = $this->classDefinition->getProperties();
 
-        $this->assertCount(count($propertyMocks), $properties);
+        $this->assertCount(\count($propertyMocks), $properties);
         $this->assertEquals($propertyMocks, $properties);
     }
 }

@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Log;
 
 use Codeception\Test\Unit;
 use Jellyfish\Config\ConfigInterface;
 use Jellyfish\Event\EventConstants;
-use Jellyfish\Event\EventServiceProvider;
 use Monolog\Logger;
 use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
@@ -40,9 +39,9 @@ class LogServiceProviderTest extends Unit
 
         $this->container->offsetSet('root_dir', DIRECTORY_SEPARATOR);
 
-        $this->container->offsetSet('config', static fn(): MockObject&ConfigInterface => $self->configMock);
+        $this->container->offsetSet('config', static fn (): MockObject&ConfigInterface => $self->configMock);
 
-        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static fn(): array => []);
+        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static fn (): array => []);
 
         $this->logServiceProvider = new LogServiceProvider();
     }

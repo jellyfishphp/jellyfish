@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\FinderSymfony;
 
 use Codeception\Test\Unit;
 use Iterator;
-use Jellyfish\Finder\FinderInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 

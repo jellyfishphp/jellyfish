@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\JsonSchemaOpis;
 
@@ -37,7 +37,7 @@ class JsonSchemaOpisServiceProviderTest extends Unit
         $this->assertTrue($this->container->offsetExists('json_schema_validator_factory'));
         $this->assertInstanceOf(
             ValidatorFactory::class,
-            $this->container->offsetGet('json_schema_validator_factory')
+            $this->container->offsetGet('json_schema_validator_factory'),
         );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer;
 
@@ -72,7 +72,7 @@ class TransferCleaner implements TransferCleanerInterface
                 continue;
             }
 
-            if (!is_string($item->getRealPath())) {
+            if (!\is_string($item->getRealPath())) {
                 continue;
             }
 

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Scheduler;
 
@@ -33,7 +33,7 @@ class SchedulerServiceProvider implements ServiceProviderInterface
      */
     protected function registerScheduler(Container $container): SchedulerServiceProvider
     {
-        $container->offsetSet(SchedulerConstants::CONTAINER_KEY_SCHEDULER, static fn(): Scheduler => new Scheduler());
+        $container->offsetSet(SchedulerConstants::CONTAINER_KEY_SCHEDULER, static fn (): Scheduler => new Scheduler());
 
         return $this;
     }
@@ -49,7 +49,7 @@ class SchedulerServiceProvider implements ServiceProviderInterface
             $commands[] = new RunSchedulerCommand(
                 $container->offsetGet(SchedulerConstants::CONTAINER_KEY_SCHEDULER),
                 $container->offsetGet('lock_factory'),
-                $container->offsetGet('logger')
+                $container->offsetGet('logger'),
             );
 
             return $commands;

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer;
 
@@ -44,7 +44,7 @@ class TransferCleanerTest extends Unit
         $this->transferCleaner = new TransferCleaner(
             $this->finderFactoryMock,
             $this->filesystemMock,
-            $this->targetDirectory
+            $this->targetDirectory,
         );
     }
 
@@ -131,7 +131,7 @@ class TransferCleanerTest extends Unit
 
         $this->filesystemMock->expects($this->atLeastOnce())
             ->method('remove')
-            ->willReturnCallback(fn(string $path): FilesystemInterface&MockObject => match($path) {
+            ->willReturnCallback(fn (string $path): FilesystemInterface&MockObject => match($path) {
                 $this->targetDirectory . 'Product/AttributeTransfer.php' => $this->filesystemMock,
                 $this->targetDirectory . 'Product' => $this->filesystemMock,
                 default => throw new LogicException('Unsupported parameter.')

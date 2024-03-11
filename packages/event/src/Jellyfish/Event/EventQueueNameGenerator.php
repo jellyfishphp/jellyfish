@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
-use function sprintf;
 
 /**
  * @see \Jellyfish\Event\EventQueueNameGeneratorTest
@@ -19,6 +18,6 @@ class EventQueueNameGenerator implements EventQueueNameGeneratorInterface
      */
     public function generate(string $eventName, string $listenerIdentifier): string
     {
-        return sprintf('%s_%s', $eventName, $listenerIdentifier);
+        return \sprintf('%s_%s', $eventName, $listenerIdentifier);
     }
 }

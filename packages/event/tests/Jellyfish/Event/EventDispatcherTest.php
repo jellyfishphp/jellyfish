@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
@@ -63,17 +63,17 @@ class EventDispatcherTest extends Unit
         $this->eventListenerProviderMock->expects($this->atLeastOnce())
             ->method('getListenersByTypeAndEventName')
             ->willReturnCallback(
-                fn(string $type, string $eventName): LogicException|array => match([$type, $eventName]) {
+                fn (string $type, string $eventName): LogicException|array => match([$type, $eventName]) {
                     [
                         EventListenerInterface::TYPE_SYNC,
-                        $this->eventName
+                        $this->eventName,
                     ] => [],
                     [
                         EventListenerInterface::TYPE_ASYNC,
-                        $this->eventName
+                        $this->eventName,
                     ] => [],
                     default => new LogicException('Unsupported parameters.')
-                }
+                },
             );
 
         $result = $this->eventDispatcher->dispatch($this->eventMock);
@@ -93,17 +93,17 @@ class EventDispatcherTest extends Unit
         $this->eventListenerProviderMock->expects($this->atLeastOnce())
             ->method('getListenersByTypeAndEventName')
             ->willReturnCallback(
-                fn(string $type, string $eventName): LogicException|array => match([$type, $eventName]) {
+                fn (string $type, string $eventName): LogicException|array => match([$type, $eventName]) {
                     [
                         EventListenerInterface::TYPE_SYNC,
-                        $this->eventName
+                        $this->eventName,
                     ] => [$this->eventListenerMock],
                     [
                         EventListenerInterface::TYPE_ASYNC,
-                        $this->eventName
+                        $this->eventName,
                     ] => [],
                     default => new LogicException('Unsupported parameters.')
-                }
+                },
             );
 
         $this->eventListenerMock->expects($this->atLeastOnce())
@@ -112,7 +112,7 @@ class EventDispatcherTest extends Unit
 
         $this->assertEquals(
             $this->eventDispatcher,
-            $this->eventDispatcher->dispatch($this->eventMock)
+            $this->eventDispatcher->dispatch($this->eventMock),
         );
     }
 
@@ -135,7 +135,7 @@ class EventDispatcherTest extends Unit
     {
         $this->assertEquals(
             $this->eventListenerProviderMock,
-            $this->eventDispatcher->getEventListenerProvider()
+            $this->eventDispatcher->getEventListenerProvider(),
         );
     }
 }

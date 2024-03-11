@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Jellyfish\EventCache\EventErrorHandler;
 
 use Codeception\Test\Unit;
@@ -49,7 +51,7 @@ class CacheEventErrorHandlerTest extends Unit
 
         $this->cacheEventErrorHandler = new CacheEventErrorHandler(
             $this->cacheMock,
-            $this->serializerMock
+            $this->serializerMock,
         );
     }
 

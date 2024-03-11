@@ -1,14 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\LockSymfony;
 
 use Codeception\Test\Unit;
-
-use function implode;
-use function sha1;
-use function sprintf;
 
 class LockIdentifierGeneratorTest extends Unit
 {
@@ -30,8 +26,8 @@ class LockIdentifierGeneratorTest extends Unit
     public function testGenerate(): void
     {
         $identifierParts = ['x', 'y'];
-        $expectedIdentifierWithoutPrefix = sha1(implode(' ', $identifierParts));
-        $expectedIdentifier = sprintf('%s:%s', 'lock', $expectedIdentifierWithoutPrefix);
+        $expectedIdentifierWithoutPrefix = \sha1(\implode(' ', $identifierParts));
+        $expectedIdentifier = \sprintf('%s:%s', 'lock', $expectedIdentifierWithoutPrefix);
 
         $identifier = $this->lockIdentifierGenerator->generate($identifierParts);
 

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\FinderSymfony;
 
@@ -29,7 +29,7 @@ class FinderSymfonyServiceProvider implements ServiceProviderInterface
      */
     protected function registerFinderFactory(Container $container): FinderSymfonyServiceProvider
     {
-        $container->offsetSet('finder_factory', static fn(): FinderFactory => new FinderFactory());
+        $container->offsetSet('finder_factory', static fn (): FinderFactory => new FinderFactory());
 
         return $this;
     }

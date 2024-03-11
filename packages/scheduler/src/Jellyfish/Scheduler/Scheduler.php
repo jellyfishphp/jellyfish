@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Scheduler;
 
@@ -14,12 +14,12 @@ class Scheduler implements SchedulerInterface
     protected const DELAY_INTERVAL = 1000000;
 
     /**
-     * @var JobInterface[]
+     * @var \Jellyfish\Scheduler\JobInterface[]
      */
     protected $jobs = [];
 
     /**
-     * @var JobInterface[]
+     * @var \Jellyfish\Scheduler\JobInterface[]
      */
     protected $runningJobs = [];
 
@@ -58,7 +58,7 @@ class Scheduler implements SchedulerInterface
             $this->runningJobs[] = $job->run($dateTime);
         }
 
-        while (count($this->runningJobs) !== 0) {
+        while (\count($this->runningJobs) !== 0) {
             foreach ($this->runningJobs as $index => $runningJob) {
                 if ($runningJob->isRunning()) {
                     continue;
@@ -67,7 +67,7 @@ class Scheduler implements SchedulerInterface
                 unset($this->runningJobs[$index]);
             }
 
-            usleep(static::DELAY_INTERVAL);
+            \usleep(static::DELAY_INTERVAL);
         }
 
         return $this;

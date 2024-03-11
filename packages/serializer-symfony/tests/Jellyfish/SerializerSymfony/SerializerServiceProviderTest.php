@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\SerializerSymfony;
 
@@ -32,7 +32,7 @@ class SerializerServiceProviderTest extends Unit
 
         $self = $this;
 
-        $this->container->offsetSet('serializer_property_name_converter_strategy_provider', static fn(): PropertyNameConverterStrategyProviderInterface&MockObject => $self->propertyNameConverterStrategyProviderMock);
+        $this->container->offsetSet('serializer_property_name_converter_strategy_provider', static fn (): PropertyNameConverterStrategyProviderInterface&MockObject => $self->propertyNameConverterStrategyProviderMock);
 
         $this->serializerSymfonyServiceProvider = new SerializerSymfonyServiceProvider();
     }

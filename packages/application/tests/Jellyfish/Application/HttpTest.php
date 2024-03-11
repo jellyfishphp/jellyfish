@@ -1,18 +1,18 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Application;
 
 use Codeception\Test\Unit;
 use Jellyfish\Kernel\KernelInterface;
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use League\Route\Router;
 use LogicException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Pimple\Container;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 
 class HttpTest extends Unit
 {
@@ -80,12 +80,12 @@ class HttpTest extends Unit
         $this->containerMock->expects($this->atLeastOnce())
             ->method('offsetGet')
             ->willReturnCallback(
-                fn(string $index) => match($index) {
+                fn (string $index) => match($index) {
                     'request' => $this->requestMock,
                     'router' => $this->routerMock,
                     'emitter' => $this->emitterMock,
                     default => throw new LogicException('Unsupported parameter.')
-                }
+                },
             );
 
         $this->routerMock->expects($this->atLeastOnce())

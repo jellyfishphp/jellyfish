@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\QueueRabbitMq;
 
@@ -66,7 +66,7 @@ class QueueConsumerTest extends Unit
 
         $this->queueConsumer = new QueueConsumer(
             $this->connectionMock,
-            $this->messageMapperMock
+            $this->messageMapperMock,
         );
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer;
 
@@ -50,11 +50,11 @@ class TransferServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->extend('commands', static function (array $commands, Container $container) use ($self) : array {
+        $container->extend('commands', static function (array $commands, Container $container) use ($self): array {
             $commands[] = new TransferGenerateCommand(
                 $self->createTransferGenerator($container),
                 $self->createTransferCleaner($container),
-                $container->offsetGet('logger')
+                $container->offsetGet('logger'),
             );
             return $commands;
         });
@@ -72,7 +72,7 @@ class TransferServiceProvider implements ServiceProviderInterface
         return new TransferGenerator(
             $this->createClassDefinitionMapLoader($container),
             $this->createFactoryRegistryGenerator($container),
-            $this->createClassGenerators($container)
+            $this->createClassGenerators($container),
         );
     }
 
@@ -87,7 +87,7 @@ class TransferServiceProvider implements ServiceProviderInterface
             $this->createDefinitionFinder($container),
             $container->offsetGet('filesystem'),
             $this->createClassDefinitionMapMapper($container),
-            $this->createClassDefinitionMapMerger()
+            $this->createClassDefinitionMapMerger(),
         );
     }
 
@@ -100,7 +100,7 @@ class TransferServiceProvider implements ServiceProviderInterface
     {
         return new DefinitionFinder(
             $container->offsetGet('finder_factory'),
-            $container->offsetGet('root_dir')
+            $container->offsetGet('root_dir'),
         );
     }
 
@@ -149,12 +149,12 @@ class TransferServiceProvider implements ServiceProviderInterface
             new ClassGenerator(
                 $container->offsetGet('filesystem'),
                 $twigEnvironment,
-                $targetDirectory
+                $targetDirectory,
             ),
             new FactoryClassGenerator(
                 $container->offsetGet('filesystem'),
                 $twigEnvironment,
-                $targetDirectory
+                $targetDirectory,
             ),
         ];
     }
@@ -195,7 +195,7 @@ class TransferServiceProvider implements ServiceProviderInterface
         return new TransferCleaner(
             $container->offsetGet('finder_factory'),
             $container->offsetGet('filesystem'),
-            $targetDirectory
+            $targetDirectory,
         );
     }
 
@@ -214,7 +214,7 @@ class TransferServiceProvider implements ServiceProviderInterface
         }
 
         foreach ($factoryRegistry as $factoryId => $factory) {
-            $container->offsetSet((string)$factoryId, static fn() => $factory);
+            $container->offsetSet((string)$factoryId, static fn () => $factory);
         }
 
         return $this;

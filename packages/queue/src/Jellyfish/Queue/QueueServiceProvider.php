@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Queue;
 
@@ -13,7 +13,7 @@ use Pimple\ServiceProviderInterface;
 class QueueServiceProvider implements ServiceProviderInterface
 {
     /**
-     * @param Container $container
+     * @param \Pimple\Container $container
      *
      * @return void
      */
@@ -31,7 +31,7 @@ class QueueServiceProvider implements ServiceProviderInterface
      */
     protected function registerMessageFactory(Container $container): QueueServiceProvider
     {
-        $container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_FACTORY, static fn(): MessageFactory => new MessageFactory());
+        $container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_FACTORY, static fn (): MessageFactory => new MessageFactory());
 
         return $this;
     }
@@ -43,8 +43,8 @@ class QueueServiceProvider implements ServiceProviderInterface
      */
     protected function registerMessageMapper(Container $container): QueueServiceProvider
     {
-        $container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER, static fn(Container $container): MessageMapper => new MessageMapper(
-            $container->offsetGet('serializer')
+        $container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER, static fn (Container $container): MessageMapper => new MessageMapper(
+            $container->offsetGet('serializer'),
         ));
 
         return $this;
@@ -52,7 +52,7 @@ class QueueServiceProvider implements ServiceProviderInterface
 
     protected function registerDestinationFactory(Container $container): QueueServiceProvider
     {
-        $container->offsetSet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY, static fn(): DestinationFactory => new DestinationFactory());
+        $container->offsetSet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY, static fn (): DestinationFactory => new DestinationFactory());
 
         return $this;
     }

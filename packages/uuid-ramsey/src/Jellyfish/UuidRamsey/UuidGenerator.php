@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Jellyfish\UuidRamsey;
 
 use Jellyfish\Uuid\UuidGeneratorInterface;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
 
 /**

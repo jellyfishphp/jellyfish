@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
-use function count;
-use function usleep;
 
 class EventQueueWorker implements EventQueueWorkerInterface
 {
@@ -34,7 +32,7 @@ class EventQueueWorker implements EventQueueWorkerInterface
     {
         $listeners = $this->eventListenerProvider->getListenersByType(EventListenerInterface::TYPE_ASYNC);
 
-        if (count($listeners) === 0) {
+        if (\count($listeners) === 0) {
             return;
         }
 
@@ -43,7 +41,7 @@ class EventQueueWorker implements EventQueueWorkerInterface
             foreach ($listeners as $eventName => $listenersPerEvent) {
                 foreach ($listenersPerEvent as $listenerIdentifier => $listener) {
                     $this->eventQueueConsumer->dequeueAsProcess((string)$eventName, $listenerIdentifier);
-                    usleep(static::DELAY_INTERVAL);
+                    \usleep(static::DELAY_INTERVAL);
                 }
             }
         }

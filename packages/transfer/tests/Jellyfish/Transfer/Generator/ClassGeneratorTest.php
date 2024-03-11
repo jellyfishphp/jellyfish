@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer\Generator;
 
@@ -46,7 +46,7 @@ class ClassGeneratorTest extends Unit
         $this->classGenerator = new ClassGenerator(
             $this->filesystemMock,
             $this->twigEnvironmentMock,
-            $this->targetDirectory
+            $this->targetDirectory,
         );
     }
 
@@ -82,7 +82,7 @@ class ClassGeneratorTest extends Unit
 
         $this->assertEquals(
             $this->classGenerator,
-            $this->classGenerator->generate($this->classDefinitionMock)
+            $this->classGenerator->generate($this->classDefinitionMock),
         );
     }
 
@@ -118,7 +118,7 @@ class ClassGeneratorTest extends Unit
 
         $this->assertEquals(
             $this->classGenerator,
-            $this->classGenerator->generate($this->classDefinitionMock)
+            $this->classGenerator->generate($this->classDefinitionMock),
         );
     }
 
@@ -154,7 +154,7 @@ class ClassGeneratorTest extends Unit
 
         $this->assertEquals(
             $this->classGenerator,
-            $this->classGenerator->generate($this->classDefinitionMock)
+            $this->classGenerator->generate($this->classDefinitionMock),
         );
     }
 }

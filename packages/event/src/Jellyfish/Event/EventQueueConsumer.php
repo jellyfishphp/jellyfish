@@ -1,18 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
-use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Queue\DestinationFactoryInterface;
 use Jellyfish\Queue\DestinationInterface;
+use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Queue\QueueClientInterface;
-
-use function array_key_exists;
-use function sprintf;
 
 /**
  * @see \Jellyfish\Event\EventQueueConsumerTest
@@ -57,7 +54,7 @@ class EventQueueConsumer implements EventQueueConsumerInterface
         $this->eventQueueNameGenerator = $eventQueueNameGenerator;
         $this->queueClient = $queueClient;
         $this->destinationFactory = $destinationFactory;
-        $this->pathToConsole = sprintf('%svendor/bin/console', $rootDir);
+        $this->pathToConsole = \sprintf('%svendor/bin/console', $rootDir);
     }
 
     /**
@@ -70,7 +67,7 @@ class EventQueueConsumer implements EventQueueConsumerInterface
     {
         $eventQueueName = $this->eventQueueNameGenerator->generate($eventName, $listenerIdentifier);
 
-        if (!array_key_exists($eventQueueName, $this->processList)) {
+        if (!\array_key_exists($eventQueueName, $this->processList)) {
             $command = [$this->pathToConsole, EventQueueConsumeCommand::NAME, $eventName, $listenerIdentifier];
             $this->processList[$eventQueueName] = $this->processFactory->create($command);
         }

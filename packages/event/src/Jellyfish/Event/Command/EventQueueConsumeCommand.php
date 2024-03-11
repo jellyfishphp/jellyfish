@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event\Command;
 
-use Jellyfish\Event\EventInterface;
 use InvalidArgumentException;
 use Jellyfish\Event\EventBulkListenerInterface;
+use Jellyfish\Event\EventInterface;
 use Jellyfish\Event\EventListenerInterface;
 use Jellyfish\Event\EventListenerProviderInterface;
 use Jellyfish\Event\EventQueueConsumerInterface;
@@ -18,8 +18,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
-
-use function is_string;
 
 /**
  * @see \Jellyfish\Event\Command\EventQueueConsumeCommandTest
@@ -89,7 +87,7 @@ class EventQueueConsumeCommand extends Command
         $eventName = $input->getArgument('eventName');
         $listenerIdentifier = $input->getArgument('listenerIdentifier');
 
-        if (!is_string($eventName) || !is_string($listenerIdentifier)) {
+        if (!\is_string($eventName) || !\is_string($listenerIdentifier)) {
             throw new InvalidArgumentException('Unsupported type for given arguments');
         }
 

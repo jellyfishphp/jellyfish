@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Jellyfish\EventLog;
 
 use Jellyfish\Event\EventConstants;
@@ -42,7 +44,7 @@ class EventLogServiceProvider implements ServiceProviderInterface
                 $defaultEventErrorHandlers[] = new LogEventErrorHandler($logger);
 
                 return $defaultEventErrorHandlers;
-            }
+            },
         );
 
         return $this;

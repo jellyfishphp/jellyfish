@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Serializer\NameConverter;
 
@@ -40,19 +40,19 @@ class PropertyNameConverterStrategyProviderTest extends Unit
             $this->propertyNameConverterStrategyProvider,
             $this->propertyNameConverterStrategyProvider->addStrategy(
                 $this->propertyNameConverterStrategyKey,
-                $this->propertyNameConverterStrategyMock
-            )
+                $this->propertyNameConverterStrategyMock,
+            ),
         );
 
         $this->assertEquals(
             $this->propertyNameConverterStrategyProvider,
             $this->propertyNameConverterStrategyProvider->removeStrategy(
-                $this->propertyNameConverterStrategyKey
-            )
+                $this->propertyNameConverterStrategyKey,
+            ),
         );
 
         $hasStrategy = $this->propertyNameConverterStrategyProvider->hasStrategy(
-            $this->propertyNameConverterStrategyKey
+            $this->propertyNameConverterStrategyKey,
         );
 
         $this->assertFalse($hasStrategy);
@@ -64,7 +64,7 @@ class PropertyNameConverterStrategyProviderTest extends Unit
     public function testHasStrategy(): void
     {
         $hasStrategy = $this->propertyNameConverterStrategyProvider->hasStrategy(
-            $this->propertyNameConverterStrategyKey
+            $this->propertyNameConverterStrategyKey,
         );
 
         $this->assertFalse($hasStrategy);
@@ -76,7 +76,7 @@ class PropertyNameConverterStrategyProviderTest extends Unit
     public function testGetNonExistingStrategy(): void
     {
         $strategy = $this->propertyNameConverterStrategyProvider->getStrategy(
-            $this->propertyNameConverterStrategyKey
+            $this->propertyNameConverterStrategyKey,
         );
 
         $this->assertNull($strategy);
@@ -88,7 +88,7 @@ class PropertyNameConverterStrategyProviderTest extends Unit
     public function testRemoveNonExistingStrategy(): void
     {
         $result = $this->propertyNameConverterStrategyProvider->removeStrategy(
-            $this->propertyNameConverterStrategyKey
+            $this->propertyNameConverterStrategyKey,
         );
 
         $this->assertEquals($this->propertyNameConverterStrategyProvider, $result);
@@ -103,12 +103,12 @@ class PropertyNameConverterStrategyProviderTest extends Unit
             $this->propertyNameConverterStrategyProvider,
             $this->propertyNameConverterStrategyProvider->addStrategy(
                 $this->propertyNameConverterStrategyKey,
-                $this->propertyNameConverterStrategyMock
-            )
+                $this->propertyNameConverterStrategyMock,
+            ),
         );
 
         $strategy = $this->propertyNameConverterStrategyProvider->getStrategy(
-            $this->propertyNameConverterStrategyKey
+            $this->propertyNameConverterStrategyKey,
         );
 
         $this->assertEquals($this->propertyNameConverterStrategyMock, $strategy);

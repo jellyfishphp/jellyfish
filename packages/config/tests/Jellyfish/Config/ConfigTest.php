@@ -1,15 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Config;
 
 use Codeception\Test\Unit;
 use Exception;
 use org\bovigo\vfs\vfsStream;
-
-use function file_get_contents;
-use function rtrim;
 
 class ConfigTest extends Unit
 {
@@ -18,7 +15,7 @@ class ConfigTest extends Unit
     /**
      * @return void
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _before(): void
     {
@@ -26,12 +23,12 @@ class ConfigTest extends Unit
 
         $rootDir = vfsStream::setup('root', null, [
             'app' => [
-                'config-default.php' => file_get_contents(codecept_data_dir('config-default.php')),
-                'config-testing.php' => file_get_contents(codecept_data_dir('config-testing.php')),
+                'config-default.php' => \file_get_contents(\codecept_data_dir('config-default.php')),
+                'config-testing.php' => \file_get_contents(\codecept_data_dir('config-testing.php')),
             ],
         ])->url();
 
-        $appDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR;
+        $appDir = \rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR;
         $environment = 'testing';
 
         $this->config = new Config($appDir, $environment);
@@ -40,7 +37,7 @@ class ConfigTest extends Unit
     /**
      * @return void
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testGet(): void
     {
@@ -55,7 +52,7 @@ class ConfigTest extends Unit
     /**
      * @return void
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testGetWithUnsupportedValueType(): void
     {
@@ -69,7 +66,7 @@ class ConfigTest extends Unit
     /**
      * @return void
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testGetWithNotExistingEntry(): void
     {
@@ -83,7 +80,7 @@ class ConfigTest extends Unit
     /**
      * @return void
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testGetWithDefault(): void
     {

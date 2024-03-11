@@ -1,15 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Application;
 
 use Jellyfish\Kernel\KernelInterface;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
-
-use function count;
-use function is_array;
 
 /**
  * @see \Jellyfish\Application\ConsoleTest
@@ -41,7 +38,7 @@ class Console extends BaseApplication
 
         $commandsToAdd = $this->kernel->getContainer()->offsetGet('commands');
 
-        if (!is_array($commandsToAdd) || count($commandsToAdd) === 0) {
+        if (!\is_array($commandsToAdd) || \count($commandsToAdd) === 0) {
             return $defaultCommands;
         }
 

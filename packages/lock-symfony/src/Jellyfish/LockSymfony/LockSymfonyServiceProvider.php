@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\LockSymfony;
 
@@ -33,9 +33,9 @@ class LockSymfonyServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet('lock_factory', static fn(Container $container): \Jellyfish\LockSymfony\LockFactory => new LockFactory(
+        $container->offsetSet('lock_factory', static fn (Container $container): \Jellyfish\LockSymfony\LockFactory => new LockFactory(
             $self->createSymfonyLockFactory($container),
-            $self->createLockIdentifierGenerator()
+            $self->createLockIdentifierGenerator(),
         ));
 
         return $this;
@@ -77,13 +77,13 @@ class LockSymfonyServiceProvider implements ServiceProviderInterface
             'scheme' => 'tcp',
             'host' => $config->get(
                 LockSymfonyConstants::REDIS_STORE_HOST,
-                LockSymfonyConstants::DEFAULT_REDIS_STORE_HOST
+                LockSymfonyConstants::DEFAULT_REDIS_STORE_HOST,
             ), 'port' => $config->get(
                 LockSymfonyConstants::REDIS_STORE_PORT,
-                LockSymfonyConstants::DEFAULT_REDIS_STORE_PORT
+                LockSymfonyConstants::DEFAULT_REDIS_STORE_PORT,
             ), 'database' => $config->get(
                 LockSymfonyConstants::REDIS_STORE_DB,
-                LockSymfonyConstants::DEFAULT_REDIS_STORE_DB
+                LockSymfonyConstants::DEFAULT_REDIS_STORE_DB,
             ),
         ]);
     }

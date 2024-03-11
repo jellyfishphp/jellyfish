@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\QueueRabbitMq;
 
@@ -9,8 +9,6 @@ use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\QueueRabbitMq\Exception\CouldNotBindQueueException;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AbstractConnection;
-
-use function strtolower;
 
 /**
  * @see \Jellyfish\QueueRabbitMq\ConnectionTest
@@ -55,10 +53,10 @@ class Connection implements ConnectionInterface
     {
         $this->getChannel()->exchange_declare(
             $destination->getName(),
-            strtolower($destination->getType()),
+            \strtolower($destination->getType()),
             false,
             true,
-            false
+            false,
         );
 
         return $this;
@@ -76,7 +74,7 @@ class Connection implements ConnectionInterface
             false,
             true,
             false,
-            false
+            false,
         );
 
         return $this;

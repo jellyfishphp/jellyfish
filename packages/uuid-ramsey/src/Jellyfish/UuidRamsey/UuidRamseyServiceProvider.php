@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Jellyfish\UuidRamsey;
 
 use Jellyfish\Uuid\UuidConstants;
@@ -29,7 +31,7 @@ class UuidRamseyServiceProvider implements ServiceProviderInterface
      */
     protected function registerUuidGenerator(Container $container): UuidRamseyServiceProvider
     {
-        $container->offsetSet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR, static fn(): UuidGenerator => new UuidGenerator(new UuidFactory()));
+        $container->offsetSet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR, static fn (): UuidGenerator => new UuidGenerator(new UuidFactory()));
 
         return $this;
     }

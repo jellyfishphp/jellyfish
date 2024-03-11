@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\FilesystemSymfony;
 
@@ -30,7 +30,7 @@ class FilesystemSymfonyServiceProvider implements ServiceProviderInterface
      */
     protected function registerFilesystem(Container $container): FilesystemSymfonyServiceProvider
     {
-        $container->offsetSet('filesystem', static function () : \Jellyfish\FilesystemSymfony\Filesystem {
+        $container->offsetSet('filesystem', static function (): \Jellyfish\FilesystemSymfony\Filesystem {
             $symfonyFilesystem = new SymfonyFilesystem();
             return new Filesystem($symfonyFilesystem);
         });

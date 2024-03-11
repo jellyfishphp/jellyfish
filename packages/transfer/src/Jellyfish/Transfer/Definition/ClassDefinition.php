@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer\Definition;
 
 use RuntimeException;
-
-use function sprintf;
 
 /**
  * @see \Jellyfish\Transfer\Definition\ClassDefinitionTest
@@ -105,7 +103,7 @@ class ClassDefinition implements ClassDefinitionInterface
      */
     public function getNamespaceStatement(): string
     {
-        return sprintf('namespace %s\\%s;', static::NAMESPACE_PREFIX, $this->namespace);
+        return \sprintf('namespace %s\\%s;', static::NAMESPACE_PREFIX, $this->namespace);
     }
 
     /**
@@ -123,7 +121,7 @@ class ClassDefinition implements ClassDefinitionInterface
             $useStatement = $this->createUseStatement($property);
             $useStatementKey = \sha1($useStatement);
 
-            if (array_key_exists($useStatementKey, $useStatements)) {
+            if (\array_key_exists($useStatementKey, $useStatements)) {
                 continue;
             }
 
@@ -152,20 +150,20 @@ class ClassDefinition implements ClassDefinitionInterface
     protected function createUseStatement(ClassPropertyDefinitionInterface $property): string
     {
         if ($property->getTypeAlias() === null) {
-            return sprintf(
+            return \sprintf(
                 'use %s\\%s\\%s;',
                 static::NAMESPACE_PREFIX,
                 $property->getTypeNamespace(),
-                $property->getType()
+                $property->getType(),
             );
         }
 
-        return sprintf(
+        return \sprintf(
             'use %s\\%s\\%s as %s;',
             static::NAMESPACE_PREFIX,
             $property->getTypeNamespace(),
             $property->getType(),
-            $property->getTypeAlias()
+            $property->getTypeAlias(),
         );
     }
 

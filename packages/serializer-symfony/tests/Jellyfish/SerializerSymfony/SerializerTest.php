@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\SerializerSymfony;
 
@@ -79,7 +79,7 @@ class SerializerTest extends Unit
 
         $this->assertEquals(
             new ArrayObject($deserializedArray),
-            $this->serializer->deserialize($jsonToDeserialize, 'stdClass[]', 'json')
+            $this->serializer->deserialize($jsonToDeserialize, 'stdClass[]', 'json'),
         );
     }
 
@@ -98,7 +98,7 @@ class SerializerTest extends Unit
 
         $this->assertEquals(
             $deserializedObject,
-            $this->serializer->deserialize($jsonToDeserialize, 'stdClass', 'json')
+            $this->serializer->deserialize($jsonToDeserialize, 'stdClass', 'json'),
         );
     }
 }

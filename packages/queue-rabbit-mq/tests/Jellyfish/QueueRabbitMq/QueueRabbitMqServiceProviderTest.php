@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\QueueRabbitMq;
 
@@ -44,9 +44,9 @@ class QueueRabbitMqServiceProviderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->container->offsetSet(ConfigConstants::CONTAINER_KEY_CONFIG, static fn(): MockObject&ConfigInterface => $self->configMock);
+        $this->container->offsetSet(ConfigConstants::CONTAINER_KEY_CONFIG, static fn (): MockObject&ConfigInterface => $self->configMock);
 
-        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER, static fn(): MockObject&MessageMapperInterface => $self->messageMapperMock);
+        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER, static fn (): MockObject&MessageMapperInterface => $self->messageMapperMock);
 
         $this->queueRabbitMqServiceProvider = new QueueRabbitMqServiceProvider();
     }
@@ -58,7 +58,7 @@ class QueueRabbitMqServiceProviderTest extends Unit
     {
         $this->configMock->expects($this->atLeastOnce())
             ->method('get')
-            ->willReturnCallback(static fn(string $key, ?string $default = null): LogicException|string => match([$key, $default]) {
+            ->willReturnCallback(static fn (string $key, ?string $default = null): LogicException|string => match([$key, $default]) {
                 [QueueRabbitMqConstants::RABBIT_MQ_HOST, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST] => QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST,
                 [QueueRabbitMqConstants::RABBIT_MQ_PORT, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PORT] => QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PORT,
                 [QueueRabbitMqConstants::RABBIT_MQ_USER, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_USER] => QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_USER,

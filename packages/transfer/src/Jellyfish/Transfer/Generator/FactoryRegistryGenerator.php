@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer\Generator;
 
@@ -26,7 +26,7 @@ class FactoryRegistryGenerator extends AbstractGenerator implements FactoryRegis
     {
         $file = $this->getFile();
         $fileContent = $this->twig->render($this->getTemplateName(), [
-            'classDefinitionMap' => $classDefinitionMap
+            'classDefinitionMap' => $classDefinitionMap,
         ]);
 
         $this->createDirectories($this->targetDirectory);

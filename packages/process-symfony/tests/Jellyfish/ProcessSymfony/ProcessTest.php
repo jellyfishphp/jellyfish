@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\ProcessSymfony;
 
 use Codeception\Test\Unit;
-use Jellyfish\Process\Exception\RuntimeException;
 
 class ProcessTest extends Unit
 {

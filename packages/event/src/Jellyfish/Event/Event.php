@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
-use function array_key_exists;
 
 /**
  * @see \Jellyfish\Event\EventTest
@@ -111,7 +110,7 @@ class Event implements EventInterface
      */
     public function getMetaProperty(string $key): ?string
     {
-        if (!array_key_exists($key, $this->metaProperties)) {
+        if (!\array_key_exists($key, $this->metaProperties)) {
             return null;
         }
 

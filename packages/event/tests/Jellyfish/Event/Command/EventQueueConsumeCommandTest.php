@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event\Command;
 
@@ -106,7 +106,7 @@ class EventQueueConsumeCommandTest extends Unit
             $this->eventListenerProviderMock,
             $this->eventQueueConsumerMock,
             $this->lockFactoryMock,
-            $this->loggerMock
+            $this->loggerMock,
         );
     }
 
@@ -140,7 +140,7 @@ class EventQueueConsumeCommandTest extends Unit
                     'eventName' => $this->eventName,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
-                }
+                },
             );
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
@@ -171,7 +171,7 @@ class EventQueueConsumeCommandTest extends Unit
                     'eventName' => $this->eventName,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
-                }
+                },
             );
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
@@ -216,7 +216,7 @@ class EventQueueConsumeCommandTest extends Unit
                     'eventName' => $this->eventName,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
-                }
+                },
             );
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
@@ -262,7 +262,7 @@ class EventQueueConsumeCommandTest extends Unit
                     'eventName' => $this->eventName,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
-                }
+                },
             );
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
@@ -317,7 +317,7 @@ class EventQueueConsumeCommandTest extends Unit
                     'eventName' => $this->eventName,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
-                }
+                },
             );
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
@@ -376,7 +376,7 @@ class EventQueueConsumeCommandTest extends Unit
                     'eventName' => $this->eventName,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
-                }
+                },
             );
 
         $this->lockFactoryMock->expects($this->atLeastOnce())
@@ -429,7 +429,7 @@ class EventQueueConsumeCommandTest extends Unit
                     'eventName' => null,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
-                }
+                },
             );
 
         $this->lockFactoryMock->expects($this->never())

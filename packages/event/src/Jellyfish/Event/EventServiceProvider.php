@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
@@ -76,7 +76,7 @@ class EventServiceProvider implements ServiceProviderInterface
             $this->eventMapper = new EventMapper(
                 $container->offsetGet('event_factory'),
                 $container->offsetGet('message_factory'),
-                $container->offsetGet('serializer')
+                $container->offsetGet('serializer'),
             );
         }
 
@@ -94,7 +94,7 @@ class EventServiceProvider implements ServiceProviderInterface
             $this->eventQueueProducer = new EventQueueProducer(
                 $this->createEventMapper($container),
                 $container->offsetGet(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT),
-                $container->offsetGet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY)
+                $container->offsetGet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY),
             );
         }
 
@@ -115,7 +115,7 @@ class EventServiceProvider implements ServiceProviderInterface
                 $this->createEventQueueNameGenerator(),
                 $container->offsetGet(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT),
                 $container->offsetGet(QueueConstants::CONTAINER_KEY_DESTINATION_FACTORY),
-                $container->offsetGet('root_dir')
+                $container->offsetGet('root_dir'),
             );
         }
 
@@ -132,7 +132,7 @@ class EventServiceProvider implements ServiceProviderInterface
         if ($this->eventQueueWorker === null) {
             $this->eventQueueWorker = new EventQueueWorker(
                 $container->offsetGet('event_dispatcher')->getEventListenerProvider(),
-                $this->createEventQueueConsumer($container)
+                $this->createEventQueueConsumer($container),
             );
         }
 
@@ -146,7 +146,7 @@ class EventServiceProvider implements ServiceProviderInterface
      */
     protected function registerEventFactory(Container $container): EventServiceProvider
     {
-        $container->offsetSet(EventConstants::CONTAINER_KEY_EVENT_FACTORY, static fn(Container $container): EventFactory => new EventFactory($container->offsetGet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR)));
+        $container->offsetSet(EventConstants::CONTAINER_KEY_EVENT_FACTORY, static fn (Container $container): EventFactory => new EventFactory($container->offsetGet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR)));
 
         return $this;
     }
@@ -162,10 +162,10 @@ class EventServiceProvider implements ServiceProviderInterface
 
         $container->offsetSet(
             EventConstants::CONTAINER_KEY_EVENT_DISPATCHER,
-            static fn(Container $container): EventDispatcher => new EventDispatcher(
+            static fn (Container $container): EventDispatcher => new EventDispatcher(
                 new EventListenerProvider(),
-                $self->createEventQueueProducer($container)
-            )
+                $self->createEventQueueProducer($container),
+            ),
         );
 
         return $this;
@@ -185,11 +185,11 @@ class EventServiceProvider implements ServiceProviderInterface
                 $container->offsetGet('event_dispatcher')->getEventListenerProvider(),
                 $self->createEventQueueConsumer($container),
                 $container->offsetGet('lock_factory'),
-                $container->offsetGet('logger')
+                $container->offsetGet('logger'),
             );
 
             $commands[] = new EventQueueWorkerStartCommand(
-                $self->createEventQueueWorker($container)
+                $self->createEventQueueWorker($container),
             );
 
             return $commands;
@@ -205,7 +205,7 @@ class EventServiceProvider implements ServiceProviderInterface
      */
     protected function registerDefaultEventErrorHandlers(Container $container): EventServiceProvider
     {
-        $container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static fn(): array => []);
+        $container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static fn (): array => []);
 
         return $this;
     }

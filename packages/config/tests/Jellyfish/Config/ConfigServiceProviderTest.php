@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Config;
 
 use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
 use Pimple\Container;
-use function file_get_contents;
-use function rtrim;
 
 class ConfigServiceProviderTest extends Unit
 {
@@ -25,18 +23,18 @@ class ConfigServiceProviderTest extends Unit
 
         $rootDir = vfsStream::setup('root', null, [
             'app' => [
-                'config-default.php' => file_get_contents(codecept_data_dir('config-default.php')),
-                'config-testing.php' => file_get_contents(codecept_data_dir('config-testing.php')),
+                'config-default.php' => \file_get_contents(\codecept_data_dir('config-default.php')),
+                'config-testing.php' => \file_get_contents(\codecept_data_dir('config-testing.php')),
             ],
         ])->url();
 
-        $appDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $appDir = \rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $environment = 'testing';
 
         $this->configServiceProvider = new ConfigServiceProvider();
         $this->container = new Container([
             'app_dir' => $appDir,
-            'environment' => $environment
+            'environment' => $environment,
         ]);
     }
 

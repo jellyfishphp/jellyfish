@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Queue;
 
@@ -30,7 +30,7 @@ class QueueServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet('serializer', static fn(): MockObject => $self->getMockBuilder(SerializerInterface::class)
+        $this->container->offsetSet('serializer', static fn (): MockObject => $self->getMockBuilder(SerializerInterface::class)
             ->disableOriginalConstructor()
             ->getMock());
 

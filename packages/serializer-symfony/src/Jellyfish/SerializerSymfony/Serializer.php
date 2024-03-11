@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\SerializerSymfony;
 
 use ArrayObject;
 use Jellyfish\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\SerializerInterface as SymfonySerializerInterface;
-
-use function is_array;
 
 /**
  * @see \Jellyfish\SerializerSymfony\SerializerTest
@@ -35,14 +33,14 @@ class Serializer implements SerializerInterface
     {
         if (!($data instanceof ArrayObject)) {
             return $this->symfonySerializer->serialize($data, $format, [
-                'skip_null_values' => true
+                'skip_null_values' => true,
             ]);
         }
 
         $dataAsArray = $data->getArrayCopy();
 
         return $this->symfonySerializer->serialize($dataAsArray, $format, [
-            'skip_null_values' => true
+            'skip_null_values' => true,
         ]);
     }
 
@@ -57,7 +55,7 @@ class Serializer implements SerializerInterface
     {
         $deserializedData = $this->symfonySerializer->deserialize($data, $type, $format);
 
-        if (is_array($deserializedData)) {
+        if (\is_array($deserializedData)) {
             return new ArrayObject($deserializedData);
         }
 

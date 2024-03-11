@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\JsonSchemaOpis;
 
 use Codeception\Test\Unit;
-use Opis\JsonSchema\Validator as OpisValidator;
 use Opis\JsonSchema\ValidationResult as OpisValidationResult;
+use Opis\JsonSchema\Validator as OpisValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ValidatorTest extends Unit

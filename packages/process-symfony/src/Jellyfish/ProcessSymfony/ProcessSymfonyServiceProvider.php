@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\ProcessSymfony;
 
@@ -29,7 +29,7 @@ class ProcessSymfonyServiceProvider implements ServiceProviderInterface
      */
     protected function registerProcessFactory(Container $container): ProcessSymfonyServiceProvider
     {
-        $container->offsetSet('process_factory', static fn(): ProcessFactory => new ProcessFactory());
+        $container->offsetSet('process_factory', static fn (): ProcessFactory => new ProcessFactory());
 
         return $this;
     }

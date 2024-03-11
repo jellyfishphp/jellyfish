@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event\Command;
 
@@ -57,7 +57,7 @@ class EventQueueWorkerStartCommandTest extends Unit
     {
         $this->assertSame(
             EventQueueWorkerStartCommand::DESCRIPTION,
-            $this->eventQueueWorkerStartCommand->getDescription()
+            $this->eventQueueWorkerStartCommand->getDescription(),
         );
     }
 

@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\QueueRabbitMq;
 
 use Jellyfish\Queue\DestinationInterface;
 use Jellyfish\Queue\QueueConstants;
-use Jellyfish\Queue\QueueServiceProvider;
 use PhpAmqpLib\Connection\AMQPLazyConnection;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -44,7 +43,7 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
                 $lazyConnection = $self->createAmqpLazyConnection($container);
 
                 return new Connection($lazyConnection);
-            }
+            },
         );
 
         return $this;
@@ -57,7 +56,7 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
      */
     protected function registerAmqpMessageFactory(Container $container): QueueRabbitMqServiceProvider
     {
-        $container->offsetSet(QueueRabbitMqConstants::CONTAINER_KEY_AMQP_MESSAGE_FACTORY, static fn(): AmqpMessageFactory => new AmqpMessageFactory());
+        $container->offsetSet(QueueRabbitMqConstants::CONTAINER_KEY_AMQP_MESSAGE_FACTORY, static fn (): AmqpMessageFactory => new AmqpMessageFactory());
 
         return $this;
     }
@@ -73,10 +72,10 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
 
         $container->offsetSet(
             QueueConstants::CONTAINER_KEY_QUEUE_CLIENT,
-            static fn(Container $container): QueueClient => new QueueClient(
+            static fn (Container $container): QueueClient => new QueueClient(
                 $self->createConsumers($container),
-                $self->createProducers($container)
-            )
+                $self->createProducers($container),
+            ),
         );
 
         return $this;
@@ -93,27 +92,27 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
 
         $rabbitMqHost = $config->get(
             QueueRabbitMqConstants::RABBIT_MQ_HOST,
-            QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST
+            QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST,
         );
 
         $rabbitMqPort = $config->get(
             QueueRabbitMqConstants::RABBIT_MQ_PORT,
-            QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PORT
+            QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PORT,
         );
 
         $rabbitMqUser = $config->get(
             QueueRabbitMqConstants::RABBIT_MQ_USER,
-            QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_USER
+            QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_USER,
         );
 
         $rabbitMqPassword = $config->get(
             QueueRabbitMqConstants::RABBIT_MQ_PASSWORD,
-            QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PASSWORD
+            QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PASSWORD,
         );
 
         $rabbitMqVhost = $config->get(
             QueueRabbitMqConstants::RABBIT_MQ_VHOST,
-            QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_VHOST
+            QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_VHOST,
         );
 
         return new AMQPLazyConnection(
@@ -121,7 +120,7 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
             $rabbitMqPort,
             $rabbitMqUser,
             $rabbitMqPassword,
-            $rabbitMqVhost
+            $rabbitMqVhost,
         );
     }
 
@@ -137,7 +136,7 @@ class QueueRabbitMqServiceProvider implements ServiceProviderInterface
 
         return [
             DestinationInterface::TYPE_QUEUE => new QueueConsumer($connection, $messageMapper),
-            DestinationInterface::TYPE_FANOUT => new FanoutConsumer($connection, $messageMapper)
+            DestinationInterface::TYPE_FANOUT => new FanoutConsumer($connection, $messageMapper),
         ];
     }
 

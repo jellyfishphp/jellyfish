@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer\Definition;
 
 use Jellyfish\Serializer\SerializerInterface;
-
-use function sprintf;
 
 /**
  * @see \Jellyfish\Transfer\Definition\ClassDefinitionMapMapperTest
@@ -65,6 +63,6 @@ class ClassDefinitionMapMapper implements ClassDefinitionMapMapperInterface
             return $classDefinition->getName();
         }
 
-        return sprintf('%s\\%s', $classDefinition->getNamespace(), $classDefinition->getName());
+        return \sprintf('%s\\%s', $classDefinition->getNamespace(), $classDefinition->getName());
     }
 }

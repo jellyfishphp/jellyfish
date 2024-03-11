@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Queue;
 
-use function array_key_exists;
 
 /**
  * @see \Jellyfish\Queue\MessageTest
@@ -48,7 +47,7 @@ class Message implements MessageInterface
      */
     public function getHeader(string $key): ?string
     {
-        if (!array_key_exists($key, $this->headers)) {
+        if (!\array_key_exists($key, $this->headers)) {
             return null;
         }
 

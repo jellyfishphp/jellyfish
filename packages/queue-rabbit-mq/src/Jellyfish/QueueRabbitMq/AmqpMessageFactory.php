@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\QueueRabbitMq;
 
@@ -27,7 +27,7 @@ class AmqpMessageFactory implements AmqpMessageFactoryInterface
     protected function getDefaultProperties(): array
     {
         return [
-            'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT
+            'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT,
         ];
     }
 }

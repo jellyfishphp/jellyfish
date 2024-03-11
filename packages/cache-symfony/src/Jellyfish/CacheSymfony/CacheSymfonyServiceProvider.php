@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Jellyfish\CacheSymfony;
 
 use Jellyfish\Cache\CacheConstants;
@@ -30,7 +32,7 @@ class CacheSymfonyServiceProvider implements ServiceProviderInterface
     {
         $self = $this;
 
-        $container->offsetSet(CacheConstants::CONTAINER_KEY_CACHE, static fn(Container $container): Cache => new Cache($self->createRedisAdapter($container)));
+        $container->offsetSet(CacheConstants::CONTAINER_KEY_CACHE, static fn (Container $container): Cache => new Cache($self->createRedisAdapter($container)));
 
         return $this;
     }
@@ -65,13 +67,13 @@ class CacheSymfonyServiceProvider implements ServiceProviderInterface
             'scheme' => 'tcp',
             'host' => $config->get(
                 CacheSymfonyConstants::REDIS_STORE_HOST,
-                CacheSymfonyConstants::DEFAULT_REDIS_STORE_HOST
+                CacheSymfonyConstants::DEFAULT_REDIS_STORE_HOST,
             ), 'port' => $config->get(
                 CacheSymfonyConstants::REDIS_STORE_PORT,
-                CacheSymfonyConstants::DEFAULT_REDIS_STORE_PORT
+                CacheSymfonyConstants::DEFAULT_REDIS_STORE_PORT,
             ), 'database' => $config->get(
                 CacheSymfonyConstants::REDIS_STORE_DB,
-                CacheSymfonyConstants::DEFAULT_REDIS_STORE_DB
+                CacheSymfonyConstants::DEFAULT_REDIS_STORE_DB,
             ),
         ]);
     }

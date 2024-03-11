@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
@@ -47,18 +47,18 @@ class EventListenerProviderTest extends Unit
 
         $this->assertEquals(
             $this->eventListenerProvider,
-            $this->eventListenerProvider->addListener($this->eventName, $this->eventListenerMock)
+            $this->eventListenerProvider->addListener($this->eventName, $this->eventListenerMock),
         );
 
         $this->assertEquals(
             $this->eventListenerProvider,
-            $this->eventListenerProvider->removeListener($this->eventName, $this->eventListenerMock)
+            $this->eventListenerProvider->removeListener($this->eventName, $this->eventListenerMock),
         );
 
         $hasListener = $this->eventListenerProvider->hasListener(
             EventListenerInterface::TYPE_ASYNC,
             $this->eventName,
-            'testListener'
+            'testListener',
         );
 
         $this->assertFalse($hasListener);
@@ -72,7 +72,7 @@ class EventListenerProviderTest extends Unit
         $hasListener = $this->eventListenerProvider->hasListener(
             EventListenerInterface::TYPE_ASYNC,
             $this->eventName,
-            'testListener'
+            'testListener',
         );
 
         $this->assertFalse($hasListener);
@@ -86,7 +86,7 @@ class EventListenerProviderTest extends Unit
         $listener = $this->eventListenerProvider->getListener(
             EventListenerInterface::TYPE_ASYNC,
             $this->eventName,
-            'testListener'
+            'testListener',
         );
 
         $this->assertNull($listener);
@@ -107,7 +107,7 @@ class EventListenerProviderTest extends Unit
 
         $result = $this->eventListenerProvider->removeListener(
             $this->eventName,
-            $this->eventListenerMock
+            $this->eventListenerMock,
         );
 
         $this->assertEquals($this->eventListenerProvider, $result);
@@ -128,13 +128,13 @@ class EventListenerProviderTest extends Unit
 
         $this->assertEquals(
             $this->eventListenerProvider,
-            $this->eventListenerProvider->addListener($this->eventName, $this->eventListenerMock)
+            $this->eventListenerProvider->addListener($this->eventName, $this->eventListenerMock),
         );
 
         $listener = $this->eventListenerProvider->getListener(
             EventListenerInterface::TYPE_ASYNC,
             $this->eventName,
-            'testListener'
+            'testListener',
         );
 
         $this->assertEquals($this->eventListenerMock, $listener);
@@ -190,12 +190,12 @@ class EventListenerProviderTest extends Unit
 
         $this->assertEquals(
             $this->eventListenerProvider,
-            $this->eventListenerProvider->addListener($this->eventName, $this->eventListenerMock)
+            $this->eventListenerProvider->addListener($this->eventName, $this->eventListenerMock),
         );
 
         $listeners = $this->eventListenerProvider->getListenersByTypeAndEventName(
             EventListenerInterface::TYPE_ASYNC,
-            $this->eventName
+            $this->eventName,
         );
 
         $this->assertIsArray($listeners);
@@ -209,7 +209,7 @@ class EventListenerProviderTest extends Unit
     {
         $listeners = $this->eventListenerProvider->getListenersByTypeAndEventName(
             EventListenerInterface::TYPE_ASYNC,
-            $this->eventName
+            $this->eventName,
         );
 
         $this->assertIsArray($listeners);

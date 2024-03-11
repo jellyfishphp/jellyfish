@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
@@ -67,7 +67,7 @@ class EventQueueProducerTest extends Unit
         $this->eventQueueProducer = new EventQueueProducer(
             $this->eventMapperMock,
             $this->queueClientMock,
-            $this->destinationFactoryMock
+            $this->destinationFactoryMock,
         );
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Jellyfish\EventCache;
 
 use Jellyfish\Cache\CacheConstants;
@@ -40,11 +42,11 @@ class EventCacheServiceProvider implements ServiceProviderInterface
             static function (array $defaultEventErrorHandlers, Container $container): array {
                 $defaultEventErrorHandlers[] = new CacheEventErrorHandler(
                     $container->offsetGet(CacheConstants::CONTAINER_KEY_CACHE),
-                    $container->offsetGet(SerializerConstants::CONTAINER_KEY_SERIALIZER)
+                    $container->offsetGet(SerializerConstants::CONTAINER_KEY_SERIALIZER),
                 );
 
                 return $defaultEventErrorHandlers;
-            }
+            },
         );
 
         return $this;

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer\Definition;
 
@@ -50,7 +50,7 @@ class ClassDefinitionMapLoader implements ClassDefinitionMapLoaderInterface
                 continue;
             }
 
-            if (!is_string($definitionFile->getRealPath())) {
+            if (!\is_string($definitionFile->getRealPath())) {
                 continue;
             }
 

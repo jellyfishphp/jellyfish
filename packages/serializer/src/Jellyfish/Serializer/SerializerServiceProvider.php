@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Serializer;
 
@@ -32,7 +32,7 @@ class SerializerServiceProvider implements ServiceProviderInterface
     {
         $container->offsetSet(
             SerializerConstants::CONTAINER_KEY_PROPERTY_NAME_CONVERTER_STRATEGY_PROVIDER,
-            static fn(): PropertyNameConverterStrategyProvider => new PropertyNameConverterStrategyProvider()
+            static fn (): PropertyNameConverterStrategyProvider => new PropertyNameConverterStrategyProvider(),
         );
 
         return $this;

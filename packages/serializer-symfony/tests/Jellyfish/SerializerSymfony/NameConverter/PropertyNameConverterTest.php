@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\SerializerSymfony\NameConverter;
 
@@ -43,7 +43,7 @@ class PropertyNameConverterTest extends Unit
                 ->getMock(),
             $this->getMockBuilder(PropertyNameConverterStrategyInterface::class)
                 ->disableOriginalConstructor()
-                ->getMock()
+                ->getMock(),
         ];
 
         $this->propertyName = 'property';

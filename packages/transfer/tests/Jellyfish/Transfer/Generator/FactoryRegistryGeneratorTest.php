@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Transfer\Generator;
 
@@ -45,13 +45,13 @@ class FactoryRegistryGeneratorTest extends Unit
         $this->classDefinitionMapMock = [
             'Product' => $this->getMockBuilder(ClassDefinitionInterface::class)
                 ->disableOriginalConstructor()
-                ->getMock()
+                ->getMock(),
         ];
 
         $this->factoryRegistryGenerator = new FactoryRegistryGenerator(
             $this->filesystemMock,
             $this->twigEnvironmentMock,
-            $this->targetDirectory
+            $this->targetDirectory,
         );
     }
 
@@ -79,7 +79,7 @@ class FactoryRegistryGeneratorTest extends Unit
 
         $this->assertEquals(
             $this->factoryRegistryGenerator,
-            $this->factoryRegistryGenerator->generate($this->classDefinitionMapMock)
+            $this->factoryRegistryGenerator->generate($this->classDefinitionMapMock),
         );
     }
 
@@ -107,7 +107,7 @@ class FactoryRegistryGeneratorTest extends Unit
 
         $this->assertEquals(
             $this->factoryRegistryGenerator,
-            $this->factoryRegistryGenerator->generate($this->classDefinitionMapMock)
+            $this->factoryRegistryGenerator->generate($this->classDefinitionMapMock),
         );
     }
 }

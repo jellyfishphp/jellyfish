@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Kernel;
 
@@ -21,7 +21,7 @@ class KernelTest extends Unit
 
         $this->rootDir = vfsStream::setup('root', null, [
             'app' => [
-                'service_providers.php' => file_get_contents(codecept_data_dir('service_providers.php')),
+                'service_providers.php' => \file_get_contents(\codecept_data_dir('service_providers.php')),
             ],
         ])->url();
     }
@@ -48,7 +48,7 @@ class KernelTest extends Unit
         $this->assertTrue($container->offsetExists('app_dir'));
         $this->assertSame(
             $this->rootDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR,
-            $container->offsetGet('app_dir')
+            $container->offsetGet('app_dir'),
         );
 
         $this->assertTrue($container->offsetExists('environment'));

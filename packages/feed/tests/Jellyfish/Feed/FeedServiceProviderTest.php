@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Feed;
 
@@ -25,7 +25,7 @@ class FeedServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet('commands', static fn($container): array => []);
+        $this->container->offsetSet('commands', static fn ($container): array => []);
 
         $this->feedServiceProvider = new FeedServiceProvider();
     }

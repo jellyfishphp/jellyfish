@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
@@ -53,7 +53,7 @@ class EventTest extends Unit
     public function testSetAndGetMetaProperties(): void
     {
         $metaProperties = [
-            'key' => 'value'
+            'key' => 'value',
         ];
 
         $this->assertEquals($this->event, $this->event->setMetaProperties($metaProperties));

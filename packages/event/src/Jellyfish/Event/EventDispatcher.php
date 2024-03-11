@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Jellyfish\Event;
 
@@ -47,7 +47,7 @@ class EventDispatcher implements EventDispatcherInterface
     {
         $listeners = $this->eventListenerProvider->getListenersByTypeAndEventName(
             EventListenerInterface::TYPE_SYNC,
-            $event->getName()
+            $event->getName(),
         );
 
         foreach ($listeners as $listener) {
