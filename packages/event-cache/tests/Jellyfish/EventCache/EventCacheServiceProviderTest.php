@@ -43,17 +43,11 @@ class EventCacheServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
-            return [];
-        });
+        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static fn(): array => []);
 
-        $this->container->offsetSet(CacheConstants::CONTAINER_KEY_CACHE, static function () use ($self) {
-            return $self->cacheMock;
-        });
+        $this->container->offsetSet(CacheConstants::CONTAINER_KEY_CACHE, static fn(): CacheInterface&MockObject => $self->cacheMock);
 
-        $this->container->offsetSet(SerializerConstants::CONTAINER_KEY_SERIALIZER, static function () use ($self) {
-            return $self->serializerMock;
-        });
+        $this->container->offsetSet(SerializerConstants::CONTAINER_KEY_SERIALIZER, static fn(): SerializerInterface&MockObject => $self->serializerMock);
 
         $this->eventCacheServiceProvider = new EventCacheServiceProvider();
     }
@@ -65,15 +59,9 @@ class EventCacheServiceProviderTest extends Unit
     {
         $this->eventCacheServiceProvider->register($this->container);
 
-        self::assertCount(
-            1,
-            $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)
-        );
+        $this->assertCount(1, $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
 
-        self::assertInstanceOf(
-            CacheEventErrorHandler::class,
-            $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)[0]
-        );
+        $this->assertInstanceOf(CacheEventErrorHandler::class, $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)[0]);
     }
 
     /**
@@ -85,6 +73,6 @@ class EventCacheServiceProviderTest extends Unit
 
         $this->eventCacheServiceProvider->register($this->container);
 
-        self::assertFalse($this->container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
+        $this->assertFalse($this->container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
     }
 }

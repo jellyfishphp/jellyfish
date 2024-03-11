@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jellyfish\Serializer\NameConverter;
 
+/**
+ * @see \Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProviderTest
+ */
 class PropertyNameConverterStrategyProvider implements PropertyNameConverterStrategyProviderInterface
 {
     /**

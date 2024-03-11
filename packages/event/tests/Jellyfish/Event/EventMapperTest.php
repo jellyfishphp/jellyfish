@@ -80,7 +80,7 @@ class EventMapperTest extends Unit
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getHeader')
             ->willReturnCallback(
-                fn (string $key) => match ($key) {
+                static fn(string $key): string => match ($key) {
                     'body_type' => $headers['body_type'],
                     'event_name' => $headers['event_name'],
                     default => throw new LogicException('Unsupported parameter.')
@@ -131,7 +131,7 @@ class EventMapperTest extends Unit
     {
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getHeader')
-            ->willReturnCallback(fn(string $key) => match($key) {
+            ->willReturnCallback(static fn(string $key): null => match($key) {
                 'body_type'=> null,
                 'event_name' => null,
                 default => throw new LogicException('Unsupported parameter.')
@@ -161,7 +161,7 @@ class EventMapperTest extends Unit
         try {
             $this->eventMapper->fromMessage($this->messageMock);
             $this->fail();
-        } catch (MappingException $e) {
+        } catch (MappingException) {
         }
     }
 
@@ -184,7 +184,7 @@ class EventMapperTest extends Unit
         $this->messageMock->expects($this->atLeastOnce())
             ->method('getHeader')
             ->willReturnCallback(
-                fn($key) => match ($key) {
+                static fn($key): string => match ($key) {
                     'body_type' => $headers['body_type'],
                     'event_name' => $headers['event_name'],
                     default => throw new LogicException('Unsupported parameter.')
@@ -264,7 +264,7 @@ class EventMapperTest extends Unit
 
         $this->messageMock->expects($this->atLeastOnce())
             ->method('setHeader')
-            ->willReturnCallback(fn(string $key, string $value) => match([$key, $value]) {
+            ->willReturnCallback(fn(string $key, string $value): MockObject&MessageInterface => match([$key, $value]) {
                 ['event_name', $eventName] => $this->messageMock,
                 ['body_type', 'ArrayObject'] => $this->messageMock,
                 ['body_type', 'stdClass[]'] => $this->messageMock,
@@ -319,7 +319,7 @@ class EventMapperTest extends Unit
         $this->messageMock->expects($this->atLeastOnce())
             ->method('setHeader')
             ->willReturnCallback(
-                fn(string $key, string $value) => match([$key, $value]) {
+                fn(string $key, string $value): MockObject&MessageInterface => match([$key, $value]) {
                     ['event_name', $eventName] => $this->messageMock,
                     ['body_type', 'ArrayObject'] => $this->messageMock,
                     ['body_type', 'Jellyfish\Event\Fixtures\Payload[]'] => $this->messageMock,
@@ -377,7 +377,7 @@ class EventMapperTest extends Unit
         $this->messageMock->expects($this->atLeastOnce())
             ->method('setHeader')
             ->willReturnCallback(
-                fn(string $key, string $value) => match([$key, $value]) {
+                fn(string $key, string $value): MockObject&MessageInterface => match([$key, $value]) {
                     ['event_name', $eventName] => $this->messageMock,
                     ['body_type', Payload::class] => $this->messageMock,
                     default => throw new LogicException('Unsupported parameters.')

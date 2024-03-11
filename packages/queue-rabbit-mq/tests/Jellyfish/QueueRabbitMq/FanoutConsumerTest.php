@@ -113,10 +113,7 @@ class FanoutConsumerTest extends Unit
             ->with($this->json)
             ->willReturn($this->messageMock);
 
-        self::assertEquals(
-            $this->messageMock,
-            $this->fanoutConsumer->receiveMessage($this->destinationMock)
-        );
+        $this->assertEquals($this->messageMock, $this->fanoutConsumer->receiveMessage($this->destinationMock));
     }
 
     /**
@@ -157,10 +154,7 @@ class FanoutConsumerTest extends Unit
             ->method('fromJson')
             ->with(self::anything());
 
-        self::assertEquals(
-            null,
-            $this->fanoutConsumer->receiveMessage($this->destinationMock)
-        );
+        $this->assertEquals(null, $this->fanoutConsumer->receiveMessage($this->destinationMock));
     }
 
     /**
@@ -205,10 +199,7 @@ class FanoutConsumerTest extends Unit
             ->with($this->json)
             ->willReturn($this->messageMock);
 
-        self::assertEquals(
-            $messageMocks,
-            $this->fanoutConsumer->receiveMessages($this->destinationMock, 1)
-        );
+        $this->assertEquals($messageMocks, $this->fanoutConsumer->receiveMessages($this->destinationMock, 1));
     }
 
     /**
@@ -253,9 +244,6 @@ class FanoutConsumerTest extends Unit
             ->with($this->json)
             ->willReturn($this->messageMock);
 
-        self::assertEquals(
-            $messageMocks,
-            $this->fanoutConsumer->receiveMessages($this->destinationMock, 2)
-        );
+        $this->assertEquals($messageMocks, $this->fanoutConsumer->receiveMessages($this->destinationMock, 2));
     }
 }

@@ -102,10 +102,7 @@ class QueueConsumerTest extends Unit
             ->with($this->json)
             ->willReturn($this->messageMock);
 
-        self::assertEquals(
-            $this->messageMock,
-            $this->queueConsumer->receiveMessage($this->destinationMock)
-        );
+        $this->assertEquals($this->messageMock, $this->queueConsumer->receiveMessage($this->destinationMock));
     }
 
     /**
@@ -138,10 +135,7 @@ class QueueConsumerTest extends Unit
             ->method('fromJson')
             ->with(self::anything());
 
-        self::assertEquals(
-            null,
-            $this->queueConsumer->receiveMessage($this->destinationMock)
-        );
+        $this->assertEquals(null, $this->queueConsumer->receiveMessage($this->destinationMock));
     }
 
     /**
@@ -178,10 +172,7 @@ class QueueConsumerTest extends Unit
             ->with($this->json)
             ->willReturn($this->messageMock);
 
-        self::assertEquals(
-            $messageMocks,
-            $this->queueConsumer->receiveMessages($this->destinationMock, 1)
-        );
+        $this->assertEquals($messageMocks, $this->queueConsumer->receiveMessages($this->destinationMock, 1));
     }
 
     /**
@@ -218,9 +209,6 @@ class QueueConsumerTest extends Unit
             ->with($this->json)
             ->willReturn($this->messageMock);
 
-        self::assertEquals(
-            $messageMocks,
-            $this->queueConsumer->receiveMessages($this->destinationMock, 2)
-        );
+        $this->assertEquals($messageMocks, $this->queueConsumer->receiveMessages($this->destinationMock, 2));
     }
 }

@@ -171,7 +171,7 @@ class EventListenerProviderTest extends Unit
         try {
             $this->eventListenerProvider->getListenersByType('x');
             $this->fail();
-        } catch (NotSupportedTypeException $e) {
+        } catch (NotSupportedTypeException) {
         }
     }
 

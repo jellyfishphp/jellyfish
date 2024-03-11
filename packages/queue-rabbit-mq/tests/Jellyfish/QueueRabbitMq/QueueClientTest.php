@@ -70,7 +70,7 @@ class QueueClientTest extends Unit
             ->with($this->destinationMock)
             ->willReturn($this->messageMock);
 
-        self::assertEquals($this->messageMock, $this->queueClient->receiveMessage($this->destinationMock));
+        $this->assertEquals($this->messageMock, $this->queueClient->receiveMessage($this->destinationMock));
     }
 
     /**
@@ -87,7 +87,7 @@ class QueueClientTest extends Unit
             ->with($this->destinationMock)
             ->willReturn(null);
 
-        self::assertEquals(null, $this->queueClient->receiveMessage($this->destinationMock));
+        $this->assertEquals(null, $this->queueClient->receiveMessage($this->destinationMock));
     }
 
     /**
@@ -102,7 +102,7 @@ class QueueClientTest extends Unit
         try {
             $this->queueClient->receiveMessage($this->destinationMock);
             self::fail();
-        } catch (Exception $exception) {
+        } catch (Exception) {
         }
     }
 
@@ -124,7 +124,7 @@ class QueueClientTest extends Unit
             ->with($this->destinationMock)
             ->willReturn($messages);
 
-        self::assertEquals($messages, $this->queueClient->receiveMessages($this->destinationMock, 10));
+        $this->assertEquals($messages, $this->queueClient->receiveMessages($this->destinationMock, 10));
     }
 
     /**
@@ -141,7 +141,7 @@ class QueueClientTest extends Unit
             ->with($this->destinationMock)
             ->willReturn([]);
 
-        self::assertEquals([], $this->queueClient->receiveMessages($this->destinationMock, 10));
+        $this->assertSame([], $this->queueClient->receiveMessages($this->destinationMock, 10));
     }
 
     /**
@@ -156,7 +156,7 @@ class QueueClientTest extends Unit
         try {
             $this->queueClient->receiveMessages($this->destinationMock, 10);
             self::fail();
-        } catch (Exception $exception) {
+        } catch (Exception) {
         }
     }
 
@@ -174,10 +174,7 @@ class QueueClientTest extends Unit
             ->with($this->destinationMock, $this->messageMock)
             ->willReturn($this->producerMock);
 
-        self::assertEquals(
-            $this->queueClient,
-            $this->queueClient->sendMessage($this->destinationMock, $this->messageMock)
-        );
+        $this->assertEquals($this->queueClient, $this->queueClient->sendMessage($this->destinationMock, $this->messageMock));
     }
 
     /**
@@ -192,7 +189,7 @@ class QueueClientTest extends Unit
 
             $this->queueClient->sendMessage($this->destinationMock, $this->messageMock);
             self::fail();
-        } catch (Exception $exception) {
+        } catch (Exception) {
         }
     }
 
@@ -206,10 +203,7 @@ class QueueClientTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        self::assertEquals(
-            $this->queueClient,
-            $this->queueClient->setConsumer(DestinationInterface::TYPE_FANOUT, $consumerMock)
-        );
+        $this->assertEquals($this->queueClient, $this->queueClient->setConsumer(DestinationInterface::TYPE_FANOUT, $consumerMock));
     }
 
     /**
@@ -222,9 +216,6 @@ class QueueClientTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        self::assertEquals(
-            $this->queueClient,
-            $this->queueClient->setProducer(DestinationInterface::TYPE_FANOUT, $producerMock)
-        );
+        $this->assertEquals($this->queueClient, $this->queueClient->setProducer(DestinationInterface::TYPE_FANOUT, $producerMock));
     }
 }

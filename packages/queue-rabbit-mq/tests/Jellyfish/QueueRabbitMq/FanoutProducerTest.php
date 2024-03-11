@@ -109,9 +109,6 @@ class FanoutProducerTest extends Unit
             ->method('basic_publish')
             ->with($this->amqpMessageMock, $this->queueName);
 
-        self::assertEquals(
-            $this->fanoutProducer,
-            $this->fanoutProducer->sendMessage($this->destinationMock, $this->messageMock)
-        );
+        $this->assertEquals($this->fanoutProducer, $this->fanoutProducer->sendMessage($this->destinationMock, $this->messageMock));
     }
 }

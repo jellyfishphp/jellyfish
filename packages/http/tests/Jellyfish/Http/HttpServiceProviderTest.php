@@ -39,7 +39,7 @@ class HttpServiceProviderTest extends Unit
 
         $containerKeys = $this->container->keys();
 
-        $this->assertEquals(['request', 'router', 'emitter'], $containerKeys);
+        $this->assertSame(['request', 'router', 'emitter'], $containerKeys);
 
         $this->assertNotNull($this->container->offsetGet('request'));
         $this->assertInstanceOf(ServerRequestInterface::class, $this->container->offsetGet('request'));

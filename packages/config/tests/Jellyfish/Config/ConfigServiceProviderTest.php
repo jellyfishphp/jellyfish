@@ -46,6 +46,6 @@ class ConfigServiceProviderTest extends Unit
     public function testRegister(): void
     {
         $this->configServiceProvider->register($this->container);
-        self::assertInstanceOf(Config::class, $this->container['config']);
+        $this->assertInstanceOf(Config::class, $this->container['config']);
     }
 }

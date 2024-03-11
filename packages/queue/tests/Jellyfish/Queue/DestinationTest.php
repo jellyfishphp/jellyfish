@@ -26,7 +26,7 @@ class DestinationTest extends Unit
         $name = 'Foo';
 
         $this->destination->setName($name);
-        self::assertEquals($name, $this->destination->getName());
+        $this->assertSame($name, $this->destination->getName());
     }
 
     /**
@@ -35,7 +35,7 @@ class DestinationTest extends Unit
     public function testSetAndGetType(): void
     {
         $this->destination->setType(DestinationInterface::TYPE_FANOUT);
-        self::assertEquals(DestinationInterface::TYPE_FANOUT, $this->destination->getType());
+        $this->assertSame(DestinationInterface::TYPE_FANOUT, $this->destination->getType());
     }
 
     /**
@@ -47,7 +47,7 @@ class DestinationTest extends Unit
         $propertyValue = 'QueueX';
 
         $this->destination->setProperty($propertyName, $propertyValue);
-        self::assertEquals($propertyValue, $this->destination->getProperty($propertyName));
+        $this->assertSame($propertyValue, $this->destination->getProperty($propertyName));
     }
 
     /**
@@ -57,6 +57,6 @@ class DestinationTest extends Unit
     {
         $propertyName = 'bind';
 
-        self::assertEquals(null, $this->destination->getProperty($propertyName));
+        $this->assertEquals(null, $this->destination->getProperty($propertyName));
     }
 }

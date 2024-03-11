@@ -47,7 +47,7 @@ class EventQueueWorkerStartCommandTest extends Unit
      */
     public function testGetName(): void
     {
-        $this->assertEquals(EventQueueWorkerStartCommand::NAME, $this->eventQueueWorkerStartCommand->getName());
+        $this->assertSame(EventQueueWorkerStartCommand::NAME, $this->eventQueueWorkerStartCommand->getName());
     }
 
     /**
@@ -55,7 +55,7 @@ class EventQueueWorkerStartCommandTest extends Unit
      */
     public function testGetDescription(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             EventQueueWorkerStartCommand::DESCRIPTION,
             $this->eventQueueWorkerStartCommand->getDescription()
         );
@@ -71,6 +71,6 @@ class EventQueueWorkerStartCommandTest extends Unit
         $this->eventQueueWorkerMock->expects($this->atLeastOnce())
             ->method('start');
         $exitCode = $this->eventQueueWorkerStartCommand->run($this->inputMock, $this->outputMock);
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 }

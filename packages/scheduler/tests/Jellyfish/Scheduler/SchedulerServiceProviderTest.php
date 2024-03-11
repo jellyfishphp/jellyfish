@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Scheduler;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Codeception\Test\Unit;
 use Jellyfish\Lock\LockFactoryInterface;
 use Jellyfish\Process\ProcessFactoryInterface;
@@ -31,21 +32,15 @@ class SchedulerServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet('commands', static function () {
-            return [];
-        });
+        $this->container->offsetSet('commands', static fn(): array => []);
 
-        $this->container->offsetSet('lock_factory', static function () use ($self) {
-            return $self->getMockBuilder(LockFactoryInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet('lock_factory', static fn(): MockObject => $self->getMockBuilder(LockFactoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
-        $this->container->offsetSet('logger', static function () use ($self) {
-            return $self->getMockBuilder(LoggerInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet('logger', static fn(): MockObject => $self->getMockBuilder(LoggerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
         $this->schedulerServiceProvider = new SchedulerServiceProvider();
     }
@@ -57,11 +52,9 @@ class SchedulerServiceProviderTest extends Unit
     {
         $self = $this;
         
-        $this->container->offsetSet('process_factory', static function () use ($self) {
-            return $self->getMockBuilder(ProcessFactoryInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet('process_factory', static fn(): MockObject => $self->getMockBuilder(ProcessFactoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
         $this->schedulerServiceProvider->register($this->container);
 

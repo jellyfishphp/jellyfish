@@ -71,9 +71,11 @@ class TransferCleaner implements TransferCleanerInterface
             if (!($item instanceof SplFileInfo)) {
                 continue;
             }
+
             if (!is_string($item->getRealPath())) {
                 continue;
             }
+
             $itemRealPath = $item->getRealPath();
 
             if (!$this->canRemove($itemRealPath)) {

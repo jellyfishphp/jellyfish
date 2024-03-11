@@ -131,7 +131,7 @@ class TransferCleanerTest extends Unit
 
         $this->filesystemMock->expects($this->atLeastOnce())
             ->method('remove')
-            ->willReturnCallback(fn(string $path) => match($path) {
+            ->willReturnCallback(fn(string $path): FilesystemInterface&MockObject => match($path) {
                 $this->targetDirectory . 'Product/AttributeTransfer.php' => $this->filesystemMock,
                 $this->targetDirectory . 'Product' => $this->filesystemMock,
                 default => throw new LogicException('Unsupported parameter.')

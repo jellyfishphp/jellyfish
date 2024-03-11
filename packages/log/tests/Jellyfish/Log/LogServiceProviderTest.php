@@ -40,13 +40,9 @@ class LogServiceProviderTest extends Unit
 
         $this->container->offsetSet('root_dir', DIRECTORY_SEPARATOR);
 
-        $this->container->offsetSet('config', static function () use ($self) {
-            return $self->configMock;
-        });
+        $this->container->offsetSet('config', static fn(): MockObject&ConfigInterface => $self->configMock);
 
-        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
-            return [];
-        });
+        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static fn(): array => []);
 
         $this->logServiceProvider = new LogServiceProvider();
     }
@@ -63,9 +59,6 @@ class LogServiceProviderTest extends Unit
 
         $this->logServiceProvider->register($this->container);
 
-        self::assertInstanceOf(
-            LoggerInterface::class,
-            $this->container->offsetGet(LogConstants::CONTAINER_KEY_LOGGER)
-        );
+        $this->assertInstanceOf(LoggerInterface::class, $this->container->offsetGet(LogConstants::CONTAINER_KEY_LOGGER));
     }
 }

@@ -11,9 +11,6 @@ use function sprintf;
 
 class ClassDefinitionTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Transfer\Definition\ClassDefinition
-     */
     protected ClassDefinition $classDefinition;
 
     /**
@@ -33,7 +30,7 @@ class ClassDefinitionTest extends Unit
     {
         $this->classDefinition->setName('Product');
 
-        $this->assertEquals('generated_transfer_product', $this->classDefinition->getId());
+        $this->assertSame('generated_transfer_product', $this->classDefinition->getId());
     }
 
     /**
@@ -52,7 +49,7 @@ class ClassDefinitionTest extends Unit
         try {
             $extendedClassDefinition->getId();
             $this->fail();
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException) {
         }
     }
 
@@ -64,7 +61,7 @@ class ClassDefinitionTest extends Unit
         $this->classDefinition->setName('Product')
             ->setNamespace('Catalog');
 
-        $this->assertEquals('generated_transfer_catalog_product', $this->classDefinition->getId());
+        $this->assertSame('generated_transfer_catalog_product', $this->classDefinition->getId());
     }
 
     /**
@@ -74,7 +71,7 @@ class ClassDefinitionTest extends Unit
     {
         $name = 'Product';
         $this->assertEquals($this->classDefinition, $this->classDefinition->setName($name));
-        $this->assertEquals($name, $this->classDefinition->getName());
+        $this->assertSame($name, $this->classDefinition->getName());
     }
 
     /**
@@ -84,7 +81,7 @@ class ClassDefinitionTest extends Unit
     {
         $namespace = 'Catalog';
         $this->assertEquals($this->classDefinition, $this->classDefinition->setNamespace($namespace));
-        $this->assertEquals($namespace, $this->classDefinition->getNamespace());
+        $this->assertSame($namespace, $this->classDefinition->getNamespace());
     }
 
     /**
@@ -96,7 +93,7 @@ class ClassDefinitionTest extends Unit
         $expectedNamespaceStatement = sprintf('namespace %s\\%s;', ClassDefinition::NAMESPACE_PREFIX, $namespace);
 
         $this->assertEquals($this->classDefinition, $this->classDefinition->setNamespace($namespace));
-        $this->assertEquals($expectedNamespaceStatement, $this->classDefinition->getNamespaceStatement());
+        $this->assertSame($expectedNamespaceStatement, $this->classDefinition->getNamespaceStatement());
     }
 
     /**

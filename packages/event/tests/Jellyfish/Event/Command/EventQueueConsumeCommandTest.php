@@ -42,19 +42,10 @@ class EventQueueConsumeCommandTest extends Unit
 
     protected LoggerInterface&MockObject $loggerMock;
 
-    /**
-     * @var string
-     */
     protected string $eventName;
 
-    /**
-     * @var string
-     */
     protected string $listenerIdentifier;
 
-    /**
-     * @var array
-     */
     protected array $lockIdentifierParts;
 
     protected EventQueueConsumeCommand $eventQueueConsumeCommand;
@@ -124,7 +115,7 @@ class EventQueueConsumeCommandTest extends Unit
      */
     public function testGetName(): void
     {
-        $this->assertEquals(EventQueueConsumeCommand::NAME, $this->eventQueueConsumeCommand->getName());
+        $this->assertSame(EventQueueConsumeCommand::NAME, $this->eventQueueConsumeCommand->getName());
     }
 
     /**
@@ -132,7 +123,7 @@ class EventQueueConsumeCommandTest extends Unit
      */
     public function testGetDescription(): void
     {
-        $this->assertEquals(EventQueueConsumeCommand::DESCRIPTION, $this->eventQueueConsumeCommand->getDescription());
+        $this->assertSame(EventQueueConsumeCommand::DESCRIPTION, $this->eventQueueConsumeCommand->getDescription());
     }
 
     /**
@@ -145,7 +136,7 @@ class EventQueueConsumeCommandTest extends Unit
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
             ->willReturnCallback(
-                fn (string $argument) => match($argument) {
+                fn (string $argument): string|LogicException => match($argument) {
                     'eventName' => $this->eventName,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
@@ -163,7 +154,7 @@ class EventQueueConsumeCommandTest extends Unit
 
         $exitCode = $this->eventQueueConsumeCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 
     /**
@@ -176,7 +167,7 @@ class EventQueueConsumeCommandTest extends Unit
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
             ->willReturnCallback(
-                fn (string $argument) => match($argument) {
+                fn (string $argument): string|LogicException => match($argument) {
                     'eventName' => $this->eventName,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
@@ -208,7 +199,7 @@ class EventQueueConsumeCommandTest extends Unit
 
         $exitCode = $this->eventQueueConsumeCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 
     /**
@@ -221,7 +212,7 @@ class EventQueueConsumeCommandTest extends Unit
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
             ->willReturnCallback(
-                fn (string $argument) => match($argument) {
+                fn (string $argument): string|LogicException => match($argument) {
                     'eventName' => $this->eventName,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
@@ -254,7 +245,7 @@ class EventQueueConsumeCommandTest extends Unit
 
         $exitCode = $this->eventQueueConsumeCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 
     /**
@@ -267,7 +258,7 @@ class EventQueueConsumeCommandTest extends Unit
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
             ->willReturnCallback(
-                fn (string $argument) => match($argument) {
+                fn (string $argument): string|LogicException => match($argument) {
                     'eventName' => $this->eventName,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
@@ -306,7 +297,7 @@ class EventQueueConsumeCommandTest extends Unit
 
         $exitCode = $this->eventQueueConsumeCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 
     /**
@@ -322,7 +313,7 @@ class EventQueueConsumeCommandTest extends Unit
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
             ->willReturnCallback(
-                fn (string $argument) => match($argument) {
+                fn (string $argument): string|LogicException => match($argument) {
                     'eventName' => $this->eventName,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
@@ -366,7 +357,7 @@ class EventQueueConsumeCommandTest extends Unit
 
         $exitCode = $this->eventQueueConsumeCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 
     /**
@@ -381,7 +372,7 @@ class EventQueueConsumeCommandTest extends Unit
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
             ->willReturnCallback(
-                fn (string $argument) => match($argument) {
+                fn (string $argument): string|LogicException => match($argument) {
                     'eventName' => $this->eventName,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
@@ -421,7 +412,7 @@ class EventQueueConsumeCommandTest extends Unit
 
         $exitCode = $this->eventQueueConsumeCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 
     /**
@@ -434,7 +425,7 @@ class EventQueueConsumeCommandTest extends Unit
         $this->inputMock->expects($this->atLeastOnce())
             ->method('getArgument')
             ->willReturnCallback(
-                fn (string $argument) => match($argument) {
+                fn (string $argument): string|LogicException|null => match($argument) {
                     'eventName' => null,
                     'listenerIdentifier' => $this->listenerIdentifier,
                     default => new LogicException('Unsupported parameter.')
@@ -462,7 +453,7 @@ class EventQueueConsumeCommandTest extends Unit
         try {
             $this->eventQueueConsumeCommand->run($this->inputMock, $this->outputMock);
             $this->fail();
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
         }
     }
 }

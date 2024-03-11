@@ -8,9 +8,6 @@ use Codeception\Test\Unit;
 
 class ClassPropertyDefinitionTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Transfer\Definition\ClassPropertyDefinition
-     */
     protected ClassPropertyDefinition $classPropertyDefinition;
 
     /**
@@ -30,7 +27,7 @@ class ClassPropertyDefinitionTest extends Unit
     {
         $name = 'sku';
         $this->classPropertyDefinition->setName($name);
-        $this->assertEquals($name, $this->classPropertyDefinition->getName());
+        $this->assertSame($name, $this->classPropertyDefinition->getName());
     }
 
     /**
@@ -40,7 +37,7 @@ class ClassPropertyDefinitionTest extends Unit
     {
         $type = 'string';
         $this->classPropertyDefinition->setType($type);
-        $this->assertEquals($type, $this->classPropertyDefinition->getType());
+        $this->assertSame($type, $this->classPropertyDefinition->getType());
     }
 
     /**
@@ -77,7 +74,7 @@ class ClassPropertyDefinitionTest extends Unit
     {
         $typeAlias = 'Alias';
         $this->classPropertyDefinition->setTypeAlias($typeAlias);
-        $this->assertEquals($typeAlias, $this->classPropertyDefinition->getTypeAlias());
+        $this->assertSame($typeAlias, $this->classPropertyDefinition->getTypeAlias());
     }
 
     /**
@@ -87,7 +84,7 @@ class ClassPropertyDefinitionTest extends Unit
     {
         $typeNamespace = 'Catalog';
         $this->classPropertyDefinition->setTypeNamespace($typeNamespace);
-        $this->assertEquals($typeNamespace, $this->classPropertyDefinition->getTypeNamespace());
+        $this->assertSame($typeNamespace, $this->classPropertyDefinition->getTypeNamespace());
     }
 
     /**
@@ -97,7 +94,7 @@ class ClassPropertyDefinitionTest extends Unit
     {
         $singular = 'product';
         $this->classPropertyDefinition->setSingular($singular);
-        $this->assertEquals($singular, $this->classPropertyDefinition->getSingular());
+        $this->assertSame($singular, $this->classPropertyDefinition->getSingular());
     }
 
     /**

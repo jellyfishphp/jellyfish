@@ -30,10 +30,7 @@ class UuidRamseyServiceProviderTest extends Unit
     {
         $this->uuidRamseyServiceProvider->register($this->container);
 
-        self::assertTrue($this->container->offsetExists(UuidConstants::CONTAINER_KEY_UUID_GENERATOR));
-        self::assertInstanceOf(
-            UuidGenerator::class,
-            $this->container->offsetGet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR)
-        );
+        $this->assertTrue($this->container->offsetExists(UuidConstants::CONTAINER_KEY_UUID_GENERATOR));
+        $this->assertInstanceOf(UuidGenerator::class, $this->container->offsetGet(UuidConstants::CONTAINER_KEY_UUID_GENERATOR));
     }
 }

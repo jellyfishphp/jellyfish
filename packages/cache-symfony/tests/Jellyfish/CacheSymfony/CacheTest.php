@@ -58,10 +58,7 @@ class CacheTest extends Unit
             ->method('get')
             ->willReturn($value);
 
-        static::assertEquals(
-            $value,
-            $this->cache->get($key)
-        );
+        $this->assertSame($value, $this->cache->get($key));
     }
 
     /**
@@ -80,10 +77,7 @@ class CacheTest extends Unit
             ->method('isHit')
             ->willReturn(false);
 
-        static::assertEquals(
-            null,
-            $this->cache->get($key)
-        );
+        $this->assertEquals(null, $this->cache->get($key));
     }
 
     /**
@@ -114,10 +108,7 @@ class CacheTest extends Unit
             ->method('save')
             ->with($this->cacheItemMock);
 
-        static::assertEquals(
-            $this->cache,
-            $this->cache->set($key, $value, $lifeTime)
-        );
+        $this->assertEquals($this->cache, $this->cache->set($key, $value, $lifeTime));
     }
 
     /**
@@ -151,7 +142,7 @@ class CacheTest extends Unit
         try {
             $this->cache->set($key, $value, $lifeTime);
             static::fail();
-        } catch (Exception $exception) {
+        } catch (Exception) {
         }
     }
 }

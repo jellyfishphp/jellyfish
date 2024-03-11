@@ -65,7 +65,7 @@ class TransferGenerateCommandTest extends Unit
      */
     public function testGetName(): void
     {
-        $this->assertEquals(TransferGenerateCommand::NAME, $this->transferGenerateCommand->getName());
+        $this->assertSame(TransferGenerateCommand::NAME, $this->transferGenerateCommand->getName());
     }
 
     /**
@@ -73,7 +73,7 @@ class TransferGenerateCommandTest extends Unit
      */
     public function testGetDescription(): void
     {
-        $this->assertEquals(TransferGenerateCommand::DESCRIPTION, $this->transferGenerateCommand->getDescription());
+        $this->assertSame(TransferGenerateCommand::DESCRIPTION, $this->transferGenerateCommand->getDescription());
     }
 
     /**
@@ -93,6 +93,6 @@ class TransferGenerateCommandTest extends Unit
 
         $exitCode = $this->transferGenerateCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 }

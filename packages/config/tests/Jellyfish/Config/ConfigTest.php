@@ -44,12 +44,12 @@ class ConfigTest extends Unit
      */
     public function testGet(): void
     {
-        self::assertEquals('default_config_value', $this->config->get('default_config_key'));
-        self::assertEquals('1', $this->config->get('default_config_key_2'));
-        self::assertEquals('0.2', $this->config->get('default_config_key_3'));
-        self::assertEquals('1', $this->config->get('default_config_key_4'));
-        self::assertEquals('testing_config_value', $this->config->get('testing_config_key'));
-        self::assertEquals('eulav_gifnoc_derahs', $this->config->get('shared_config_key'));
+        $this->assertSame('default_config_value', $this->config->get('default_config_key'));
+        $this->assertSame('1', $this->config->get('default_config_key_2'));
+        $this->assertSame('0.2', $this->config->get('default_config_key_3'));
+        $this->assertSame('1', $this->config->get('default_config_key_4'));
+        $this->assertSame('testing_config_value', $this->config->get('testing_config_key'));
+        $this->assertSame('eulav_gifnoc_derahs', $this->config->get('shared_config_key'));
     }
 
     /**
@@ -62,7 +62,7 @@ class ConfigTest extends Unit
         try {
             $this->config->get('default_config_key_5');
             self::fail();
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
     }
 
@@ -74,9 +74,9 @@ class ConfigTest extends Unit
     public function testGetWithNotExistingEntry(): void
     {
         try {
-            self::assertEquals('default_config_value', $this->config->get('staging_config_key'));
+            $this->assertSame('default_config_value', $this->config->get('staging_config_key'));
             self::fail();
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
     }
 
@@ -87,9 +87,6 @@ class ConfigTest extends Unit
      */
     public function testGetWithDefault(): void
     {
-        self::assertEquals(
-            'staging_config_value',
-            $this->config->get('staging_config_key', 'staging_config_value')
-        );
+        $this->assertSame('staging_config_value', $this->config->get('staging_config_key', 'staging_config_value'));
     }
 }

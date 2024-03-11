@@ -63,6 +63,6 @@ class MessageMapperTest extends Unit
             ->with($this->messageMock, 'json')
             ->willReturn($this->json);
 
-        $this->assertEquals($this->json, $this->messageMapper->toJson($this->messageMock));
+        $this->assertSame($this->json, $this->messageMapper->toJson($this->messageMock));
     }
 }

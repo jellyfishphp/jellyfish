@@ -14,9 +14,6 @@ use Symfony\Component\Lock\LockFactory as SymfonyLockFactory;
  */
 class LockFactory implements LockFactoryInterface
 {
-    /**
-     * @var \Symfony\Component\Lock\LockFactory
-     */
     protected SymfonyLockFactory $symfonyLockFactory;
 
     protected LockIdentifierGeneratorInterface $lockIdentifierGenerator;

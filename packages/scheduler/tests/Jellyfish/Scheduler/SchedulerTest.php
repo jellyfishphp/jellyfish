@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Scheduler;
 
+use PHPUnit\Framework\Attributes\Depends;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -38,10 +39,9 @@ class SchedulerTest extends Unit
     }
 
     /**
-     * @depends testQueueJobAndGetQueuedJobs
-     *
      * @return void
      */
+    #[Depends('testQueueJobAndGetQueuedJobs')]
     public function testQueueJobAndRun(): void
     {
         $this->assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));
@@ -59,10 +59,9 @@ class SchedulerTest extends Unit
     }
 
     /**
-     * @depends testQueueJobAndGetQueuedJobs
-     *
      * @return void
      */
+    #[Depends('testQueueJobAndGetQueuedJobs')]
     public function testGetQueuedJobsAfterQueueJobAndClearJobs(): void
     {
         $this->assertEquals($this->scheduler, $this->scheduler->queueJob($this->jobMock));

@@ -37,6 +37,6 @@ class EventFactoryTest extends Unit
             ->method('generate')
             ->willReturn('294452fd-0ba8-481c-8cfd-832a68c2edc3');
 
-        self::assertInstanceOf(Event::class, $this->eventFactory->create());
+        $this->assertInstanceOf(Event::class, $this->eventFactory->create());
     }
 }

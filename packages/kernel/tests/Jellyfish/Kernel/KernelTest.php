@@ -40,19 +40,19 @@ class KernelTest extends Unit
         $container = $kernel->getContainer();
 
         $this->assertTrue($container->offsetExists('key'));
-        $this->assertEquals('value', $container->offsetGet('key'));
+        $this->assertSame('value', $container->offsetGet('key'));
 
         $this->assertTrue($container->offsetExists('root_dir'));
-        $this->assertEquals($this->rootDir . DIRECTORY_SEPARATOR, $container->offsetGet('root_dir'));
+        $this->assertSame($this->rootDir . DIRECTORY_SEPARATOR, $container->offsetGet('root_dir'));
 
         $this->assertTrue($container->offsetExists('app_dir'));
-        $this->assertEquals(
+        $this->assertSame(
             $this->rootDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR,
             $container->offsetGet('app_dir')
         );
 
         $this->assertTrue($container->offsetExists('environment'));
-        $this->assertEquals('development', $container->offsetGet('environment'));
+        $this->assertSame('development', $container->offsetGet('environment'));
 
         $this->assertTrue($container->offsetExists('commands'));
         $this->assertIsArray($container->offsetGet('commands'));
@@ -87,7 +87,7 @@ class KernelTest extends Unit
         try {
             new Kernel($this->rootDir);
             $this->fail();
-        } catch (EnvVarNotSetException $e) {
+        } catch (EnvVarNotSetException) {
         }
     }
 }

@@ -80,7 +80,7 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testGetName(): void
     {
-        $this->assertEquals(RunSchedulerCommand::NAME, $this->runSchedulerCommand->getName());
+        $this->assertSame(RunSchedulerCommand::NAME, $this->runSchedulerCommand->getName());
     }
 
     /**
@@ -88,7 +88,7 @@ class RunSchedulerCommandTest extends Unit
      */
     public function testGetDescription(): void
     {
-        $this->assertEquals(RunSchedulerCommand::DESCRIPTION, $this->runSchedulerCommand->getDescription());
+        $this->assertSame(RunSchedulerCommand::DESCRIPTION, $this->runSchedulerCommand->getDescription());
     }
 
     /**
@@ -119,7 +119,7 @@ class RunSchedulerCommandTest extends Unit
 
         $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 
     /**
@@ -150,7 +150,7 @@ class RunSchedulerCommandTest extends Unit
 
         $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 
     /**
@@ -185,6 +185,6 @@ class RunSchedulerCommandTest extends Unit
 
         $exitCode = $this->runSchedulerCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 }

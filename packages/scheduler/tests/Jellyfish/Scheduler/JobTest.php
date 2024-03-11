@@ -51,7 +51,7 @@ class JobTest extends Unit
             ->method('getCommand')
             ->willReturn($expectedCommand);
 
-        $this->assertEquals($expectedCommand, $this->job->getCommand());
+        $this->assertSame($expectedCommand, $this->job->getCommand());
     }
 
     /**

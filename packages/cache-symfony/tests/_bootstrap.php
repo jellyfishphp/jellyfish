@@ -1,5 +1,6 @@
 <?php
 
+use DG\BypassFinals;
 $pathToAutoloader = codecept_root_dir('vendor/autoload.php');
 
 if (!file_exists($pathToAutoloader)) {
@@ -8,4 +9,4 @@ if (!file_exists($pathToAutoloader)) {
 
 require_once $pathToAutoloader;
 
-\DG\BypassFinals::enable();
+BypassFinals::enable();

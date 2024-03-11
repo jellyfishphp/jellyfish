@@ -12,9 +12,6 @@ use Symfony\Component\Lock\LockInterface as SymfonyLockInterface;
  */
 class Lock implements LockInterface
 {
-    /**
-     * @var \Symfony\Component\Lock\LockInterface
-     */
     protected SymfonyLockInterface $symfonyLock;
 
     /**

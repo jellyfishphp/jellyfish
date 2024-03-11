@@ -63,7 +63,7 @@ class EventDispatcherTest extends Unit
         $this->eventListenerProviderMock->expects($this->atLeastOnce())
             ->method('getListenersByTypeAndEventName')
             ->willReturnCallback(
-                fn(string $type, string $eventName) => match([$type, $eventName]) {
+                fn(string $type, string $eventName): LogicException|array => match([$type, $eventName]) {
                     [
                         EventListenerInterface::TYPE_SYNC,
                         $this->eventName
@@ -93,7 +93,7 @@ class EventDispatcherTest extends Unit
         $this->eventListenerProviderMock->expects($this->atLeastOnce())
             ->method('getListenersByTypeAndEventName')
             ->willReturnCallback(
-                fn(string $type, string $eventName) => match([$type, $eventName]) {
+                fn(string $type, string $eventName): LogicException|array => match([$type, $eventName]) {
                     [
                         EventListenerInterface::TYPE_SYNC,
                         $this->eventName
@@ -125,10 +125,7 @@ class EventDispatcherTest extends Unit
             ->method('enqueue')
             ->with($this->eventMock);
 
-        self::assertEquals(
-            $this->eventDispatcher,
-            $this->eventDispatcher->dispatch($this->eventMock)
-        );
+        $this->assertEquals($this->eventDispatcher, $this->eventDispatcher->dispatch($this->eventMock));
     }
 
     /**

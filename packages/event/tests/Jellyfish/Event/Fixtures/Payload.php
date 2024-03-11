@@ -6,9 +6,6 @@ namespace Jellyfish\Event\Fixtures;
 
 class Payload
 {
-    /**
-     * @var string
-     */
     protected string $name;
 
     /**

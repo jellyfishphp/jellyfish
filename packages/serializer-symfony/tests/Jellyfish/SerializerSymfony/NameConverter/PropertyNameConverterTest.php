@@ -77,7 +77,7 @@ class PropertyNameConverterTest extends Unit
         $actualPropertyName = $this->propertyNameConverter
             ->normalize($this->propertyName, $this->class, $this->format);
 
-        $this->assertEquals($expectedPropertyName, $actualPropertyName);
+        $this->assertSame($expectedPropertyName, $actualPropertyName);
     }
 
     /**
@@ -104,7 +104,7 @@ class PropertyNameConverterTest extends Unit
         $actualPropertyName = $this->propertyNameConverter
             ->normalize($this->propertyName, $this->class, $this->format);
 
-        $this->assertEquals($expectedPropertyName, $actualPropertyName);
+        $this->assertSame($expectedPropertyName, $actualPropertyName);
     }
 
     /**
@@ -131,7 +131,7 @@ class PropertyNameConverterTest extends Unit
         $actualPropertyName = $this->propertyNameConverter
             ->denormalize($this->propertyName, $this->class, $this->format);
 
-        $this->assertEquals($expectedPropertyName, $actualPropertyName);
+        $this->assertSame($expectedPropertyName, $actualPropertyName);
     }
 
     /**
@@ -158,6 +158,6 @@ class PropertyNameConverterTest extends Unit
         $actualPropertyName = $this->propertyNameConverter
             ->denormalize($this->propertyName, $this->class, $this->format);
 
-        $this->assertEquals($expectedPropertyName, $actualPropertyName);
+        $this->assertSame($expectedPropertyName, $actualPropertyName);
     }
 }

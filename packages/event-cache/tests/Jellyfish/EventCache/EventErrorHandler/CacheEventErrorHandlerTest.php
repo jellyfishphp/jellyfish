@@ -75,9 +75,6 @@ class CacheEventErrorHandlerTest extends Unit
             ->with($id, $json, EventCacheConstants::LIFE_TIME)
             ->willReturn($this->cacheMock);
 
-        static::assertEquals(
-            $this->cacheEventErrorHandler,
-            $this->cacheEventErrorHandler->handle($this->exception, $this->eventListenerIdentifier, $this->eventMock)
-        );
+        $this->assertEquals($this->cacheEventErrorHandler, $this->cacheEventErrorHandler->handle($this->exception, $this->eventListenerIdentifier, $this->eventMock));
     }
 }

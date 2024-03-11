@@ -109,9 +109,6 @@ class QueueProducerTest extends Unit
             ->method('basic_publish')
             ->with($this->amqpMessageMock, '', $this->queueName);
 
-        self::assertEquals(
-            $this->queueProducer,
-            $this->queueProducer->sendMessage($this->destinationMock, $this->messageMock)
-        );
+        $this->assertEquals($this->queueProducer, $this->queueProducer->sendMessage($this->destinationMock, $this->messageMock));
     }
 }

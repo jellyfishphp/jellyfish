@@ -89,7 +89,7 @@ class FilesystemTest extends Unit
         $this->filesystem->appendToFile($pathToFile, $content);
 
         $this->assertFileExists($pathToFile);
-        $this->assertEquals($currentContent . $content, \file_get_contents($pathToFile));
+        $this->assertSame($currentContent . $content, \file_get_contents($pathToFile));
     }
 
     /**
@@ -104,7 +104,7 @@ class FilesystemTest extends Unit
         try {
             $this->filesystem->appendToFile($pathToFile, $content);
             $this->fail();
-        } catch (IOException $e) {
+        } catch (IOException) {
             $this->assertFileNotExists($pathToFile);
         }
     }
@@ -121,7 +121,7 @@ class FilesystemTest extends Unit
         try {
             $this->filesystem->writeToFile($pathToFile, $content);
             $this->fail();
-        } catch (IOException $e) {
+        } catch (IOException) {
             $this->assertFileNotExists($pathToFile);
         }
     }
@@ -138,7 +138,7 @@ class FilesystemTest extends Unit
         $this->filesystem->writeToFile($pathToFile, $content);
 
         $this->assertFileExists($pathToFile);
-        $this->assertEquals($content, \file_get_contents($pathToFile));
+        $this->assertSame($content, \file_get_contents($pathToFile));
     }
 
     /**
@@ -151,7 +151,7 @@ class FilesystemTest extends Unit
         $content = 'Lorem ipsum';
         @\file_put_contents($pathToNonExistingFile, $content);
 
-        $this->assertEquals($content, $this->filesystem->readFromFile($pathToNonExistingFile));
+        $this->assertSame($content, $this->filesystem->readFromFile($pathToNonExistingFile));
     }
 
     /**
@@ -165,7 +165,7 @@ class FilesystemTest extends Unit
         try {
             $this->filesystem->readFromFile($pathToNonExistingFile);
             $this->fail();
-        } catch (IOException $e) {
+        } catch (IOException) {
         }
     }
 }

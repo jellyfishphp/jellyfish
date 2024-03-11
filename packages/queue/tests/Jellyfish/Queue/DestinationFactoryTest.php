@@ -25,6 +25,6 @@ class DestinationFactoryTest extends Unit
     {
         $destination = $this->destinationFactory->create();
 
-        static::assertInstanceOf(Destination::class, $destination);
+        $this->assertInstanceOf(Destination::class, $destination);
     }
 }

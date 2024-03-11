@@ -32,7 +32,7 @@ class EventQueueNameGeneratorTest extends Unit
         $expectedEventQueueName = sprintf('%s_%s', $eventName, $eventListenerIdentifier);
 
 
-        $this->assertEquals(
+        $this->assertSame(
             $expectedEventQueueName,
             $this->eventQueueNameGenerator->generate($eventName, $eventListenerIdentifier)
         );

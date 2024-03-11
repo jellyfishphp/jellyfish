@@ -42,7 +42,7 @@ class AbstractEventBulkListenerTest extends Unit
         try {
             $this->abstractEventBulkListenerMock->handle($this->eventMock);
             static::fail();
-        } catch (NotSupportedMethodException $exception) {
+        } catch (NotSupportedMethodException) {
         }
     }
 
@@ -64,7 +64,7 @@ class AbstractEventBulkListenerTest extends Unit
         try {
             $this->abstractEventBulkListenerMock->handleBulk($events);
             $this->fail();
-        } catch (NotSupportedTypeException $exception) {
+        } catch (NotSupportedTypeException) {
         }
     }
 
@@ -88,7 +88,7 @@ class AbstractEventBulkListenerTest extends Unit
         try {
             $this->abstractEventBulkListenerMock->handleBulk($events);
             $this->fail();
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
     }
 

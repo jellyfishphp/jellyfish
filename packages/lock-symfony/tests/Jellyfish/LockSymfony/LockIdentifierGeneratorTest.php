@@ -35,6 +35,6 @@ class LockIdentifierGeneratorTest extends Unit
 
         $identifier = $this->lockIdentifierGenerator->generate($identifierParts);
 
-        $this->assertEquals($expectedIdentifier, $identifier);
+        $this->assertSame($expectedIdentifier, $identifier);
     }
 }

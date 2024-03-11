@@ -105,9 +105,6 @@ class EventQueueProducerTest extends Unit
             ->method('sendMessage')
             ->with($this->destinationMock, $this->messageMock);
 
-        self::assertEquals(
-            $this->eventQueueProducer,
-            $this->eventQueueProducer->enqueue($this->eventMock)
-        );
+        $this->assertEquals($this->eventQueueProducer, $this->eventQueueProducer->enqueue($this->eventMock));
     }
 }

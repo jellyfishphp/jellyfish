@@ -59,7 +59,7 @@ class RunFeedReaderCommandTest extends Unit
      */
     public function testGetName(): void
     {
-        $this->assertEquals(RunFeedReaderCommand::NAME, $this->runFeedReaderCommand->getName());
+        $this->assertSame(RunFeedReaderCommand::NAME, $this->runFeedReaderCommand->getName());
     }
 
     /**
@@ -67,7 +67,7 @@ class RunFeedReaderCommandTest extends Unit
      */
     public function testGetDescription(): void
     {
-        $this->assertEquals(RunFeedReaderCommand::DESCRIPTION, $this->runFeedReaderCommand->getDescription());
+        $this->assertSame(RunFeedReaderCommand::DESCRIPTION, $this->runFeedReaderCommand->getDescription());
     }
 
     /**
@@ -90,7 +90,7 @@ class RunFeedReaderCommandTest extends Unit
 
         $exitCode = $this->runFeedReaderCommand->run($this->inputMock, $this->outputMock);
 
-        $this->assertEquals(0, $exitCode);
+        $this->assertSame(0, $exitCode);
     }
 
     /**
@@ -111,7 +111,7 @@ class RunFeedReaderCommandTest extends Unit
         try {
             $this->runFeedReaderCommand->run($this->inputMock, $this->outputMock);
             $this->fail();
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
         }
     }
 }

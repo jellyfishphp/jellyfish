@@ -145,7 +145,7 @@ class EventQueueConsumerTest extends Unit
             $this->eventListenerIdentifier
         );
 
-        self::assertEquals($this->eventMock, $event);
+        $this->assertEquals($this->eventMock, $event);
     }
 
     /**
@@ -192,7 +192,7 @@ class EventQueueConsumerTest extends Unit
             $this->eventListenerIdentifier
         );
 
-        self::assertNull($event);
+        $this->assertNull($event);
     }
 
     /**
@@ -226,7 +226,7 @@ class EventQueueConsumerTest extends Unit
             $this->eventListenerIdentifier
         );
 
-        self::assertEquals($this->eventQueueConsumer, $result);
+        $this->assertEquals($this->eventQueueConsumer, $result);
     }
 
     /**
@@ -277,7 +277,7 @@ class EventQueueConsumerTest extends Unit
             $chunkSize
         );
 
-        self::assertCount(1, $events);
-        self::assertEquals($this->eventMock, $events[0]);
+        $this->assertCount(1, $events);
+        $this->assertEquals($this->eventMock, $events[0]);
     }
 }

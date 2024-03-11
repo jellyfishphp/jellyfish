@@ -59,7 +59,7 @@ class ConsoleTest extends Unit
             ->method('offsetGet')
             ->with('commands');
 
-        static::assertCount(4, $this->console->all());
+        $this->assertCount(4, $this->console->all());
     }
 
     /**
@@ -79,7 +79,7 @@ class ConsoleTest extends Unit
             ->with('commands')
             ->willReturn(0);
 
-        static::assertCount(4, $this->console->all());
+        $this->assertCount(4, $this->console->all());
     }
 
     /**
@@ -99,6 +99,6 @@ class ConsoleTest extends Unit
             ->with('commands')
             ->willReturn([new Command('foo:bar'), new stdClass()]);
 
-        static::assertCount(5, $this->console->all());
+        $this->assertCount(5, $this->console->all());
     }
 }

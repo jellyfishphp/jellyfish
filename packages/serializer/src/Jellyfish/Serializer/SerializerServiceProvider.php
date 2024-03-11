@@ -8,6 +8,9 @@ use Jellyfish\Serializer\NameConverter\PropertyNameConverterStrategyProvider;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * @see \Jellyfish\Serializer\SerializerServiceProviderTest
+ */
 class SerializerServiceProvider implements ServiceProviderInterface
 {
     /**

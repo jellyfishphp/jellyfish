@@ -49,9 +49,11 @@ class ClassDefinitionMapLoader implements ClassDefinitionMapLoaderInterface
             if (!($definitionFile instanceof SplFileInfo)) {
                 continue;
             }
+
             if (!is_string($definitionFile->getRealPath())) {
                 continue;
             }
+
             $definitionFileContent = $this->filesystem->readFromFile($definitionFile->getRealPath());
 
             $currentClassDefinitionMap = $this->classDefinitionMapMapper->from($definitionFileContent);

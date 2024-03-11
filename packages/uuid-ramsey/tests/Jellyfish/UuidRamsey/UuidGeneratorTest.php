@@ -48,6 +48,6 @@ class UuidGeneratorTest extends Unit
             ->method('toString')
             ->willReturn($uuid4);
 
-        self::assertEquals($uuid4, $this->uuidGenerator->generate());
+        $this->assertSame($uuid4, $this->uuidGenerator->generate());
     }
 }

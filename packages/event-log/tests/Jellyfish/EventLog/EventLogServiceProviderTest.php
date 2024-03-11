@@ -35,13 +35,9 @@ class EventLogServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static function () {
-            return [];
-        });
+        $this->container->offsetSet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS, static fn(): array => []);
 
-        $this->container->offsetSet(LogConstants::CONTAINER_KEY_LOGGER, static function () use ($self) {
-            return $self->loggerMock;
-        });
+        $this->container->offsetSet(LogConstants::CONTAINER_KEY_LOGGER, static fn(): MockObject&LoggerInterface => $self->loggerMock);
 
         $this->eventLogServiceProvider = new EventLogServiceProvider();
     }
@@ -53,15 +49,9 @@ class EventLogServiceProviderTest extends Unit
     {
         $this->eventLogServiceProvider->register($this->container);
 
-        self::assertCount(
-            1,
-            $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)
-        );
+        $this->assertCount(1, $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
 
-        self::assertInstanceOf(
-            LogEventErrorHandler::class,
-            $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)[0]
-        );
+        $this->assertInstanceOf(LogEventErrorHandler::class, $this->container->offsetGet(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS)[0]);
     }
 
     /**
@@ -73,6 +63,6 @@ class EventLogServiceProviderTest extends Unit
 
         $this->eventLogServiceProvider->register($this->container);
 
-        self::assertFalse($this->container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
+        $this->assertFalse($this->container->offsetExists(EventConstants::CONTAINER_KEY_DEFAULT_EVENT_ERROR_HANDLERS));
     }
 }

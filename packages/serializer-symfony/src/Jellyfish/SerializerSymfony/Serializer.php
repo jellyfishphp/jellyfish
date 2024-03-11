@@ -15,9 +15,6 @@ use function is_array;
  */
 class Serializer implements SerializerInterface
 {
-    /**
-     * @var \Symfony\Component\Serializer\SerializerInterface
-     */
     protected SymfonySerializerInterface $symfonySerializer;
 
     /**

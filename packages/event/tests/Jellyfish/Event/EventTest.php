@@ -36,7 +36,7 @@ class EventTest extends Unit
         $name = 'test';
 
         $this->assertEquals($this->event, $this->event->setName($name));
-        $this->assertEquals($name, $this->event->getName());
+        $this->assertSame($name, $this->event->getName());
     }
 
     /**
@@ -57,7 +57,7 @@ class EventTest extends Unit
         ];
 
         $this->assertEquals($this->event, $this->event->setMetaProperties($metaProperties));
-        $this->assertEquals($metaProperties, $this->event->getMetaProperties());
+        $this->assertSame($metaProperties, $this->event->getMetaProperties());
     }
 
     /**
@@ -66,7 +66,7 @@ class EventTest extends Unit
     public function testSetAndGetMetaProperty(): void
     {
         $this->assertEquals($this->event, $this->event->setMetaProperty('key', 'value'));
-        $this->assertEquals('value', $this->event->getMetaProperty('key'));
+        $this->assertSame('value', $this->event->getMetaProperty('key'));
     }
 
     /**
@@ -91,6 +91,6 @@ class EventTest extends Unit
      */
     public function testGetId(): void
     {
-        $this->assertEquals($this->uuid, $this->event->getId());
+        $this->assertSame($this->uuid, $this->event->getId());
     }
 }

@@ -12,9 +12,6 @@ use Opis\JsonSchema\Validator as OpisValidator;
  */
 class Validator implements ValidatorInterface
 {
-    /**
-     * @var \Opis\JsonSchema\Validator
-     */
     protected OpisValidator $opisValidator;
 
     protected string $schema;

@@ -13,9 +13,6 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
  */
 class Filesystem implements FilesystemInterface
 {
-    /**
-     * @var \Symfony\Component\Filesystem\Filesystem
-     */
     protected SymfonyFilesystem $symfonyFilesystem;
 
     /**

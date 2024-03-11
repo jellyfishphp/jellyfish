@@ -25,9 +25,7 @@ class FeedServiceProviderTest extends Unit
 
         $this->container = new Container();
 
-        $this->container->offsetSet('commands', function ($container) {
-            return [];
-        });
+        $this->container->offsetSet('commands', static fn($container): array => []);
 
         $this->feedServiceProvider = new FeedServiceProvider();
     }

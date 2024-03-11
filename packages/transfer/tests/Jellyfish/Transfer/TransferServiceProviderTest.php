@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Transfer;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Codeception\Test\Unit;
 use Jellyfish\Filesystem\FilesystemInterface;
 use Jellyfish\Finder\FinderFactoryInterface;
@@ -45,33 +46,23 @@ class TransferServiceProviderTest extends Unit
 
         $this->container->offsetSet('root_dir', $rootDir);
 
-        $this->container->offsetSet('commands', function () {
-            return [];
-        });
+        $this->container->offsetSet('commands', static fn(): array => []);
 
-        $this->container->offsetSet('serializer', function () use ($self) {
-            return $self->getMockBuilder(SerializerInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet('serializer', static fn(): MockObject => $self->getMockBuilder(SerializerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
-        $this->container->offsetSet('finder_factory', function () use ($self) {
-            return $self->getMockBuilder(FinderFactoryInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet('finder_factory', static fn(): MockObject => $self->getMockBuilder(FinderFactoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
-        $this->container->offsetSet('filesystem', function () use ($self) {
-            return $self->getMockBuilder(FilesystemInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet('filesystem', static fn(): MockObject => $self->getMockBuilder(FilesystemInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
-        $this->container->offsetSet('logger', function () use ($self) {
-            return $self->getMockBuilder(LoggerInterface::class)
-                ->disableOriginalConstructor()
-                ->getMock();
-        });
+        $this->container->offsetSet('logger', static fn(): MockObject => $self->getMockBuilder(LoggerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock());
 
         $this->transferServiceProvider = new TransferServiceProvider();
     }

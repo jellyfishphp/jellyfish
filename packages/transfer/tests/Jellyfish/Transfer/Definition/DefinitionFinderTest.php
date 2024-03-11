@@ -12,29 +12,14 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class DefinitionFinderTest extends Unit
 {
-    /**
-     * @var \Jellyfish\Transfer\Definition\DefinitionFinder
-     */
     protected DefinitionFinder $definitionFinder;
 
-    /**
-     * @var string
-     */
     protected string $rootDir;
 
-    /**
-     * @var \Jellyfish\Finder\FinderFactoryInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
     protected MockObject&FinderFactoryInterface $finderFactoryMock;
 
-    /**
-     * @var \Jellyfish\Finder\FinderInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
     protected MockObject&FinderInterface $finderMock;
 
-    /**
-     * @var \Iterator&\PHPUnit\Framework\MockObject\MockObject
-     */
     protected MockObject&Iterator $iteratorMock;
 
     /**

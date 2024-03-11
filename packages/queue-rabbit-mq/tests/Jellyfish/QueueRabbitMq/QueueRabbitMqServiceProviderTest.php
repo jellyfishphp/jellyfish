@@ -44,13 +44,9 @@ class QueueRabbitMqServiceProviderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->container->offsetSet(ConfigConstants::CONTAINER_KEY_CONFIG, static function () use ($self) {
-            return $self->configMock;
-        });
+        $this->container->offsetSet(ConfigConstants::CONTAINER_KEY_CONFIG, static fn(): MockObject&ConfigInterface => $self->configMock);
 
-        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER, static function () use ($self) {
-            return $self->messageMapperMock;
-        });
+        $this->container->offsetSet(QueueConstants::CONTAINER_KEY_MESSAGE_MAPPER, static fn(): MockObject&MessageMapperInterface => $self->messageMapperMock);
 
         $this->queueRabbitMqServiceProvider = new QueueRabbitMqServiceProvider();
     }
@@ -62,7 +58,7 @@ class QueueRabbitMqServiceProviderTest extends Unit
     {
         $this->configMock->expects($this->atLeastOnce())
             ->method('get')
-            ->willReturnCallback(fn(string $key, ?string $default = null) => match([$key, $default]) {
+            ->willReturnCallback(static fn(string $key, ?string $default = null): LogicException|string => match([$key, $default]) {
                 [QueueRabbitMqConstants::RABBIT_MQ_HOST, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST] => QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_HOST,
                 [QueueRabbitMqConstants::RABBIT_MQ_PORT, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PORT] => QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_PORT,
                 [QueueRabbitMqConstants::RABBIT_MQ_USER, QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_USER] => QueueRabbitMqConstants::DEFAULT_RABBIT_MQ_USER,
@@ -73,22 +69,13 @@ class QueueRabbitMqServiceProviderTest extends Unit
 
         $this->queueRabbitMqServiceProvider->register($this->container);
 
-        self::assertTrue($this->container->offsetExists(QueueRabbitMqConstants::CONTAINER_KEY_CONNECTION));
-        self::assertInstanceOf(
-            ConnectionInterface::class,
-            $this->container->offsetGet(QueueRabbitMqConstants::CONTAINER_KEY_CONNECTION)
-        );
+        $this->assertTrue($this->container->offsetExists(QueueRabbitMqConstants::CONTAINER_KEY_CONNECTION));
+        $this->assertInstanceOf(ConnectionInterface::class, $this->container->offsetGet(QueueRabbitMqConstants::CONTAINER_KEY_CONNECTION));
 
-        self::assertTrue($this->container->offsetExists(QueueRabbitMqConstants::CONTAINER_KEY_AMQP_MESSAGE_FACTORY));
-        self::assertInstanceOf(
-            AmqpMessageFactory::class,
-            $this->container->offsetGet(QueueRabbitMqConstants::CONTAINER_KEY_AMQP_MESSAGE_FACTORY)
-        );
+        $this->assertTrue($this->container->offsetExists(QueueRabbitMqConstants::CONTAINER_KEY_AMQP_MESSAGE_FACTORY));
+        $this->assertInstanceOf(AmqpMessageFactory::class, $this->container->offsetGet(QueueRabbitMqConstants::CONTAINER_KEY_AMQP_MESSAGE_FACTORY));
 
-        self::assertTrue($this->container->offsetExists(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT));
-        self::assertInstanceOf(
-            QueueClient::class,
-            $this->container->offsetGet(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT)
-        );
+        $this->assertTrue($this->container->offsetExists(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT));
+        $this->assertInstanceOf(QueueClient::class, $this->container->offsetGet(QueueConstants::CONTAINER_KEY_QUEUE_CLIENT));
     }
 }

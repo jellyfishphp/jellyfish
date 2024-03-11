@@ -44,7 +44,7 @@ class SerializerTest extends Unit
             ->with([$arrayObjectItem], 'json', ['skip_null_values' => true])
             ->willReturn($expectedJson);
 
-        $this->assertEquals($expectedJson, $this->serializer->serialize($objectToSerialize, 'json'));
+        $this->assertSame($expectedJson, $this->serializer->serialize($objectToSerialize, 'json'));
     }
 
     /**
@@ -60,7 +60,7 @@ class SerializerTest extends Unit
             ->with($objectToSerialize, 'json', ['skip_null_values' => true])
             ->willReturn($expectedJson);
 
-        $this->assertEquals($expectedJson, $this->serializer->serialize($objectToSerialize, 'json'));
+        $this->assertSame($expectedJson, $this->serializer->serialize($objectToSerialize, 'json'));
     }
 
     /**

@@ -41,7 +41,7 @@ class MessageTest extends Unit
         $actualHeaders = $this->message->getHeaders();
 
         $this->assertCount(1, $actualHeaders);
-        $this->assertEquals($headers, $actualHeaders);
+        $this->assertSame($headers, $actualHeaders);
     }
 
     /**
@@ -51,7 +51,7 @@ class MessageTest extends Unit
     {
         $body = 'Test';
         $this->message->setBody($body);
-        $this->assertEquals($body, $this->message->getBody());
+        $this->assertSame($body, $this->message->getBody());
     }
 
     /**
@@ -63,7 +63,7 @@ class MessageTest extends Unit
         $headerValue = 'test';
 
         $this->message->setHeader($headerKey, $headerValue);
-        $this->assertEquals($headerValue, $this->message->getHeader($headerKey));
+        $this->assertSame($headerValue, $this->message->getHeader($headerKey));
     }
 
     /**

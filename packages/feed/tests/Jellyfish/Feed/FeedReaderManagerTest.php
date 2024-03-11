@@ -34,7 +34,7 @@ class FeedReaderManagerTest extends Unit
         try {
             $this->feedReaderManager->getFeederReader('test');
             $this->fail();
-        } catch (FeedReaderNotFoundException $e) {
+        } catch (FeedReaderNotFoundException) {
         }
     }
 
@@ -56,7 +56,7 @@ class FeedReaderManagerTest extends Unit
         try {
             $this->feedReaderManager->unsetFeedReader('test');
             $this->fail();
-        } catch (FeedReaderNotFoundException $e) {
+        } catch (FeedReaderNotFoundException) {
         }
     }
 
@@ -86,7 +86,7 @@ class FeedReaderManagerTest extends Unit
         try {
             $this->feedReaderManager->readFromFeedReader($identifier);
             $this->fail();
-        } catch (FeedReaderNotFoundException $e) {
+        } catch (FeedReaderNotFoundException) {
         }
     }
 
@@ -105,6 +105,6 @@ class FeedReaderManagerTest extends Unit
         $this->feedReaderManager->setFeedReader($identifier, $this->feedReaderMock);
         $this->assertTrue($this->feedReaderManager->existsFeedReader($identifier));
 
-        $this->assertEquals($feedContent, $this->feedReaderManager->readFromFeedReader($identifier));
+        $this->assertSame($feedContent, $this->feedReaderManager->readFromFeedReader($identifier));
     }
 }

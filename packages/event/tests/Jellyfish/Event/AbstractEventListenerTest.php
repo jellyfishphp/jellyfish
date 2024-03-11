@@ -85,7 +85,7 @@ class AbstractEventListenerTest extends Unit
         try {
             $this->abstractEventListenerMock->handle($this->eventMock);
             $this->fail();
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
     }
 

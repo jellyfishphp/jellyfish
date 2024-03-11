@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jellyfish\Event;
 
+use Jellyfish\Queue\MessageInterface;
 use Jellyfish\Event\Command\EventQueueConsumeCommand;
 use Jellyfish\Process\ProcessFactoryInterface;
 use Jellyfish\Queue\DestinationFactoryInterface;
@@ -97,7 +98,7 @@ class EventQueueConsumer implements EventQueueConsumerInterface
 
         $message = $this->queueClient->receiveMessage($destination);
 
-        if ($message === null) {
+        if (!$message instanceof MessageInterface) {
             return null;
         }
 

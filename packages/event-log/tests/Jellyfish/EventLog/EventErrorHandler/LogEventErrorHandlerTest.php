@@ -74,9 +74,6 @@ class LogEventErrorHandlerTest extends Unit
             ->method('error')
             ->with($this->exception->getMessage(), $context);
 
-        self::assertEquals(
-            $this->logEventErrorHandler,
-            $this->logEventErrorHandler->handle($this->exception, $this->eventListenerIdentifier, $this->eventMock)
-        );
+        $this->assertEquals($this->logEventErrorHandler, $this->logEventErrorHandler->handle($this->exception, $this->eventListenerIdentifier, $this->eventMock));
     }
 }

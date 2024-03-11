@@ -13,9 +13,6 @@ use Symfony\Component\Finder\Finder as SymfonyFinder;
  */
 class Finder implements FinderInterface
 {
-    /**
-     * @var \Symfony\Component\Finder\Finder
-     */
     protected SymfonyFinder $symfonyFinder;
 
     /**
