@@ -1,6 +1,6 @@
 {
-  "name": "jellyfish/pimple",
-  "description": "Jellyfish application bundle",
+  "name": "jellyfish/road-runner",
+  "description": "Jellyfish road runner bundle",
   "license": "MIT",
   "authors": [
     {
@@ -9,11 +9,9 @@
     }
   ],
   "require": {
-    "jellyfish/console": "dev-master",
-    "jellyfish/http": "dev-master",
-    "jellyfish/kernel": "dev-master",
     "jellyfish/pimple": "dev-master",
-    "jellyfish/road-runner": "dev-master"
+    "spiral/roadrunner-http": "^3.0.0",
+    "nyholm/psr7": "^1.0.0"
   },
   "require-dev": {
     "codeception/codeception": "~3.1.2",
@@ -27,15 +25,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Jellyfish\\Application": "src/Jellyfish/Application"
+      "Jellyfish\\Scheduler\\": "src/Jellyfish/Scheduler"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jellyfish\\Application": "tests/Jellyfish/Application"
+      "Jellyfish\\Scheduler\\": "tests/Jellyfish/Scheduler"
     }
-  },
-  "bin": [
-    "bin/console"
-  ]
+  }
 }

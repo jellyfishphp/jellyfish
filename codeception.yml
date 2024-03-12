@@ -22,6 +22,7 @@ include:
   - packages/process-symfony/
   - packages/queue/
   - packages/queue-rabbit-mq/
+  - packages/road-runner/
   - packages/scheduler/
   - packages/serializer/
   - packages/serializer-symfony/

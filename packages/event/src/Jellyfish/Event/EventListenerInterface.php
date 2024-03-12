@@ -26,11 +26,11 @@ interface EventListenerInterface
     public function getErrorHandlers(): array;
 
     /**
-     * @param \Jellyfish\Event\EventErrorHandlerInterface[] $eventErrorHandlers
+     * @param \Jellyfish\Event\EventErrorHandlerInterface[] $errorHandlers
      *
      * @return \Jellyfish\Event\EventListenerInterface
      */
-    public function setErrorHandlers(array $eventErrorHandlers): EventListenerInterface;
+    public function setErrorHandlers(array $errorHandlers): EventListenerInterface;
 
     /**
      * @param \Jellyfish\Event\EventErrorHandlerInterface $eventErrorHandler

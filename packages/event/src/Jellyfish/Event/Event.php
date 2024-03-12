@@ -12,20 +12,14 @@ class Event implements EventInterface
 {
     protected string $id;
 
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
+
+    protected object $payload;
 
     /**
-     * @var object
+     * @var array<string>
      */
-    protected $payload;
-
-    /**
-     * @var string[]
-     */
-    protected $metaProperties = [];
+    protected array $metaProperties = [];
 
     /**
      * @param string $id

@@ -16,30 +16,15 @@ use Pimple\ServiceProviderInterface;
  */
 class EventServiceProvider implements ServiceProviderInterface
 {
-    /**
-     * @var \Jellyfish\Event\EventQueueNameGeneratorInterface|null
-     */
-    protected $eventQueueNameGenerator;
+    protected ?EventQueueNameGeneratorInterface $eventQueueNameGenerator;
 
-    /**
-     * @var \Jellyfish\Event\EventMapperInterface
-     */
-    protected $eventMapper;
+    protected EventMapperInterface $eventMapper;
 
-    /**
-     * @var \Jellyfish\Event\EventQueueProducerInterface
-     */
-    protected $eventQueueProducer;
+    protected EventQueueProducerInterface $eventQueueProducer;
 
-    /**
-     * @var \Jellyfish\Event\EventQueueConsumerInterface
-     */
-    protected $eventQueueConsumer;
+    protected EventQueueConsumerInterface $eventQueueConsumer;
 
-    /**
-     * @var \Jellyfish\Event\EventQueueWorkerInterface
-     */
-    protected $eventQueueWorker;
+    protected EventQueueWorkerInterface $eventQueueWorker;
 
     /**
      * @param \Pimple\Container $container

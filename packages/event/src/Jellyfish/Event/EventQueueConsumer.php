@@ -25,9 +25,9 @@ class EventQueueConsumer implements EventQueueConsumerInterface
     protected QueueClientInterface $queueClient;
 
     /**
-     * @var \Jellyfish\Process\ProcessInterface[]
+     * @var array<\Jellyfish\Process\ProcessInterface
      */
-    protected $processList = [];
+    protected array $processList = [];
 
     protected string $pathToConsole;
 
